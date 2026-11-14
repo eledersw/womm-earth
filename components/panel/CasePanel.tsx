@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { caseCopy } from "@/lib/copy/case";
@@ -14,6 +14,7 @@ import { VerdictStep } from "./steps/VerdictStep";
 import { availableHere, clampPeriod } from "./controls";
 import { useVariables } from "./useVariables";
 import { useRegions } from "./useRegions";
+import { PartnerChat } from "@/components/partner/PartnerChat";
 import { useAnalysis } from "./useAnalysis";
 
 // No props: the page owns the slot. Search params stay inside this boundary.
@@ -23,6 +24,7 @@ export function CasePanel() {
 
 function CasePanelContent() {
   const { state, setCase } = useCase();
+  const [tab, setTab] = useState("case");
   const variables = useVariables();
   const regions = useRegions();
   const variable = variables.byId[state.variable];
@@ -42,7 +44,7 @@ function CasePanelContent() {
   const controls = { state, setCase };
   return (
     <section aria-label={caseCopy.panel} className="w-full min-w-0">
-      <Tabs defaultValue="case">
+      <Tabs value={tab} onValueChange={setTab}>
         <TabsList aria-label={caseCopy.tabs} className="w-full">
           <TabsTrigger value="case">{caseCopy.caseTab}</TabsTrigger>
           <TabsTrigger value="partner">{caseCopy.partnerTab}</TabsTrigger>
@@ -66,9 +68,8 @@ function CasePanelContent() {
               loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} /></li>
           </ol>
         </TabsContent>
-        <TabsContent value="partner" className="rounded-xl border bg-card p-4">
-          <h2 className="font-semibold">{partnerCopy.title}</h2>
-          <p className="mt-2 text-sm text-muted-foreground">{partnerCopy.offline}</p>
+        <TabsContent value="partner" forceMount hidden={tab !== "partner"} className="border-t border-rule pt-4">
+          <PartnerChat />
         </TabsContent>
       </Tabs>
     </section>

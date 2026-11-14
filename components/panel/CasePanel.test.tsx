@@ -29,6 +29,7 @@ describe("case controls", () => {
     setup();
     const panel = screen.getByRole("region", { name: caseCopy.panel });
     expect(within(panel).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["Lead", "Scene", "Timeline", "Evidence", "Verdict"]);
+    fireEvent.click(await screen.findByRole("button", { name: "Calculate" }));
     await screen.findByText("Wisconsin: Confirmed");
     expect(screen.getByRole("combobox", { name: "Variable" }).getAttribute("value") ?? (screen.getByRole("combobox", { name: "Variable" }) as HTMLSelectElement).value).toBe("T2M");
     expect(screen.getByRole("figure", { name: caseCopy.controls.chart })).toBeDefined();
@@ -36,7 +37,7 @@ describe("case controls", () => {
     expect(screen.queryByText(/illustrative test data/)).toBeNull();
   });
 
-  it("clamps the period when switching variable and disables unavailable choices", async () => {
+  it("clamps the period when switching variable and leaves live provider availability to calculation", async () => {
     const updates = setup("?r=US-WI&from=1981&to=2025");
     const select = await screen.findByRole("combobox", { name: "Variable" });
     fireEvent.change(select, { target: { value: "MODIS_AQUA_AOD" } });
@@ -45,7 +46,7 @@ describe("case controls", () => {
     cleanup();
     setup("?r=ESP");
     await screen.findByRole("combobox", { name: "Variable" });
-    expect((screen.getByRole("option", { name: /Aerosol optical depth/ }) as HTMLOptionElement).disabled).toBe(true);
+    expect((screen.getByRole("option", { name: /Aerosol optical depth/ }) as HTMLOptionElement).disabled).toBe(false);
   });
 
   it("uses scientist definitions and supports removing the final region", async () => {
@@ -76,7 +77,7 @@ describe("case controls", () => {
     const partnerTab = screen.getByRole("tab", { name: "Partner" });
     await waitFor(() => expect(document.activeElement).toBe(partnerTab));
     fireEvent.keyDown(partnerTab, { key: "Enter" });
-    expect(screen.getByText(partnerCopy.offline)).toBeDefined();
+    expect(screen.getByText(partnerCopy.chatIntro)).toBeDefined();
     fireEvent.keyDown(partnerTab, { key: "ArrowLeft" });
     await waitFor(() => expect(document.activeElement).toBe(caseTab));
     fireEvent.keyDown(caseTab, { key: "Enter" });

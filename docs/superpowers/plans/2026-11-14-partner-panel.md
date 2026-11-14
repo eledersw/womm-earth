@@ -302,19 +302,21 @@ for await (const messageStream of runner) {
 
 The runner validates each tool input against its Zod schema before calling `run`. If iterating throws a non-`Anthropic.APIError` (unparseable tool JSON), emit `partnerCopy.retry` once; don't loop.
 
-- [ ] **Step 1: Write the tests.** In `tools.test.ts`, with mocked `py`:
+- [x] **Step 1: Write the tests.** In `tools.test.ts`, with mocked `py`:
   - `propose_case clamps and validates` (6 regions → the emitted query has 4; an unknown id → an error string, no `propose_case` event);
   - `analyze_case result has no arrays`;
   - `tools emit call and result events`.
 
   Run → FAIL.
-- [ ] **Step 2: Implement** `tools.ts`, `chat.ts` and the chat branch of the route. Run → PASS.
-- [ ] **Step 3: Build `PartnerChat`.**
+- [x] **Step 2: Implement** `tools.ts`, `chat.ts` and the chat branch of the route. Run → PASS.
+- [x] **Step 3: Build `PartnerChat`.**
   - Message list and input box, plus 3 starter questions from `partnerCopy.starters`.
   - The `tool_call` event shows "Checking the data…".
   - The `propose_case` event shows an **Open this case** button → `replaceCase(caseFromQuery(query))`.
   - In dev, run `checkNumbers(text, toolResults)` and show a small warning if not ok.
 - [ ] **Step 4: Verify.** Manually: "Is Wisconsin getting smokier in summer?" → it runs `analyze_case` and offers to open the case. Commit `feat(partner): chat with tools`, then self-merge.
+
+Task 6 local verification: check + 124 Vitest tests + 12 Chromium E2E pass (mock runner/backend/SSE). The runner integration test invokes actual analyze_case/propose_case tools; browser verifies explicit acceptance and cancellation. Live Claude/tool verification in Vercel and user publication/PR/merge remain pending; Step 4 is not fully closed. Includes repairs to Coder C's manual-calculation tests/lint after PR #16 and Explain compatibility with empty live-provider valid_variables.
 
 ### Task 7: Correlation, mirror, years meter, predict-before-reveal (H14–H18)
 
