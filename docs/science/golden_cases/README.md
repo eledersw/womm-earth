@@ -1,5 +1,21 @@
 # Golden cases: the engine's answer key
 
+**Current delivery (2026-11-14):** the answer key already exists as nine cases in `tests/fixtures/golden/`, with `golden_expected.json` and independent generation scripts. Do not recreate it using the historical six-folder plan below. All nine stored cases reproduced in the Methods verification; six numerical cases were additionally cross-checked with scipy, pymannkendall 1.4.3 and statsmodels. See `verification.json` and `verify_existing.py` in this folder.
+
+**Methods authoring/delivery is complete. Engine acceptance is not.** The unmodified pytest golden harness still skips the flat delivery (one skipped test confirmed). A separate read-only comparison found only the too-short case matched all checked yearly-engine fields: six numerical cases have uncertainty differences, including one verdict difference. Oier owns integrating the existing key and correcting the engine; these are the engine-review gate, not a request for Sergio to generate another fixture set.
+
+The original step-change/Pettitt fixture is deferred with that optional feature. The manually imported Aqua-only fixture is omitted with the separate hero import; real POWER series and independently computed results are now retained under `docs/science/demo/`. POWER AOD is not the Aqua-only dataset. This scope change follows the user's instruction to omit unnecessary work; it does not waive engine validation.
+
+Reproduce without changing any source fixtures:
+
+```powershell
+docs/science/.venv-validation/Scripts/python.exe docs/science/golden_cases/verify_existing.py
+```
+
+The environment is ignored by Git. Required libraries and actual versions are recorded in `verification.json`. Running the source generators is not necessary and would rewrite Oier's fixtures.
+
+## Historical starter plan (superseded by the nine-case delivery)
+
 **Owner:** Methods lead (creates the cases and computes the expected values). **User:** Oier (copies them to `tests/fixtures/golden/` and asserts against them).
 **Due:** H5. Cases 1–3 matter most; get those done first.
 

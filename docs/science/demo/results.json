@@ -1,0 +1,3840 @@
+{
+  "checked_at_utc": "2026-11-14T17:09:02.406931+00:00",
+  "engine_scope": "Read-only local engine comparison on provider data; production/CLI are not patched.",
+  "reference_scope": "Independent existing golden reference, with scipy/pymannkendall/statsmodels cross-checks; METHODS v1 Option B.",
+  "selection": "Illustrative screening, not a field-wide significance claim; all declared candidates are retained.",
+  "versions": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pymannkendall": "1.4.3",
+    "statsmodels": "0.15.0",
+    "fastapi": "0.163.0",
+    "pydantic": "2.14.3"
+  },
+  "candidates": {
+    "wi-aod": {
+      "variable": "AOD_55",
+      "region_id": "US-WI",
+      "region_name": "Wisconsin",
+      "bbox": [
+        -92.89652,
+        42.4928,
+        -86.26452,
+        47.3091
+      ],
+      "start": 2002,
+      "end": 2025,
+      "season": "JJA",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?parameters=AOD_55&community=AG&start=2002&end=2025&format=JSON&user=wommearth&longitude-min=-92.89652&latitude-min=42.4928&longitude-max=-86.26452&latitude-max=47.3091",
+      "aggregation": "cos(latitude)-weighted bbox cells; no polygon mask",
+      "provider_header": {
+        "title": "NASA/POWER Source Native Resolution Monthly and Annual",
+        "api": {
+          "version": "v2.10.0",
+          "name": "POWER Monthly and Annual API"
+        },
+        "sources": [
+          "SYN1DEG"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20020101",
+        "end": "20251231"
+      },
+      "parameter": {
+        "units": "dimensionless",
+        "longname": "Aerosol Optical Depth 55"
+      },
+      "response_sha256": "e611d51d0beda81052920f4fbc45ce36445c973a123a08e4a05b4c6531af8c87",
+      "series_csv": "series/wi-aod.csv",
+      "series_sha256": "fb64c0a1e8daa7549415e8379e16d01ee7a83ec9316a705d0c7b6b6247131c5a",
+      "feature_count": 35,
+      "aggregation_details": {
+        "months": [
+          6,
+          7,
+          8
+        ],
+        "label_rule": "calendar year",
+        "years_total": 24,
+        "years": [
+          {
+            "year": 2002,
+            "value": 0.34029854378658503,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2003,
+            "value": 0.2916012856927372,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2004,
+            "value": 0.2751683740714105,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2005,
+            "value": 0.2692967188858091,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2006,
+            "value": 0.2860545969189006,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2007,
+            "value": 0.30296051882326147,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2008,
+            "value": 0.25333845095751595,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2009,
+            "value": 0.2891281971876819,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2010,
+            "value": 0.2654907534978595,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2011,
+            "value": 0.28655647172484294,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2012,
+            "value": 0.24662167336526183,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2013,
+            "value": 0.2716880880873005,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2014,
+            "value": 0.31872208110370664,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2015,
+            "value": 0.3344835403591228,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2016,
+            "value": 0.2188887469700008,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2017,
+            "value": 0.2446682785015598,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2018,
+            "value": 0.3327971066696189,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2019,
+            "value": 0.24413474223562015,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2020,
+            "value": 0.21075975022483107,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2021,
+            "value": 0.37511899718846103,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2022,
+            "value": 0.22332266337252815,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2023,
+            "value": 0.42267743933970614,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2024,
+            "value": 0.3251752545841072,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2025,
+            "value": 0.36887851128359656,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          }
+        ],
+        "n_valid": 24,
+        "valid_fraction": 1.0,
+        "dropped_partly_outside_period": [],
+        "gate": "ok"
+      },
+      "status": "reference_computed",
+      "reference": {
+        "inputs": {
+          "n": 24,
+          "first_year": 2002,
+          "last_year": 2025,
+          "n_distinct": 24,
+          "tie_group_sizes_gt1": []
+        },
+        "descriptive": {
+          "mean": 0.2915762827013344,
+          "sd": 0.05289969890620023
+        },
+        "mk_original": {
+          "S": 2,
+          "var_S": 1625.3333333333333,
+          "z": 0.024804403006957923,
+          "p": 0.9802109790485439,
+          "tau": 0.007246376811594203
+        },
+        "mk_hamed_rao": {
+          "n_ns_raw": 1.0,
+          "n_ns": 1.0,
+          "significant_acf_lags": [],
+          "var_S": 1625.3333333333333,
+          "z": 0.024804403006957923,
+          "p": 0.9802109790485439,
+          "uncapped_reference": {
+            "var_S": 1625.3333333333333,
+            "z": 0.024804403006957923,
+            "p": 0.9802109790485439
+          }
+        },
+        "sen": {
+          "slope_per_year": 0.0001996480556874458,
+          "slope_per_decade": 0.001996480556874458,
+          "ci95_per_year_hamed_rao_variance": [
+            -0.0035314033221026824,
+            0.0047477672484688245
+          ],
+          "ci95_per_year_original_variance": [
+            -0.0035314033221026824,
+            0.0047477672484688245
+          ]
+        },
+        "ols": {
+          "slope": 0.0015822456271443249,
+          "sigma": 0.052865038675739155,
+          "se_naive": 0.0015589049429110546,
+          "p_naive": 0.32115206378169575,
+          "r2": 0.0447312889013437,
+          "r1_residual": -0.24093271672976,
+          "n_eff": 24.0,
+          "se_adj": 0.0015589049429110546,
+          "p_adj": 0.32115206378169575,
+          "ci95_adj": [
+            -0.0016507253493813735,
+            0.0048152166036700235
+          ]
+        },
+        "verdict": {
+          "p_used": 0.9802109790485439,
+          "tier": "no_case",
+          "p_mk_hr": 0.9802109790485439,
+          "p_ols_ar1": 0.32115206378169575,
+          "rule": "max(p_MK-HR, p_OLS-AR1); MK-HR alone if OLS-AR(1) undefined (n_eff <= 2)"
+        },
+        "badges": {
+          "tests_disagree": false,
+          "autocorrelated_r1_gt_0.3": false
+        },
+        "magnitude": {
+          "total_change_sen": 0.004591905280811254,
+          "pct_of_mean_per_decade": 0.6847198058696292
+        },
+        "years_needed": {
+          "raw_extra_years": 15,
+          "displayed": false
+        }
+      },
+      "scipy_pymannkendall_statsmodels_cross_check": "passed",
+      "aggregation_matches_engine": true,
+      "current_engine": {
+        "stats": {
+          "n_years": 24,
+          "phi": 0.0,
+          "resid_sd": 0.0528650386757392,
+          "ols": {
+            "slope": 0.001582245627144325,
+            "intercept": -2.8942752875537643,
+            "se": 0.001558904942911056,
+            "p": 0.3211520637816962,
+            "ci_low": -0.0016507253493813758,
+            "ci_high": 0.004815216603670026,
+            "r2": 0.04473128890134226,
+            "n_eff": 24.0
+          },
+          "mk": {
+            "p": 0.9802109790485438,
+            "p_naive": 0.9802109790485438,
+            "z": 0.024804403006957923,
+            "tau": 0.007246376811594203
+          },
+          "sen": {
+            "slope": 0.0001996480556874458,
+            "intercept": -0.11468758552636313,
+            "ci_low": -0.003514007510444279,
+            "ci_high": 0.004852101053548558
+          },
+          "tests_agree": true,
+          "period_mean": 0.2915762827013344,
+          "change_per_decade": 0.001996480556874458,
+          "total_change": 0.004591905280811254,
+          "pct_of_mean_per_decade": 0.6847198058696292
+        },
+        "verdict": {
+          "tier": "no_case",
+          "years_needed": null,
+          "reason": null
+        }
+      }
+    },
+    "co-temperature": {
+      "variable": "T2M",
+      "region_id": "US-CO",
+      "region_name": "Colorado",
+      "bbox": [
+        -109.04667,
+        37.00085,
+        -102.01278,
+        41.00086
+      ],
+      "start": 1981,
+      "end": 2025,
+      "season": "ANN",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?parameters=T2M&community=AG&start=1981&end=2025&format=JSON&user=wommearth&longitude-min=-109.04667&latitude-min=37.00085&longitude-max=-102.01278&latitude-max=41.00086",
+      "aggregation": "cos(latitude)-weighted bbox cells; no polygon mask",
+      "provider_header": {
+        "title": "NASA/POWER Source Native Resolution Monthly and Annual",
+        "api": {
+          "version": "v2.10.0",
+          "name": "POWER Monthly and Annual API"
+        },
+        "sources": [
+          "MERRA2"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "19810101",
+        "end": "20251231"
+      },
+      "parameter": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "response_sha256": "a17431d2ed153e69eaa8a7ca6a4fb85dfbe5e36fd6b1717a5c15cb55e7c8e07f",
+      "series_csv": "series/co-temperature.csv",
+      "series_sha256": "049699a437966512a51084abf6ed7792288d7781621939612c7754f51ad6526e",
+      "feature_count": 88,
+      "aggregation_details": {
+        "months": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "label_rule": "calendar year",
+        "years_total": 45,
+        "years": [
+          {
+            "year": 1981,
+            "value": 8.177428703460683,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1982,
+            "value": 6.1542791694720265,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1983,
+            "value": 6.417833033589322,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1984,
+            "value": 6.253633344691082,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1985,
+            "value": 6.370286821393944,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1986,
+            "value": 7.518846253213364,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1987,
+            "value": 7.328476106179828,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1988,
+            "value": 7.148458942137143,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1989,
+            "value": 7.224948793358209,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1990,
+            "value": 7.41314374445215,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1991,
+            "value": 6.818811085527625,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1992,
+            "value": 7.102892734635188,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1993,
+            "value": 6.028427335982975,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1994,
+            "value": 7.7379483745741195,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1995,
+            "value": 7.087214432484319,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1996,
+            "value": 7.116760093679482,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1997,
+            "value": 6.712801421147046,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1998,
+            "value": 7.340303895633923,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1999,
+            "value": 7.6433382237409555,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2000,
+            "value": 7.979647151764162,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2001,
+            "value": 8.078934770648889,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2002,
+            "value": 7.851311244804506,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2003,
+            "value": 8.152326045583505,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2004,
+            "value": 7.517883699307483,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2005,
+            "value": 7.8491520550155665,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2006,
+            "value": 7.72033362130431,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2007,
+            "value": 7.86466266711124,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2008,
+            "value": 6.847237290751647,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2009,
+            "value": 6.839978339203113,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2010,
+            "value": 7.382878842494114,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2011,
+            "value": 7.1247335811953265,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2012,
+            "value": 9.011092124601094,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2013,
+            "value": 7.0381904866715495,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2014,
+            "value": 7.4231971653698245,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2015,
+            "value": 8.096846273409357,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2016,
+            "value": 8.088398554506895,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2017,
+            "value": 8.270502466884503,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2018,
+            "value": 8.059808578363365,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2019,
+            "value": 6.999799039336637,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2020,
+            "value": 8.246547373717014,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2021,
+            "value": 8.317911023170923,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2022,
+            "value": 7.702180303322734,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2023,
+            "value": 7.5770945349211205,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2024,
+            "value": 8.747349259932262,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2025,
+            "value": 8.937658669269494,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          }
+        ],
+        "n_valid": 45,
+        "valid_fraction": 1.0,
+        "dropped_partly_outside_period": [],
+        "gate": "ok"
+      },
+      "status": "reference_computed",
+      "reference": {
+        "inputs": {
+          "n": 45,
+          "first_year": 1981,
+          "last_year": 2025,
+          "n_distinct": 45,
+          "tie_group_sizes_gt1": []
+        },
+        "descriptive": {
+          "mean": 7.49603305937809,
+          "sd": 0.7075193254175733
+        },
+        "mk_original": {
+          "S": 400,
+          "var_S": 10450.0,
+          "z": 3.9031455845952574,
+          "p": 9.49505496273494e-05,
+          "tau": 0.40404040404040403
+        },
+        "mk_hamed_rao": {
+          "n_ns_raw": 1.0,
+          "n_ns": 1.0,
+          "significant_acf_lags": [],
+          "var_S": 10450.0,
+          "z": 3.9031455845952574,
+          "p": 9.49505496273494e-05,
+          "uncapped_reference": {
+            "var_S": 10450.0,
+            "z": 3.9031455845952574,
+            "p": 9.49505496273494e-05
+          }
+        },
+        "sen": {
+          "slope_per_year": 0.03379079924609775,
+          "slope_per_decade": 0.33790799246097747,
+          "ci95_per_year_hamed_rao_variance": [
+            0.019470024937835617,
+            0.049006920408020425
+          ],
+          "ci95_per_year_original_variance": [
+            0.019470024937835617,
+            0.049006920408020425
+          ]
+        },
+        "ols": {
+          "slope": 0.03179625255244659,
+          "sigma": 0.5777296280250921,
+          "se_naive": 0.006631377514031178,
+          "p_naive": 1.9763482034832447e-05,
+          "r2": 0.3483889416770768,
+          "r1_residual": 0.007272356309640152,
+          "n_eff": 44.35021341172753,
+          "se_adj": 0.006682057039171617,
+          "p_adj": 2.28739487878859e-05,
+          "ci95_adj": [
+            0.01831461844859565,
+            0.045277886656297534
+          ]
+        },
+        "verdict": {
+          "p_used": 9.49505496273494e-05,
+          "tier": "confirmed",
+          "p_mk_hr": 9.49505496273494e-05,
+          "p_ols_ar1": 2.28739487878859e-05,
+          "rule": "max(p_MK-HR, p_OLS-AR1); MK-HR alone if OLS-AR(1) undefined (n_eff <= 2)"
+        },
+        "badges": {
+          "tests_disagree": false,
+          "autocorrelated_r1_gt_0.3": false
+        },
+        "magnitude": {
+          "total_change_sen": 1.486795166828301,
+          "pct_of_mean_per_decade": 4.50782420227229
+        },
+        "years_needed": {
+          "raw_extra_years": 0,
+          "displayed": false
+        }
+      },
+      "scipy_pymannkendall_statsmodels_cross_check": "passed",
+      "aggregation_matches_engine": true,
+      "current_engine": {
+        "stats": {
+          "n_years": 45,
+          "phi": 0.0062004453696752945,
+          "resid_sd": 0.5777296280250929,
+          "ols": {
+            "slope": 0.03179625255244659,
+            "intercept": -56.19186080317243,
+            "se": 0.0066745604615354144,
+            "p": 2.2389262448630796e-05,
+            "ci_low": 0.018330630481264515,
+            "ci_high": 0.04526187462362867,
+            "r2": 0.3483889416770751,
+            "n_eff": 44.4453986918424
+          },
+          "mk": {
+            "p": 9.495054962727068e-05,
+            "p_naive": 9.495054962727068e-05,
+            "z": 3.9031455845952574,
+            "tau": 0.40404040404040403
+          },
+          "sen": {
+            "slope": 0.03379079924609775,
+            "intercept": -60.064009666367774,
+            "ci_low": 0.019528993729951635,
+            "ci_high": 0.04923228579963411
+          },
+          "tests_agree": true,
+          "period_mean": 7.49603305937809,
+          "change_per_decade": 0.33790799246097747,
+          "total_change": 1.486795166828301,
+          "pct_of_mean_per_decade": null
+        },
+        "verdict": {
+          "tier": "confirmed",
+          "years_needed": null,
+          "reason": null
+        }
+      }
+    },
+    "aral-wetness": {
+      "variable": "GWETROOT",
+      "region_id": "NR-ARAL",
+      "region_name": "Aral Sea region land",
+      "bbox": [
+        55.0,
+        41.0,
+        65.0,
+        48.0
+      ],
+      "start": 1981,
+      "end": 2025,
+      "season": "ANN",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?parameters=GWETROOT&community=AG&start=1981&end=2025&format=JSON&user=wommearth&longitude-min=55.0&latitude-min=41.0&longitude-max=65.0&latitude-max=48.0",
+      "aggregation": "cos(latitude)-weighted bbox cells; no polygon mask",
+      "provider_header": {
+        "title": "NASA/POWER Source Native Resolution Monthly and Annual",
+        "api": {
+          "version": "v2.10.0",
+          "name": "POWER Monthly and Annual API"
+        },
+        "sources": [
+          "MERRA2"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "19810101",
+        "end": "20251231"
+      },
+      "parameter": {
+        "units": "1",
+        "longname": "Root Zone Soil Wetness"
+      },
+      "response_sha256": "989cc5916cfd9ad6eecdee70c1de41709933b860fae23fd831458254eec65a53",
+      "series_csv": "series/aral-wetness.csv",
+      "series_sha256": "fa848a78a63f72d0b26a1b326ed9fa65aaef429f038a484782d881369d7fe098",
+      "feature_count": 255,
+      "aggregation_details": {
+        "months": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "label_rule": "calendar year",
+        "years_total": 45,
+        "years": [
+          {
+            "year": 1981,
+            "value": 0.4472293313938565,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1982,
+            "value": 0.4089885778517328,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1983,
+            "value": 0.39060755832822,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1984,
+            "value": 0.38899854796498884,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1985,
+            "value": 0.3909091383028027,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1986,
+            "value": 0.3886876494915437,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1987,
+            "value": 0.39827507846579785,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1988,
+            "value": 0.3916537409179817,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1989,
+            "value": 0.39636451824864877,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1990,
+            "value": 0.3954897258566384,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1991,
+            "value": 0.39645939320009016,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1992,
+            "value": 0.39916520733197663,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1993,
+            "value": 0.4018192323750632,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1994,
+            "value": 0.39736233215834954,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1995,
+            "value": 0.39771935338574615,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1996,
+            "value": 0.38905645311478976,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1997,
+            "value": 0.39431908926150744,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1998,
+            "value": 0.3931055273734995,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1999,
+            "value": 0.39056301073697397,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2000,
+            "value": 0.3919643840530982,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2001,
+            "value": 0.39065908299270974,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2002,
+            "value": 0.40213134209593115,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2003,
+            "value": 0.4038028208281421,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2004,
+            "value": 0.40296936870725886,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2005,
+            "value": 0.39944415354596957,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2006,
+            "value": 0.39797137182982006,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2007,
+            "value": 0.4038778066202291,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2008,
+            "value": 0.393157241927285,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2009,
+            "value": 0.39863437117279465,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2010,
+            "value": 0.39814092242144156,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2011,
+            "value": 0.3931008270810165,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2012,
+            "value": 0.393045000072046,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2013,
+            "value": 0.3956820423095166,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2014,
+            "value": 0.3930635986184822,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2015,
+            "value": 0.4074148023956728,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2016,
+            "value": 0.41959283192031,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2017,
+            "value": 0.40679208825367613,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2018,
+            "value": 0.40084670350710017,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2019,
+            "value": 0.39919957322377314,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2020,
+            "value": 0.39409108817142086,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2021,
+            "value": 0.402463207436955,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2022,
+            "value": 0.4101165885855426,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2023,
+            "value": 0.4011927310850701,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2024,
+            "value": 0.4175994950350031,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2025,
+            "value": 0.4115311093508636,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          }
+        ],
+        "n_valid": 45,
+        "valid_fraction": 1.0,
+        "dropped_partly_outside_period": [],
+        "gate": "ok"
+      },
+      "status": "reference_computed",
+      "reference": {
+        "inputs": {
+          "n": 45,
+          "first_year": 1981,
+          "last_year": 2025,
+          "n_distinct": 45,
+          "tie_group_sizes_gt1": []
+        },
+        "descriptive": {
+          "mean": 0.399672400422252,
+          "sd": 0.010266611721142278
+        },
+        "mk_original": {
+          "S": 304,
+          "var_S": 10450.0,
+          "z": 2.9640428875497817,
+          "p": 0.003036259673191538,
+          "tau": 0.30707070707070705
+        },
+        "mk_hamed_rao": {
+          "n_ns_raw": 1.179975172257551,
+          "n_ns": 1.179975172257551,
+          "significant_acf_lags": [
+            1,
+            4
+          ],
+          "var_S": 12330.740550091408,
+          "z": 2.728651354830819,
+          "p": 0.006359389925274717,
+          "uncapped_reference": {
+            "var_S": 12330.740550091408,
+            "z": 2.728651354830819,
+            "p": 0.006359389925274717
+          }
+        },
+        "sen": {
+          "slope_per_year": 0.00024151245922739275,
+          "slope_per_decade": 0.0024151245922739276,
+          "ci95_per_year_hamed_rao_variance": [
+            7.912767211047359e-05,
+            0.0004113368875125081
+          ],
+          "ci95_per_year_original_variance": [
+            8.511623363884178e-05,
+            0.0004044306725916612
+          ]
+        },
+        "ols": {
+          "slope": 0.00013529117223429118,
+          "sigma": 0.010228574682458413,
+          "se_naive": 0.00011740706527673067,
+          "p_naive": 0.255553540396499,
+          "r2": 0.02995530486546194,
+          "r1_residual": 0.30778649114922946,
+          "n_eff": 23.81857291621943,
+          "se_adj": 0.00016482204171589256,
+          "p_adj": 0.420620409786293,
+          "ci95_adj": [
+            -0.00020669369207308816,
+            0.0004772760365416705
+          ]
+        },
+        "verdict": {
+          "p_used": 0.420620409786293,
+          "tier": "no_case",
+          "p_mk_hr": 0.006359389925274717,
+          "p_ols_ar1": 0.420620409786293,
+          "rule": "max(p_MK-HR, p_OLS-AR1); MK-HR alone if OLS-AR(1) undefined (n_eff <= 2)"
+        },
+        "badges": {
+          "tests_disagree": true,
+          "autocorrelated_r1_gt_0.3": true
+        },
+        "magnitude": {
+          "total_change_sen": 0.010626548206005282,
+          "pct_of_mean_per_decade": 0.6042760495151429
+        },
+        "years_needed": {
+          "raw_extra_years": 36,
+          "displayed": false
+        }
+      },
+      "scipy_pymannkendall_statsmodels_cross_check": "passed",
+      "aggregation_matches_engine": true,
+      "current_engine": {
+        "stats": {
+          "n_years": 45,
+          "phi": 0.4760060401590898,
+          "resid_sd": 0.010228574682458406,
+          "ols": {
+            "slope": 0.00013529117223429118,
+            "intercept": 0.12868418243696678,
+            "se": 0.00020594296199787993,
+            "p": 0.5218946018974167,
+            "ci_low": -0.0003064856229103753,
+            "ci_high": 0.0005770679673789577,
+            "r2": 0.02995530486546305,
+            "n_eff": 15.975360229758575
+          },
+          "mk": {
+            "p": 0.006359389925274739,
+            "p_naive": 0.0030362596731914326,
+            "z": 2.728651354830819,
+            "tau": 0.30707070707070705
+          },
+          "sen": {
+            "slope": 0.00024151245922739275,
+            "intercept": -0.08650262138032982,
+            "ci_low": 7.922710613749198e-05,
+            "ci_high": 0.00041163069551908293
+          },
+          "tests_agree": false,
+          "period_mean": 0.399672400422252,
+          "change_per_decade": 0.0024151245922739276,
+          "total_change": 0.010626548206005282,
+          "pct_of_mean_per_decade": 0.6042760495151429
+        },
+        "verdict": {
+          "tier": "confirmed",
+          "years_needed": null,
+          "reason": null
+        }
+      }
+    },
+    "az-wetness": {
+      "variable": "GWETROOT",
+      "region_id": "US-AZ",
+      "region_name": "Arizona",
+      "bbox": [
+        -114.83595,
+        31.32421,
+        -109.04667,
+        37.00415
+      ],
+      "start": 1981,
+      "end": 2025,
+      "season": "ANN",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?parameters=GWETROOT&community=AG&start=1981&end=2025&format=JSON&user=wommearth&longitude-min=-114.83595&latitude-min=31.32421&longitude-max=-109.04667&latitude-max=37.00415",
+      "aggregation": "cos(latitude)-weighted bbox cells; no polygon mask",
+      "provider_header": {
+        "title": "NASA/POWER Source Native Resolution Monthly and Annual",
+        "api": {
+          "version": "v2.10.0",
+          "name": "POWER Monthly and Annual API"
+        },
+        "sources": [
+          "MERRA2"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "19810101",
+        "end": "20251231"
+      },
+      "parameter": {
+        "units": "1",
+        "longname": "Root Zone Soil Wetness"
+      },
+      "response_sha256": "e8ad23f5fa40a47a2c4f7e1ac9b435cd24767996dbbbfdefb7747190e56e4838",
+      "series_csv": "series/az-wetness.csv",
+      "series_sha256": "242246957e61e3997fdb9fdc9a427c36b824fd799fc5a24fff48bd02a26f8be5",
+      "feature_count": 108,
+      "aggregation_details": {
+        "months": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "label_rule": "calendar year",
+        "years_total": 45,
+        "years": [
+          {
+            "year": 1981,
+            "value": 0.40156202102835925,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1982,
+            "value": 0.4208836417580725,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1983,
+            "value": 0.4583643078398099,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1984,
+            "value": 0.4327058299778448,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1985,
+            "value": 0.4432169097528224,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1986,
+            "value": 0.42201094949600026,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1987,
+            "value": 0.4242690637876017,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1988,
+            "value": 0.4233430668368057,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1989,
+            "value": 0.3973138176813153,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1990,
+            "value": 0.4071004704648093,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1991,
+            "value": 0.417922500181735,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1992,
+            "value": 0.44561792092154584,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1993,
+            "value": 0.46510032035891785,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1994,
+            "value": 0.4074657893088655,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1995,
+            "value": 0.4277750402432006,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1996,
+            "value": 0.39277263320689837,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1997,
+            "value": 0.40845454914243606,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1998,
+            "value": 0.4254757637846554,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1999,
+            "value": 0.39942172152109573,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2000,
+            "value": 0.4009591234226147,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2001,
+            "value": 0.40701519938346414,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2002,
+            "value": 0.38675994347879783,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2003,
+            "value": 0.39991088253974677,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2004,
+            "value": 0.4085334445612298,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2005,
+            "value": 0.4459699394301449,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2006,
+            "value": 0.39845039976040136,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2007,
+            "value": 0.4061545192091103,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2008,
+            "value": 0.4210542789614012,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2009,
+            "value": 0.4004708387561364,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2010,
+            "value": 0.42329749900487973,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2011,
+            "value": 0.40353516593772176,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2012,
+            "value": 0.39671075688777585,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2013,
+            "value": 0.40806616364619597,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2014,
+            "value": 0.4055154538942181,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2015,
+            "value": 0.41909748948419606,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2016,
+            "value": 0.40881642693024983,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2017,
+            "value": 0.414732834263782,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2018,
+            "value": 0.4001641300285403,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2019,
+            "value": 0.4241914911998539,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2020,
+            "value": 0.4104370878903067,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2021,
+            "value": 0.39789020184128754,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2022,
+            "value": 0.41194032761657984,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2023,
+            "value": 0.42100987748748225,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2024,
+            "value": 0.4047008584538874,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2025,
+            "value": 0.3971102572659577,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          }
+        ],
+        "n_valid": 45,
+        "valid_fraction": 1.0,
+        "dropped_partly_outside_period": [],
+        "gate": "ok"
+      },
+      "status": "reference_computed",
+      "reference": {
+        "inputs": {
+          "n": 45,
+          "first_year": 1981,
+          "last_year": 2025,
+          "n_distinct": 45,
+          "tie_group_sizes_gt1": []
+        },
+        "descriptive": {
+          "mean": 0.414294909080639,
+          "sd": 0.017210445589890485
+        },
+        "mk_original": {
+          "S": -202,
+          "var_S": 10450.0,
+          "z": -1.9662462719389642,
+          "p": 0.04927016980560916,
+          "tau": -0.20404040404040405
+        },
+        "mk_hamed_rao": {
+          "n_ns_raw": 1.0,
+          "n_ns": 1.0,
+          "significant_acf_lags": [],
+          "var_S": 10450.0,
+          "z": -1.9662462719389642,
+          "p": 0.04927016980560916,
+          "uncapped_reference": {
+            "var_S": 10450.0,
+            "z": -1.9662462719389642,
+            "p": 0.04927016980560916
+          }
+        },
+        "sen": {
+          "slope_per_year": -0.00035478473542966435,
+          "slope_per_decade": -0.0035478473542966435,
+          "ci95_per_year_hamed_rao_variance": [
+            -0.0007469385661625,
+            -1.1499184274240705e-06
+          ],
+          "ci95_per_year_original_variance": [
+            -0.0007469385661625,
+            -1.1499184274240705e-06
+          ]
+        },
+        "ols": {
+          "slope": -0.00048750053821308687,
+          "sigma": 0.016159783792374132,
+          "se_naive": 0.00018548750431698652,
+          "p_naive": 0.011853594132915996,
+          "r2": 0.13840604832089687,
+          "r1_residual": 0.10806251754409726,
+          "n_eff": 36.22285392296766,
+          "se_adj": 0.00020791737045072856,
+          "p_adj": 0.024980911359282782,
+          "ci95_adj": [
+            -0.0009099381467872653,
+            -6.506292963890845e-05
+          ]
+        },
+        "verdict": {
+          "p_used": 0.04927016980560916,
+          "tier": "confirmed",
+          "p_mk_hr": 0.04927016980560916,
+          "p_ols_ar1": 0.024980911359282782,
+          "rule": "max(p_MK-HR, p_OLS-AR1); MK-HR alone if OLS-AR(1) undefined (n_eff <= 2)"
+        },
+        "badges": {
+          "tests_disagree": false,
+          "autocorrelated_r1_gt_0.3": false
+        },
+        "magnitude": {
+          "total_change_sen": -0.01561052835890523,
+          "pct_of_mean_per_decade": -0.8563579412958909
+        },
+        "years_needed": {
+          "raw_extra_years": 0,
+          "displayed": false
+        }
+      },
+      "scipy_pymannkendall_statsmodels_cross_check": "passed",
+      "aggregation_matches_engine": true,
+      "current_engine": {
+        "stats": {
+          "n_years": 45,
+          "phi": 0.11077273576254341,
+          "resid_sd": 0.01615978379237415,
+          "ols": {
+            "slope": -0.0004875005382130868,
+            "intercept": 1.3907584871214518,
+            "se": 0.0002085220051524516,
+            "p": 0.025410531062860814,
+            "ci_low": -0.0009112569186609206,
+            "ci_high": -6.374415776525308e-05,
+            "r2": 0.13840604832089498,
+            "n_eff": 36.02467507740471
+          },
+          "mk": {
+            "p": 0.049270169805609054,
+            "p_naive": 0.049270169805609054,
+            "z": -1.9662462719389642,
+            "tau": -0.20404040404040405
+          },
+          "sen": {
+            "slope": -0.00035478473542966435,
+            "intercept": 1.1227851629635281,
+            "ci_low": -0.0007465438452373425,
+            "ci_high": 3.0789202295055947e-06
+          },
+          "tests_agree": true,
+          "period_mean": 0.414294909080639,
+          "change_per_decade": -0.0035478473542966435,
+          "total_change": -0.01561052835890523,
+          "pct_of_mean_per_decade": -0.8563579412958909
+        },
+        "verdict": {
+          "tier": "confirmed",
+          "years_needed": null,
+          "reason": null
+        }
+      }
+    },
+    "wi-precipitation": {
+      "variable": "PRECTOTCORR",
+      "region_id": "US-WI",
+      "region_name": "Wisconsin",
+      "bbox": [
+        -92.89652,
+        42.4928,
+        -86.26452,
+        47.3091
+      ],
+      "start": 1981,
+      "end": 2025,
+      "season": "ANN",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=JSON&user=wommearth&longitude-min=-92.89652&latitude-min=42.4928&longitude-max=-86.26452&latitude-max=47.3091",
+      "aggregation": "cos(latitude)-weighted bbox cells; no polygon mask",
+      "provider_header": {
+        "title": "NASA/POWER Source Native Resolution Monthly and Annual",
+        "api": {
+          "version": "v2.10.0",
+          "name": "POWER Monthly and Annual API"
+        },
+        "sources": [
+          "MERRA2"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "19810101",
+        "end": "20251231"
+      },
+      "parameter": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      },
+      "response_sha256": "46d3c7cfb46dc493910e6b3e3f34e69170a49019a4959a10c55450e19354e4b9",
+      "series_csv": "series/wi-precipitation.csv",
+      "series_sha256": "accd5b8e9b84dd4c719d4ddd9bba54b564e60d3fce3cdb35c21b8675d1702644",
+      "feature_count": 100,
+      "aggregation_details": {
+        "months": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "label_rule": "calendar year",
+        "years_total": 45,
+        "years": [
+          {
+            "year": 1981,
+            "value": 2.2739570252236447,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1982,
+            "value": 2.6392479535543747,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1983,
+            "value": 2.5159262496458545,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1984,
+            "value": 2.4412153545819595,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1985,
+            "value": 2.6331196683314637,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1986,
+            "value": 2.4691012622674817,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1987,
+            "value": 2.1024092361549624,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1988,
+            "value": 1.9175065208896587,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1989,
+            "value": 1.7571806752620132,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1990,
+            "value": 2.525394759484976,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1991,
+            "value": 2.6808649771374498,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1992,
+            "value": 2.247438011937693,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1993,
+            "value": 2.608102086394091,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1994,
+            "value": 2.2248991561743057,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1995,
+            "value": 2.37392054707732,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1996,
+            "value": 2.4436242999320594,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1997,
+            "value": 2.096402494245956,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1998,
+            "value": 2.4124011062796584,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1999,
+            "value": 2.3734166864084716,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2000,
+            "value": 2.2929825075999677,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2001,
+            "value": 2.419870939180172,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2002,
+            "value": 2.391976948349773,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2003,
+            "value": 2.008681408850691,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2004,
+            "value": 2.419985457903687,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2005,
+            "value": 1.9116612374315467,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2006,
+            "value": 2.0492505534912575,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2007,
+            "value": 2.398447899842568,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2008,
+            "value": 2.4632862204179466,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2009,
+            "value": 2.2722940267767773,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2010,
+            "value": 2.6929385910498245,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2011,
+            "value": 2.224624755757907,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2012,
+            "value": 2.0311365783161093,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2013,
+            "value": 2.641817229525987,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2014,
+            "value": 2.623093725834716,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2015,
+            "value": 2.455180812164763,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2016,
+            "value": 2.790703861714889,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2017,
+            "value": 2.715285298722794,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2018,
+            "value": 2.8465578990790963,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2019,
+            "value": 3.1229180128373866,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2020,
+            "value": 2.4719194913384004,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2021,
+            "value": 2.1010611968223523,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2022,
+            "value": 2.4123337237462534,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2023,
+            "value": 2.190251632682536,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2024,
+            "value": 2.5591854494429858,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2025,
+            "value": 2.3660250831881195,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          }
+        ],
+        "n_valid": 45,
+        "valid_fraction": 1.0,
+        "dropped_partly_outside_period": [],
+        "gate": "ok"
+      },
+      "status": "reference_computed",
+      "reference": {
+        "inputs": {
+          "n": 45,
+          "first_year": 1981,
+          "last_year": 2025,
+          "n_distinct": 45,
+          "tie_group_sizes_gt1": []
+        },
+        "descriptive": {
+          "mean": 2.3913244136233756,
+          "sd": 0.2703732719136368
+        },
+        "mk_original": {
+          "S": 86,
+          "var_S": 10450.0,
+          "z": 0.8314971796756814,
+          "p": 0.4056928208369327,
+          "tau": 0.08686868686868687
+        },
+        "mk_hamed_rao": {
+          "n_ns_raw": 1.0,
+          "n_ns": 1.0,
+          "significant_acf_lags": [],
+          "var_S": 10450.0,
+          "z": 0.8314971796756814,
+          "p": 0.4056928208369327,
+          "uncapped_reference": {
+            "var_S": 10450.0,
+            "z": 0.8314971796756814,
+            "p": 0.4056928208369327
+          }
+        },
+        "sen": {
+          "slope_per_year": 0.002830550252769052,
+          "slope_per_decade": 0.02830550252769052,
+          "ci95_per_year_hamed_rao_variance": [
+            -0.002880604173910147,
+            0.009554538087227978
+          ],
+          "ci95_per_year_original_variance": [
+            -0.002880604173910147,
+            0.009554538087227978
+          ]
+        },
+        "ols": {
+          "slope": 0.004102451989773227,
+          "sigma": 0.2680131252730091,
+          "se_naive": 0.0030763459690931094,
+          "p_naive": 0.18937375935484846,
+          "r2": 0.039714454407997146,
+          "r1_residual": 0.27771560833143,
+          "n_eff": 25.438209733957216,
+          "se_adj": 0.004166843456231913,
+          "p_adj": 0.3349017412930029,
+          "ci95_adj": [
+            -0.004508411646663216,
+            0.01271331562620967
+          ]
+        },
+        "verdict": {
+          "p_used": 0.4056928208369327,
+          "tier": "no_case",
+          "p_mk_hr": 0.4056928208369327,
+          "p_ols_ar1": 0.3349017412930029,
+          "rule": "max(p_MK-HR, p_OLS-AR1); MK-HR alone if OLS-AR(1) undefined (n_eff <= 2)"
+        },
+        "badges": {
+          "tests_disagree": false,
+          "autocorrelated_r1_gt_0.3": false
+        },
+        "magnitude": {
+          "total_change_sen": 0.12454421112183829,
+          "pct_of_mean_per_decade": 1.1836747187639647
+        },
+        "years_needed": {
+          "raw_extra_years": 27,
+          "displayed": false
+        }
+      },
+      "scipy_pymannkendall_statsmodels_cross_check": "passed",
+      "aggregation_matches_engine": true,
+      "current_engine": {
+        "stats": {
+          "n_years": 45,
+          "phi": 0.2783423488590303,
+          "resid_sd": 0.26801312527300913,
+          "ols": {
+            "slope": 0.004102451989773227,
+            "intercept": -5.8258869218923985,
+            "se": 0.004169916593153993,
+            "p": 0.3352656303671877,
+            "ci_low": -0.004515452197819085,
+            "ci_high": 0.01272035617736554,
+            "r2": 0.039714454407997035,
+            "n_eff": 25.403675572766918
+          },
+          "mk": {
+            "p": 0.4056928208369328,
+            "p_naive": 0.4056928208369328,
+            "z": 0.8314971796756814,
+            "tau": 0.08686868686868687
+          },
+          "sen": {
+            "slope": 0.002830550252769052,
+            "intercept": -3.252437248645493,
+            "ci_low": -0.002864426922947564,
+            "ci_high": 0.00962937817650584
+          },
+          "tests_agree": true,
+          "period_mean": 2.3913244136233756,
+          "change_per_decade": 0.02830550252769052,
+          "total_change": 0.12454421112183829,
+          "pct_of_mean_per_decade": 1.1836747187639647
+        },
+        "verdict": {
+          "tier": "no_case",
+          "years_needed": 27,
+          "reason": null
+        }
+      }
+    },
+    "wi-snow": {
+      "variable": "SNODP",
+      "region_id": "US-WI",
+      "region_name": "Wisconsin",
+      "bbox": [
+        -92.89652,
+        42.4928,
+        -86.26452,
+        47.3091
+      ],
+      "start": 1981,
+      "end": 2025,
+      "season": "DJF",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?parameters=SNODP&community=AG&start=1981&end=2025&format=JSON&user=wommearth&longitude-min=-92.89652&latitude-min=42.4928&longitude-max=-86.26452&latitude-max=47.3091",
+      "aggregation": "cos(latitude)-weighted bbox cells; no polygon mask",
+      "provider_header": {
+        "title": "NASA/POWER Source Native Resolution Monthly and Annual",
+        "api": {
+          "version": "v2.10.0",
+          "name": "POWER Monthly and Annual API"
+        },
+        "sources": [
+          "MERRA2"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "19810101",
+        "end": "20251231"
+      },
+      "parameter": {
+        "units": "cm",
+        "longname": "Snow Depth"
+      },
+      "response_sha256": "c786efb447831249fdd803f1615238c86b68d9a6fdbda4118f4fa4ec35d9b655",
+      "series_csv": "series/wi-snow.csv",
+      "series_sha256": "532f745bd6e4781443db730814ca542b889c9a494e81c140528cc672efcf702a",
+      "feature_count": 100,
+      "aggregation_details": {
+        "months": [
+          12,
+          1,
+          2
+        ],
+        "label_rule": "year of the last month (wrapping seasons)",
+        "years_total": 44,
+        "years": [
+          {
+            "year": 1982,
+            "value": 26.49499331201341,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1983,
+            "value": 21.30362043716072,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1984,
+            "value": 25.68362134945197,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1985,
+            "value": 18.519137300527586,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1986,
+            "value": 26.570408976157836,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1987,
+            "value": 17.100214987037614,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1988,
+            "value": 20.89257468206344,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1989,
+            "value": 19.89854993235411,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1990,
+            "value": 17.797145210829267,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1991,
+            "value": 16.778559434988534,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1992,
+            "value": 22.861821266537547,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1993,
+            "value": 21.20820840440849,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1994,
+            "value": 19.132105484746862,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1995,
+            "value": 17.316298143160736,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1996,
+            "value": 23.650369754059607,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1997,
+            "value": 29.12050314187782,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1998,
+            "value": 17.557649938524616,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1999,
+            "value": 17.419246097044695,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2000,
+            "value": 17.39009891446616,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2001,
+            "value": 22.199796880778564,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2002,
+            "value": 16.347788963753473,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2003,
+            "value": 17.28965054522485,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2004,
+            "value": 18.38073528728998,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2005,
+            "value": 16.893933604060024,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2006,
+            "value": 17.376030348880974,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2007,
+            "value": 16.35024642788724,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2008,
+            "value": 18.54683562595054,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2009,
+            "value": 17.793060400428832,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2010,
+            "value": 20.76941169336726,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2011,
+            "value": 18.644511230591277,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2012,
+            "value": 16.823892287369627,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2013,
+            "value": 17.330875164203018,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2014,
+            "value": 23.11956034005784,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2015,
+            "value": 17.64645322179097,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2016,
+            "value": 17.011546729208067,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2017,
+            "value": 18.044580831518445,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2018,
+            "value": 17.086158851719077,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2019,
+            "value": 21.06439002901442,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2020,
+            "value": 26.16104681501444,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2021,
+            "value": 17.364973526147562,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2022,
+            "value": 17.30557995037962,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2023,
+            "value": 22.461936919935255,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2024,
+            "value": 16.074158492367264,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2025,
+            "value": 17.047440208841653,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          }
+        ],
+        "n_valid": 44,
+        "valid_fraction": 1.0,
+        "dropped_partly_outside_period": [
+          1981,
+          2026
+        ],
+        "gate": "ok"
+      },
+      "status": "reference_computed",
+      "reference": {
+        "inputs": {
+          "n": 44,
+          "first_year": 1982,
+          "last_year": 2025,
+          "n_distinct": 44,
+          "tie_group_sizes_gt1": []
+        },
+        "descriptive": {
+          "mean": 19.58703911689071,
+          "sd": 3.3294627107282753
+        },
+        "mk_original": {
+          "S": -230,
+          "var_S": 9775.333333333334,
+          "z": -2.316166066416848,
+          "p": 0.020549203189822313,
+          "tau": -0.24312896405919662
+        },
+        "mk_hamed_rao": {
+          "n_ns_raw": 1.0,
+          "n_ns": 1.0,
+          "significant_acf_lags": [],
+          "var_S": 9775.333333333334,
+          "z": -2.316166066416848,
+          "p": 0.020549203189822313,
+          "uncapped_reference": {
+            "var_S": 9775.333333333334,
+            "z": -2.316166066416848,
+            "p": 0.020549203189822313
+          }
+        },
+        "sen": {
+          "slope_per_year": -0.056403923720635296,
+          "slope_per_decade": -0.564039237206353,
+          "ci95_per_year_hamed_rao_variance": [
+            -0.12047549022867939,
+            -0.005645075498536409
+          ],
+          "ci95_per_year_original_variance": [
+            -0.12047549022867939,
+            -0.005645075498536409
+          ]
+        },
+        "ols": {
+          "slope": -0.0845738074023216,
+          "sigma": 3.18448707081749,
+          "se_naive": 0.037806222858815505,
+          "p_naive": 0.03064895249231293,
+          "r2": 0.10646513239920008,
+          "r1_residual": -0.04209522994345927,
+          "n_eff": 44.0,
+          "se_adj": 0.037806222858815505,
+          "p_adj": 0.03064895249231293,
+          "ci95_adj": [
+            -0.16086985400637355,
+            -0.008277760798269626
+          ]
+        },
+        "verdict": {
+          "p_used": 0.03064895249231293,
+          "tier": "confirmed",
+          "p_mk_hr": 0.020549203189822313,
+          "p_ols_ar1": 0.03064895249231293,
+          "rule": "max(p_MK-HR, p_OLS-AR1); MK-HR alone if OLS-AR(1) undefined (n_eff <= 2)"
+        },
+        "badges": {
+          "tests_disagree": false,
+          "autocorrelated_r1_gt_0.3": false
+        },
+        "magnitude": {
+          "total_change_sen": -2.4253687199873175,
+          "pct_of_mean_per_decade": -2.879655438682198
+        },
+        "years_needed": {
+          "raw_extra_years": 0,
+          "displayed": false
+        }
+      },
+      "scipy_pymannkendall_statsmodels_cross_check": "passed",
+      "aggregation_matches_engine": true,
+      "current_engine": {
+        "stats": {
+          "n_years": 44,
+          "phi": 0.0,
+          "resid_sd": 3.184487070817492,
+          "ols": {
+            "slope": -0.0845738074023216,
+            "intercept": 189.03066224744202,
+            "se": 0.03780622285881553,
+            "p": 0.030648952492313006,
+            "ci_low": -0.1608698540063736,
+            "ci_high": -0.00827776079826957,
+            "r2": 0.10646513239919897,
+            "n_eff": 44.0
+          },
+          "mk": {
+            "p": 0.02054920318982223,
+            "p_naive": 0.02054920318982223,
+            "z": -2.316166066416848,
+            "tau": -0.24312896405919662
+          },
+          "sen": {
+            "slope": -0.056403923720635296,
+            "intercept": 131.35580853952786,
+            "ci_low": -0.12028391573668493,
+            "ci_high": -0.005598317668008173
+          },
+          "tests_agree": true,
+          "period_mean": 19.58703911689071,
+          "change_per_decade": -0.564039237206353,
+          "total_change": -2.4253687199873175,
+          "pct_of_mean_per_decade": -2.879655438682198
+        },
+        "verdict": {
+          "tier": "confirmed",
+          "years_needed": null,
+          "reason": null
+        }
+      }
+    },
+    "wi-temperature": {
+      "variable": "T2M",
+      "region_id": "US-WI",
+      "region_name": "Wisconsin",
+      "bbox": [
+        -92.89652,
+        42.4928,
+        -86.26452,
+        47.3091
+      ],
+      "start": 1981,
+      "end": 2025,
+      "season": "JJA",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?parameters=T2M&community=AG&start=1981&end=2025&format=JSON&user=wommearth&longitude-min=-92.89652&latitude-min=42.4928&longitude-max=-86.26452&latitude-max=47.3091",
+      "aggregation": "cos(latitude)-weighted bbox cells; no polygon mask",
+      "provider_header": {
+        "title": "NASA/POWER Source Native Resolution Monthly and Annual",
+        "api": {
+          "version": "v2.10.0",
+          "name": "POWER Monthly and Annual API"
+        },
+        "sources": [
+          "MERRA2"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "19810101",
+        "end": "20251231"
+      },
+      "parameter": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "response_sha256": "e6459885fed85573891030cce83a974fadea7a8f9fea754608b0528225743f79",
+      "series_csv": "series/wi-temperature.csv",
+      "series_sha256": "8e3a35a046f3c3dcb2dc7cdd84ac7ef91f09d945139c994b4777ce853e0e748d",
+      "feature_count": 100,
+      "aggregation_details": {
+        "months": [
+          6,
+          7,
+          8
+        ],
+        "label_rule": "calendar year",
+        "years_total": 45,
+        "years": [
+          {
+            "year": 1981,
+            "value": 19.10181722391181,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1982,
+            "value": 17.25109685361443,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1983,
+            "value": 19.93029708919094,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1984,
+            "value": 18.59716284973135,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1985,
+            "value": 17.516187332549162,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1986,
+            "value": 17.70957420109328,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1987,
+            "value": 20.037816063512572,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1988,
+            "value": 21.49227615247931,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1989,
+            "value": 19.009698872034864,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1990,
+            "value": 18.398788478377675,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1991,
+            "value": 19.619314159254714,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1992,
+            "value": 16.766754135841158,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1993,
+            "value": 17.89812723435396,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1994,
+            "value": 18.147553441762685,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1995,
+            "value": 20.34072212864141,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1996,
+            "value": 17.867806574946034,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1997,
+            "value": 18.127527814039105,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1998,
+            "value": 19.600099537514215,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 1999,
+            "value": 19.317443717521925,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2000,
+            "value": 18.57374605774577,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2001,
+            "value": 19.424648165307158,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2002,
+            "value": 19.76706863922467,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2003,
+            "value": 18.95569688995089,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2004,
+            "value": 17.115597301714235,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2005,
+            "value": 21.097630364945392,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2006,
+            "value": 20.72211297304715,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2007,
+            "value": 20.336624187301876,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2008,
+            "value": 18.595052632173324,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2009,
+            "value": 17.57270711190827,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2010,
+            "value": 20.535951267883583,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2011,
+            "value": 19.7106808493452,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2012,
+            "value": 21.5571191833959,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2013,
+            "value": 18.705622084611456,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2014,
+            "value": 18.10655673031032,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2015,
+            "value": 18.660801804011403,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2016,
+            "value": 19.964606975655066,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2017,
+            "value": 18.460568851212045,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2018,
+            "value": 19.83915466735344,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2019,
+            "value": 18.71014180214817,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2020,
+            "value": 20.134894984718287,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2021,
+            "value": 20.867072484768077,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2022,
+            "value": 19.524536591660535,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2023,
+            "value": 19.810572459850164,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2024,
+            "value": 19.711586407272375,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          },
+          {
+            "year": 2025,
+            "value": 19.909598935794097,
+            "months_present": 3,
+            "months_required": 3,
+            "status": "valid"
+          }
+        ],
+        "n_valid": 45,
+        "valid_fraction": 1.0,
+        "dropped_partly_outside_period": [],
+        "gate": "ok"
+      },
+      "status": "reference_computed",
+      "reference": {
+        "inputs": {
+          "n": 45,
+          "first_year": 1981,
+          "last_year": 2025,
+          "n_distinct": 45,
+          "tie_group_sizes_gt1": []
+        },
+        "descriptive": {
+          "mean": 19.18000920585954,
+          "sd": 1.178192808468564
+        },
+        "mk_original": {
+          "S": 220,
+          "var_S": 10450.0,
+          "z": 2.1423280276349908,
+          "p": 0.03216709498623608,
+          "tau": 0.2222222222222222
+        },
+        "mk_hamed_rao": {
+          "n_ns_raw": 1.0,
+          "n_ns": 1.0,
+          "significant_acf_lags": [],
+          "var_S": 10450.0,
+          "z": 2.1423280276349908,
+          "p": 0.03216709498623608,
+          "uncapped_reference": {
+            "var_S": 10450.0,
+            "z": 2.1423280276349908,
+            "p": 0.03216709498623608
+          }
+        },
+        "sen": {
+          "slope_per_year": 0.03021107957133896,
+          "slope_per_decade": 0.3021107957133896,
+          "ci95_per_year_hamed_rao_variance": [
+            0.002779252451715544,
+            0.05808161832238988
+          ],
+          "ci95_per_year_original_variance": [
+            0.002779252451715544,
+            0.05808161832238988
+          ]
+        },
+        "ols": {
+          "slope": 0.027844168984322584,
+          "sigma": 1.132948150842655,
+          "se_naive": 0.013004364892525261,
+          "p_naive": 0.037972474792689975,
+          "r2": 0.09634404716290845,
+          "r1_residual": -0.006687743964132188,
+          "n_eff": 45.0,
+          "se_adj": 0.013004364892525261,
+          "p_adj": 0.037972474792689975,
+          "ci95_adj": [
+            0.0016183677496547123,
+            0.05406997021899046
+          ]
+        },
+        "verdict": {
+          "p_used": 0.037972474792689975,
+          "tier": "confirmed",
+          "p_mk_hr": 0.03216709498623608,
+          "p_ols_ar1": 0.037972474792689975,
+          "rule": "max(p_MK-HR, p_OLS-AR1); MK-HR alone if OLS-AR(1) undefined (n_eff <= 2)"
+        },
+        "badges": {
+          "tests_disagree": false,
+          "autocorrelated_r1_gt_0.3": false
+        },
+        "magnitude": {
+          "total_change_sen": 1.3292875011389143,
+          "pct_of_mean_per_decade": 1.575133736750731
+        },
+        "years_needed": {
+          "raw_extra_years": 0,
+          "displayed": false
+        }
+      },
+      "scipy_pymannkendall_statsmodels_cross_check": "passed",
+      "aggregation_matches_engine": true,
+      "current_engine": {
+        "stats": {
+          "n_years": 45,
+          "phi": 0.0,
+          "resid_sd": 1.132948150842655,
+          "ols": {
+            "slope": 0.027844168984322588,
+            "intercept": -36.5918612697386,
+            "se": 0.013004364892525261,
+            "p": 0.037972474792689934,
+            "ci_low": 0.0016183677496547158,
+            "ci_high": 0.05406997021899046,
+            "r2": 0.09634404716290845,
+            "n_eff": 45.0
+          },
+          "mk": {
+            "p": 0.032167094986236044,
+            "p_naive": 0.032167094986236044,
+            "z": 2.1423280276349908,
+            "tau": 0.2222222222222222
+          },
+          "sen": {
+            "slope": 0.03021107957133896,
+            "intercept": -41.306441512968554,
+            "ci_low": 0.0027961287278079087,
+            "ci_high": 0.05825921286075442
+          },
+          "tests_agree": true,
+          "period_mean": 19.18000920585954,
+          "change_per_decade": 0.3021107957133896,
+          "total_change": 1.3292875011389143,
+          "pct_of_mean_per_decade": null
+        },
+        "verdict": {
+          "tier": "confirmed",
+          "years_needed": null,
+          "reason": null
+        }
+      }
+    },
+    "nv-precipitation": {
+      "variable": "PRECTOTCORR",
+      "region_id": "US-NV",
+      "region_name": "Nevada",
+      "bbox": [
+        -120.00081,
+        34.99112,
+        -114.04027,
+        42.00111
+      ],
+      "start": 1981,
+      "end": 2025,
+      "season": "ANN",
+      "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?parameters=PRECTOTCORR&community=AG&start=1981&end=2025&format=JSON&user=wommearth&longitude-min=-120.00081&latitude-min=34.99112&longitude-max=-114.04027&latitude-max=42.00111",
+      "aggregation": "cos(latitude)-weighted bbox cells; no polygon mask",
+      "provider_header": {
+        "title": "NASA/POWER Source Native Resolution Monthly and Annual",
+        "api": {
+          "version": "v2.10.0",
+          "name": "POWER Monthly and Annual API"
+        },
+        "sources": [
+          "MERRA2"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "19810101",
+        "end": "20251231"
+      },
+      "parameter": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      },
+      "response_sha256": "95a86c8006fe4015631c08c477e65af623219c658ae4148445c6138ed6d06dfa",
+      "series_csv": "series/nv-precipitation.csv",
+      "series_sha256": "5a710eb7751b7e266bfabb5e683982f8caa096caa5edf117a379ebb0155c7f64",
+      "feature_count": 150,
+      "aggregation_details": {
+        "months": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "label_rule": "calendar year",
+        "years_total": 45,
+        "years": [
+          {
+            "year": 1981,
+            "value": 0.8371637377756503,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1982,
+            "value": 1.1526608747716272,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1983,
+            "value": 1.4252391234782298,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1984,
+            "value": 0.8600170117412401,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1985,
+            "value": 0.6557754320742464,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1986,
+            "value": 0.805273494306962,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1987,
+            "value": 0.8249061867257074,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1988,
+            "value": 0.7092866122056938,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1989,
+            "value": 0.5633402846677557,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1990,
+            "value": 0.6332678610769666,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1991,
+            "value": 0.7869788375183716,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1992,
+            "value": 0.8320495005282705,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1993,
+            "value": 0.8999877458850426,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1994,
+            "value": 0.7223800413778805,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1995,
+            "value": 1.1064452363967785,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1996,
+            "value": 1.010904704923588,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1997,
+            "value": 0.7431557916931723,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1998,
+            "value": 1.2330608183885567,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 1999,
+            "value": 0.5929577914122212,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2000,
+            "value": 0.7300029746398652,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2001,
+            "value": 0.7237493575301523,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2002,
+            "value": 0.5160668149925799,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2003,
+            "value": 0.686244545892722,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2004,
+            "value": 0.8042132865987309,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2005,
+            "value": 1.0621824535365152,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2006,
+            "value": 0.7568552325529208,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2007,
+            "value": 0.5483399882414178,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2008,
+            "value": 0.6460110943160128,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2009,
+            "value": 0.7035852852794496,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2010,
+            "value": 1.0846822610501474,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2011,
+            "value": 0.6592467590370376,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2012,
+            "value": 0.6688011295286787,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2013,
+            "value": 0.4472817090035485,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2014,
+            "value": 0.6786086195492841,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2015,
+            "value": 0.7516703060601048,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2016,
+            "value": 0.8750948017528972,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2017,
+            "value": 0.9809262273819922,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2018,
+            "value": 0.7168467223138538,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2019,
+            "value": 1.0677208845557964,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2020,
+            "value": 0.4523677677828069,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2021,
+            "value": 0.7047419777341233,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2022,
+            "value": 0.6200000638883657,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2023,
+            "value": 1.0673197977406963,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2024,
+            "value": 0.8020581224465837,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          },
+          {
+            "year": 2025,
+            "value": 0.8686329262321887,
+            "months_present": 12,
+            "months_required": 10,
+            "status": "valid"
+          }
+        ],
+        "n_valid": 45,
+        "valid_fraction": 1.0,
+        "dropped_partly_outside_period": [],
+        "gate": "ok"
+      },
+      "status": "reference_computed",
+      "reference": {
+        "inputs": {
+          "n": 45,
+          "first_year": 1981,
+          "last_year": 2025,
+          "n_distinct": 45,
+          "tie_group_sizes_gt1": []
+        },
+        "descriptive": {
+          "mean": 0.800402271035254,
+          "sd": 0.20830727965650964
+        },
+        "mk_original": {
+          "S": -112,
+          "var_S": 10450.0,
+          "z": -1.085837493458831,
+          "p": 0.2775508951844027,
+          "tau": -0.11313131313131314
+        },
+        "mk_hamed_rao": {
+          "n_ns_raw": 1.0,
+          "n_ns": 1.0,
+          "significant_acf_lags": [],
+          "var_S": 10450.0,
+          "z": -1.085837493458831,
+          "p": 0.2775508951844027,
+          "uncapped_reference": {
+            "var_S": 10450.0,
+            "z": -1.085837493458831,
+            "p": 0.2775508951844027
+          }
+        },
+        "sen": {
+          "slope_per_year": -0.002606526457472069,
+          "slope_per_decade": -0.02606526457472069,
+          "ci95_per_year_hamed_rao_variance": [
+            -0.006267817903377916,
+            0.0021816877355983976
+          ],
+          "ci95_per_year_original_variance": [
+            -0.006267817903377916,
+            0.0021816877355983976
+          ]
+        },
+        "ols": {
+          "slope": -0.0030311191654766824,
+          "sigma": 0.20683158435750376,
+          "se_naive": 0.0023740833967411177,
+          "p_naive": 0.20854136427449277,
+          "r2": 0.03652466369226193,
+          "r1_residual": 0.11504113053875033,
+          "n_eff": 35.714511362029334,
+          "se_adj": 0.0026811540249982104,
+          "p_adj": 0.2662324968691234,
+          "ci95_adj": [
+            -0.008481579712570209,
+            0.0024193413816168442
+          ]
+        },
+        "verdict": {
+          "p_used": 0.2775508951844027,
+          "tier": "no_case",
+          "p_mk_hr": 0.2775508951844027,
+          "p_ols_ar1": 0.2662324968691234,
+          "rule": "max(p_MK-HR, p_OLS-AR1); MK-HR alone if OLS-AR(1) undefined (n_eff <= 2)"
+        },
+        "badges": {
+          "tests_disagree": false,
+          "autocorrelated_r1_gt_0.3": false
+        },
+        "magnitude": {
+          "total_change_sen": -0.11468716412877103,
+          "pct_of_mean_per_decade": -3.2565205669653374
+        },
+        "years_needed": {
+          "raw_extra_years": 21,
+          "displayed": false
+        }
+      },
+      "scipy_pymannkendall_statsmodels_cross_check": "passed",
+      "aggregation_matches_engine": true,
+      "current_engine": {
+        "stats": {
+          "n_years": 45,
+          "phi": 0.11570663062627447,
+          "resid_sd": 0.20683158435750382,
+          "ols": {
+            "slope": -0.0030311191654766824,
+            "intercept": 6.871733959485049,
+            "se": 0.0026830704422080636,
+            "p": 0.2665792162737272,
+            "ci_low": -0.008485765393896765,
+            "ci_high": 0.0024235270629434013,
+            "r2": 0.03652466369226126,
+            "n_eff": 35.666366524577086
+          },
+          "mk": {
+            "p": 0.2775508951844028,
+            "p_naive": 0.2775508951844028,
+            "z": -1.085837493458831,
+            "tau": -0.11313131313131314
+          },
+          "sen": {
+            "slope": -0.002606526457472069,
+            "intercept": 5.976817113492489,
+            "ci_low": -0.006257269058471619,
+            "ci_high": 0.00218223819536445
+          },
+          "tests_agree": true,
+          "period_mean": 0.800402271035254,
+          "change_per_decade": -0.02606526457472069,
+          "total_change": -0.11468716412877103,
+          "pct_of_mean_per_decade": -3.2565205669653374
+        },
+        "verdict": {
+          "tier": "no_case",
+          "years_needed": 21,
+          "reason": null
+        }
+      }
+    }
+  },
+  "unmodified_cli": {
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "422: NASA POWER cannot serve this variable for the selected request.\n"
+  },
+  "source_sha256": {
+    "tests/fixtures/golden/golden_expected.json": "ebad20e7160fd4c878f8880ec417c0153c61a973d1f987e62af548d61985b38d",
+    "tests/fixtures/golden/make_golden.py": "8fcdc3f38f784f8a09d787593e8a7c1fe62a6dbdf5480823cb90310e020168fc",
+    "tests/fixtures/golden/golden_ext.py": "48f772c358eaa52b635d5fb8c6d392a6262f0a0e8f18f4cad2b4dac5d9153dc0",
+    "api/_engine/trend.py": "363f300cc77807243ebcc971ded5b1251c5108a875273991b4b260d7dc10efbe",
+    "api/_engine/verdict.py": "e7a7c126d9f3db2b8829e27270a463b483775db6ab97addc568c971f5fd59356",
+    "api/_engine/series.py": "b426bac056230ae81a5e2f7c5b5cb5d4c3297e0f55ba06a7b029027a5b71f20e",
+    "api/_engine/config.py": "1a8c8c17c148a04017fa60d6131c7f3153866d6b09c86d5d4258a0d367292ab7"
+  },
+  "cli_snapshot_note": "Initial failed CLI check before the upstream alphanumeric-user fix; current successful five-case checks are recorded in cli_checks.json."
+}

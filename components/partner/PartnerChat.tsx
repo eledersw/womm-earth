@@ -60,7 +60,7 @@ export function PartnerChat() {
     <div aria-live="polite">
       {busy && <p className="scale-label text-scale">{checking ? c.checking : c.draft}</p>}
       {draft && <p className="whitespace-pre-wrap break-words">{draft}</p>}
-      {error && <p role="alert">{c.offline} {error}</p>}
+      {error && <p role="alert">{error || c.offline}</p>}
       {warning && <p className="text-scale">{c.numberWarning}</p>}
     </div>
     {proposals.map((proposal, i) => <div key={i} className="border-t border-rule pt-3">

@@ -48,7 +48,7 @@ docs/                                     see AGENTS.md "Read when"
 | Method | Path | Input | Output |
 |---|---|---|---|
 | GET | `/api/py/health` | — | `{ok, numpy, scipy, cold_start_ms}` |
-| GET | `/api/py/variables` | — | `Variable[]` discovered from the NASA POWER Manager monthly catalogue (canonical `AG` units and request community) |
+| GET | `/api/py/variables` | — | The 16 reviewed POWER variables in `api/_data/approved_power_variables.json`, refreshed from the NASA POWER Manager monthly catalogue (canonical `AG` units and request community) |
 | GET | `/api/py/regions` | — | `Region[]`: id, name, type (`country` \| `state` \| `ocean` \| `named`), centroid, bbox, nearest_cell_fallback, valid_variables[] |
 | POST | `/api/py/analyze` | `Case` | Fetches POWER monthly regional grid cells at request time, computes a cos(latitude)-weighted bbox mean in Python, then returns per region: `monthly[]`, `yearly[]`, `stats`, `verdict`, `provenance` |
 | GET | `/api/py/trendmap` | `variable, start, end, season` | `{region_id: {slope, p, verdict}}`, with a Cache-Control header |
@@ -76,7 +76,7 @@ docs/                                     see AGENTS.md "Read when"
 
 ## Runtime climate data and offline pipeline
 
-**Case analysis uses live NASA POWER requests.** `GET /api/py/variables` reads the monthly POWER Manager catalogue. Each `POST /api/py/analyze` fetches the selected parameter for every requested region and time range from the Monthly Regional API. POWER returns one point feature per grid cell in the requested bbox; Python ignores annual `YYYY13` keys and calculates a per-month cos(latitude)-weighted mean across finite grid values before applying the existing seasonal and statistical engine. No `.npz` or hero series is used by `/api/py/analyze`.
+**Case analysis uses live NASA POWER requests.** `GET /api/py/variables` reads the monthly POWER Manager catalogue and exposes only the 16 variables reviewed in `docs/DATA_CATALOG.md`; their approved names and definitions are packaged in `api/_data/approved_power_variables.json`. Units and the request community still come from POWER. Each `POST /api/py/analyze` fetches the selected parameter for every requested region and time range. POWER accepts regional rectangles of 2°–10° on each axis: larger bounding boxes are split into at most 12 valid tiles, and areas smaller than 2° on either axis use the point endpoint at the region centroid with a `nearest_cell_fallback` warning. Regions requiring more than 12 tiles return an error rather than an unrepresentative estimate. Python ignores annual `YYYY13` keys and calculates a per-month cos(latitude)-weighted mean across finite grid values, deduplicating cells on tile boundaries, before applying the existing seasonal and statistical engine. No `.npz` or hero series is used by `/api/py/analyze`.
 
 `api/_data/regions.json` remains local lookup metadata (ids, names, centroids and bounding boxes); `public/geo/*.geojson` remains local map geometry. They do not contain climate time series. `api/_fixtures/*.json` remain local fixtures for endpoints not yet backed by live calculation.
 

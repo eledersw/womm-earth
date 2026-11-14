@@ -341,8 +341,10 @@ Task 6 local verification: check + 124 Vitest tests + 12 Chromium E2E pass (mock
   - Answering calls `setReveal(true)` and shows "You guessed X; the data says Y".
   - The switch lives in the panel header: `setPredictMode`. When predict mode is turned on, call `setReveal(false)`.
 
-- [ ] **Step 1: Build** the four components and wire them into VerdictStep and CasePanel.
+- [x] **Step 1: Build** the four components and wire them into VerdictStep and CasePanel.
 - [ ] **Step 2: Verify.** Manually: the Sahel/Mediterranean mirror highlights on the globe, the correlation warning appears for two co-trending temperature variables, and predict mode hides the verdict and the globe colours until you answer. Run `npm run check`. Commit `feat(panel): correlation, mirror, years meter, predict`, then self-merge.
+
+Task 7 panel completion: check + 135 Vitest tests + 13 Chromium E2E pass with official fixtures/mocked extension results. First-region request mapping, abort/stale responses, mirror store updates/Compare, conditional years and prediction gating are verified. Step 2 remains open for actual globe integration by Eleder (GlobeView currently ignores highlight/predict/reveal), real backend/science verification, and user publication/PR/merge. No globe files or frozen seams modified.
 
 ### Task 8: Guided tours (H16–H18)
 
@@ -361,8 +363,10 @@ Task 6 local verification: check + 124 Vitest tests + 12 Chromium E2E pass (mock
 - The player has Prev/Next/Play (6 s per step) and Exit, which calls `clearHighlight()`.
 - `TourLauncher`: a **Watch this case** button per tour, shown in the panel's empty state and in the Partner tab.
 
-- [ ] **Step 1: Write the tour test.** `tours.test.ts`: `every tour step parses` (each `caseFromQuery(step.query)` round-trips through `caseToQuery`, and each region id exists in `api/_fixtures/regions.json` or `api/_data/regions.json`). Run → FAIL.
+- [x] **Step 1: Write the tour test.** `tours.test.ts`: `every tour step parses` (each `caseFromQuery(step.query)` round-trips through `caseToQuery`, and each region id exists in `api/_fixtures/regions.json` or `api/_data/regions.json`). Run → FAIL.
 - [ ] **Step 2: Implement** the tours with the captions from `docs/pitch/DEMO_SCRIPT.md` (Edur, H10) and the cases from `docs/science/DEMO_CASES.md` (Sergio, H8). Run → PASS. Commit `feat(tour): guided demo tours`, then self-merge.
+
+Task 8 player completion: check + 143 Vitest tests + 14 Chromium E2E pass. Navigation, 6-second playback, manual-edit pause, restoration, canonical queries, centroid helper and no implicit analysis are verified. A procedural current-Case guide provides a working fallback without scientific demo claims. Step 2 remains pending for Sergio's 3 FINAL cases and Edur's approved captions (source docs are drafts), then user publication/PR/merge. tours.json intentionally contains no unapproved cases.
 
 ### Task 9: Demo explanations, eval harness, E2E (H22–H26)
 
@@ -382,12 +386,14 @@ Task 6 local verification: check + 124 Vitest tests + 12 Chromium E2E pass (mock
 
 - [ ] **Step 1: Generate the demo explanations** and have Sergio approve each text. If he edits one, edit the JSON by hand and keep `generated_at`.
 - [ ] **Step 2: Run the eval** with Sergio. Fix the prompts and record the score in STATUS.
-- [ ] **Step 3: Write the E2E tests.**
+- [x] **Step 3: Write the E2E tests.**
   - `case-flow.spec.ts`: `case from URL shows verdict` (open `/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN` → a verdict badge is visible within 10 s); `season change updates URL` (click JJA → the URL contains `s=JJA`).
   - `partner.spec.ts` (skipped unless `E2E_PARTNER=1`): `partner proposes a case`.
 
   Run `npm run test:e2e` → PASS.
 - [ ] **Step 4: Merge before the freeze.** Commit `chore(partner): demo explanations, eval harness, e2e`, then self-merge **before H26**. After the freeze, P0 fixes only, merged by Eleder.
+
+Task 9 tooling/QA completed: generator validates the returned Case and all regions, collects both levels, checks numbers, writes sorted keys atomically and leaves `approved_by: null` for Sergio. Explain serves reviewed cache entries per region/level without network calls. Ten reviewed process cards converted, preserving conditions and citations. Eval harness parses EVAL.md, resolves contexts before any request, checks SSE/tool numbers and prints a Markdown report; it never assigns scientific pass/fail. Current executable: `npx tsx lib/partner/run-eval.ts --base URL`; the plan’s `scripts/run-eval.ts` wrapper awaits ownership authorization. Check + 163 Vitest + 16 Chromium E2E pass; real Partner E2E skips unless E2E_PARTNER=1. URL-verdict test presses Investigate per Lead’s explicit-run decision. Python checks cannot start without pytest/backend dependencies. Steps 1–2 remain blocked by engine alignment, approved tour captions, EVAL 3/20 plus stale Case 1 context, deployment-only key and Sergio review. Cache remains empty; no score invented. User handles publication/PR/merge; Step 4 remains open.
 
 ## Done when (whole plan)
 
