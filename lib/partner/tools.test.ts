@@ -41,7 +41,7 @@ it("validates ids before scientific requests and rejects invalid custom months",
   expect(py.POST).not.toHaveBeenCalled();
 });
 it("returns available process-card ids without inventing content", async () => {
-  const { run } = setup(); expect(await run("get_process_card", { id: "missing" })).toEqual({ available_ids: [] });
+  const { run } = setup(); expect(await run("get_process_card", { id: "missing" })).toEqual({ available_ids: expect.arrayContaining(["regional-warming", "smoke-aod", "snow-depth-and-season"]) });
 });
 it("rejects URL-like unexpected tool inputs at the schema boundary", () => {
   const tools = makeTools({} as ReturnType<typeof serverApi>, () => {});
