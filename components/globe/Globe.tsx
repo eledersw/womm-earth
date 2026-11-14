@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { globeCopy } from "@/lib/copy/globe";
 
 // react-globe.gl touches window/WebGL at import time, so it only ever loads in the browser.
@@ -30,6 +30,10 @@ function GlobeStatus({ text }: { text: string }) {
 }
 
 export function Globe() {
+  // Wake the Python function while the presenter is still choosing regions.
+  useEffect(() => {
+    void fetch("/api/py/health").catch(() => {});
+  }, []);
   // null on the server, a boolean once mounted in the browser.
   const webgl = useSyncExternalStore(noop, hasWebGL, () => null);
   if (webgl === null) return <GlobeStatus text={globeCopy.loading} />;

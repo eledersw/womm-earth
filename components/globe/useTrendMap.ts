@@ -7,6 +7,11 @@ import type { CaseState } from "@/lib/state/case-codec";
 
 export type TrendEntries = Record<string, TrendMapEntry>;
 
+/** The trend map shows only when the API computes real entries. Until then
+ * /api/py/trendmap serves a one-region fixture that contradicts real verdicts.
+ * Set NEXT_PUBLIC_TRENDMAP_LIVE=1 (Vercel env) once the endpoint is real. */
+export const TRENDMAP_LIVE = process.env.NEXT_PUBLIC_TRENDMAP_LIVE === "1";
+
 type TrendQuery = Pick<CaseState, "variable" | "from" | "to" | "season" | "months">;
 
 /** One trend map per variable, period and season (regions don't change it). */

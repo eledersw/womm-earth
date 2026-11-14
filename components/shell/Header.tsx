@@ -17,7 +17,7 @@ export function Header() {
       <nav aria-label="Site" className="pointer-events-auto flex items-center gap-3 sm:gap-6">
         <Link
           href="/about"
-          className="label-nav hidden px-1 py-2 text-ink-2 no-underline transition-colors hover:text-ink sm:inline"
+          className="label-nav px-1 py-2 text-ink-2 no-underline transition-colors hover:text-ink"
         >
           {shellCopy.about}
         </Link>

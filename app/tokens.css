@@ -78,7 +78,7 @@
 
   /* Shape: glass panels 16px, controls 10px, pills full */
   --radius: 0.625rem;
-  --radius-panel: 1rem;
+  --radius-panel: 20px;
   --panel-width: 320px;
   --results-width: 400px;
   --header-height: 4.25rem;

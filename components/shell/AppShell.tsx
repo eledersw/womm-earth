@@ -34,7 +34,7 @@ export function AppShell({ panel, globe }: { panel: ReactNode; globe: ReactNode 
         aria-label="Case"
         className="glass relative z-10 mx-3 mb-3 flex flex-col min-[900px]:absolute min-[900px]:top-(--header-height) min-[900px]:bottom-5 min-[900px]:left-5 min-[900px]:m-0 min-[900px]:w-(--panel-width)"
       >
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-gutter:stable] [scrollbar-width:thin]">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-gutter:stable]">
           {panel}
         </div>
       </section>
