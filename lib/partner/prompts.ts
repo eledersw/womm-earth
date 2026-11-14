@@ -14,5 +14,5 @@ export const CHAT_SYSTEM = SYSTEM + "\n\n" + "Use only the tools available in th
 
 export function explainUserMessage(input: ExplainInput) {
   const summary = summarizeAnalysis(input.analysis, input.variable, input.regionName, input.period, input.seasonLabel);
-  return `Reading level: ${input.level}. Explain in 3–5 sentences. Analysis tool result JSON:\n${JSON.stringify(summary)}`;
+  return `Reading level: ${input.level}. Explain in at most 2 short sentences. The verdict card already shows the tier, slope, intervals and p-values: avoid repeating them. Add one useful interpretation or material limitation specific to this Case. Avoid generic definitions and repeated caveats. Analysis tool result JSON:\n${JSON.stringify(summary)}`;
 }
