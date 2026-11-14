@@ -1,7 +1,7 @@
 import { expect, it, vi } from "vitest";
 import fixture from "@/api/_fixtures/analyze.json";
 import variables from "@/api/_fixtures/variables.json";
-import { SYSTEM } from "./prompts";
+import { SYSTEM, explainUserMessage } from "./prompts";
 import { summarizeAnalysis } from "./summarize";
 import { checkNumbers } from "./number-check";
 import { explainInputSchema } from "./input";
@@ -9,6 +9,13 @@ it("SYSTEM is deterministic", async () => {
   vi.resetModules();
   expect((await import("./prompts")).SYSTEM).toBe(SYSTEM);
   expect(SYSTEM).not.toMatch(/Date|2026/);
+});
+it("asks for a brief explanation that complements the visible verdict", () => {
+  const input = explainInputSchema.parse({ mode: "explain", level: "student", analysis: fixture.results[0], variable: variables[0], regionName: "Wisconsin", period: "2002–2025", seasonLabel: "JJA" });
+  const message = explainUserMessage(input);
+  expect(message).toMatch(/at most 2 short sentences/i);
+  expect(message).toMatch(/verdict card already/i);
+  expect(message).toMatch(/specific to this Case/i);
 });
 it("summarizeAnalysis drops arrays", () => {
   const input = explainInputSchema.parse({ mode: "explain", level: "student", analysis: fixture.results[0], variable: variables[0], regionName: "Wisconsin", period: "2002–2025", seasonLabel: "JJA" });
