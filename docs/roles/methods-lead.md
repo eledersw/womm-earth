@@ -80,7 +80,7 @@
   - *Ask Claude:* "Write a Colab notebook that generates golden case 3 with seed 42 and computes OLS, naive MK, Hamed-Rao MK and Sen's slope."
   - **Done when:** all 6 folders have `series.csv` + `expected.json`, and Oier has copied them to `tests/fixtures/golden/`.
 
-- [ ] **H3–H6: `DATA_CATALOG.md`.**
+- [x] **H3–H6: `DATA_CATALOG.md`.**
   - For every variable Coder B marks `in store`, fill in:
     - the student definition (≤25 words) and the scientist definition;
     - units, source/instrument, kind (satellite vs reanalysis/model), grid, period, DOI;
