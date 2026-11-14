@@ -1,5 +1,14 @@
 {
-  "checked_at_utc": "2026-11-14T17:17:22.058890+00:00",
+  "checked_at_utc": "2026-11-14T18:32:29.652195+00:00",
+  "source_sha256": {
+    "tests/fixtures/golden/golden_expected.json": "ebad20e7160fd4c878f8880ec417c0153c61a973d1f987e62af548d61985b38d",
+    "tests/fixtures/golden/make_golden.py": "8fcdc3f38f784f8a09d787593e8a7c1fe62a6dbdf5480823cb90310e020168fc",
+    "tests/fixtures/golden/golden_ext.py": "48f772c358eaa52b635d5fb8c6d392a6262f0a0e8f18f4cad2b4dac5d9153dc0",
+    "api/_engine/trend.py": "363f300cc77807243ebcc971ded5b1251c5108a875273991b4b260d7dc10efbe",
+    "api/_engine/verdict.py": "e7a7c126d9f3db2b8829e27270a463b483775db6ab97addc568c971f5fd59356",
+    "api/_engine/series.py": "b426bac056230ae81a5e2f7c5b5cb5d4c3297e0f55ba06a7b029027a5b71f20e",
+    "api/_engine/config.py": "1a8c8c17c148a04017fa60d6131c7f3153866d6b09c86d5d4258a0d367292ab7"
+  },
   "scope": "Existing key/reference verification, plus read-only comparison of current yearly engine; not deployed validation.",
   "versions": {
     "numpy": "2.5.4",
@@ -388,14 +397,5 @@
         ]
       }
     }
-  },
-  "source_sha256": {
-    "tests/fixtures/golden/golden_expected.json": "ebad20e7160fd4c878f8880ec417c0153c61a973d1f987e62af548d61985b38d",
-    "tests/fixtures/golden/make_golden.py": "8fcdc3f38f784f8a09d787593e8a7c1fe62a6dbdf5480823cb90310e020168fc",
-    "tests/fixtures/golden/golden_ext.py": "48f772c358eaa52b635d5fb8c6d392a6262f0a0e8f18f4cad2b4dac5d9153dc0",
-    "api/_engine/trend.py": "363f300cc77807243ebcc971ded5b1251c5108a875273991b4b260d7dc10efbe",
-    "api/_engine/verdict.py": "e7a7c126d9f3db2b8829e27270a463b483775db6ab97addc568c971f5fd59356",
-    "api/_engine/series.py": "b426bac056230ae81a5e2f7c5b5cb5d4c3297e0f55ba06a7b029027a5b71f20e",
-    "api/_engine/config.py": "1a8c8c17c148a04017fa60d6131c7f3153866d6b09c86d5d4258a0d367292ab7"
   }
 }
