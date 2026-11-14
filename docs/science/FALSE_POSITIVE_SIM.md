@@ -3,6 +3,8 @@
 **Owner:** Methods lead · **Reproduce:** `python tests/fixtures/golden/sim_false_positive.py 10000` (fixed seeds; raw numbers in `sim_results.json`)
 **Used in:** METHODS §6, §9, §10 decisions · LIMITATIONS ("Short records…", "Testing many…") · the pitch ("how do you know your p-values are right?")
 
+**Decision status (2026-11-14):** `METHODS.md` v1 now adopts the capped HR factor and Option B already encoded in `golden_expected.json`. The recommendations below are the historical decision analysis, not open alternatives in the current spec. Golden cases 2 and 3 have already been reseeded for Option B; the older case-3 p-value in recommendation 3 is historical. Engine integration and review remain pending; see `METHODS_REVIEW.md`. The years-needed experiments below measure the individual tests, not detection power for the combined Option B verdict.
+
 ## Setup
 
 Synthetic yearly series, Gaussian AR(1) noise, no true trend (Part 1) or a known trend (Parts 2-3). 10,000 replicates per cell, so the Monte-Carlo standard error on a rate near 5% is about 0.002. Tests are the reference implementation from `make_golden.py`, cross-checked against pymannkendall. "Capped" means the Hamed-Rao variance factor is floored at 1.
