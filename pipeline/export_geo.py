@@ -5,14 +5,21 @@ from __future__ import annotations
 import argparse
 import io
 import json
+import sys
 import urllib.request
 import zipfile
 from pathlib import Path
 from typing import Iterable
 
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 NATURAL_EARTH_ZIP = "https://naciscdn.org/naturalearth/110m/cultural/ne_110m_admin_0_countries.zip"
 NATURAL_EARTH_GEOJSON = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
+COUNTRIES_50M_ZIP = "https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin_0_countries.zip"
+STATES_50M_ZIP = "https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin_1_states_provinces.zip"
 DEFAULT_OUTPUT = Path(__file__).resolve().parents[1] / "public" / "geo" / "countries.geojson"
+GEO_DIR = DEFAULT_OUTPUT.parent
 SIMPLIFY_TOLERANCE = 0.05
 
 
@@ -138,14 +145,103 @@ def export_countries(output: Path = DEFAULT_OUTPUT) -> int:
     return len(features)
 
 
+def load_50m_sources(countries_zip: Path | None = None, states_zip: Path | None = None):
+    """Read Natural Earth 50m layers, accepting local ZIPs for offline reruns."""
+    countries = countries_zip.read_bytes() if countries_zip else _fetch(COUNTRIES_50M_ZIP)
+    states = states_zip.read_bytes() if states_zip else _fetch(STATES_50M_ZIP)
+    return list(_from_shapefile(countries)), list(_from_shapefile(states))
+
+
+def all_region_features(country_rows, state_rows, simplify: bool = False) -> list[dict]:
+    """Share stable region geometry between the library and GeoJSON exporter."""
+    from shapely.geometry import box, mapping, shape
+    from shapely.ops import unary_union
+
+    from pipeline.named_regions import NAMED, OCEANS
+
+    mainland = {
+        "FRA": (-6, 41, 10, 52),
+        "NLD": (3, 50, 8, 54),
+        "NOR": (4, 57, 32, 72),
+    }
+    features = []
+    land_parts = []
+
+    def add(region_id: str, name: str, kind: str, geometry) -> None:
+        if geometry.is_empty:
+            raise ValueError(f"Empty geometry for {region_id}")
+        rendered = geometry.simplify(SIMPLIFY_TOLERANCE, preserve_topology=True) if simplify else geometry
+        features.append({"type": "Feature", "properties": {"id": region_id, "name": name, "type": kind}, "geometry": mapping(rendered)})
+
+    for properties, geo in country_rows:
+        region_id = properties["ADM0_A3"]
+        geometry = shape(geo)
+        if region_id in mainland:
+            geometry = geometry.intersection(box(*mainland[region_id]))
+        add(region_id, properties["NAME"], "country", geometry)
+        land_parts.append(geometry)
+    land = unary_union(land_parts)
+    for properties, geo in state_rows:
+        if properties.get("iso_a2") != "US":
+            continue
+        postal = properties.get("postal")
+        if not postal or len(postal) != 2:
+            raise ValueError(f"US state missing postal code: {properties.get('name')}")
+        add(f"US-{postal}", properties["name"], "state", shape(geo))
+    world = box(-180, -90, 180, 90)
+    for item in NAMED + OCEANS:
+        region_id = item["id"]
+        if region_id == "NR-LAND":
+            geometry = land
+        elif region_id == "NR-OCEAN":
+            geometry = world.difference(land)
+        else:
+            geometry = unary_union([box(*bounds) for bounds in item.get("boxes", [item["bbox"]])])
+            if item["land_only"]:
+                geometry = geometry.intersection(land)
+            elif region_id.startswith("OCN-"):
+                geometry = geometry.difference(land)
+        add(region_id, item["name"], "ocean" if region_id.startswith("OCN-") else "named", geometry)
+    ids = [feature["properties"]["id"] for feature in features]
+    if len(ids) != len(set(ids)):
+        raise ValueError("Duplicate Natural Earth region ids")
+    return features
+
+
+def export_remaining(countries_zip: Path | None = None, states_zip: Path | None = None,
+                     targets: tuple[str, ...] = ("states", "oceans", "named"), out_dir: Path = GEO_DIR) -> None:
+    countries, states = load_50m_sources(countries_zip, states_zip)
+    features = all_region_features(countries, states, simplify=True)
+    names = {"states": "us-states.geojson", "oceans": "oceans.geojson", "named": "named.geojson"}
+    kinds = {"states": "state", "oceans": "ocean", "named": "named"}
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for target in targets:
+        selected = [feature for feature in features if feature["properties"]["type"] == kinds[target]]
+        path = out_dir / names[target]
+        path.write_text(json.dumps({"type": "FeatureCollection", "features": selected}, separators=(",", ":")) + "\n", encoding="utf-8")
+        if path.stat().st_size >= 2_000_000:
+            raise ValueError(f"{path} is >= 2 MB; simplify further before committing")
+        print(f"Wrote {len(selected)} regions to {path} ({path.stat().st_size} bytes)")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--countries", action="store_true", help="export Natural Earth admin-0 countries")
+    parser.add_argument("--states", action="store_true", help="export US states")
+    parser.add_argument("--oceans", action="store_true", help="export ocean basins")
+    parser.add_argument("--named", action="store_true", help="export named regions")
+    parser.add_argument("--countries-zip", type=Path, help="local Natural Earth 50m admin-0 ZIP")
+    parser.add_argument("--states-zip", type=Path, help="local Natural Earth 50m admin-1 ZIP")
+    parser.add_argument("--out-dir", type=Path, default=GEO_DIR, help="directory for new layers")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT, help="output GeoJSON path")
     args = parser.parse_args()
-    if not args.countries:
+    targets = tuple(name for name in ("states", "oceans", "named") if getattr(args, name))
+    if not args.countries and not targets:
         parser.error("select an export target, for example --countries")
-    export_countries(args.out)
+    if args.countries:
+        export_countries(args.out)
+    if targets:
+        export_remaining(args.countries_zip, args.states_zip, targets, args.out_dir)
 
 
 if __name__ == "__main__":
