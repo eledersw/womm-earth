@@ -1,18 +1,28 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Azeret_Mono, Barlow, Barlow_Condensed } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
-// Placeholder fonts; the design direction session (frontend-shell plan, Task 3) replaces them.
-const geistSans = Geist({
-  variable: "--font-sans",
+// Barlow: engineering-signage lineage, the lettering of instrument faceplates.
+const barlow = Barlow({
+  variable: "--font-barlow",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-barlow-condensed",
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
+// Codes and readouts only (region ids, units), never as a "technical" costume.
+const azeretMono = Azeret_Mono({
+  variable: "--font-azeret",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -24,11 +34,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${barlow.variable} ${barlowCondensed.variable} ${azeretMono.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="h-full">
         <NuqsAdapter>
           <TooltipProvider>{children}</TooltipProvider>
+          <Toaster position="bottom-center" />
         </NuqsAdapter>
       </body>
     </html>
