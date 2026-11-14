@@ -18,9 +18,10 @@ export function useAnalysis(state: CaseState, enabled = true) {
   }, [key]);
   const active = enabled && state.regions.length > 0 && submission?.key === key;
 
-  useEffect(() => {
-    setSubmission((previous) => previous && previous.key !== key ? null : previous);
-  }, [key]);
+  // Reset a submitted Case when its URL identity changes. This conditional
+  // render adjustment prevents resubmitting it when navigating back and avoids
+  // cascading updates from an effect. Calculation remains an explicit action.
+  if (submission && submission.key !== key) setSubmission(null);
 
   useEffect(() => {
     if (!active) return;

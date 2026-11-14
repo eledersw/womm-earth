@@ -27,3 +27,10 @@ it("rejects oversized and cross-origin requests", async () => {
     expect(events.map((e) => e.type)).toEqual(["error", "done"]);
   }
 });
+it("chat route also fails safely without a server key", async () => {
+  vi.stubEnv("ANTHROPIC_API_KEY", "");
+  const { DEFAULT_CASE } = await import("@/lib/state/case-codec");
+  const res = await POST(new Request("http://localhost/api/partner", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ mode: "chat", level: "student", case: DEFAULT_CASE, messages: [{ role: "user", content: "What can I investigate?" }] }) }));
+  const events: PartnerEvent[] = []; await readSse(res, (e) => events.push(e));
+  expect(events.map((e) => e.type)).toEqual(["error", "done"]);
+});

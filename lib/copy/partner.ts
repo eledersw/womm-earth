@@ -1,6 +1,12 @@
 // Provisional empty/error wording pending Story's COPY.md completion.
 export const partnerCopy = {
   title: "Partner",
+  chatLabel: "Ask the Partner", send: "Send", checking: "Checking the data…", openCase: "Open this case",
+  chatHistory: "Partner conversation", you: "You", assistant: "Partner", chatRetry: "The partner could not finish this turn. Please try again.",
+  tooLong: "The partner reached its response limit. Please ask a shorter question.",
+  chatIntro: "Ask about the evidence or explore a new Case. You choose which proposals to open.",
+  numberWarning: "Some numbers could not be matched to tool results.",
+
   explain: "Explain this verdict", loading: "Preparing explanation…", draft: "Draft explanation · being checked",
   stop: "Stop", retry: "Retry explanation", cancelled: "Explanation stopped.",
   refused: "The partner could not explain this Case. The template verdict remains available.",
