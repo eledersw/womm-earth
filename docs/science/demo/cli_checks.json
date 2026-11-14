@@ -1,0 +1,328 @@
+{
+  "checked_at_utc": "2026-11-14T17:24:29.664900+00:00",
+  "git_revision": "d27c4bb5781b07855e9485b1bcc580d1bc815770",
+  "power_source_sha256": "48e72819515589bda0cceadbe715e120c7a2418e1fb3a5b3167c4bb82a958162",
+  "scope": "Unmodified local CLI against live NASA; not a browser/production smoke or METHODS v1 acceptance.",
+  "cases": {
+    "co-temperature": {
+      "command": [
+        "C:\\Users\\sergio.p.r\\git\\WorksOnMyMachine\\womm-earth\\scripts\\case_cli.py",
+        "--var",
+        "T2M",
+        "--region",
+        "US-CO",
+        "--start",
+        "1981",
+        "--end",
+        "2025",
+        "--season",
+        "ANN",
+        "--json"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stats": {
+        "n_years": 45,
+        "phi": 0.0062004453696752945,
+        "resid_sd": 0.5777296280250929,
+        "ols": {
+          "slope": 0.03179625255244659,
+          "intercept": -56.19186080317243,
+          "se": 0.0066745604615354144,
+          "p": 2.2389262448630796e-05,
+          "ci_low": 0.018330630481264515,
+          "ci_high": 0.04526187462362867,
+          "r2": 0.3483889416770751,
+          "n_eff": 44.4453986918424
+        },
+        "mk": {
+          "p": 9.495054962727068e-05,
+          "p_naive": 9.495054962727068e-05,
+          "z": 3.9031455845952574,
+          "tau": 0.40404040404040403
+        },
+        "sen": {
+          "slope": 0.03379079924609775,
+          "intercept": -60.064009666367774,
+          "ci_low": 0.019528993729951635,
+          "ci_high": 0.04923228579963411
+        },
+        "tests_agree": true,
+        "period_mean": 7.49603305937809,
+        "change_per_decade": 0.33790799246097747,
+        "total_change": 1.486795166828301,
+        "pct_of_mean_per_decade": null
+      },
+      "verdict": {
+        "tier": "confirmed",
+        "years_needed": null,
+        "reason": null
+      },
+      "provenance": {
+        "source": "NASA POWER",
+        "instrument": null,
+        "product": null,
+        "doi": null,
+        "kind": "reanalysis"
+      },
+      "monthly_count": 540,
+      "yearly_count": 45
+    },
+    "az-wetness": {
+      "command": [
+        "C:\\Users\\sergio.p.r\\git\\WorksOnMyMachine\\womm-earth\\scripts\\case_cli.py",
+        "--var",
+        "GWETROOT",
+        "--region",
+        "US-AZ",
+        "--start",
+        "1981",
+        "--end",
+        "2025",
+        "--season",
+        "ANN",
+        "--json"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stats": {
+        "n_years": 45,
+        "phi": 0.11077273576254341,
+        "resid_sd": 0.01615978379237415,
+        "ols": {
+          "slope": -0.0004875005382130868,
+          "intercept": 1.3907584871214518,
+          "se": 0.0002085220051524516,
+          "p": 0.025410531062860814,
+          "ci_low": -0.0009112569186609206,
+          "ci_high": -6.374415776525308e-05,
+          "r2": 0.13840604832089498,
+          "n_eff": 36.02467507740471
+        },
+        "mk": {
+          "p": 0.049270169805609054,
+          "p_naive": 0.049270169805609054,
+          "z": -1.9662462719389642,
+          "tau": -0.20404040404040405
+        },
+        "sen": {
+          "slope": -0.00035478473542966435,
+          "intercept": 1.1227851629635281,
+          "ci_low": -0.0007465438452373425,
+          "ci_high": 3.0789202295055947e-06
+        },
+        "tests_agree": true,
+        "period_mean": 0.414294909080639,
+        "change_per_decade": -0.0035478473542966435,
+        "total_change": -0.01561052835890523,
+        "pct_of_mean_per_decade": null
+      },
+      "verdict": {
+        "tier": "confirmed",
+        "years_needed": null,
+        "reason": null
+      },
+      "provenance": {
+        "source": "NASA POWER",
+        "instrument": null,
+        "product": null,
+        "doi": null,
+        "kind": "reanalysis"
+      },
+      "monthly_count": 540,
+      "yearly_count": 45
+    },
+    "wi-snow": {
+      "command": [
+        "C:\\Users\\sergio.p.r\\git\\WorksOnMyMachine\\womm-earth\\scripts\\case_cli.py",
+        "--var",
+        "SNODP",
+        "--region",
+        "US-WI",
+        "--start",
+        "1981",
+        "--end",
+        "2025",
+        "--season",
+        "DJF",
+        "--json"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stats": {
+        "n_years": 44,
+        "phi": 0.0,
+        "resid_sd": 3.184487070817492,
+        "ols": {
+          "slope": -0.0845738074023216,
+          "intercept": 189.03066224744202,
+          "se": 0.03780622285881553,
+          "p": 0.030648952492313006,
+          "ci_low": -0.1608698540063736,
+          "ci_high": -0.00827776079826957,
+          "r2": 0.10646513239919897,
+          "n_eff": 44.0
+        },
+        "mk": {
+          "p": 0.02054920318982223,
+          "p_naive": 0.02054920318982223,
+          "z": -2.316166066416848,
+          "tau": -0.24312896405919662
+        },
+        "sen": {
+          "slope": -0.056403923720635296,
+          "intercept": 131.35580853952786,
+          "ci_low": -0.12028391573668493,
+          "ci_high": -0.005598317668008173
+        },
+        "tests_agree": true,
+        "period_mean": 19.58703911689071,
+        "change_per_decade": -0.564039237206353,
+        "total_change": -2.4253687199873175,
+        "pct_of_mean_per_decade": null
+      },
+      "verdict": {
+        "tier": "confirmed",
+        "years_needed": null,
+        "reason": null
+      },
+      "provenance": {
+        "source": "NASA POWER",
+        "instrument": null,
+        "product": null,
+        "doi": null,
+        "kind": "reanalysis"
+      },
+      "monthly_count": 540,
+      "yearly_count": 44
+    },
+    "wi-aod": {
+      "command": [
+        "C:\\Users\\sergio.p.r\\git\\WorksOnMyMachine\\womm-earth\\scripts\\case_cli.py",
+        "--var",
+        "AOD_55",
+        "--region",
+        "US-WI",
+        "--start",
+        "2002",
+        "--end",
+        "2025",
+        "--season",
+        "JJA",
+        "--json"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stats": {
+        "n_years": 24,
+        "phi": 0.0,
+        "resid_sd": 0.0528650386757392,
+        "ols": {
+          "slope": 0.001582245627144325,
+          "intercept": -2.8942752875537643,
+          "se": 0.001558904942911056,
+          "p": 0.3211520637816962,
+          "ci_low": -0.0016507253493813758,
+          "ci_high": 0.004815216603670026,
+          "r2": 0.04473128890134226,
+          "n_eff": 24.0
+        },
+        "mk": {
+          "p": 0.9802109790485438,
+          "p_naive": 0.9802109790485438,
+          "z": 0.024804403006957923,
+          "tau": 0.007246376811594203
+        },
+        "sen": {
+          "slope": 0.0001996480556874458,
+          "intercept": -0.11468758552636313,
+          "ci_low": -0.003514007510444279,
+          "ci_high": 0.004852101053548558
+        },
+        "tests_agree": true,
+        "period_mean": 0.2915762827013344,
+        "change_per_decade": 0.001996480556874458,
+        "total_change": 0.004591905280811254,
+        "pct_of_mean_per_decade": null
+      },
+      "verdict": {
+        "tier": "no_case",
+        "years_needed": null,
+        "reason": null
+      },
+      "provenance": {
+        "source": "NASA POWER",
+        "instrument": null,
+        "product": null,
+        "doi": null,
+        "kind": "satellite"
+      },
+      "monthly_count": 288,
+      "yearly_count": 24
+    },
+    "wi-precipitation": {
+      "command": [
+        "C:\\Users\\sergio.p.r\\git\\WorksOnMyMachine\\womm-earth\\scripts\\case_cli.py",
+        "--var",
+        "PRECTOTCORR",
+        "--region",
+        "US-WI",
+        "--start",
+        "1981",
+        "--end",
+        "2025",
+        "--season",
+        "ANN",
+        "--json"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stats": {
+        "n_years": 45,
+        "phi": 0.2783423488590303,
+        "resid_sd": 0.26801312527300913,
+        "ols": {
+          "slope": 0.004102451989773227,
+          "intercept": -5.8258869218923985,
+          "se": 0.004169916593153993,
+          "p": 0.3352656303671877,
+          "ci_low": -0.004515452197819085,
+          "ci_high": 0.01272035617736554,
+          "r2": 0.039714454407997035,
+          "n_eff": 25.403675572766918
+        },
+        "mk": {
+          "p": 0.4056928208369328,
+          "p_naive": 0.4056928208369328,
+          "z": 0.8314971796756814,
+          "tau": 0.08686868686868687
+        },
+        "sen": {
+          "slope": 0.002830550252769052,
+          "intercept": -3.252437248645493,
+          "ci_low": -0.002864426922947564,
+          "ci_high": 0.00962937817650584
+        },
+        "tests_agree": true,
+        "period_mean": 2.3913244136233756,
+        "change_per_decade": 0.02830550252769052,
+        "total_change": 0.12454421112183829,
+        "pct_of_mean_per_decade": null
+      },
+      "verdict": {
+        "tier": "no_case",
+        "years_needed": 27,
+        "reason": null
+      },
+      "provenance": {
+        "source": "NASA POWER",
+        "instrument": null,
+        "product": null,
+        "doi": null,
+        "kind": "reanalysis"
+      },
+      "monthly_count": 540,
+      "yearly_count": 45
+    }
+  }
+}

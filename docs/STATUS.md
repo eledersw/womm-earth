@@ -79,9 +79,9 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 - [coder-c] At 390px the shell header Share button extends ~2px past the viewport; panel bounds pass independently · Eleder (header) · since H5.7
 
-- [methods-lead] METHODS v1 review and engine alignment pending: flat golden key is not consumed by the current harness; missing-year inference and undefined-OLS fallback need validation. See `docs/science/METHODS_REVIEW.md`. No validity sign-off yet. · Oier + Sergio · since 2026-11-14
+- [methods-lead] Answer key authoring is complete (9/9 reference cases reproduce), but current golden pytest is skipped and only 1/7 yearly cases matches all checked engine fields. Real Aral GWETROOT 1981–2025 Annual: engine Confirmed vs v1 No case (OLS p ≈0.42062). Oier must integrate the key and align statistics; see `docs/science/golden_cases/verification.json` and `docs/science/METHODS_REVIEW.md`. No validity sign-off. · Oier + Sergio · since 2026-11-14
 
-- [methods-lead] Catalog handoff: NASA regional API rejects the app's `user=womm_earth` (422, alphanumeric required); `user=wommearth` succeeds with valid bounds. Approved definitions are not yet overlaid on the dynamic catalog. Reproduction and owner actions: `docs/science/catalog/README.md`. · Oier (API/integration), Edur (tone review) · since 2026-11-14
+- [methods-lead] Catalog integration pending: upstream alphanumeric-user fix is now verified by five successful unmodified CLI cases; the earlier request rejection is resolved locally. Approved definitions are not yet overlaid on the dynamic catalog. See `docs/science/catalog/README.md` and `docs/science/demo/cli_checks.json`. · Oier (metadata integration), Edur (tone review) · since 2026-11-14
 
 - [coder-c] Task 7 globe integration: `components/globe/GlobeView.tsx` does not consume `highlight` (mirror regions/arcs) or `predictMode && !reveal` (hide trend colours). Panel already writes the frozen store fields; no seam change needed · Eleder (globe) · since H6.6
 
