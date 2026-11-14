@@ -6,6 +6,8 @@ import { caseKey } from "@/lib/state/case-codec";
 import { useCase } from "@/lib/state/use-case";
 import { partnerCopy } from "@/lib/copy/partner";
 import { readSse } from "@/lib/partner/sse-client";
+import { inspectEvidence } from "@/lib/partner/evidence";
+import { renderVerdict } from "@/lib/partner/verdict-templates";
 import { approvedDemo } from "@/lib/partner/demo-cache";
 import demos from "@/lib/partner/demo-explanations.json";
 import type { ExplainInput } from "@/lib/partner/input";
@@ -20,6 +22,11 @@ export function ExplainBox(props: Props) {
     period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `CUSTOM (${state.months?.join(",")})` : state.season,
   }), [props.level, props.result, props.variable, props.regionName, state.from, state.to, state.season, state.months]);
   if (props.result.verdict.tier === "too_short") return null;
+  const evidence = inspectEvidence(props.result, state);
+  if (evidence.status !== "combined" && evidence.status !== "mk_only") {
+    const verdict = renderVerdict(props.result, { variableName: props.variable.name, unit: props.variable.unit, regionName: props.regionName, period: input.period, seasonLabel: input.seasonLabel }, props.level);
+    return <section aria-label={partnerCopy.explain} className="mt-3 border-t pt-3 text-sm"><p role="alert">{verdict.body}</p></section>;
+  }
   if (demo) return <section aria-label={partnerCopy.explain} className="mt-3 border-t pt-3 text-sm"><p>{demo}</p></section>;
   return <StreamedExplanation key={`${key}:${props.level}:${props.result.region.id}`} input={input} />;
 }
@@ -53,7 +60,6 @@ function StreamedExplanation({ input }: { input: ExplainInput }) {
     return () => { alive = false; abort.abort(); };
   }, [input, attempt]);
   return <section aria-label={partnerCopy.explain} className="mt-3 space-y-2 border-t pt-3 text-sm" aria-busy={status === "loading"}>
-    <h4 className="font-medium">{partnerCopy.explain}</h4>
     <div aria-live="polite">
       {status === "loading" && <p>{text ? partnerCopy.draft : partnerCopy.loading}</p>}
       {!!text && <p className="whitespace-pre-wrap">{text}</p>}

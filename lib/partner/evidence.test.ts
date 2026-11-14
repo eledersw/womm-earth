@@ -40,3 +40,8 @@ it("accepts exactly eighty percent coverage and rejects an impossible effective 
   expect(inspectEvidence(r, evidencePeriod("2002–2026", "ANN"))).toMatchObject({ coverage: 0.8, eligible: true });
   expect(inspectEvidence({ ...base, stats: { ...base.stats!, ols: { ...base.stats!.ols, n_eff: 25 } } }, period)).toMatchObject({ status: "unavailable", years_eligible: false });
 });
+it("supports the nullable OLS inference contract without fabricating agreement or years", () => {
+  const r = { ...base, stats: { ...base.stats!, tests_agree: null, ols: { ...base.stats!.ols, n_eff: 2, p: null, se: null, ci_low: null, ci_high: null } } };
+  expect(inspectEvidence(r, period)).toMatchObject({ status: "mk_only", p_ols: null, tests_disagree: false, years_needed: null });
+  expect(inspectEvidence({ ...r, stats: { ...r.stats, ols: { ...r.stats.ols, n_eff: 20 } } }, period)).toMatchObject({ status: "unavailable", p_used: null });
+});

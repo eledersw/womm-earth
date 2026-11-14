@@ -106,7 +106,8 @@ The offline pipeline below can still build regional `.npz` libraries for researc
 - **Streaming:** stream our own SSE events to the browser: `text`, `tool_result`, `propose_case`, `error`.
 - **Explain mode:**
   - The client posts the stats JSON it already has, so there is no server-to-server hop.
-  - Demo cases read `lib/partner/demo-explanations.json`.
+  - Demo cases read `lib/partner/demo-explanations.json` after the same evidence guard as streamed Explain. Inconsistent/unavailable evidence produces a deterministic provisional/unavailable fallback, including in the separate explanation pane; cached approval never overrides a newly detected mismatch.
+  - `VerdictStep.showExplanation=false` keeps Explain in the explanation pane and prevents duplicate requests.
   - The template verdict always renders, so the app works with Claude down.
 - **Partner mode:**
   - Tool Runner with `betaZodTool` tools: `list_variables`, `analyze_case`, `correlate`, `find_mirror`, `scan_region`, `get_process_card`, `propose_case`.
@@ -117,6 +118,7 @@ The offline pipeline below can still build regional `.npz` libraries for researc
   - Analysis tool envelopes retain Case IDs/custom months, labelled method constants and per-decade Sen CI bounds, and include only cards matching variable/region. Card conditions still apply. No Pydantic/HTTP seam fields were changed.
   - System prompt rules: only numbers from tool results; name the test; "not significant" ≠ "no change"; physical explanations only from process cards.
   - A **number check** compares every number in the output against the tool JSON. It flags mismatches in dev and doubles as the eval harness.
+  - The EVAL CLI resolves all 20 rubric contexts during `--dry-run`, without tours/API calls. Real runs save full answers, named tool results, rubric and failure history under `lib/partner/eval-runs/` (new files only), alongside the Markdown excerpt. `--output NAME.json` selects a new filename; `--revision` records a caller-supplied revision. Remote model/settings are not exposed by SSE and must be verified during scientific review; no score is assigned automatically.
 - **Cost:**
   - Prompt caching on the frozen system prompt, catalog and process cards. Confirm `cache_read_input_tokens` > 0.
   - Set `max_tokens` caps.

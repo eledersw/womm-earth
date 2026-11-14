@@ -223,7 +223,9 @@ test("inconsistent engine verdict stays provisional and does not trigger Explain
   await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
-  await expect(page.getByText(/Treat this result as provisional/)).toBeVisible();
-  await expect(page.getByRole("region", { name: "Explain this verdict" })).toHaveCount(0);
+  const results = page.getByRole("region", { name: "Results", exact: true });
+  await expect(results.getByText(/Treat this result as provisional/)).toBeVisible();
+  const explanation = page.getByRole("region", { name: "Explanation", exact: true });
+  await expect(explanation.getByRole("alert")).toContainText("provisional");
   expect(explains).toBe(0);
 });

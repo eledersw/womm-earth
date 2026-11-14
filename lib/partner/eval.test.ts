@@ -48,3 +48,30 @@ it("escapes report cells, limits answer excerpts, and leaves the scientific scor
   expect(report).not.toContain("x".repeat(201));
   expect(report).toContain("No overall accuracy score has been assigned");
 });
+it("resolves Sergio's complete explicit rubric without requiring any demo tours", () => {
+  const rows = parseEvalQuestions(readFileSync("docs/science/EVAL.md", "utf8"));
+  requireCompleteEval(rows);
+  const contexts = rows.map((question) => contextFor(question, []));
+  expect(contexts).toHaveLength(20);
+  expect(new Set(contexts.map((c) => c.level))).toEqual(new Set(["student", "scientist"]));
+  expect(contexts[0]).toMatchObject({ variable: "T2M", regions: ["US-CO"], season: "ANN" });
+  expect(contexts[2]).toMatchObject({ variable: "SNODP", regions: ["US-WI"], season: "DJF" });
+  expect(contexts[12]).toMatchObject({ variable: "GWETROOT", regions: ["NR-ARAL"] });
+});
+it("retains full tool evidence and answers beyond the Markdown excerpt for manual scientific review", async () => {
+  const answer = "Supported explanation. ".repeat(20);
+  const evidence = { region: "US-CO", p: 0.01 };
+  const result = await evaluateQuestion(row, state, "http://localhost:3000", async () => response({ type: "tool_result", name: "analyze_case", data: evidence }, { type: "text", text: answer }, { type: "done" }));
+  expect(result.answer).toBe(answer);
+  expect(result.toolResults).toEqual([evidence]);
+  expect(result.toolEvents).toEqual([{ name: "analyze_case", data: evidence }]);
+  expect(formatEvalReport([result])).not.toContain(answer);
+});
+it("keeps failed-stream history separate from a scoreable answer", async () => {
+  const result = await evaluateQuestion(row, state, "http://localhost:3000", async () => response({ type: "tool_result", name: "analyze_case", data: { p: 0.01 } }, { type: "text", text: "Incomplete answer." }));
+  expect(result).toMatchObject({ error: true, answer: "", partialAnswer: "Incomplete answer.", toolResults: [{ p: 0.01 }] });
+});
+it("records a tool error as a failed execution rather than a numerically empty pass", async () => {
+  const result = await evaluateQuestion(row, state, "http://localhost:3000", async () => response({ type: "tool_result", name: "analyze_case", data: { error: "Unavailable" } }, { type: "text", text: "The tool was unavailable." }, { type: "done" }));
+  expect(result).toMatchObject({ error: true, numbersOk: false, answer: "", partialAnswer: "The tool was unavailable." });
+});

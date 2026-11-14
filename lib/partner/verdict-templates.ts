@@ -1,3 +1,4 @@
+import { displayUnit } from "@/components/globe/palette";
 import type { RegionAnalysis } from "@/lib/api/types";
 import type { ReadingLevel } from "@/lib/state/case-codec";
 import { caseCopy } from "@/lib/copy/case";
@@ -42,7 +43,7 @@ export function renderVerdict(r: RegionAnalysis, ctx: VerdictContext, level: Rea
   const reason = r.verdict.reason && Object.hasOwn(reasons, r.verdict.reason) ? reasons[r.verdict.reason as keyof typeof reasons] : reasons.unknown;
   const finite = (x: number | undefined) => x !== undefined && Number.isFinite(x) ? fmtSlope(x) : "";
   const values: Record<string, string> = {
-    badge: caseCopy.tiers[r.verdict.tier], variable: ctx.variableName, region: ctx.regionName, period: ctx.period, unit: ctx.unit,
+    badge: caseCopy.tiers[r.verdict.tier], variable: ctx.variableName, region: ctx.regionName, period: ctx.period, unit: ctx.unit === "1" ? caseCopy.controls.dimensionless : displayUnit(ctx.unit),
     slope: finite(s?.change_per_decade), p: pText(e.p_mk), olsP: pText(e.p_ols), p_used: pText(e.p_used),
     low: finite(s ? s.sen.ci_low * 10 : undefined), high: finite(s ? s.sen.ci_high * 10 : undefined),
     n: String(e.valid_years), years: String(e.years_needed ?? ""), reason,
