@@ -8,8 +8,9 @@ const row: EvalQuestion = { id: 1, question: "What is the evidence?", context: q
 const response = (...events: unknown[]) => new Response(events.map((e) => `data: ${JSON.stringify(e)}\n\n`).join(""), { headers: { "content-type": "text/event-stream" } });
 it("counts the real complete rubric rows and rejects an incomplete or duplicate official eval", () => {
   const current = parseEvalQuestions(readFileSync("docs/science/EVAL.md", "utf8"));
-  expect(current).toHaveLength(3);
-  expect(() => requireCompleteEval(current)).toThrow("3/20");
+  expect(current).toHaveLength(20);
+  expect(() => requireCompleteEval(current)).not.toThrow();
+  expect(() => requireCompleteEval(current.slice(0, 3))).toThrow("3/20");
   const complete = Array.from({ length: 20 }, (_, i) => ({ ...row, id: i + 1 }));
   expect(() => requireCompleteEval(complete)).not.toThrow();
   expect(() => requireCompleteEval([...complete.slice(1), complete[1]])).toThrow();
