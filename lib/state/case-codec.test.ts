@@ -32,9 +32,9 @@ describe("case-codec", () => {
     }
   });
 
-  it("dedupes, sorts, caps regions", () => {
+  it("dedupes, keeps insertion order, caps regions", () => {
     const c = normalizeCase({ regions: ["US-WI", "USA", "US-WI", "ESP", "FRA", "DEU"] });
-    expect(c.regions).toEqual(["DEU", "ESP", "FRA", "US-WI"]);
+    expect(c.regions).toEqual(["US-WI", "USA", "ESP", "FRA"]);
     expect(c.regions.length).toBeLessThanOrEqual(MAX_REGIONS);
   });
 
@@ -70,6 +70,13 @@ describe("case-codec", () => {
     expect(normalizeCase({ season: "CUSTOM", months: null }).season).toBe("ANN");
   });
 
+  it("adding a region never reorders the existing ones (pens follow regions)", () => {
+    const before = normalizeCase({ regions: ["ESP", "USA"] });
+    const after = normalizeCase({ regions: [...before.regions, "DEU"] });
+    expect(after.regions.slice(0, 2)).toEqual(before.regions);
+    expect(caseKey(after)).toContain("r=ESP,USA,DEU");
+  });
+
   it("caseKey ignores level", () => {
     expect(caseKey({ ...wisconsinSummer, level: "student" })).toBe(
       caseKey({ ...wisconsinSummer, level: "scientist" }),
@@ -85,7 +92,7 @@ describe("case-codec", () => {
 
   it("hand-edited share URL normalises instead of crashing", () => {
     const c = caseFromQuery("?r=USA,,US-WI,US-WI&from=2020&to=1990&s=nope&lvl=pirate&from=x");
-    expect(c.regions).toEqual(["US-WI", "USA"]);
+    expect(c.regions).toEqual(["USA", "US-WI"]);
     expect([c.from, c.to]).toEqual([1990, 2020]);
     expect(c.season).toBe("ANN");
     expect(c.level).toBe("student");
