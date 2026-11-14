@@ -101,7 +101,7 @@
   - Tell Ekaitz when cards are ready; he converts them into `lib/partner/process-cards.json`. App code is his area, so don't write it yourself.
   - **Done when:** every final demo case has a card.
 
-- [ ] **H8–H11: verdict templates and grounding rules.**
+- [x] **H8–H11: verdict templates and grounding rules.**
   - Fill in `VERDICT_TEMPLATES.md`: the wording for each tier × reading level with placeholders, the misconceptions to avoid, and the partner grounding rules for Claude's system prompt.
   - Review the statistical tooltips in `docs/pitch/COPY.md` with the Story lead.
   - **Done when:** Coder C has the templates and rules.
