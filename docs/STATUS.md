@@ -1,6 +1,6 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 (H7), by Eleder (WOMM Earth + Investigate flow in PR #23)
+**Updated:** Sat 2026-11-14 18:37 (H6.6), by Ekaitz (coder-c Task 7 panel completion)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
@@ -82,5 +82,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 - [methods-lead] Answer key authoring is complete (9/9 reference cases reproduce), but current golden pytest is skipped and only 1/7 yearly cases matches all checked engine fields. Real Aral GWETROOT 1981–2025 Annual: engine Confirmed vs v1 No case (OLS p ≈0.42062). Oier must integrate the key and align statistics; see `docs/science/golden_cases/verification.json` and `docs/science/METHODS_REVIEW.md`. No validity sign-off. · Oier + Sergio · since 2026-11-14
 
 - [methods-lead] Catalog integration pending: upstream alphanumeric-user fix is now verified by five successful unmodified CLI cases; the earlier request rejection is resolved locally. Approved definitions are not yet overlaid on the dynamic catalog. See `docs/science/catalog/README.md` and `docs/science/demo/cli_checks.json`. · Oier (metadata integration), Edur (tone review) · since 2026-11-14
+
+- [coder-c] Task 7 globe integration: `components/globe/GlobeView.tsx` does not consume `highlight` (mirror regions/arcs) or `predictMode && !reveal` (hide trend colours). Panel already writes the frozen store fields; no seam change needed · Eleder (globe) · since H6.6
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
