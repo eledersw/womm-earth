@@ -40,6 +40,19 @@ next-env.d.ts
 __pycache__/
 *.pyc
 .venv/
+.venv*/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# downloaded data and local scratch (committed API data lives in api/_data)
+*.zarr/
+*.nc
+*.grb
+*.grb2
+/raw/
+/tmp/
 
 # --- merged from create-next-app ---
 .pnp.*
@@ -62,3 +75,19 @@ __pycache__/
 
 # python
 api/openapi.json.tmp
+
+# Graphify generated caches; keep the report, JSON graph, and HTML visualization
+/graphify-out/cache/
+/graphify-out/manifest.json
+/graphify-out/.graphify_labels.json
+/graphify-out/.graphify_labels.json.sig
+/graphify-out/.graphify_labels.pending.json
+/graphify-out/.graphify_root
+/graphify-out/.graphify_python
+/graphify-out/.graphify_detect.json
+/graphify-out/.graphify_extract.json
+/graphify-out/.graphify_ast.json
+/graphify-out/.graphify_semantic.json
+/graphify-out/.graphify_analysis.json
+/graphify-out/.graphify_partial.txt
+/graphify-out/.graphify_chunk_*.json
