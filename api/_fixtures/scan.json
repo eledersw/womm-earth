@@ -1,0 +1,13 @@
+{
+  "region": "US-WI",
+  "entries": [
+    {
+      "variable": "T2M",
+      "season": "ANN",
+      "slope_per_decade": 0.8,
+      "p": 0.01,
+      "q": 0.03,
+      "tier": "confirmed"
+    }
+  ]
+}
