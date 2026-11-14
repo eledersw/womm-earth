@@ -1,7 +1,10 @@
 "use client";
 
+import type { Tour } from "@/lib/tour/types";
+import { TourPlayer } from "@/components/tour/TourPlayer";
+import { TourLauncher } from "@/components/tour/TourLauncher";
 import { X } from "lucide-react";
-import { Suspense, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Suspense, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -43,6 +46,10 @@ function CasePanelContent() {
   const inPeriod = period?.from === state.from && period?.to === state.to;
   const valid = !!variable && inPeriod && !regions.loading && !regions.error && availableHere(state.variable, state.regions, regions.byId);
   const analysis = useAnalysis(state, valid);
+  const [tour, setTour] = useState<Tour | null>(null);
+  const tourTrigger = useRef<HTMLButtonElement | null>(null);
+  function startTour(next: Tour, button: HTMLButtonElement) { tourTrigger.current = button; setTour(next); }
+  function exitTour() { setTour(null); requestAnimationFrame(() => { if (tourTrigger.current?.isConnected) tourTrigger.current.focus({ preventScroll: true }); else document.querySelector<HTMLButtonElement>("[data-tour-current]")?.focus({ preventScroll: true }); }); }
   const [open, setOpen] = useState(false);
   const submitted = analysis.loading || !!analysis.data || !!analysis.error;
 
@@ -71,6 +78,10 @@ function CasePanelContent() {
           <li><SceneStep {...controls} regions={regions.byId} loading={regions.loading} error={!!regions.error} onRetry={regions.retry} /></li>
           <li><TimelineStep {...controls} variable={variable} loading={variables.loading} error={!!variables.error} onRetry={variables.retry} /></li>
         </ol>
+
+        <div className="px-5 pb-4">
+          {tour ? <TourPlayer key={tour.id} tour={tour} regions={regions.byId} onExit={exitTour} /> : !submitted && !regions.loading ? <TourLauncher regions={regions.byId} onStart={startTour} /> : null}
+        </div>
 
         <div className="sticky bottom-0 space-y-3 border-t border-hairline bg-space/55 px-5 pt-4 pb-5 backdrop-blur-md">
           <div className="flex items-center justify-between gap-3">
@@ -104,7 +115,7 @@ function CasePanelContent() {
             <CorrelationView state={state} variables={variables.variables} />
             <MirrorList key={caseKey(state)} state={state} setCase={setCase} regions={regions.byId} unit={variable?.unit ?? ""} />
           </> : null}
-          {analysis.data && !hidden ? <div className="rounded-xl border bg-card p-4"><PartnerChat /></div> : null}
+          {analysis.data && !hidden ? <div className="space-y-4 rounded-xl border bg-card p-4"><PartnerChat />{!tour && <TourLauncher regions={regions.byId} onStart={startTour} />}</div> : null}
         </Results>
       ) : null}
     </>
