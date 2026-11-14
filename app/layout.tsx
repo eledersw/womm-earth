@@ -1,29 +1,16 @@
 import type { Metadata } from "next";
-import { Azeret_Mono, Barlow, Barlow_Condensed } from "next/font/google";
+import { Fragment_Mono, Stack_Sans_Headline, Stack_Sans_Text } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { THEME_INIT_SCRIPT } from "@/components/shell/theme";
 import "./globals.css";
 
-// Barlow: engineering-signage lineage, the lettering of instrument faceplates.
-const barlow = Barlow({
-  variable: "--font-barlow",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const barlowCondensed = Barlow_Condensed({
-  variable: "--font-barlow-condensed",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-// Codes and readouts only (region ids, units), never as a "technical" costume.
-const azeretMono = Azeret_Mono({
-  variable: "--font-azeret",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-});
+// The Fragment Studio type system: thin Stack Sans Headline for figures and
+// headings, Stack Sans Text for reading, Fragment Mono for small labels and codes.
+const headline = Stack_Sans_Headline({ variable: "--font-stack-headline", subsets: ["latin"] });
+const text = Stack_Sans_Text({ variable: "--font-stack-text", subsets: ["latin"] });
+const mono = Fragment_Mono({ variable: "--font-fragment-mono", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "Earth Case Files",
@@ -32,14 +19,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    // data-theme is restored before paint by the inline script (header switch).
     <html
       lang="en"
-      className={`${barlow.variable} ${barlowCondensed.variable} ${azeretMono.variable} h-full`}
+      data-theme="silver"
+      suppressHydrationWarning
+      className={`dark ${headline.variable} ${text.variable} ${mono.variable} h-full`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="h-full">
         <NuqsAdapter>
           <TooltipProvider>{children}</TooltipProvider>
-          <Toaster position="bottom-center" />
+          <Toaster position="bottom-center" theme="dark" />
         </NuqsAdapter>
       </body>
     </html>
