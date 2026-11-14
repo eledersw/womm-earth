@@ -31,6 +31,7 @@ COMMUNITIES: tuple[PowerCommunity, ...] = ("AG",)
 HTTP_TIMEOUT_SECONDS = 25
 MAX_RESPONSE_BYTES = 8 * 1024 * 1024
 CATALOG_TTL_SECONDS = 6 * 60 * 60
+CATALOG_FALLBACK_TTL_SECONDS = 15 * 60
 MIN_REGION_SPAN = 2.0
 MAX_REGION_SPAN = 10.0
 MAX_REGION_TILES = 12
@@ -54,6 +55,9 @@ _catalog_expires_at = 0.0
 _catalog_cache: tuple[Variable, ...] = ()
 _APPROVED = json.loads(
     (Path(__file__).resolve().parent.parent / "_data" / "approved_power_variables.json").read_text(encoding="utf-8")
+)
+_CATALOG_SNAPSHOT = json.loads(
+    (Path(__file__).resolve().parent.parent / "_data" / "power_manager_snapshot.json").read_text(encoding="utf-8")
 )
 
 
@@ -134,7 +138,23 @@ def _load_monthly_parameters() -> tuple[Variable, ...]:
 
         by_code: dict[str, Variable] = {}
         for community in COMMUNITIES:
-            payload = _request_json(_manager_url(community))
+            try:
+                payload = _request_json(_manager_url(community))
+            except PowerUpstreamError:
+                snapshot_community = _CATALOG_SNAPSHOT["community"]
+                snapshot = _CATALOG_SNAPSHOT["parameters"]
+                fallback = tuple(
+                    _variable(code, metadata, snapshot_community)
+                    for code, metadata in sorted(snapshot.items())
+                    if code in _APPROVED
+                    and str(metadata.get("temporal", "")).upper() == "MONTHLY"
+                    and not _HOURLY_PARAMETER_NAME.search(str(metadata.get("name") or ""))
+                )
+                if not fallback:
+                    raise
+                _catalog_cache = fallback
+                _catalog_expires_at = now + CATALOG_FALLBACK_TTL_SECONDS
+                return _catalog_cache
             for code, metadata in payload.items():
                 if not isinstance(code, str) or not isinstance(metadata, dict):
                     continue
