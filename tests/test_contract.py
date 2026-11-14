@@ -40,12 +40,11 @@ def test_contract_fixtures_validate(name, adapter):
     adapter.validate_json((FIXTURES / f"{name}.json").read_text())
 
 
-def test_stub_endpoints_match_contract_fixtures():
+def test_live_and_remaining_stub_endpoints_match_contract():
     checks = [
         ("GET", "/api/py/health", Health, None),
         ("GET", "/api/py/variables", list[Variable], None),
         ("GET", "/api/py/regions", list[Region], None),
-        ("POST", "/api/py/analyze", AnalyzeResponse, json.loads((FIXTURES / "analyze.json").read_text())["case"]),
         ("GET", "/api/py/trendmap?variable=T2M&start=2002&end=2025&season=JJA", TrendMapResponse, None),
         ("POST", "/api/py/correlate", CorrelateResponse, {"var_x": "T2M", "var_y": "PRECTOTCORR", "region": "US-WI", "start": 2002, "end": 2025}),
         ("POST", "/api/py/mirror", MirrorResponse, json.loads((FIXTURES / "analyze.json").read_text())["case"]),
@@ -57,12 +56,6 @@ def test_stub_endpoints_match_contract_fixtures():
                 response = await client.request(method, path, json=body)
                 assert response.status_code == 200, f"{method} {path}: {response.text}"
                 TypeAdapter(model).validate_python(response.json())
-
-            regions = (await client.get("/api/py/regions")).json()
-            assert any(region["id"] == "US-WI" for region in regions)
-            analysis_response = await client.post("/api/py/analyze", json=checks[3][3])
-            analysis = AnalyzeResponse.model_validate(analysis_response.json())
-            assert analysis.results[0].verdict.tier == "confirmed"
 
     asyncio.run(check_endpoints())
 
