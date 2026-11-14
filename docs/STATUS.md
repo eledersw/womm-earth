@@ -1,10 +1,12 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 15:30 (H3.5), by Eleder (Vercel production live)
+**Updated:** Sat 2026-11-14 14:50 (H2.8), by Eleder (seams frozen)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
 > 📣 **Scaffold is on `main`: branch from it now.** Run `npm ci`, and create a Python venv for `requirements.txt` + `uvicorn`. Then `npm run dev` starts Next.js plus FastAPI on 127.0.0.1:8000. `npm run check` must pass before every PR.
+> 🔒 **Seams frozen (H2.8, PR #7).** Use `useCase()` from `@/lib/state/use-case` (inside `<Suspense>`), `useUiStore` from `@/lib/state/ui-store`, `api` / `serverApi` from `@/lib/api/client`, and types from `@/lib/api/types`. Additive changes: ask Eleder. Breaking changes: agreement from everyone affected.
+
 **Deadline:** target H30 ≈ Sun 2026-11-15 18:00 local. *The Story lead confirms the official time at H1 and corrects this line.* **We submit by H29.**
 **Current milestone:** M0 (due H2)
 
@@ -41,7 +43,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 | Role | Person | Now | Next | State |
 |---|---|---|---|---|
-| Lead | Eleder | Task 1 done: scaffold + Vercel production live, smoke test passed | Task 2 (seams: case state, UI store, API client) | 🟡 |
+| Lead | Eleder | Task 2 done: seams merged (#7). **Seams frozen**: `useCase`, `useUiStore`, `api`/`serverApi`, `lib/api/types` | Task 3 (design direction with Edur + tokens + shell), then Task 4 (globe) | 🟡 |
 | Coder B (data & stats) | Oier | Engine core and live `/analyze`, `/variables`, `/regions` plus CLI implemented locally. Run `python scripts/case_cli.py --var T2M --region US-WI --start 2002 --end 2025 --season JJA --json` after the data library lands. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review slide claim. | Integrate the region library and Sergio's golden cases; validate real-data endpoints. | 🟡 |
 | Coder C (panel, charts, partner) | Ekaitz | — | claude-api skill, `<PlotFigure>`, panel shells | ⬜ |
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
