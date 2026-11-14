@@ -298,12 +298,26 @@
             "type": "number"
           },
           "ols_high": {
-            "title": "Ols High",
-            "type": "number"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ols High"
           },
           "ols_low": {
-            "title": "Ols Low",
-            "type": "number"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ols Low"
           },
           "sen": {
             "title": "Sen",
@@ -615,12 +629,26 @@
       "Ols": {
         "properties": {
           "ci_high": {
-            "title": "Ci High",
-            "type": "number"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ci High"
           },
           "ci_low": {
-            "title": "Ci Low",
-            "type": "number"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ci Low"
           },
           "intercept": {
             "title": "Intercept",
@@ -631,16 +659,30 @@
             "type": "number"
           },
           "p": {
-            "title": "P",
-            "type": "number"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P"
           },
           "r2": {
             "title": "R2",
             "type": "number"
           },
           "se": {
-            "title": "Se",
-            "type": "number"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Se"
           },
           "slope": {
             "title": "Slope",
@@ -1139,8 +1181,15 @@
             "$ref": "#/components/schemas/Sen"
           },
           "tests_agree": {
-            "title": "Tests Agree",
-            "type": "boolean"
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tests Agree"
           },
           "total_change": {
             "title": "Total Change",
@@ -1251,6 +1300,14 @@
             "title": "Kind",
             "type": "string"
           },
+          "land_only": {
+            "title": "Land Only",
+            "type": "boolean"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
           "power_community": {
             "default": "AG",
             "enum": [
@@ -1270,16 +1327,7 @@
                 "type": "null"
               }
             ],
-            "default": null,
             "title": "Power Type"
-          },
-          "land_only": {
-            "title": "Land Only",
-            "type": "boolean"
-          },
-          "name": {
-            "title": "Name",
-            "type": "string"
           },
           "ratio_scale": {
             "title": "Ratio Scale",

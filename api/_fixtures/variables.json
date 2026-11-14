@@ -13,7 +13,8 @@
     "definition_student": "How warm the air is about 2 m above the ground.",
     "definition_scientist": "Monthly mean 2 m air temperature.",
     "doi": null,
-    "signed_off": false
+    "signed_off": false,
+    "power_community": "AG"
   },
   {
     "id": "PRECTOTCORR",
@@ -29,7 +30,8 @@
     "definition_student": "How much precipitation falls over time.",
     "definition_scientist": "Bias-corrected monthly precipitation rate.",
     "doi": null,
-    "signed_off": false
+    "signed_off": false,
+    "power_community": "AG"
   },
   {
     "id": "GWETROOT",
@@ -45,7 +47,8 @@
     "definition_student": "How wet the soil is where plant roots grow.",
     "definition_scientist": "Root-zone volumetric soil wetness fraction.",
     "doi": null,
-    "signed_off": false
+    "signed_off": false,
+    "power_community": "AG"
   },
   {
     "id": "MODIS_AQUA_AOD",
@@ -61,6 +64,7 @@
     "definition_student": "How hazy the air is: smoke, dust or pollution dimming sunlight.",
     "definition_scientist": "Aerosol optical depth at 550 nm, monthly mean.",
     "doi": null,
-    "signed_off": false
+    "signed_off": false,
+    "power_community": "AG"
   }
 ]

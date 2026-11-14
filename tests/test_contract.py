@@ -43,6 +43,7 @@ def test_contract_fixtures_validate(name, adapter):
 
 
 def test_live_and_remaining_stub_endpoints_match_contract(monkeypatch):
+    from _engine.map import MapRecord
     variables = [
         Variable.model_validate(row)
         for row in json.loads((FIXTURES / "variables.json").read_text())
@@ -52,6 +53,13 @@ def test_live_and_remaining_stub_endpoints_match_contract(monkeypatch):
         return variables
 
     monkeypatch.setattr(api_index, "list_monthly_parameters", power_catalogue)
+    async def map_family(*_args, **_kwargs):
+        region = api_index.store.regions()["US-WI"]
+        return {region.id: MapRecord(region, 0.1, 0.01, 0.02, 2.5, "confirmed")}
+    monkeypatch.setattr(api_index, "family_for", map_family)
+    async def scan_family(*_args, **_kwargs):
+        return []
+    monkeypatch.setattr(api_index, "build_scan", scan_family)
     checks = [
         ("GET", "/api/py/health", Health, None),
         ("GET", "/api/py/variables", list[Variable], None),

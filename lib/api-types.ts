@@ -229,9 +229,9 @@ export interface components {
             /** Ols */
             ols: number;
             /** Ols High */
-            ols_high: number;
+            ols_high: number | null;
             /** Ols Low */
-            ols_low: number;
+            ols_low: number | null;
             /** Sen */
             sen: number;
             /** Year */
@@ -339,19 +339,19 @@ export interface components {
         /** Ols */
         Ols: {
             /** Ci High */
-            ci_high: number;
+            ci_high: number | null;
             /** Ci Low */
-            ci_low: number;
+            ci_low: number | null;
             /** Intercept */
             intercept: number;
             /** N Eff */
             n_eff: number;
             /** P */
-            p: number;
+            p: number | null;
             /** R2 */
             r2: number;
             /** Se */
-            se: number;
+            se: number | null;
             /** Slope */
             slope: number;
         };
@@ -523,7 +523,7 @@ export interface components {
             resid_sd: number;
             sen: components["schemas"]["Sen"];
             /** Tests Agree */
-            tests_agree: boolean;
+            tests_agree: boolean | null;
             /** Total Change */
             total_change: number;
         };
@@ -563,8 +563,12 @@ export interface components {
             land_only: boolean;
             /** Name */
             name: string;
-            /** Power Community */
-            power_community?: "AG" | "RE" | "SB";
+            /**
+             * Power Community
+             * @default AG
+             * @enum {string}
+             */
+            power_community: "AG" | "RE" | "SB";
             /** Power Type */
             power_type?: string | null;
             /** Ratio Scale */

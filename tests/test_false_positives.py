@@ -3,11 +3,11 @@ import numpy as np
 from _engine.trend import hamed_rao, mann_kendall
 
 
-def test_white_noise_empirical_rate_matches_reference_seed():
+def test_white_noise_empirical_rate_with_capped_hr():
     rng = np.random.default_rng(7)
     rate = np.mean([hamed_rao(rng.normal(size=30)).p < 0.05 for _ in range(1000)])
-    # pymannkendall 1.4.3 gives 0.097 for this exact experiment.
-    assert 0.08 <= rate <= 0.11
+    # METHODS v1 floors the HR variance factor at one; the uncapped library does not.
+    assert 0.03 <= rate <= 0.07
 
 
 def test_ar1_correction_reduces_but_does_not_control_false_positives():
