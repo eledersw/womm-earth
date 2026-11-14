@@ -9,6 +9,7 @@ import re
 import threading
 import time
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Literal
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -48,6 +49,9 @@ class PowerUpstreamError(Exception):
 _catalog_lock = threading.Lock()
 _catalog_expires_at = 0.0
 _catalog_cache: tuple[Variable, ...] = ()
+_APPROVED = json.loads(
+    (Path(__file__).resolve().parent.parent / "_data" / "approved_power_variables.json").read_text(encoding="utf-8")
+)
 
 
 def _request_json(url: str) -> dict[str, Any]:
@@ -95,26 +99,24 @@ def _year(value: Any, default: int) -> int:
 
 
 def _variable(code: str, metadata: dict[str, Any], community: PowerCommunity) -> Variable:
+    approved = _APPROVED[code]
     category = str(metadata.get("type") or "OTHER").upper()
-    name = str(metadata.get("name") or code.replace("_", " "))
-    definition = str(metadata.get("definition") or name)
     latest_completed_year = datetime.now(timezone.utc).year - 1
-    kind = "reanalysis" if category == "METEOROLOGY" else "satellite"
     return Variable(
         id=code,
-        name=name,
+        name=approved["name"],
         unit=str(metadata.get("units") or "unknown"),
-        source="NASA POWER",
+        source=approved["source"],
         instrument=None,
-        kind=kind,
-        start_year=_year(metadata.get("time_start"), 1981),
+        kind=approved["kind"],
+        start_year=max(_year(metadata.get("time_start"), 1981), approved["start_year"]),
         end_year=min(_year(metadata.get("time_end"), latest_completed_year), latest_completed_year),
         land_only=False,
         ratio_scale=False,
-        definition_student=name,
-        definition_scientist=definition,
+        definition_student=approved["definition_student"],
+        definition_scientist=approved["definition_scientist"],
         doi=None,
-        signed_off=False,
+        signed_off=True,
         power_community=community,
         power_type=category,
     )
@@ -132,6 +134,8 @@ def _load_monthly_parameters() -> tuple[Variable, ...]:
             payload = _request_json(_manager_url(community))
             for code, metadata in payload.items():
                 if not isinstance(code, str) or not isinstance(metadata, dict):
+                    continue
+                if code not in _APPROVED:
                     continue
                 if str(metadata.get("temporal", "")).upper() != "MONTHLY":
                     continue
