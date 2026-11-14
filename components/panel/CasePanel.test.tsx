@@ -29,7 +29,8 @@ describe("case controls", () => {
     setup();
     const panel = screen.getByRole("region", { name: caseCopy.panel });
     expect(within(panel).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["Lead", "Scene", "Timeline", "Evidence", "Verdict"]);
-    fireEvent.click(await screen.findByRole("button", { name: "Calculate" }));
+    expect(api.POST).not.toHaveBeenCalled();
+    fireEvent.click(await screen.findByRole("button", { name: caseCopy.controls.calculate }));
     await screen.findByText("Wisconsin: Confirmed");
     expect(screen.getByRole("combobox", { name: "Variable" }).getAttribute("value") ?? (screen.getByRole("combobox", { name: "Variable" }) as HTMLSelectElement).value).toBe("T2M");
     expect(screen.getByRole("figure", { name: caseCopy.controls.chart })).toBeDefined();
