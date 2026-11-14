@@ -2,35 +2,41 @@ import type { ReactNode } from "react";
 import { shellCopy } from "@/lib/copy/globe";
 import { Header } from "./Header";
 
-// The instrument: enamel frame, a chart-paper roll for the case (left, fixed
-// width) and a dark viewing window for the globe (right). The frame never
-// reflows between steps; only what the paper and the window show changes.
-// Below 900px the window sits on top and the roll stacks beneath it.
+// Silver Orbit: the globe floats in open space and the case sits on a pane of
+// liquid glass beside it. From 900px the globe fills the screen (offset right
+// so it clears the panel) and everything else floats over it; below 900px the
+// globe sits on top and the glass panel stacks beneath it.
 export function AppShell({ panel, globe }: { panel: ReactNode; globe: ReactNode }) {
   return (
-    <div className="flex h-dvh flex-col bg-enamel">
+    <div className="relative flex min-h-dvh flex-col bg-background min-[900px]:h-dvh min-[900px]:overflow-hidden">
+      <div aria-hidden className="starfield pointer-events-none fixed inset-0" />
+      <div aria-hidden className="starfield-bright pointer-events-none fixed inset-0" />
+
       <a
         href="#case-panel"
-        className="scale-label sr-only z-20 rounded-sm bg-paper-leaf px-3 py-2 text-ink focus:not-sr-only focus:absolute focus:top-2 focus:left-2"
+        className="label-nav sr-only z-30 rounded-lg bg-silver px-3 py-2 text-space focus:not-sr-only focus:absolute focus:top-3 focus:left-3"
       >
         {shellCopy.skipToPanel}
       </a>
+
       <Header />
-      <main className="grid min-h-0 flex-1 grid-rows-[minmax(18rem,55dvh)_auto] gap-(--seam) bg-enamel-seam min-[900px]:grid-cols-[var(--panel-width)_1fr] min-[900px]:grid-rows-1">
-        <section
-          id="case-panel"
-          aria-label="Case"
-          className="chart-roll relative order-2 min-h-0 overflow-y-auto overscroll-contain px-5 py-5 pr-9 min-[900px]:order-1"
-        >
+
+      <section
+        aria-label="Globe"
+        className="relative h-[58dvh] shrink-0 min-[900px]:absolute min-[900px]:inset-y-0 min-[900px]:right-0 min-[900px]:left-[calc(var(--panel-width)*0.5)] min-[900px]:h-auto"
+      >
+        {globe}
+      </section>
+
+      <section
+        id="case-panel"
+        aria-label="Case"
+        className="glass relative z-10 mx-3 mb-3 flex flex-col min-[900px]:absolute min-[900px]:top-(--header-height) min-[900px]:bottom-6 min-[900px]:left-6 min-[900px]:m-0 min-[900px]:w-(--panel-width)"
+      >
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 [scrollbar-gutter:stable] [scrollbar-width:thin]">
           {panel}
-        </section>
-        <section
-          aria-label="Globe"
-          className="relative order-1 min-h-0 overflow-hidden bg-window text-window-ink shadow-[inset_0_3px_10px_rgb(0_0_0/0.55)] min-[900px]:order-2"
-        >
-          {globe}
-        </section>
-      </main>
+        </div>
+      </section>
     </div>
   );
 }

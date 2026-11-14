@@ -96,3 +96,6 @@ api/openapi.json.tmp
 .impeccable/questions/
 .impeccable/config.local.json
 .impeccable/review/
+
+# Playwright MCP screenshots and snapshots
+.playwright-mcp/

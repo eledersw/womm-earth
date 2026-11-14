@@ -5,44 +5,30 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Instrument tokens -> Tailwind utilities (bg-paper, text-ink, border-rule, font-condensed, ...) */
+/* Tokens -> Tailwind utilities (bg-space, text-silver, border-hairline, font-display, ...) */
 @theme inline {
-  --color-paper: var(--paper);
-  --color-paper-2: var(--paper-2);
-  --color-paper-leaf: var(--paper-leaf);
-  --color-grid-minor: var(--grid-minor);
-  --color-grid-major: var(--grid-major);
+  --color-space: var(--space);
+  --color-space-2: var(--space-2);
   --color-ink: var(--ink);
+  --color-silver: var(--silver);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
-  --color-rule: var(--rule);
-  --color-enamel: var(--enamel);
-  --color-enamel-2: var(--enamel-2);
-  --color-enamel-seam: var(--enamel-seam);
-  --color-enamel-ink: var(--enamel-ink);
-  --color-enamel-ink-2: var(--enamel-ink-2);
-  --color-window: var(--window);
-  --color-window-2: var(--window-2);
-  --color-window-ink: var(--window-ink);
-  --color-window-ink-2: var(--window-ink-2);
-  --color-signal: var(--signal);
-  --color-signal-lamp: var(--signal-lamp);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
+  --color-well: var(--well);
+  --color-well-2: var(--well-2);
   --color-series-1: var(--series-1);
   --color-series-2: var(--series-2);
   --color-series-3: var(--series-3);
   --color-series-4: var(--series-4);
   --color-critical: var(--critical);
 
-  --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-barlow-condensed), var(--font-barlow), sans-serif;
-  --font-condensed: var(--font-barlow-condensed), var(--font-barlow), sans-serif;
-  --font-mono: var(--font-azeret), ui-monospace, monospace;
+  --font-sans: var(--font-stack-text), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-stack-headline), var(--font-stack-text), sans-serif;
+  --font-heading: var(--font-stack-headline), var(--font-stack-text), sans-serif;
+  --font-mono: var(--font-fragment-mono), ui-monospace, monospace;
 
-  /* the panel's two sizes: text-panel (18px body) and text-scale (14px labels) */
-  --text-panel: var(--text-body);
-  --text-scale: var(--text-label);
-
-  /* shadcn semantic colours, re-pointed at the instrument palette */
+  /* shadcn semantic colours, re-pointed at the Silver Orbit palette */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-ring: var(--ring);
@@ -66,34 +52,34 @@
   --color-chart-3: var(--series-3);
   --color-chart-4: var(--series-4);
   --color-chart-5: var(--ink-3);
-  --radius-sm: var(--radius);
-  --radius-md: var(--radius);
-  --radius-lg: calc(var(--radius) * 2);
-  --radius-xl: calc(var(--radius) * 3);
-  --radius-2xl: calc(var(--radius) * 4);
-  --radius-3xl: calc(var(--radius) * 5);
-  --radius-4xl: calc(var(--radius) * 6);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
-  --background: var(--paper);
+  --background: var(--space);
   --foreground: var(--ink);
-  --card: var(--paper-leaf);
+  --card: var(--well);
   --card-foreground: var(--ink);
-  --popover: var(--paper-leaf);
+  --popover: var(--popover-glass);
   --popover-foreground: var(--ink);
-  --primary: var(--enamel);
-  --primary-foreground: var(--enamel-ink);
-  --secondary: var(--paper-2);
+  --primary: var(--silver);
+  --primary-foreground: var(--action-ink);
+  --secondary: var(--well-2);
   --secondary-foreground: var(--ink);
-  --muted: var(--paper-2);
-  --muted-foreground: var(--ink-3);
-  --accent: var(--paper-2);
+  --muted: var(--well-2);
+  --muted-foreground: var(--ink-2);
+  --accent: var(--well-2);
   --accent-foreground: var(--ink);
   --destructive: var(--critical);
-  --border: var(--grid-major);
-  --input: var(--rule);
-  --ring: var(--signal);
+  --border: var(--hairline);
+  --input: var(--hairline-strong);
+  --ring: var(--focus);
 }
 
 @layer base {
@@ -102,22 +88,31 @@
   }
   html {
     @apply font-sans;
-    font-size: 100%;
-    scrollbar-color: var(--grid-major) transparent;
+    color-scheme: dark;
+    /* 17px root: every rem-sized control grows a step for the projector */
+    font-size: 106.25%;
+    scrollbar-color: var(--hairline-strong) transparent;
   }
   body {
     @apply bg-background text-foreground;
     font-size: var(--text-body);
     line-height: var(--leading-body);
-    caret-color: var(--signal);
+    caret-color: var(--silver);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
   }
   ::selection {
-    background: var(--enamel);
-    color: var(--enamel-ink);
+    background: var(--silver);
+    color: var(--action-ink);
   }
   :focus-visible {
-    outline: 2px solid var(--signal);
+    outline: 2px solid var(--focus);
     outline-offset: 2px;
   }
   a {
@@ -131,58 +126,118 @@
 }
 
 @layer utilities {
-  /* Ruled chart paper: 12px minor, 60px major (5 minor squares) */
-  .chart-paper {
-    background-color: var(--paper);
+  /* Deep space behind everything: a soft glow, a faint star field and a few
+     brighter stars that breathe slowly (still under reduced motion). */
+  .starfield {
+    background-color: var(--space);
     background-image:
-      linear-gradient(to right, var(--grid-major) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-major) 1px, transparent 1px),
-      linear-gradient(to right, var(--grid-minor) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-minor) 1px, transparent 1px);
-    background-size:
-      60px 60px,
-      60px 60px,
-      12px 12px,
-      12px 12px;
-    background-position: -1px -1px;
+      url("/stars.svg"),
+      radial-gradient(60% 55% at 88% 6%, var(--nebula-1), transparent 70%),
+      radial-gradient(55% 50% at 6% 96%, var(--nebula-2), transparent 70%);
+    background-size: cover, 100% 100%, 100% 100%;
+    background-position: center;
   }
-  /* The case panel's paper roll: grid + right feed margin with sprocket holes,
-     all scrolling with the paper (background-attachment: local). */
-  .chart-roll {
-    background-color: var(--paper);
-    background-image:
-      radial-gradient(circle at center, var(--grid-major) 0 2.5px, transparent 3px),
-      linear-gradient(to left, var(--paper-2) 0 26px, var(--grid-major) 26px 27px, transparent 27px),
-      linear-gradient(to right, var(--grid-major) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-major) 1px, transparent 1px),
-      linear-gradient(to right, var(--grid-minor) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-minor) 1px, transparent 1px);
-    background-size:
-      26px 24px,
-      100% 100%,
-      60px 60px,
-      60px 60px,
-      12px 12px,
-      12px 12px;
-    background-position:
-      right 0 top 12px,
-      0 0,
-      -1px -1px,
-      -1px -1px,
-      -1px -1px,
-      -1px -1px;
-    background-repeat: repeat-y, no-repeat, repeat, repeat, repeat, repeat;
-    background-attachment: local;
-    scrollbar-width: thin;
-    scrollbar-gutter: stable;
+  .starfield-bright {
+    background-image: url("/stars-bright.svg");
+    background-size: cover;
+    background-position: center;
   }
-  /* Condensed uppercase scale label, the instrument's labelling voice */
-  .scale-label {
-    font-family: var(--font-condensed);
-    font-size: var(--text-label);
-    font-weight: 600;
+  @media (prefers-reduced-motion: no-preference) {
+    .starfield-bright {
+      animation: star-breathe 9s ease-in-out infinite alternate;
+    }
+  }
+
+  /* Liquid glass: a translucent, blurred pane with a bright top edge and a
+     soft sheen from the top-left, over a tint that keeps text readable.
+     Position it with relative/absolute on the element (the sheen needs one). */
+  .glass {
+    isolation: isolate;
+    background:
+      linear-gradient(160deg, var(--glass-hi), var(--glass-lo) 55%),
+      var(--glass-tint);
+    border: 1px solid var(--glass-edge);
+    border-radius: var(--radius-panel);
+    box-shadow:
+      inset 0 1px 0 var(--glass-shine),
+      inset 0 -1px 0 rgb(255 255 255 / 0.04),
+      0 40px 90px -30px rgb(0 0 0 / 0.85);
+    backdrop-filter: blur(26px) saturate(150%);
+    -webkit-backdrop-filter: blur(26px) saturate(150%);
+  }
+  .glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 55% at 0% 0%, rgb(255 255 255 / 0.1), transparent 50%),
+      linear-gradient(100deg, transparent 70%, rgb(255 255 255 / 0.035));
+  }
+  /* Smaller floating controls on the globe (search, read-outs) */
+  .glass-pill {
+    background:
+      linear-gradient(160deg, var(--glass-hi), var(--glass-lo)),
+      var(--glass-tint);
+    border: 1px solid var(--glass-edge);
+    box-shadow:
+      inset 0 1px 0 var(--glass-shine),
+      0 18px 40px -20px rgb(0 0 0 / 0.9);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .glass,
+    .glass-pill {
+      background: var(--space-2);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass,
+    .glass-pill {
+      background: var(--space-2);
+    }
+  }
+
+  /* Fragment's labelling voice: small mono capitals, widely tracked */
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
     line-height: 1.2;
+    color: var(--ink-3);
+  }
+  /* Fragment's navigation voice: text face, capitals, open tracking */
+  .label-nav {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: var(--tracking-nav);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  /* Fragment's figures: thin Stack Sans Headline, tabular, silver */
+  .figure {
+    font-family: var(--font-display);
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--silver);
+  }
+}
+
+@keyframes star-breathe {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
   }
 }

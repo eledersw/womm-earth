@@ -1,27 +1,36 @@
 import Link from "next/link";
 import { shellCopy } from "@/lib/copy/globe";
 import { ShareButton } from "./ShareButton";
+import { ThemeSwitch } from "./ThemeSwitch";
 
-// The instrument's enamel top strip: name plate left, controls right.
+// Floating over space, Fragment-style: wordmark left; capitals nav, the colour
+// scheme pill and Share right. Only the controls catch the pointer, so the
+// globe stays draggable underneath.
 export function Header() {
   return (
-    <header className="relative z-10 flex h-(--header-height) shrink-0 items-center justify-between gap-4 border-b border-enamel-seam bg-enamel px-4 text-enamel-ink shadow-[0_2px_6px_rgb(0_0_0/0.25)]">
+    <header className="pointer-events-none relative z-20 flex h-(--header-height) shrink-0 items-center justify-between gap-4 px-6 min-[900px]:absolute min-[900px]:inset-x-0 min-[900px]:top-0">
       <Link
         href="/"
-        className="group flex items-baseline gap-3 rounded-sm px-2 py-1 no-underline ring-1 ring-enamel-seam ring-inset shadow-[inset_0_1px_0_rgb(255_255_255/0.06)] focus-visible:outline-signal-lamp"
+        className="pointer-events-auto flex items-center gap-3 rounded-lg px-1 py-1 text-silver no-underline"
       >
-        <span className="font-condensed text-lg leading-none font-bold tracking-[0.1em] whitespace-nowrap uppercase sm:text-xl sm:tracking-[0.12em]">
+        <svg aria-hidden viewBox="0 0 32 32" className="size-7" fill="none" stroke="currentColor" strokeWidth="1.6">
+          <circle cx="16" cy="16" r="7" />
+          <ellipse cx="16" cy="16" rx="14" ry="5.2" transform="rotate(-24 16 16)" />
+        </svg>
+        <span className="font-display text-[1.375rem] leading-none font-medium tracking-[-0.01em] whitespace-nowrap">
           {shellCopy.productName}
         </span>
-        <span className="scale-label hidden text-enamel-ink-2 sm:inline">{shellCopy.productRole}</span>
       </Link>
-      <nav aria-label="Site" className="flex items-center gap-4">
+      <nav aria-label="Site" className="pointer-events-auto flex items-center gap-3 sm:gap-5">
         <Link
           href="/about"
-          className="scale-label whitespace-nowrap text-enamel-ink-2 no-underline hover:text-enamel-ink focus-visible:outline-signal-lamp"
+          className="label-nav hidden px-1 py-2 text-ink-2 no-underline transition-colors hover:text-ink sm:inline"
         >
           {shellCopy.about}
         </Link>
+        <div className="hidden md:block">
+          <ThemeSwitch />
+        </div>
         <ShareButton />
       </nav>
     </header>
