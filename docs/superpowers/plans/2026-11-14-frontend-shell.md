@@ -81,7 +81,7 @@
   - `vercel.json` `functions["api/index.py"]` with `includeFiles` and `excludeFiles` as constrained.
   - Stub `api/index.py`: `FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")` with `GET /api/py/health` returning numpy/scipy versions.
   - `requirements.txt`: `fastapi`, `pydantic>=2.7`, `numpy>=2.0`, `scipy>=1.13`.
-  - Stub `CasePanel` (renders "Case panel"), and a stub `app/api/partner/route.ts` (`runtime="nodejs"`, POST → 501 JSON).
+  - Stub `CasePanel` (renders "Case panel"), and a stub `app/api/partner/route.ts` (POST → 501 JSON, `maxDuration = 60`, no `runtime` export, since cacheComponents rejects it).
   - `vitest.config.ts`: `environment: "node"`, alias `@` → root. Hook tests opt in with `// @vitest-environment jsdom`.
   - `playwright.config.ts`:
     - `baseURL: process.env.BASE_URL ?? "http://localhost:3000"`;

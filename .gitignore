@@ -41,3 +41,24 @@ __pycache__/
 *.pyc
 .venv/
 
+# --- merged from create-next-app ---
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+.pnpm-debug.log*
+.env*
+!.env.example
+
+# superpowers scratch
+.superpowers/
+
+# playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# python
+api/openapi.json.tmp
