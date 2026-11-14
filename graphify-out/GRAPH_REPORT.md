@@ -11,9 +11,8 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `910c2ed2`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
-- Run `graphify update .` after code changes (no API cost).
+- Built from commit: `81cba4f` (`main`).
+- Graphify found no topology changes since the previous graph build.
 
 ## Community Hubs (Navigation)
 - _models.py
