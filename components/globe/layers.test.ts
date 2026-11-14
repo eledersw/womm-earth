@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   ZOOM_STATES_ALTITUDE,
+  capRings,
   penColor,
+  polarCapLatitude,
   penIndex,
   visibleFeatures,
   type GeoLayers,
@@ -55,6 +57,57 @@ describe("visibleFeatures", () => {
     expect(visibleFeatures(geo, FAR, ["ESP"])).toBe(visibleFeatures(geo, FAR + 0.3, ["ESP"]));
     expect(visibleFeatures(geo, NEAR)).toBe(visibleFeatures(geo, NEAR - 0.1));
     expect(visibleFeatures(geo, FAR)).not.toBe(visibleFeatures(geo, NEAR));
+  });
+});
+
+describe("polar caps (regions wrapping 360° around a pole)", () => {
+  // A cap the globe library can't fill: it paints the complement (the whole planet).
+  const cap = (id: string, type: RegionFeature["properties"]["type"], lat0: number, lat1: number): RegionFeature => ({
+    type: "Feature",
+    properties: { id, name: id, type },
+    geometry: {
+      type: "Polygon",
+      coordinates: [[[-180, lat0], [180, lat0], [180, lat1], [-180, lat1], [-180, lat0]]],
+    },
+  });
+  const capGeo: GeoLayers = {
+    countries: [f("ESP", "country")],
+    states: [],
+    oceans: [cap("OCN-SO", "ocean", -90, -50), f("OCN-NATL", "ocean")],
+    named: [cap("NR-ARCTIC", "named", 66.5, 90)],
+  };
+
+  it("are never drawn as clickable polygons", () => {
+    const v = ids(visibleFeatures(capGeo, FAR, ["OCN-SO", "NR-ARCTIC"]));
+    expect(v).not.toContain("OCN-SO");
+    expect(v).not.toContain("NR-ARCTIC");
+    expect(v).toContain("OCN-NATL");
+  });
+
+  it("detects the boundary latitude", () => {
+    expect(polarCapLatitude(capGeo.oceans[0])).toBe(-50);
+    expect(polarCapLatitude(capGeo.named[0])).toBe(66.5);
+    expect(polarCapLatitude(capGeo.oceans[1])).toBeNull();
+  });
+
+  it("selected caps become a latitude ring in their pen", () => {
+    const rings = capRings(capGeo, ["ESP", "OCN-SO"]);
+    expect(rings).toHaveLength(1);
+    expect(rings[0].id).toBe("OCN-SO");
+    expect(rings[0].pen).toBe(1);
+    expect(rings[0].points.every(([lat]) => lat === -50)).toBe(true);
+    const lngs = rings[0].points.map(([, lng]) => lng);
+    expect(Math.min(...lngs)).toBe(-180);
+    expect(Math.max(...lngs)).toBe(180);
+  });
+
+  it("unselected caps draw nothing", () => {
+    expect(capRings(capGeo, ["ESP"])).toEqual([]);
+  });
+
+  it("whole-earth regions are not caps (selectable, never drawn)", () => {
+    const land = { ...cap("NR-LAND", "named", -90, 83.6) };
+    expect(polarCapLatitude(land)).toBeNull();
   });
 });
 

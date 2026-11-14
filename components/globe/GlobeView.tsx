@@ -5,7 +5,14 @@ import ReactGlobe, { type GlobeMethods } from "react-globe.gl";
 import { MeshPhongMaterial } from "three";
 import { useCase } from "@/lib/state/use-case";
 import { useUiStore } from "@/lib/state/ui-store";
-import { ZOOM_STATES_ALTITUDE, penIndex, visibleFeatures, type RegionFeature } from "./layers";
+import {
+  ZOOM_STATES_ALTITUDE,
+  capRings,
+  penIndex,
+  visibleFeatures,
+  type CapRing,
+  type RegionFeature,
+} from "./layers";
 import { useGeo } from "./useGeo";
 import { useRegionToggle } from "./useRegionToggle";
 
@@ -66,6 +73,9 @@ export default function GlobeView() {
     () => (geo ? visibleFeatures(geo, zoomedIn ? 0 : Infinity, regions) : []),
     [geo, zoomedIn, regions],
   );
+
+  // Polar caps (Southern Ocean, Arctic) can't be filled; selected ones draw as a ring.
+  const rings = useMemo(() => (geo ? capRings(geo, regions) : []), [geo, regions]);
 
   // Idle drift only while nothing is selected; never with reduced motion.
   useEffect(() => {
@@ -163,6 +173,14 @@ export default function GlobeView() {
           polygonAltitude={altitude}
           polygonLabel={label}
           polygonsTransitionDuration={reduced ? 0 : 250}
+          pathsData={rings}
+          pathPoints={(r: object) => (r as CapRing).points}
+          pathPointLat={(p: object) => (p as [number, number])[0]}
+          pathPointLng={(p: object) => (p as [number, number])[1]}
+          pathPointAlt={0.015}
+          pathColor={(r: object) => tokens.pens[(r as CapRing).pen]}
+          pathStroke={3}
+          pathTransitionDuration={0}
           onPolygonClick={(f) => toggleRegion(id(f))}
           onPolygonHover={(f) => setHovered(f ? id(f) : null)}
           onZoom={onZoom}
