@@ -6,7 +6,11 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from _engine import store
-from index import app
+from _models import Variable
+from _engine.power import PowerUpstreamError
+import index as api_index
+
+app = api_index.app
 
 
 @pytest.fixture
@@ -14,23 +18,50 @@ def data_dir(tmp_path, monkeypatch):
     data = tmp_path / "_data"
     data.mkdir()
     monkeypatch.setattr(store, "DATA_DIR", data)
-    variables = [{
-        "id": "T2M", "name": "Temperature", "unit": "°C", "source": "NASA POWER / MERRA-2",
-        "instrument": None, "kind": "reanalysis", "start_year": 1981, "end_year": 2024,
-        "land_only": False, "ratio_scale": False, "definition_student": "Temperature.",
-        "definition_scientist": "Monthly mean temperature.", "doi": None, "signed_off": True,
-    }]
     regions = [{
         "id": "US-WI", "name": "Wisconsin", "type": "state", "centroid": [44.5, -89.6],
         "bbox": [-92.9, 42.5, -86.8, 47.1], "nearest_cell_fallback": False,
-        "valid_variables": ["T2M"], "parent": "USA",
+        "valid_variables": [], "parent": "USA",
     }]
-    (data / "variables.json").write_text(json.dumps(variables))
     (data / "regions.json").write_text(json.dumps(regions))
-    values = 10 + 0.02 * np.arange(44 * 12) + np.tile(np.arange(12), 44)
-    np.savez(data / "series_T2M.npz", values=values[None, :],
-             region_ids=np.array(["US-WI"]), t0="1981-01")
     return data
+
+
+@pytest.fixture
+def power_api(monkeypatch):
+    """Mock the remote POWER boundary; production analysis never reads local series."""
+    variables = [
+        Variable(
+            id="GWETROOT", name="Root-zone soil wetness", unit="1", source="NASA POWER",
+            instrument=None, kind="reanalysis", start_year=1981, end_year=2025,
+            land_only=False, ratio_scale=False, definition_student="Soil wetness.",
+            definition_scientist="Monthly root-zone soil wetness.", doi=None, signed_off=False,
+            power_community="AG", power_type="METEOROLOGY",
+        ),
+        Variable(
+            id="T2M", name="Temperature", unit="°C", source="NASA POWER",
+            instrument=None, kind="reanalysis", start_year=1981, end_year=2025,
+            land_only=False, ratio_scale=False, definition_student="Temperature.",
+            definition_scientist="Monthly mean temperature.", doi=None, signed_off=False,
+            power_community="AG", power_type="METEOROLOGY",
+        ),
+    ]
+    calls = []
+
+    async def list_parameters():
+        return variables
+
+    async def fetch_region(variable, region, start, end):
+        calls.append((variable.id, region.id, start, end))
+        month_count = (end - start + 1) * 12
+        absolute_months = np.arange((start - 1981) * 12, (end - 1981 + 1) * 12)
+        values = 10 + 0.02 * absolute_months + np.tile(np.arange(12), end - start + 1)
+        assert len(values) == month_count
+        return values, f"{start}-01"
+
+    monkeypatch.setattr(api_index, "list_monthly_parameters", list_parameters)
+    monkeypatch.setattr(api_index, "fetch_monthly_region", fetch_region)
+    return {"variables": variables, "calls": calls}
 
 
 async def request(method, path, body=None):
@@ -44,7 +75,7 @@ def case(**changes):
     return result
 
 
-def test_analyze_real_series(data_dir):
+def test_analyze_uses_fresh_power_series(data_dir, power_api):
     response = asyncio.run(request("POST", "/api/py/analyze", case()))
     assert response.status_code == 200, response.text
     result = response.json()["results"][0]
@@ -53,10 +84,11 @@ def test_analyze_real_series(data_dir):
     assert result["yearly"][0]["value"] == pytest.approx(15.61)
     assert result["stats"]["n_years"] == 44
     assert result["verdict"]["tier"] in {"confirmed", "not_proven", "no_case"}
-    assert result["provenance"]["source"] == "NASA POWER / MERRA-2"
+    assert result["provenance"]["source"] == "NASA POWER"
+    assert power_api["calls"] == [("T2M", "US-WI", 1981, 2024)]
 
 
-def test_analyze_too_short(data_dir):
+def test_analyze_too_short(data_dir, power_api):
     response = asyncio.run(request("POST", "/api/py/analyze", case(start=2000, end=2005)))
     assert response.status_code == 200, response.text
     result = response.json()["results"][0]
@@ -64,21 +96,22 @@ def test_analyze_too_short(data_dir):
     assert result["stats"] is None
 
 
-def test_unknown_ids_422(data_dir):
+def test_unknown_ids_422(data_dir, power_api):
     for invalid in (case(variable="UNKNOWN"), case(regions=["UNKNOWN"])):
         response = asyncio.run(request("POST", "/api/py/analyze", invalid))
         assert response.status_code == 422
         assert "UNKNOWN" in response.text
 
 
-def test_variables_from_catalog(data_dir):
+def test_variables_from_power_catalog(data_dir, power_api):
     variables = asyncio.run(request("GET", "/api/py/variables")).json()
     regions = asyncio.run(request("GET", "/api/py/regions")).json()
-    assert [variable["id"] for variable in variables] == ["T2M"]
+    assert [variable["id"] for variable in variables] == ["GWETROOT", "T2M"]
+    assert all(variable["power_community"] == "AG" for variable in variables)
     assert [region["id"] for region in regions] == ["US-WI"]
 
 
-def test_hero_series_precedes_npz_and_supplies_provenance(data_dir):
+def test_power_error_does_not_fall_back_to_local_series(data_dir, power_api, monkeypatch):
     hero_dir = data_dir / "hero"
     hero_dir.mkdir()
     (hero_dir / "T2M__US-WI.json").write_text(json.dumps({
@@ -86,24 +119,19 @@ def test_hero_series_precedes_npz_and_supplies_provenance(data_dir):
         "values": [2.0] * 12 * 12, "source": "Giovanni", "instrument": "MODIS",
         "product": "test", "doi": "doi:test",
     }))
+    np.savez(data_dir / "series_T2M.npz", values=np.full((1, 12 * 12), 2.0),
+             region_ids=np.array(["US-WI"]), t0="2000-01")
+
+    async def unavailable(*_args):
+        raise PowerUpstreamError("no monthly data", status_code=422)
+
+    monkeypatch.setattr(api_index, "fetch_monthly_region", unavailable)
     response = asyncio.run(request("POST", "/api/py/analyze", case(start=2000, end=2011)))
-    assert response.status_code == 200, response.text
-    result = response.json()["results"][0]
-    assert result["yearly"][0]["value"] == 2
-    assert result["provenance"]["source"] == "Giovanni"
-    assert result["provenance"]["product"] == "test"
+    assert response.status_code == 422
+    assert "NASA POWER" in response.text
 
 
-def test_missing_known_series_is_too_short(data_dir):
-    (data_dir / "series_T2M.npz").unlink()
-    response = asyncio.run(request("POST", "/api/py/analyze", case()))
-    assert response.status_code == 200, response.text
-    result = response.json()["results"][0]
-    assert result["verdict"]["reason"] == "no_data"
-    assert result["stats"] is None
-
-
-def test_case_cli_prints_stats_and_json(data_dir, capsys):
+def test_case_cli_prints_stats_and_json(data_dir, power_api, capsys):
     from scripts.case_cli import main
 
     assert main(["--var", "T2M", "--region", "US-WI", "--start", "1981", "--end", "2024"]) == 0
