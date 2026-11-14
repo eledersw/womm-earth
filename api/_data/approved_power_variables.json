@@ -1,0 +1,130 @@
+{
+  "T2M": {
+    "name": "Air temperature",
+    "definition_student": "How warm the air is about two metres above the ground, roughly head height.",
+    "definition_scientist": "Monthly mean dry-bulb air temperature at 2 m, spatially averaged over the returned grid cells.",
+    "source": "NASA POWER / MERRA-2",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "T2M_MAX": {
+    "name": "Monthly maximum air temperature",
+    "definition_student": "The highest hourly air temperature near head height during each month.",
+    "definition_scientist": "Monthly period maximum of hourly 2 m dry-bulb air temperature, following the POWER Manager definition; regional averaging follows that temporal operation.",
+    "source": "NASA POWER / MERRA-2",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "T2M_MIN": {
+    "name": "Monthly minimum air temperature",
+    "definition_student": "The lowest hourly air temperature near head height during each month.",
+    "definition_scientist": "Monthly period minimum of hourly 2 m dry-bulb air temperature, following the POWER Manager definition; regional averaging follows that temporal operation.",
+    "source": "NASA POWER / MERRA-2",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "TS": {
+    "name": "Surface skin temperature",
+    "definition_student": "How warm the ground or water surface is, rather than the air above it.",
+    "definition_scientist": "Monthly mean model skin temperature at the surface energy-balance interface, distinct from 2 m air temperature and subsurface soil temperature.",
+    "source": "NASA POWER / MERRA-2",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "PRECTOTCORR": {
+    "name": "Precipitation rate",
+    "definition_student": "The average amount of rain and melted snow reaching the surface each day.",
+    "definition_scientist": "Monthly mean daily rate of total surface precipitation after the MERRA-2 precipitation correction, expressed as liquid-water equivalent.",
+    "source": "NASA POWER / MERRA-2, corrected precipitation",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "RH2M": {
+    "name": "Relative humidity",
+    "definition_student": "How close near-surface air is to saturation with water vapour, expressed as a percentage.",
+    "definition_scientist": "Monthly mean ratio of near-surface water-vapour pressure to saturation vapour pressure, expressed in percent at 2 m.",
+    "source": "NASA POWER / MERRA-2",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "QV2M": {
+    "name": "Specific humidity",
+    "definition_student": "The mass of water vapour in each kilogram of moist air near the surface.",
+    "definition_scientist": "Monthly mean near-surface specific humidity at 2 m: water-vapour mass divided by total moist-air mass, in grams per kilogram.",
+    "source": "NASA POWER / MERRA-2",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "WS10M": {
+    "name": "Wind speed",
+    "definition_student": "How fast the air moves about ten metres above the surface, averaged over a month.",
+    "definition_scientist": "Monthly mean scalar wind speed at 10 m above the model surface, not the speed calculated from monthly mean wind-vector components.",
+    "source": "NASA POWER / MERRA-2",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "PS": {
+    "name": "Surface pressure",
+    "definition_student": "The weight of the atmosphere pressing on the surface, expressed as pressure.",
+    "definition_scientist": "Monthly mean atmospheric pressure at the model surface, without reduction to sea level.",
+    "source": "NASA POWER / MERRA-2",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "GWETROOT": {
+    "name": "Root-zone soil wetness",
+    "definition_student": "How wet the soil around plant roots is, from dry to saturated.",
+    "definition_scientist": "Monthly mean model root-zone wetness index, with the root zone described by POWER as approximately the upper metre; dimensionless saturation scale 0–1.",
+    "source": "NASA POWER / MERRA-2 land model",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "GWETTOP": {
+    "name": "Topsoil wetness",
+    "definition_student": "How wet the upper few centimetres of soil are, from dry to saturated.",
+    "definition_scientist": "Monthly mean model wetness of the upper approximately 5 cm of soil on POWER's dimensionless 0–1 saturation scale.",
+    "source": "NASA POWER / MERRA-2 land model",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "SNODP": {
+    "name": "Snow depth",
+    "definition_student": "How thick the snow lying on land is, averaged over the month.",
+    "definition_scientist": "Monthly mean model depth of snow on land, in centimetres; distinct from snowfall amount and snow water equivalent.",
+    "source": "NASA POWER / MERRA-2 land model",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "EVPTRNS": {
+    "name": "Evapotranspiration energy flux",
+    "definition_student": "Energy associated with water moving from the surface and vegetation into the air.",
+    "definition_scientist": "Monthly mean daily energy flux labelled Evapotranspiration Energy Flux by POWER; retain the supplied energy measure rather than interpreting it as a water-depth rate.",
+    "source": "NASA POWER / MERRA-2 surface flux",
+    "kind": "reanalysis",
+    "start_year": 1981
+  },
+  "ALLSKY_SFC_SW_DWN": {
+    "name": "Sunlight reaching the ground",
+    "definition_student": "Solar energy reaching a horizontal surface each day, including both direct and scattered sunlight.",
+    "definition_scientist": "Monthly mean daily surface downward shortwave radiant energy under actual cloud conditions, combining direct and diffuse contributions.",
+    "source": "NASA POWER / GEWEX SRB then CERES SYN1deg",
+    "kind": "satellite",
+    "start_year": 1984
+  },
+  "CLOUD_AMT": {
+    "name": "Cloud cover",
+    "definition_student": "The fraction of the area covered by clouds, expressed as a percentage.",
+    "definition_scientist": "Monthly mean cloud-covered area fraction expressed in percent, supplied by POWER's SRB/SYN1deg source sequence.",
+    "source": "NASA POWER / GEWEX SRB then CERES SYN1deg",
+    "kind": "satellite",
+    "start_year": 1984
+  },
+  "AOD_55": {
+    "name": "Aerosol optical depth at 550 nm, POWER",
+    "definition_student": "How strongly particles throughout the atmosphere dim a beam of light at a green wavelength.",
+    "definition_scientist": "Monthly mean dimensionless vertical aerosol optical depth at 0.55 micrometres, supplied by CERES SYN1deg using satellite-constrained, model-assisted aerosol fields.",
+    "source": "NASA POWER / CERES SYN1deg, MODIS aerosol inputs and MATCH",
+    "kind": "satellite",
+    "start_year": 2001
+  }
+}
