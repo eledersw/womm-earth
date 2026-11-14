@@ -24,7 +24,7 @@ it("streams text with the planned model, fallback, adaptive thinking and cached 
   const { stream } = mockStream(); const events: PartnerEvent[] = [];
   await streamExplain(input, (e) => events.push(e));
   expect(events.map((e) => e.type)).toEqual(["text"]);
-  expect(stream).toHaveBeenCalledWith(expect.objectContaining({ model: "claude-sonnet-5-5", max_tokens: 4000, thinking: { type: "adaptive" }, fallbacks: "default", output_config: { effort: "low" }, system: [expect.objectContaining({ cache_control: { type: "ephemeral" } })] }));
+  expect(stream).toHaveBeenCalledWith(expect.objectContaining({ model: "claude-sonnet-5-5", max_tokens: 512, thinking: { type: "adaptive" }, fallbacks: "default", output_config: { effort: "low" }, system: [expect.objectContaining({ cache_control: { type: "ephemeral" } })] }));
   expect(console.info).toHaveBeenCalledWith("partner.explain.cache_read_input_tokens", 1);
 });
 it.each(["refusal", "max_tokens"])("flags a %s response instead of accepting partial text", async (reason) => {

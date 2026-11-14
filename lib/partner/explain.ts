@@ -57,7 +57,7 @@ export async function streamExplain(input: ExplainInput, emit: (event: PartnerEv
       else {
         const summary = summarizeAnalysis(input.analysis, input.variable, input.regionName, input.period, input.seasonLabel);
         const answer = conciseExplanation(text, "The available data describe a pattern but do not identify its physical cause.");
-        if (!checkNumbers(answer, [summary]).ok) emit({ type: "error", message: partnerCopy.grounding });
+        if (!checkNumbers(text, [summary]).ok || !checkNumbers(answer, [summary]).ok) emit({ type: "error", message: partnerCopy.grounding });
         else emit({ type: "text", text: answer });
       }
     } finally { signal?.removeEventListener("abort", abort); }
