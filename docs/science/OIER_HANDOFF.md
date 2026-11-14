@@ -2,7 +2,9 @@
 
 **From:** Sergio. **Evidence:** [review/README.md](review/README.md), merged review PR #36. **Reviewed code:** no API/engine changes between the audited snapshot and main da41f42. Outside-user testing has been omitted by Sergio; it is not one of these fix requests.
 
-Copyable request:
+**Update after PR #44:** the requested arithmetic/harness/visibility repairs are implemented and pass the current local recheck. The numbered request below is historical. The new remaining code follow-up is the exact q = 0.05 mirror omission in [review/LOCAL_RECHECK.md](review/LOCAL_RECHECK.md); production review resumes tomorrow.
+
+Original request:
 
 > Please align the backend with METHODS.md v1 and close the blockers in docs/science/review/README.md:
 >

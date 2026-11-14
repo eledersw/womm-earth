@@ -1,0 +1,987 @@
+{
+  "checked_at_utc": "2026-11-14T20:02:53.404595+00:00",
+  "scope": "Local observable engine fields and aggregation; not deployed golden validation.",
+  "local_revision": "f2e24ad8b393d09bf64e181071681e6d883c30c2",
+  "source_sha256": {
+    "api/_engine/__init__.py": "47328145f3e210629bde81a5796535ebbd3724f6b6368e9e4e6294a046719d22",
+    "api/_engine/config.py": "1a8c8c17c148a04017fa60d6131c7f3153866d6b09c86d5d4258a0d367292ab7",
+    "api/_engine/fdr.py": "bef8414844060dd7328642ab7df958868599b0d898f5459948e497443e01f6dc",
+    "api/_engine/map.py": "79a600aa82cb7e937ae75e149f14ee88a5ec0e16cbc14aab7f5557f043fd6701",
+    "api/_engine/power.py": "949b13b9afd1f04addab1783ebb397af886672e449de42a70d4c103c4b729d19",
+    "api/_engine/scan.py": "3f0f60df0b07b697d09577e1e482859e52765b2f0da58e1c85f1a5c6a5d87c99",
+    "api/_engine/series.py": "b426bac056230ae81a5e2f7c5b5cb5d4c3297e0f55ba06a7b029027a5b71f20e",
+    "api/_engine/store.py": "11aaf2bc6d459f15fa23f4d0e6c0899299f6dca027b4f24a0b99af3c8a0f8a83",
+    "api/_engine/trend.py": "8425139b9b193c3c7d16f1c1d85ee640a4a45d94ffc5b47f81ca8277f94da36d",
+    "api/_engine/verdict.py": "b16e648dd6f44f542e25d612ea8e1b022057d62709a4b8f2c94e17eb8bf44999",
+    "api/_models.py": "da622de63d9f5b81192c708a2cd59d13be74c5c8eb2f54d5180019d97bb69ab8",
+    "api/index.py": "19bb6bd6b45de972a77664dbef6534dd3610a5c72863934d8007b1de0057125c",
+    "tests/fixtures/golden/golden_expected.json": "ebad20e7160fd4c878f8880ec417c0153c61a973d1f987e62af548d61985b38d",
+    "tests/fixtures/golden/golden_ext.py": "48f772c358eaa52b635d5fb8c6d392a6262f0a0e8f18f4cad2b4dac5d9153dc0",
+    "tests/fixtures/golden/make_golden.py": "8fcdc3f38f784f8a09d787593e8a7c1fe62a6dbdf5480823cb90310e020168fc"
+  },
+  "versions": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "pydantic": "2.14.3",
+    "pymannkendall": "1.4.3",
+    "statsmodels": "0.15.0"
+  },
+  "yearly": {
+    "golden_01_linear_trend": {
+      "matches_all_checked_fields": true,
+      "expected": {
+        "tier": "confirmed",
+        "statistics_available": true,
+        "n_years": 24,
+        "p_mk": 2.828779144015751e-07,
+        "mk_z": 5.13451142244029,
+        "mk_tau": 0.7536231884057971,
+        "p_naive": 2.828779144015751e-07,
+        "sen_slope": 0.007936833333333334,
+        "sen_ci": [
+          0.006312067493787763,
+          0.009806702845792792
+        ],
+        "ols_slope": 0.007943213913043479,
+        "ols_se": 0.0009549785374481046,
+        "p_ols": 5.759442741150891e-07,
+        "ols_ci": [
+          0.005905714786355618,
+          0.009980713039731338
+        ],
+        "ols_r2": 0.8234625854685,
+        "n_eff": 16.83194767675505,
+        "r1": 0.17555009572383445,
+        "residual_sd": 0.026590731412135037,
+        "tests_agree": true,
+        "period_mean": 0.23857583333333332,
+        "change_per_decade": 0.07936833333333335,
+        "total_change": 0.18254716666666668,
+        "pct_of_mean_per_decade": 33.26754945143229,
+        "years_needed": null,
+        "mk_variance": 1625.3333333333333
+      },
+      "actual": {
+        "tier": "confirmed",
+        "statistics_available": true,
+        "years_needed": null,
+        "n_years": 24,
+        "p_mk": 2.828779144015751e-07,
+        "mk_z": 5.13451142244029,
+        "mk_tau": 0.7536231884057971,
+        "p_naive": 2.828779144015751e-07,
+        "sen_slope": 0.007936833333333334,
+        "sen_ci": [
+          0.006312067493787763,
+          0.009806702845792792
+        ],
+        "ols_slope": 0.007943213913043479,
+        "ols_se": 0.000954978537448111,
+        "p_ols": 5.759442741151901e-07,
+        "ols_ci": [
+          0.0059057147863556024,
+          0.009980713039731356
+        ],
+        "ols_r2": 0.8234625854684999,
+        "n_eff": 16.83194767675486,
+        "r1": 0.17555009572383995,
+        "residual_sd": 0.026590731412135048,
+        "tests_agree": true,
+        "period_mean": 0.23857583333333332,
+        "change_per_decade": 0.07936833333333335,
+        "total_change": 0.18254716666666668,
+        "pct_of_mean_per_decade": 33.26754945143229,
+        "mk_variance": 1625.3333333333333
+      },
+      "differences": []
+    },
+    "golden_02_white_noise": {
+      "matches_all_checked_fields": true,
+      "expected": {
+        "tier": "no_case",
+        "statistics_available": true,
+        "n_years": 31,
+        "p_mk": 0.45455525621868176,
+        "mk_z": -0.7478423465228273,
+        "mk_tau": -0.0967741935483871,
+        "p_naive": 0.45455525621868176,
+        "sen_slope": -0.00038572727272727494,
+        "sen_ci": [
+          -0.001269407912210009,
+          0.0007764578337537897
+        ],
+        "ols_slope": -0.0002512435483870966,
+        "ols_se": 0.0006224574300326353,
+        "p_ols": 0.6910017225822739,
+        "ols_ci": [
+          -0.001554291053056478,
+          0.001051803956282285
+        ],
+        "ols_r2": 0.008523660448223946,
+        "n_eff": 20.950764745594938,
+        "r1": 0.1934376770701371,
+        "residual_sd": 0.02505819975396632,
+        "tests_agree": true,
+        "period_mean": 0.19549587096774193,
+        "change_per_decade": -0.0038572727272727495,
+        "total_change": -0.011571818181818249,
+        "pct_of_mean_per_decade": -1.9730712000097557,
+        "years_needed": null,
+        "mk_variance": 3461.6666666666665
+      },
+      "actual": {
+        "tier": "no_case",
+        "statistics_available": true,
+        "years_needed": null,
+        "n_years": 31,
+        "p_mk": 0.45455525621868176,
+        "mk_z": -0.7478423465228273,
+        "mk_tau": -0.0967741935483871,
+        "p_naive": 0.45455525621868176,
+        "sen_slope": -0.00038572727272727494,
+        "sen_ci": [
+          -0.001269407912210009,
+          0.0007764578337537897
+        ],
+        "ols_slope": -0.0002512435483870966,
+        "ols_se": 0.0006224574300326348,
+        "p_ols": 0.6910017225822737,
+        "ols_ci": [
+          -0.0015542910530564767,
+          0.0010518039562822836
+        ],
+        "ols_r2": 0.008523660448223946,
+        "n_eff": 20.95076474559496,
+        "r1": 0.1934376770701367,
+        "residual_sd": 0.025058199753966313,
+        "tests_agree": true,
+        "period_mean": 0.19549587096774193,
+        "change_per_decade": -0.0038572727272727495,
+        "total_change": -0.011571818181818249,
+        "pct_of_mean_per_decade": -1.9730712000097559,
+        "mk_variance": 3461.6666666666665
+      },
+      "differences": []
+    },
+    "golden_03_ar1_null": {
+      "matches_all_checked_fields": true,
+      "expected": {
+        "tier": "not_proven",
+        "statistics_available": true,
+        "n_years": 24,
+        "p_mk": 0.053765926388766476,
+        "mk_z": 1.9287176297761164,
+        "mk_tau": 0.34782608695652173,
+        "p_naive": 0.01845212685644321,
+        "sen_slope": 0.00306496875,
+        "sen_ci": [
+          -6.328691587387925e-05,
+          0.005608680487071367
+        ],
+        "ols_slope": 0.0023964000000000004,
+        "ols_se": 0.0014268568331166503,
+        "p_ols": 0.12911664199392675,
+        "ols_ci": [
+          -0.0008571875400913312,
+          0.0056499875400913314
+        ],
+        "ols_r2": 0.24797205966598046,
+        "n_eff": 10.55439007866782,
+        "r1": 0.3891143756472448,
+        "residual_sd": 0.030172583943219262,
+        "tests_agree": true,
+        "period_mean": 0.1935909166666667,
+        "change_per_decade": 0.0306496875,
+        "total_change": 0.07049428125,
+        "pct_of_mean_per_decade": 15.832192970486302,
+        "years_needed": 4,
+        "mk_variance": 2426.106772068511
+      },
+      "actual": {
+        "tier": "not_proven",
+        "statistics_available": true,
+        "years_needed": 4,
+        "n_years": 24,
+        "p_mk": 0.053765926388766476,
+        "mk_z": 1.9287176297761164,
+        "mk_tau": 0.34782608695652173,
+        "p_naive": 0.01845212685644321,
+        "sen_slope": 0.00306496875,
+        "sen_ci": [
+          -6.328691587387925e-05,
+          0.005608680487071367
+        ],
+        "ols_slope": 0.002396400000000001,
+        "ols_se": 0.001426856833116647,
+        "p_ols": 0.12911664199392603,
+        "ols_ci": [
+          -0.0008571875400913255,
+          0.005649987540091327
+        ],
+        "ols_r2": 0.24797205966598646,
+        "n_eff": 10.554390078667796,
+        "r1": 0.3891143756472458,
+        "residual_sd": 0.030172583943219148,
+        "tests_agree": true,
+        "period_mean": 0.1935909166666667,
+        "change_per_decade": 0.0306496875,
+        "total_change": 0.07049428125,
+        "pct_of_mean_per_decade": 15.832192970486304,
+        "mk_variance": 2426.106772068511
+      },
+      "differences": []
+    },
+    "golden_04_ties": {
+      "matches_all_checked_fields": true,
+      "expected": {
+        "tier": "confirmed",
+        "statistics_available": true,
+        "n_years": 20,
+        "p_mk": 0.0031166938398668707,
+        "mk_z": 2.955987834492879,
+        "mk_tau": 0.4789473684210526,
+        "p_naive": 0.0031166938398668707,
+        "sen_slope": 0.03550420168067227,
+        "sen_ci": [
+          0.014464623158379533,
+          0.05555555555555555
+        ],
+        "ols_slope": 0.03383458646616541,
+        "ols_se": 0.010800135798749689,
+        "p_ols": 0.008448917135264357,
+        "ols_ci": [
+          0.01035765489135063,
+          0.0573115180409802
+        ],
+        "ols_r2": 0.44467184315930375,
+        "n_eff": 14.256694930349873,
+        "r1": 0.1676549673378392,
+        "residual_sd": 0.2298214046349991,
+        "tests_agree": true,
+        "period_mean": 3.3200000000000003,
+        "change_per_decade": 0.35504201680672265,
+        "total_change": 0.674579831932773,
+        "pct_of_mean_per_decade": 10.694036650804899,
+        "years_needed": null,
+        "mk_variance": 927.0
+      },
+      "actual": {
+        "tier": "confirmed",
+        "statistics_available": true,
+        "years_needed": null,
+        "n_years": 20,
+        "p_mk": 0.0031166938398668707,
+        "mk_z": 2.955987834492879,
+        "mk_tau": 0.4789473684210526,
+        "p_naive": 0.0031166938398668707,
+        "sen_slope": 0.03550420168067227,
+        "sen_ci": [
+          0.014464623158379533,
+          0.05555555555555555
+        ],
+        "ols_slope": 0.03383458646616541,
+        "ols_se": 0.01080013579874968,
+        "p_ols": 0.008448917135264244,
+        "ols_ci": [
+          0.010357654891350664,
+          0.057311518040980156
+        ],
+        "ols_r2": 0.4446718431593001,
+        "n_eff": 14.256694930349969,
+        "r1": 0.16765496733783591,
+        "residual_sd": 0.22982140463499987,
+        "tests_agree": true,
+        "period_mean": 3.3200000000000003,
+        "change_per_decade": 0.35504201680672265,
+        "total_change": 0.674579831932773,
+        "pct_of_mean_per_decade": 10.694036650804899,
+        "mk_variance": 927.0
+      },
+      "differences": []
+    },
+    "golden_05_too_short": {
+      "matches_all_checked_fields": true,
+      "expected": {
+        "tier": "too_short",
+        "statistics_available": false,
+        "years_needed": null,
+        "fit_count": 0
+      },
+      "actual": {
+        "tier": "too_short",
+        "statistics_available": false,
+        "years_needed": null,
+        "fit_count": 0
+      },
+      "differences": []
+    },
+    "golden_06_min_length": {
+      "matches_all_checked_fields": true,
+      "expected": {
+        "tier": "confirmed",
+        "statistics_available": true,
+        "n_years": 10,
+        "p_mk": 0.009233166857305531,
+        "mk_z": 2.603297967068601,
+        "mk_tau": 0.7777777777777778,
+        "p_naive": 0.00235752759579549,
+        "sen_slope": 0.014772499999999994,
+        "sen_ci": [
+          0.008500459227929842,
+          0.02308349771020738
+        ],
+        "ols_slope": 0.014896442424242422,
+        "ols_se": 0.0023236510866853155,
+        "p_ols": 0.00020674298254188926,
+        "ols_ci": [
+          0.009538093409574431,
+          0.020254791438910413
+        ],
+        "ols_r2": 0.8370613907465899,
+        "n_eff": 10.0,
+        "r1": -0.32740392970363624,
+        "residual_sd": 0.021105609106205448,
+        "tests_agree": true,
+        "period_mean": 0.22424729999999998,
+        "change_per_decade": 0.14772499999999994,
+        "total_change": 0.13295249999999995,
+        "pct_of_mean_per_decade": 65.87593250844044,
+        "years_needed": null,
+        "mk_variance": 170.57291666666669
+      },
+      "actual": {
+        "tier": "confirmed",
+        "statistics_available": true,
+        "years_needed": null,
+        "n_years": 10,
+        "p_mk": 0.009233166857305531,
+        "mk_z": 2.603297967068601,
+        "mk_tau": 0.7777777777777778,
+        "p_naive": 0.00235752759579549,
+        "sen_slope": 0.014772499999999994,
+        "sen_ci": [
+          0.008500459227929842,
+          0.02308349771020738
+        ],
+        "ols_slope": 0.014896442424242422,
+        "ols_se": 0.0023236510866853086,
+        "p_ols": 0.00020674298254188506,
+        "ols_ci": [
+          0.009538093409574446,
+          0.020254791438910395
+        ],
+        "ols_r2": 0.8370613907465909,
+        "n_eff": 10.0,
+        "r1": -0.32740392970361193,
+        "residual_sd": 0.021105609106205386,
+        "tests_agree": true,
+        "period_mean": 0.22424729999999998,
+        "change_per_decade": 0.14772499999999994,
+        "total_change": 0.13295249999999995,
+        "pct_of_mean_per_decade": 65.87593250844044,
+        "mk_variance": 170.57291666666666
+      },
+      "differences": []
+    },
+    "golden_07_disagree_one_lag": {
+      "matches_all_checked_fields": true,
+      "expected": {
+        "tier": "not_proven",
+        "statistics_available": true,
+        "n_years": 20,
+        "p_mk": 0.027768422178568127,
+        "mk_z": 2.200542582930189,
+        "mk_tau": 0.5052631578947369,
+        "p_naive": 0.0020547189761318087,
+        "sen_slope": 0.0049231031746031755,
+        "sen_ci": [
+          0.0009469529882482604,
+          0.009555597715314234
+        ],
+        "ols_slope": 0.005103084210526317,
+        "ols_se": 0.0026259212515061647,
+        "p_ols": 0.12405674274044305,
+        "ols_ci": [
+          -0.0021940099470231554,
+          0.01240017836807579
+        ],
+        "ols_r2": 0.48618926092432724,
+        "n_eff": 5.991166903749813,
+        "r1": 0.5389843845075342,
+        "residual_sd": 0.03188645308528734,
+        "tests_agree": false,
+        "period_mean": 0.21546330000000005,
+        "change_per_decade": 0.04923103174603176,
+        "total_change": 0.09353896031746034,
+        "pct_of_mean_per_decade": 22.84891754003199,
+        "years_needed": 3,
+        "mk_variance": 1863.7500000000002
+      },
+      "actual": {
+        "tier": "not_proven",
+        "statistics_available": true,
+        "years_needed": 3,
+        "n_years": 20,
+        "p_mk": 0.027768422178568127,
+        "mk_z": 2.200542582930189,
+        "mk_tau": 0.5052631578947369,
+        "p_naive": 0.0020547189761318087,
+        "sen_slope": 0.0049231031746031755,
+        "sen_ci": [
+          0.0009469529882482604,
+          0.009555597715314234
+        ],
+        "ols_slope": 0.005103084210526317,
+        "ols_se": 0.002625921251506161,
+        "p_ols": 0.12405674274044222,
+        "ols_ci": [
+          -0.002194009947023127,
+          0.01240017836807576
+        ],
+        "ols_r2": 0.4861892609243258,
+        "n_eff": 5.991166903749837,
+        "r1": 0.5389843845075328,
+        "residual_sd": 0.03188645308528739,
+        "tests_agree": false,
+        "period_mean": 0.21546330000000005,
+        "change_per_decade": 0.04923103174603176,
+        "total_change": 0.09353896031746034,
+        "pct_of_mean_per_decade": 22.84891754003199,
+        "mk_variance": 1863.7500000000002
+      },
+      "differences": []
+    }
+  },
+  "golden_08_aggregation": {
+    "ANN": {
+      "matches_checked_aggregation": true,
+      "expected": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          9.956050916666667,
+          10.242875666666666,
+          9.65430318181818,
+          10.500754083333334,
+          10.470671181818181,
+          10.399675583333332,
+          10.0511455,
+          9.41482772727273,
+          10.317663916666666,
+          null,
+          10.37131225,
+          10.700129363636362
+        ],
+        "n_valid": 11,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "actual": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          9.956050916666667,
+          10.242875666666666,
+          9.65430318181818,
+          10.500754083333334,
+          10.470671181818181,
+          10.399675583333332,
+          10.0511455,
+          9.41482772727273,
+          10.317663916666666,
+          null,
+          10.37131225,
+          10.700129363636362
+        ],
+        "n_valid": 11,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "differences": [],
+      "inference_scope": "No uncertainty sign-off for retained missing-year series."
+    },
+    "DJF": {
+      "matches_checked_aggregation": true,
+      "expected": {
+        "years": [
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          3.1633166666666668,
+          2.7583903333333333,
+          3.6527816666666673,
+          2.4430403333333337,
+          null,
+          2.861174,
+          3.273942333333333,
+          3.3457709999999996,
+          null,
+          2.7557266666666664,
+          3.213836
+        ],
+        "n_valid": 9,
+        "years_total": 11,
+        "eligible_gate": false
+      },
+      "actual": {
+        "years": [
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          3.1633166666666668,
+          2.7583903333333333,
+          3.6527816666666673,
+          2.4430403333333337,
+          null,
+          2.861174,
+          3.273942333333333,
+          3.3457709999999996,
+          null,
+          2.7557266666666664,
+          3.213836
+        ],
+        "n_valid": 9,
+        "years_total": 11,
+        "eligible_gate": false
+      },
+      "differences": [],
+      "inference_scope": "No uncertainty sign-off for retained missing-year series."
+    },
+    "MAM": {
+      "matches_checked_aggregation": true,
+      "expected": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          9.897191333333334,
+          9.970834333333334,
+          10.364612666666666,
+          10.426949666666667,
+          9.607947666666666,
+          10.427007333333334,
+          9.934376333333333,
+          9.572137333333332,
+          9.784123666666668,
+          null,
+          10.756836,
+          10.715215333333333
+        ],
+        "n_valid": 11,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "actual": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          9.897191333333334,
+          9.970834333333334,
+          10.364612666666666,
+          10.426949666666667,
+          9.607947666666666,
+          10.427007333333334,
+          9.934376333333333,
+          9.572137333333332,
+          9.784123666666668,
+          null,
+          10.756836,
+          10.715215333333333
+        ],
+        "n_valid": 11,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "differences": [],
+      "inference_scope": "No uncertainty sign-off for retained missing-year series."
+    },
+    "JJA": {
+      "matches_checked_aggregation": true,
+      "expected": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          17.173527333333332,
+          17.422453,
+          null,
+          17.511326,
+          17.612479,
+          17.559205666666667,
+          17.397679,
+          null,
+          17.743876666666665,
+          18.140674,
+          17.356210333333333,
+          17.472379666666665
+        ],
+        "n_valid": 10,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "actual": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          17.173527333333332,
+          17.422453,
+          null,
+          17.511326,
+          17.612479,
+          17.559205666666667,
+          17.397679,
+          null,
+          17.743876666666665,
+          18.140674,
+          17.356210333333333,
+          17.472379666666665
+        ],
+        "n_valid": 10,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "differences": [],
+      "inference_scope": "No uncertainty sign-off for retained missing-year series."
+    },
+    "SON": {
+      "matches_checked_aggregation": true,
+      "expected": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          10.046177,
+          10.266017333333332,
+          10.697860333333333,
+          10.358579,
+          9.710329,
+          10.349280333333335,
+          9.740073666666666,
+          10.524649333333334,
+          10.396304,
+          9.761750000000001,
+          10.386726999999999,
+          null
+        ],
+        "n_valid": 11,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "actual": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          10.046177,
+          10.266017333333332,
+          10.697860333333333,
+          10.358579,
+          9.710329,
+          10.349280333333335,
+          9.740073666666666,
+          10.524649333333334,
+          10.396304,
+          9.761750000000001,
+          10.386726999999999,
+          null
+        ],
+        "n_valid": 11,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "differences": [],
+      "inference_scope": "No uncertainty sign-off for retained missing-year series."
+    },
+    "NDJF": {
+      "matches_checked_aggregation": true,
+      "expected": {
+        "years": [
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          3.8578272500000006,
+          3.4799759999999997,
+          4.54189725,
+          3.530165,
+          null,
+          3.7049227499999997,
+          4.02948925,
+          4.07165175,
+          null,
+          3.3940337499999997,
+          4.011117499999999
+        ],
+        "n_valid": 9,
+        "years_total": 11,
+        "eligible_gate": false
+      },
+      "actual": {
+        "years": [
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          3.8578272500000006,
+          3.4799759999999997,
+          4.54189725,
+          3.530165,
+          null,
+          3.7049227499999997,
+          4.02948925,
+          4.07165175,
+          null,
+          3.3940337499999997,
+          4.011117499999999
+        ],
+        "n_valid": 9,
+        "years_total": 11,
+        "eligible_gate": false
+      },
+      "differences": [],
+      "inference_scope": "No uncertainty sign-off for retained missing-year series."
+    },
+    "JA": {
+      "matches_checked_aggregation": true,
+      "expected": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          17.1366245,
+          17.588333499999997,
+          17.727477,
+          17.486766,
+          17.5488005,
+          17.940233499999998,
+          17.3505855,
+          null,
+          18.162132,
+          18.241815000000003,
+          16.9499675,
+          17.5091085
+        ],
+        "n_valid": 11,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "actual": {
+        "years": [
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012
+        ],
+        "values": [
+          17.1366245,
+          17.588333499999997,
+          17.727477,
+          17.486766,
+          17.5488005,
+          17.940233499999998,
+          17.3505855,
+          null,
+          18.162132,
+          18.241815000000003,
+          16.9499675,
+          17.5091085
+        ],
+        "n_valid": 11,
+        "years_total": 12,
+        "eligible_gate": true
+      },
+      "differences": [],
+      "inference_scope": "No uncertainty sign-off for retained missing-year series."
+    }
+  },
+  "mirror_q_boundary": {
+    "p": [
+      0.025,
+      0.025,
+      0.8,
+      0.9
+    ],
+    "q": [
+      0.05,
+      0.05,
+      0.9,
+      0.9
+    ],
+    "expected_mirror_ids": [
+      "US-WI"
+    ],
+    "actual_mirror_ids": [],
+    "passed": false,
+    "source": "METHODS \u00a7\u00a713\u201314: inclusive BH cutoff, both raw combined p-values below alpha."
+  },
+  "golden_09": {
+    "status": "runtime_key_and_mocked_family_tests_passed",
+    "scope": "Existing golden/BH/mirror and deterministic family tests; no network or real-data map request."
+  },
+  "targeted_tests": {
+    "command": [
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_golden.py",
+      "tests/test_v1_edge_inference.py",
+      "tests/test_live_families.py",
+      "-q"
+    ],
+    "returncode": 0,
+    "stdout": "..............                                                           [100%]\n14 passed in 2.49s\n",
+    "stderr": ""
+  },
+  "local_scope_passed": false,
+  "gate_passed": false
+}

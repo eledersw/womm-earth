@@ -1,6 +1,6 @@
 # Verdict templates and partner grounding rules
 
-**Owner:** Sergio, Methods & Validity lead; Edur owns tone and COPY.md adoption. **Reviewed:** 2026-11-14. **Status:** scientific wording and prompt rules ready for Ekaitz; app integration and joint tone review pending.
+**Owner:** Sergio, Methods & Validity lead; Edur owns tone and COPY.md adoption. **Reviewed:** 2026-11-14. **Status:** scientific wording and prompt rules ready for Ekaitz; app integration has landed; joint tone and final live review remain pending.
 
 METHODS.md v1 is normative. This document replaces the starter wording. It supplies deterministic verdict text, conditional notices and the partner prompt rules. It does not certify the deployed engine. Keep the template verdict available when Claude is unavailable.
 
@@ -21,7 +21,7 @@ Exactly 0.05 is Not proven yet; exactly 0.20 is No case. The 0.20 boundary is a 
 
 If adjusted OLS inference is explicitly unavailable (including effective n ≤ 2) and capped MK remains usable, METHODS permits a labelled MK-only fallback. Append the fallback notice and never claim agreement. If MK is unavailable, do not invent an OLS-only substitute. If no approved usable rule applies, withhold significance and use the statistics-unavailable notice. This is an availability state, not a fifth scientific tier; the existing contract's representation needs owner review.
 
-**Integration guard:** the present engine still selects tiers using MK alone. Compare the supplied tier, component availability and warnings with the specified rule in a tested deterministic adapter. A discrepancy must be surfaced as an implementation mismatch; do not silently relabel the engine output or render the approved two-test claim. Claude must not reconcile it by inventing or recomputing a verdict.
+**Integration guard:** the earlier MK-only implementation was repaired by PR #44 and now passes the checked local reference. Retain this guard for inconsistent or stale responses. Compare the supplied tier, component availability and warnings with the specified rule in a tested deterministic adapter. A discrepancy must be surfaced as an implementation mismatch; do not silently relabel the engine output or render the approved two-test claim. Claude must not reconcile it by inventing or recomputing a verdict.
 
 ## 2. Placeholder and unit contract
 
@@ -199,7 +199,7 @@ Ekaitz owns lib/partner/verdict-templates.ts, prompts.ts, summarize.ts, number-c
 
 Before using these templates in production:
 
-1. Oier aligns the engine with METHODS and represents unavailable inference explicitly; current Ols.p/CI fields and tests_agree are non-nullable. Do not encode unavailable inference as fabricated agreement or significance. Any contract change needs the existing seam process.
+1. Oier aligns the engine with METHODS and represents unavailable inference explicitly; the earlier non-nullable OLS fields and agreement flag were made nullable in PR #44. Do not encode unavailable inference as fabricated agreement or significance. Any contract change needs the existing seam process.
 2. Ekaitz creates a deterministic display/grounding adapter for labelled component values, combination/fallback status, scale-safe intervals, eligibility and estimate visibility. Do not add fictitious API fields; preserve region/variable IDs and custom month context that the current summary drops. Method settings can be internal trusted metadata in the supplied result envelope; no new HTTP fields are required.
 3. Split Explain and Partner restrictions: the shared current prompt's no-tools sentence must not govern tool-enabled chat. Replace MK-only verdict wording and the even-odds claim. Remove the “general knowledge” escape from the physical-grounding rule.
 4. Convert the approved process cards, then verify applicability and citations. Claude downtime must still leave the deterministic verdict visible. Numeric-check success alone does not approve a unit, test attribution, mechanism or causal claim.
