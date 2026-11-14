@@ -8,8 +8,8 @@ import "./globals.css";
 
 // The Fragment Studio type system: thin Stack Sans Headline for figures and the
 // wordmark, Stack Sans Text for reading, Fragment Mono for labels, controls and codes.
-const headline = Stack_Sans_Headline({ variable: "--font-stack-headline", subsets: ["latin"] });
-const text = Stack_Sans_Text({ variable: "--font-stack-text", subsets: ["latin"] });
+const headline = Stack_Sans_Headline({ variable: "--font-stack-headline", subsets: ["latin"], fallback: ["system-ui", "sans-serif"] });
+const text = Stack_Sans_Text({ variable: "--font-stack-text", subsets: ["latin"], fallback: ["system-ui", "sans-serif"] });
 const mono = Fragment_Mono({ variable: "--font-fragment-mono", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {

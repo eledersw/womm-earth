@@ -16,6 +16,16 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // Geometry and the starfield change only on deploy: let browsers reuse them for
+  // an hour and revalidate in the background (no content hash, so not immutable).
+  async headers() {
+    const cache = [{ key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=86400" }];
+    return [
+      { source: "/geo/:path*", headers: cache },
+      { source: "/stars.svg", headers: cache },
+      { source: "/stars-bright.svg", headers: cache },
+    ];
+  },
   async rewrites() {
     return [
       {
