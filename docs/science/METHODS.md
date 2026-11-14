@@ -9,12 +9,12 @@ Each section asks one question. It gives a **suggested default**, the **trade-of
 ## 1. Regional averaging (fixed by the pipeline; for reference only)
 - Each region's value is the cos(latitude)-weighted mean of the grid cells whose centres fall inside the region.
 - A region too small to contain any cell centre uses the nearest cell instead, and the UI flags it.
-- **Decision:** _accept / change: ____
+- **Decision:** _accept / change: Accept.
 
 ## 2. Minimum series length for a verdict
 - **Suggested default:** at least **10 valid yearly values**. Below that the verdict is "Too short to judge".
 - **Trade-off:** Mann-Kendall has very little power below about 10 points. A higher minimum is more defensible, but it blocks short satellite records (e.g. CERES from 2001 gives about 24 years, which is fine).
-- **Decision:** ____
+- **Decision:** Accept: ≥10 valid yearly values, else "Too short to judge".
 
 ## 3. Missing data
 - **Suggested default:**
@@ -22,19 +22,21 @@ Each section asks one question. It gives a **suggested default**, the **trade-of
   - An annual value needs at least 10 of 12 months.
   - A series needs at least 80% of its years valid.
 - **Trade-off:** looser rules keep more data, but risk biased means (for example, a missing winter month inflates the annual mean).
-- **Decision:** ____
+- **Decision:** Seasons need ALL their months (3 of 3; custom sets: all). Annual needs ≥10/12.
+    Series needs ≥80% valid years. (Reason: see flag 1 below.)
 
 ## 4. Season construction
 - **Suggested default:** DJF belongs to the year of its January, so "DJF 2010" = Dec 2009 + Jan 2010 + Feb 2010. An incomplete season at either end of the period is dropped. Custom month sets that cross the new year follow the same rule.
 - **Trade-off:** the alternative (labelling DJF by December's year) is also common. Pick one and say which in the UI tooltip.
-- **Decision:** ____
+- **Decision:** Accept: DJF labelled by the January year; a season is dropped if it isn't
+    fully inside [start, end]. Tooltip says which convention we use.
 
 ## 5. The series the verdict tests
 - **Suggested default:**
   - The **yearly series**: one value per year, either the annual mean or the seasonal mean if a season filter is on.
   - Monthly anomalies (each value minus that calendar month's average over the period) are used only for display and correlation.
 - **Trade-off:** testing monthly data directly gives about 12× more points, but those points are strongly autocorrelated and seasonal, which inflates significance. Yearly values are what NASA's example uses and are much easier to defend.
-- **Decision:** ____
+- **Decision:** Accept: verdicts on the yearly series; monthly anomalies only for display/correlation.
 
 ## 6. Primary test and corroborating test
 - **Suggested default:**
@@ -42,15 +44,21 @@ Each section asks one question. It gives a **suggested default**, the **trade-of
   - **Corroborating:** OLS with an AR(1)-adjusted standard error. Use the effective n, n_eff = n·(1−r₁)/(1+r₁) (Santer et al. 2000), with a t distribution on n_eff−2 degrees of freedom.
   - **If the two tests disagree:** show a "tests disagree, treat with caution" badge. The verdict follows Mann-Kendall.
 - **Trade-off:** pre-whitening (Yue-Pilon) is an alternative fix for autocorrelation. Hamed-Rao is easier to explain. Ordinary MK understates p-values when the data are autocorrelated, and a judge may ask about exactly this.
-- **Decision:** ____
+- **Decision:** Primary: Mann-Kendall, Hamed-Rao variance correction (significant lags of the
+    detrended ranks), two-sided, α=0.05, normal approximation with tie and continuity
+    corrections. Must reproduce pymannkendall's hamed_rao_modification_test.
+    Corroborating: OLS, r1 from OLS residuals, n_eff = n(1−r1)/(1+r1), capped at n
+    (if r1 ≤ 0 use n), t on n_eff−2 df. "Tests disagree" = exactly one of the two has p<0.05.
+    Verdict follows MK.
 
 ## 7. Slope shown to users
 - **Suggested default:** Sen's slope with its 95% CI from the MK variance as the headline. The OLS slope appears in the Scientist view.
-- **Decision:** ____
+- **Decision:** Accept. Sen's slope CI built from the same Hamed-Rao-corrected variance, so CI and p
+    are consistent. OLS slope in the Scientist view.
 
 ## 8. Confidence level
 - **Suggested default:** 95% everywhere.
-- **Decision:** ____
+- **Decision:** 95% everywhere.
 
 ## 9. Verdict tiers
 
@@ -62,7 +70,7 @@ Each section asks one question. It gives a **suggested default**, the **trade-of
 | **Too short to judge** | Fails §2 or §3 |
 
 - **Trade-off:** a judge may see the 0.20 band as soft. The framing must stay honest: "Not proven yet" means *the direction is suggestive but the evidence is not sufficient*. It never means "almost significant". The alternative is to use only two tiers and always show years until significant.
-- **Decision:** ____
+- **Decision:** Accept the tiers (0.05 / 0.20), documented as display conventions, not tests.
 
 ## 10. Years until significant
 - **Suggested default:**
@@ -71,13 +79,13 @@ Each section asks one question. It gives a **suggested default**, the **trade-of
   - Hide the estimate when p ≥ 0.5 or n* − n > 50 ("not detectable soon at this rate").
   - Coder B checks the formula with a Monte-Carlo test.
 - **Trade-off:** the estimate assumes the slope and the noise stay constant. Say so in a tooltip.
-- **Decision:** ____
+- **Decision:** Accept the formula, using the OLS slope b and residual σ, φ. Define n* as the point where the expected slope just reaches significance (≈50% chance, not 90%). The tooltip says "even odds, assuming slope and noise stay the same". The Monte-Carlo check should confirm ≈50% rejection at n*.
 
 ## 11. Reporting magnitude
 - **Suggested default:**
   - The slope per decade in the variable's units, plus the total change over the period (slope × years).
   - **% of the period mean** is shown only for ratio-scale variables (precipitation, AOD, soil wetness, cloud %, radiation). It is never shown for temperatures in °C or for pressure anomalies.
-- **Decision:** ____
+- **Decision:** Accept. % of period mean is per decade, ratio-scale variables only.
 
 ## 12. Correlation between two variables
 - **Suggested default:**
@@ -86,7 +94,7 @@ Each section asks one question. It gives a **suggested default**, the **trade-of
   - p-values use the effective n, n_eff = n·(1−r₁ₓr₁ᵧ)/(1+r₁ₓr₁ᵧ) (Bretherton et al. 1999).
   - Search lags of −6…+6 months and report the best lag with a note that searching 13 lags inflates the chance of a spurious peak. A Bonferroni ×13 adjustment on the best-lag p is optional.
   - **Warning rule:** if the raw |r| ≥ 0.5 but the detrended |r| < 0.3, show "Both are trending, but that alone doesn't mean they're connected."
-- **Decision:** ____
+- **Decision:** Accept. Apply Bonferroni ×13 to the best-lag p. Mark the 0.5/0.3 warning thresholds as a heuristic.
 
 ## 13. Mirror rule
 - **Suggested default:**
@@ -94,18 +102,18 @@ Each section asks one question. It gives a **suggested default**, the **trade-of
   - Both trends must be Confirmed (p < 0.05) and of opposite sign.
   - Rank by |Z_MK| and show the top 3. If none qualify, show "No mirror found".
 - **Trade-off:** with about 300 regions, roughly 15 will look "Confirmed" by chance at α = 0.05. Consider requiring the mirror to pass the FDR rule in §14.
-- **Decision:** ____
+- **Decision:** Same type, same variable, period AND season; both Confirmed and passing BH-FDR (§14).
 
 ## 14. Many regions at once: trend-map dots and the scanner
 - **Suggested default:**
   - The trend map's "significant" dots use the Benjamini-Hochberg FDR at q = 0.05 across all regions. A single case's verdict uses its raw p.
   - The scanner applies BH-FDR at q = 0.05 across variables × seasons.
 - **Trade-off:** this is stricter and more defensible ("field significance") than raw p everywhere, and a strong answer to the judge question "with 300 regions, aren't some significant by luck?"
-- **Decision:** ____
+- **Decision:** Accept: BH q=0.05 for map dots and scanner (cite Wilks 2016, field significance).
 
 ## 15. Change point (Could)
 - **Suggested default:** the Pettitt test, p < 0.05. Show the change year on the chart as "possible shift around YYYY".
-- **Decision:** ____
+- **Decision:** Accept (Could).
 
 ## 16. Assumptions and limitations
 These are listed and explained for users in `LIMITATIONS.md`:
