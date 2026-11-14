@@ -84,9 +84,9 @@ Use these sentences in About/How we test, the project page and the science Q&A. 
 
 ## Current implementation status
 
-**Student:** The review found numerical and map discrepancies that must be fixed before we call the deployment scientifically validated.
+**Student:** The earlier numerical failures are repaired in local checks, but the corrected deployment and its live map still need scientific review.
 
-**Scientist:** The archived task-8 review reproduces the key but finds engine uncertainty/tier mismatches and fixture map results; passing ordinary tests, improved UI wording or a team usability check does not resolve those failures.
+**Scientist:** PR #44 resolves the checked yearly numerical failures and activates runtime map-family code locally; the separate exact-cutoff mirror issue and fresh deployment/full-family checks remain open, and neither passing tests nor team usability impressions establish calibration or production validity.
 
 ## Team usability decision
 

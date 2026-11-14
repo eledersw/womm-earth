@@ -22,7 +22,7 @@ The scientific design and evidence packet are ready to explain. Engine validity 
 
 **Show:** A reviewed result with both labelled p-values, correctly scaled intervals and any disagreement/unavailable-test notice.
 
-**Current-status qualifier:** The task-8 audit found the engine still follows MK alone and uses different uncertainty conventions. Say “our specified method” until the alignment rerun passes.
+**Current-status qualifier:** PR #44 repaired the earlier MK-only/uncertainty failures; all checked local yearly results now match. The corrected deployment and the exact BH-cutoff mirror follow-up remain unapproved, so distinguish local verification from production sign-off.
 
 ## Validity slide 3 — We checked the checks
 
@@ -52,7 +52,7 @@ A returned zero can be valid; an unavailable value is not zero or proof that a t
 
 ## Project-page science copy — safe at current status
 
-“WOMM Earth helps users separate an estimated trend, its statistical evidence and possible physical explanations. NASA POWER supplies regional monthly data; our scientific design builds yearly annual or seasonal values, estimates change with Sen's slope and specifies two trend tests with approximate dependence corrections. We independently reproduce a nine-case reference key and compare the implementation with it. The current review identifies uncertainty and verdict discrepancies that must be resolved before scientific sign-off. The partner is constrained to returned numerical evidence and applicable cited process cards, with manual factual evaluation planned alongside numeric checks.”
+“WOMM Earth helps users separate an estimated trend, its statistical evidence and possible physical explanations. NASA POWER supplies regional monthly data; our scientific design builds yearly annual or seasonal values, estimates change with Sen's slope and specifies two trend tests with approximate dependence corrections. We independently reproduce a nine-case reference key and compare the implementation with it. The initial review exposed uncertainty and verdict discrepancies; the repaired local implementation now matches the checked reference, while deployment review and a mirror cutoff follow-up remain open. The partner is constrained to returned numerical evidence and applicable cited process cards, with manual factual evaluation planned alongside numeric checks.”
 
 “Regional bounding boxes can hide local differences. Reanalysis and satellite/model products retain uncertainty, statistical detection does not identify a cause, and selected examples are not a worldwide prevalence estimate. Map/scanner multiplicity and conditional detection-time claims are explicit review requirements, rather than promises that every apparent pattern is real.”
 
