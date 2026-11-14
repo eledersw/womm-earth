@@ -197,3 +197,17 @@ test("current-Case guide navigates without analyzing and stays mounted across In
   expect(new URL(page.url()).searchParams.get("r")).toBe(initial.get("r"));
   expect(analyses).toBe(1);
 });
+
+test("case from URL shows verdict within ten seconds after Investigate", async ({ page }) => {
+  await page.route("**/api/partner", (route) => route.fulfill({ contentType: "text/event-stream", body: 'data: {"type":"text","text":"Fixture explanation."}\n\ndata: {"type":"done"}\n\n' }));
+  await page.goto("/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN");
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible({ timeout: 10000 });
+});
+
+test("season change updates URL", async ({ page }) => {
+  await page.goto("/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN");
+  await page.getByRole("radio", { name: "JJA", exact: true }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("s")).toBe("JJA");
+});

@@ -115,3 +115,16 @@ test("Partner cancellation discards late text and allows a fresh question", asyn
   await expect(page.getByRole("textbox", { name: "Ask the Partner" })).toHaveValue("Check this Case");
   await expect(page.getByRole("button", { name: "Send", exact: true })).toBeEnabled();
 });
+
+// Explicit opt-in: real backend and Claude, with no fixture or SSE routes.
+// BASE_URL points at the deployment with its server-side API key configured.
+test("live partner proposes a case", async ({ page }) => {
+  test.skip(process.env.E2E_PARTNER !== "1", "Requires E2E_PARTNER=1 and a deployment with Anthropic configured.");
+  test.setTimeout(120000);
+  await page.unrouteAll();
+  await page.goto("/?v=T2M&r=US-CO&from=1981&to=2025&s=ANN&lvl=student");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await page.getByRole("textbox", { name: "Ask the Partner" }).fill("Analyze annual T2M in US-CO from 1981 to 2025 with analyze_case. Explain the returned verdict, then use propose_case to offer this Case for me to open.");
+  await page.getByRole("button", { name: "Send", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Open this case", exact: true })).toBeVisible({ timeout: 65000 });
+});

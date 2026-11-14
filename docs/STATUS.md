@@ -1,6 +1,6 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 18:54 (H6.9), by Ekaitz (coder-c guided-tour player)
+**Updated:** Sat 2026-11-14 19:14 (H7.2), by Ekaitz (coder-c Task 9 tooling and QA)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
@@ -53,8 +53,8 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 |---|---|---|---|---|
 | Lead | Eleder | Globe live (#14); Southern Ocean / Arctic click fix (#17); required checks on `main`; three dark mockups for the redesign | Pick the dark direction, then retoken the shell; Task 5 trend-map colouring (needs Oier's `/trendmap`) | 🟡 |
 | Coder B (data & stats) | Oier | Live POWER `/analyze` merged (#16): dynamic monthly POWER catalogue, request-time regional observations, no local series fallback. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review the slide claim. | **Fix the red `api` check (see Blockers).** Regenerate OpenAPI/types; validate a live case and POWER availability limits. | 🟡 |
-| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–7 panel work merged (Task 7: PR #26). Task 8 player completed: canonical Case steps, fly-to/highlight/reveal, Prev/Next/Play/Exit, restoration and procedural current-Case guide. Check + 143 tests + 14 Chromium E2E pass; screenshot reviewed. Official demo collection stays empty pending approvals. | Sergio: 3 FINAL cases in DEMO_CASES.md; Edur: tour captions in DEMO_SCRIPT.md. User publishes `ekaitz/task8-guided-tours` and handles PR/merge. Task 7 globe highlight/predict integration and live verification remain pending. | 🟡 |
-| Methods & Validity lead | Sergio | Tasks 5–7 scientific deliverables ready: 3 FINAL + 2 BACKUP cases, ten cited process cards, four verdict tiers in both reading levels, conditional notices and mode-specific grounding rules. Ten statistical tooltips reviewed for Edur in `docs/science/VERDICT_TEMPLATES.md`. | Ekaitz: convert cards/templates/prompts and preserve units, combined-test and unavailable-inference rules. Edur: adopt tooltip/helper wording in COPY.md; joint tone review pending. Oier/Sergio: engine review gate next; MK-only engine rule still needs alignment. No validity sign-off. | 🟡 |
+| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–8 implementation completed and merged (Task 7 #26; Task 8 player #28). Task 9 generator/eval harness and E2E completed; ten reviewed process cards converted with applicability, caveats and citations; prompt follows METHODS v1 without reclassifying engine verdicts. Cached explanations require Sergio approval and match each region/reading level. Check + 163 Vitest + 16 Chromium E2E pass; one opt-in live test skipped. | Close Task 9: Oier aligns engine; Edur supplies captions; Sergio completes/reconciles EVAL.md (3/20, old Case 1 context), reviews generated texts and scores the real run. Key only in Vercel; live verification deferred per user. Python QA needs backend dependencies. User handles push/PR/merge. Globe integration remains with Eleder. | 🟡 |
+| Methods & Validity lead | Sergio | Task 5 scientific selection complete: 3 FINAL + 2 BACKUP, all five unmodified CLI runs succeed. Task 6 complete: ten cited process cards, both reading levels, covering all five cases in `docs/science/PROCESS_CARDS.md`. Golden key verified 9/9; catalog 16 signed off. | Ekaitz: cards ready for conversion to `lib/partner/process-cards.json`; preserve applicability and attribution limits. Edur/Ekaitz: selected FINAL cases are in `docs/science/DEMO_CASES.md`. Verdict templates/grounding rules next. Oier: engine/key alignment and production smoke; no validity sign-off. | 🟡 |
 | Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
 
 ## Checkpoints
@@ -85,6 +85,8 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 - [coder-c] Task 7 globe integration: `components/globe/GlobeView.tsx` does not consume `highlight` (mirror regions/arcs) or `predictMode && !reveal` (hide trend colours). Panel already writes the frozen store fields; no seam change needed · Eleder (globe) · since H6.6
 
-- [coder-c] Task 8 official demos: DEMO_CASES.md has no FINAL decisions and DEMO_SCRIPT.md captions are placeholders; tours.json remains empty. Procedural current-Case guide is available, with no invented scientific results · Sergio (FINAL cases) + Edur (captions) · since H6.9
+- [coder-c] Task 8 official demos / Task 9 cache: Sergio has selected 3 FINAL + 2 BACKUP and supplied ten process cards (converted). DEMO_CASES.md requires engine alignment before using its keys; DEMO_SCRIPT.md captions are still placeholders. tours.json and demo-explanations.json stay empty until those prerequisites and text review are satisfied · Oier (engine) + Edur (captions) + Sergio (review) · updated H7.2
+
+- [coder-c] Task 9 official eval: EVAL.md has 3/20 complete questions; its Wisconsin smoke Case 1 context differs from the new FINAL 1 Colorado temperature. Harness preflight blocks an incomplete/unresolved run. No accuracy score or scientific approval claimed; real Claude/cache verification remains deferred (key only in Vercel). Python checks could not start: pytest and backend dependencies absent · Sergio (rubric/context reconciliation, score) + deployment/environment setup · since H7.2
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
