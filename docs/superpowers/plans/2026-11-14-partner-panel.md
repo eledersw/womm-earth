@@ -363,8 +363,10 @@ Task 7 panel completion: check + 135 Vitest tests + 13 Chromium E2E pass with of
 - The player has Prev/Next/Play (6 s per step) and Exit, which calls `clearHighlight()`.
 - `TourLauncher`: a **Watch this case** button per tour, shown in the panel's empty state and in the Partner tab.
 
-- [ ] **Step 1: Write the tour test.** `tours.test.ts`: `every tour step parses` (each `caseFromQuery(step.query)` round-trips through `caseToQuery`, and each region id exists in `api/_fixtures/regions.json` or `api/_data/regions.json`). Run → FAIL.
+- [x] **Step 1: Write the tour test.** `tours.test.ts`: `every tour step parses` (each `caseFromQuery(step.query)` round-trips through `caseToQuery`, and each region id exists in `api/_fixtures/regions.json` or `api/_data/regions.json`). Run → FAIL.
 - [ ] **Step 2: Implement** the tours with the captions from `docs/pitch/DEMO_SCRIPT.md` (Edur, H10) and the cases from `docs/science/DEMO_CASES.md` (Sergio, H8). Run → PASS. Commit `feat(tour): guided demo tours`, then self-merge.
+
+Task 8 player completion: check + 143 Vitest tests + 14 Chromium E2E pass. Navigation, 6-second playback, manual-edit pause, restoration, canonical queries, centroid helper and no implicit analysis are verified. A procedural current-Case guide provides a working fallback without scientific demo claims. Step 2 remains pending for Sergio's 3 FINAL cases and Edur's approved captions (source docs are drafts), then user publication/PR/merge. tours.json intentionally contains no unapproved cases.
 
 ### Task 9: Demo explanations, eval harness, E2E (H22–H26)
 

@@ -2,6 +2,10 @@ import { expect, test } from "@playwright/test";
 import variables from "../api/_fixtures/variables.json";
 import regions from "../api/_fixtures/regions.json";
 import fixture from "../api/_fixtures/analyze.json";
+import regionCatalog from "../api/_data/regions.json";
+// Legacy HTTP fixtures predate the [lng, lat] seam. Use the actual catalogue's
+// centroid for camera checks without modifying Oier's fixture files.
+const regionFixtures = regions.map((region) => ({ ...region, centroid: regionCatalog.find((item) => item.id === region.id)?.centroid ?? region.centroid }));
 
 // Browser checks exercise the real URL adapter and controls against the official
 // HTTP fixtures. They do not claim validation of the scientific data pipeline.
@@ -10,7 +14,7 @@ test.beforeEach(async ({ page }) => {
   await page.route("**/geo/*.geojson", (route) => route.fulfill({ json: { type: "FeatureCollection", features: [] } }));
   await page.route("**/api/py/mirror", (route) => route.fulfill({ json: { base: { region: route.request().postDataJSON().regions[0], slope_per_decade: 0.8, p: 0.01, z: 2.5, tier: "confirmed" }, mirrors: [], none_found: true } }));
   await page.route("**/api/py/variables", (route) => route.fulfill({ json: variables }));
-  await page.route("**/api/py/regions", (route) => route.fulfill({ json: regions }));
+  await page.route("**/api/py/regions", (route) => route.fulfill({ json: regionFixtures }));
   await page.route("**/api/py/analyze", (route) => {
     const body = route.request().postDataJSON();
     return route.fulfill({ json: {
@@ -166,4 +170,30 @@ test("predict gates evidence and explanations; correlation and mirrors use the a
   await page.screenshot({ path: test.info().outputPath("case-explorations.png"), fullPage: true });
   await page.getByRole("button", { name: "Compare Sahel", exact: true }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("r")).toBe("US-WI,NR-SAHEL");
+});
+
+test("current-Case guide navigates without analyzing and stays mounted across Investigate", async ({ page }) => {
+  let analyses = 0;
+  await page.route("**/api/py/analyze", (route) => { analyses++; return route.fulfill({ json: fixture }); });
+  await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
+  const initial = new URL(page.url()).searchParams;
+  await page.getByRole("button", { name: "Guide me through this Case", exact: true }).click();
+  const guide = page.getByRole("region", { name: "Guided cases", exact: true });
+  await expect(guide.getByText("Step 1 of 5", { exact: true })).toBeVisible();
+  expect(analyses).toBe(0);
+  await guide.getByRole("button", { name: "Next", exact: true }).click();
+  await expect(guide.getByText("Step 2 of 5", { exact: true })).toBeVisible();
+  await guide.getByRole("button", { name: "Previous", exact: true }).click();
+  await expect(guide.getByText("Step 1 of 5", { exact: true })).toBeVisible();
+  await guide.getByRole("button", { name: "Play", exact: true }).click();
+  await guide.getByRole("button", { name: "Pause", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
+  await expect(guide.getByText("Step 1 of 5", { exact: true })).toBeVisible();
+  await page.screenshot({ path: test.info().outputPath("current-case-guide.png"), fullPage: true });
+  await guide.getByRole("button", { name: "Exit guide", exact: true }).click();
+  await expect(guide.getByText("Step 1 of 5", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Guide me through this Case", exact: true })).toBeVisible();
+  expect(new URL(page.url()).searchParams.get("r")).toBe(initial.get("r"));
+  expect(analyses).toBe(1);
 });
