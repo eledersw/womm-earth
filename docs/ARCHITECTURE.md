@@ -99,7 +99,7 @@ The offline pipeline below can still build regional `.npz` libraries for researc
 ## Claude integration
 
 - **Before coding,** load the `claude-api` skill and read `typescript/claude-api/README.md`, `tool-use.md` and `streaming.md`.
-- **Model and settings:** `claude-opus-5-5`, adaptive thinking, an explicit `output_config.effort` (`low` for Explain and `medium` for Partner to start), and the server-side fallback (`fallbacks: "default"`).
+- **Model and settings:** `claude-sonnet-5-5` (was `claude-opus-5-5` until H7), adaptive thinking, an explicit `output_config.effort` (`low` for Explain and `medium` for Partner to start), and the server-side fallback (`fallbacks: "default"`).
 - **Response handling:** handle the `refusal` and `max_tokens` stop reasons, and cap the number of tool-loop iterations.
 - **Streaming:** stream our own SSE events to the browser: `text`, `tool_result`, `propose_case`, `error`.
 - **Explain mode:**

@@ -7,8 +7,10 @@ import { fmtNumber, fmtP, fmtSlope } from "@/lib/partner/format";
 import { caseCopy } from "@/lib/copy/case";
 import { StepSection, type StepProps } from "./StepSection";
 
-type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable };
-export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, children, ...status }: Props) {
+type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable;
+  /** The case panel shows explanations in their own pane; set false to leave them out here. */
+  showExplanation?: boolean };
+export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, showExplanation = true, children, ...status }: Props) {
   const c = caseCopy.verdict;
   return <StepSection step="verdict" {...status}>
     {results?.length && context ? <div className="space-y-4">{results.map((r) => {
@@ -19,7 +21,7 @@ export function VerdictStep({ results, context, level = "student", ratioScale = 
         {testsDisagree(r) && <p className="mt-2 text-sm font-semibold">{c.disagreeBadge}</p>}
         <p className="mt-2 text-sm">{verdict.body}</p>
         {level === "scientist" && r.stats && <StatsTable stats={r.stats} unit={context.unit} ratioScale={ratioScale} />}
-        {variable && r.verdict.tier !== "too_short" && <ExplainBox result={r} variable={variable} regionName={r.region.name} level={level} />}
+        {showExplanation && variable && r.verdict.tier !== "too_short" && <ExplainBox result={r} variable={variable} regionName={r.region.name} level={level} />}
       </article>;
     })}</div> : children}
   </StepSection>;

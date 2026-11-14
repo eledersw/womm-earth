@@ -96,8 +96,8 @@
   html {
     @apply font-sans;
     color-scheme: dark;
-    /* 17px root: every rem-sized control grows a step for the projector */
-    font-size: 106.25%;
+    /* 14px root: compact panels and controls; everything rem-sized follows */
+    font-size: 87.5%;
     scrollbar-color: var(--hairline-strong) transparent;
   }
   body {
@@ -220,7 +220,7 @@
      The app's main label face: headings of steps, nav, buttons, read-outs. */
   .label-mono {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 400;
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
