@@ -1,0 +1,10 @@
+{
+  "request_url": "https://power.larc.nasa.gov/api/temporal/monthly/regional?parameters=T2M&community=AG&latitude-min=43&latitude-max=45&longitude-min=-91&longitude-max=-89&start=2025&end=2025&format=JSON&user=womm_earth",
+  "http_status": 422,
+  "response": {
+    "header": "The POWER Monthly and Annual API failed to complete your request; please review the errors below and the POWER Docs (https://power.larc.nasa.gov/docs/).",
+    "messages": [
+      "Please supply a an alphanumeric user."
+    ]
+  }
+}
