@@ -1,0 +1,20 @@
+{
+  "n": 24,
+  "n_eff": 20.0,
+  "pearson_raw": 0.68,
+  "pearson_detrended": 0.15,
+  "spearman_raw": 0.65,
+  "spearman_detrended": 0.12,
+  "p_raw": 0.01,
+  "p_detrended": 0.52,
+  "best_lag": 0,
+  "best_lag_r": 0.68,
+  "lags": [
+    {
+      "lag": 0,
+      "r": 0.68
+    }
+  ],
+  "scatter": [],
+  "warning": "both_trending"
+}

@@ -1,0 +1,1679 @@
+{
+  "components": {
+    "schemas": {
+      "AnalyzeResponse": {
+        "properties": {
+          "case": {
+            "$ref": "#/components/schemas/CaseRequest"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/RegionAnalysis"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": [
+          "case",
+          "results"
+        ],
+        "title": "AnalyzeResponse",
+        "type": "object"
+      },
+      "CaseRequest": {
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "integer"
+          },
+          "months": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Months"
+          },
+          "regions": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 4,
+            "minItems": 1,
+            "title": "Regions",
+            "type": "array"
+          },
+          "season": {
+            "default": "ANN",
+            "enum": [
+              "ANN",
+              "DJF",
+              "MAM",
+              "JJA",
+              "SON",
+              "CUSTOM"
+            ],
+            "title": "Season",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "integer"
+          },
+          "variable": {
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "variable",
+          "regions",
+          "start",
+          "end"
+        ],
+        "title": "CaseRequest",
+        "type": "object"
+      },
+      "CorrelateRequest": {
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "integer"
+          },
+          "max_lag": {
+            "default": 6,
+            "maximum": 6.0,
+            "minimum": 0.0,
+            "title": "Max Lag",
+            "type": "integer"
+          },
+          "months": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Months"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "season": {
+            "default": "ANN",
+            "enum": [
+              "ANN",
+              "DJF",
+              "MAM",
+              "JJA",
+              "SON",
+              "CUSTOM"
+            ],
+            "title": "Season",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "integer"
+          },
+          "var_x": {
+            "title": "Var X",
+            "type": "string"
+          },
+          "var_y": {
+            "title": "Var Y",
+            "type": "string"
+          }
+        },
+        "required": [
+          "var_x",
+          "var_y",
+          "region",
+          "start",
+          "end"
+        ],
+        "title": "CorrelateRequest",
+        "type": "object"
+      },
+      "CorrelateResponse": {
+        "properties": {
+          "best_lag": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Lag"
+          },
+          "best_lag_r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Best Lag R"
+          },
+          "lags": {
+            "items": {
+              "$ref": "#/components/schemas/LagPoint"
+            },
+            "title": "Lags",
+            "type": "array"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "n_eff": {
+            "title": "N Eff",
+            "type": "number"
+          },
+          "p_detrended": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P Detrended"
+          },
+          "p_raw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P Raw"
+          },
+          "pearson_detrended": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pearson Detrended"
+          },
+          "pearson_raw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pearson Raw"
+          },
+          "scatter": {
+            "items": {
+              "$ref": "#/components/schemas/ScatterPoint"
+            },
+            "title": "Scatter",
+            "type": "array"
+          },
+          "spearman_detrended": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Spearman Detrended"
+          },
+          "spearman_raw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Spearman Raw"
+          },
+          "warning": {
+            "anyOf": [
+              {
+                "const": "both_trending",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warning"
+          }
+        },
+        "required": [
+          "n",
+          "n_eff",
+          "pearson_raw",
+          "pearson_detrended",
+          "spearman_raw",
+          "spearman_detrended",
+          "p_raw",
+          "p_detrended",
+          "best_lag",
+          "best_lag_r",
+          "lags",
+          "scatter",
+          "warning"
+        ],
+        "title": "CorrelateResponse",
+        "type": "object"
+      },
+      "FitPoint": {
+        "properties": {
+          "ols": {
+            "title": "Ols",
+            "type": "number"
+          },
+          "ols_high": {
+            "title": "Ols High",
+            "type": "number"
+          },
+          "ols_low": {
+            "title": "Ols Low",
+            "type": "number"
+          },
+          "sen": {
+            "title": "Sen",
+            "type": "number"
+          },
+          "year": {
+            "title": "Year",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "year",
+          "ols",
+          "ols_low",
+          "ols_high",
+          "sen"
+        ],
+        "title": "FitPoint",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Health": {
+        "properties": {
+          "cold_start_ms": {
+            "title": "Cold Start Ms",
+            "type": "number"
+          },
+          "numpy": {
+            "title": "Numpy",
+            "type": "string"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "python": {
+            "title": "Python",
+            "type": "string"
+          },
+          "scipy": {
+            "title": "Scipy",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ok",
+          "python",
+          "numpy",
+          "scipy",
+          "cold_start_ms"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "LagPoint": {
+        "properties": {
+          "lag": {
+            "title": "Lag",
+            "type": "integer"
+          },
+          "r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "R"
+          }
+        },
+        "required": [
+          "lag",
+          "r"
+        ],
+        "title": "LagPoint",
+        "type": "object"
+      },
+      "MirrorBase": {
+        "properties": {
+          "p": {
+            "title": "P",
+            "type": "number"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "slope_per_decade": {
+            "title": "Slope Per Decade",
+            "type": "number"
+          },
+          "tier": {
+            "enum": [
+              "confirmed",
+              "not_proven",
+              "no_case",
+              "too_short"
+            ],
+            "title": "Tier",
+            "type": "string"
+          },
+          "z": {
+            "title": "Z",
+            "type": "number"
+          }
+        },
+        "required": [
+          "region",
+          "slope_per_decade",
+          "p",
+          "z",
+          "tier"
+        ],
+        "title": "MirrorBase",
+        "type": "object"
+      },
+      "MirrorEntry": {
+        "properties": {
+          "p": {
+            "title": "P",
+            "type": "number"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "slope_per_decade": {
+            "title": "Slope Per Decade",
+            "type": "number"
+          },
+          "z": {
+            "title": "Z",
+            "type": "number"
+          }
+        },
+        "required": [
+          "region",
+          "slope_per_decade",
+          "p",
+          "z"
+        ],
+        "title": "MirrorEntry",
+        "type": "object"
+      },
+      "MirrorRequest": {
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "integer"
+          },
+          "months": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Months"
+          },
+          "regions": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "title": "Regions",
+            "type": "array"
+          },
+          "season": {
+            "default": "ANN",
+            "enum": [
+              "ANN",
+              "DJF",
+              "MAM",
+              "JJA",
+              "SON",
+              "CUSTOM"
+            ],
+            "title": "Season",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "integer"
+          },
+          "variable": {
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "variable",
+          "regions",
+          "start",
+          "end"
+        ],
+        "title": "MirrorRequest",
+        "type": "object"
+      },
+      "MirrorResponse": {
+        "properties": {
+          "base": {
+            "$ref": "#/components/schemas/MirrorBase"
+          },
+          "mirrors": {
+            "items": {
+              "$ref": "#/components/schemas/MirrorEntry"
+            },
+            "title": "Mirrors",
+            "type": "array"
+          },
+          "none_found": {
+            "title": "None Found",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "base",
+          "mirrors",
+          "none_found"
+        ],
+        "title": "MirrorResponse",
+        "type": "object"
+      },
+      "Mk": {
+        "properties": {
+          "p": {
+            "title": "P",
+            "type": "number"
+          },
+          "p_naive": {
+            "title": "P Naive",
+            "type": "number"
+          },
+          "tau": {
+            "title": "Tau",
+            "type": "number"
+          },
+          "z": {
+            "title": "Z",
+            "type": "number"
+          }
+        },
+        "required": [
+          "p",
+          "p_naive",
+          "z",
+          "tau"
+        ],
+        "title": "Mk",
+        "type": "object"
+      },
+      "MonthlyPoint": {
+        "properties": {
+          "anomaly": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Anomaly"
+          },
+          "t": {
+            "title": "T",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "t",
+          "value",
+          "anomaly"
+        ],
+        "title": "MonthlyPoint",
+        "type": "object"
+      },
+      "Ols": {
+        "properties": {
+          "ci_high": {
+            "title": "Ci High",
+            "type": "number"
+          },
+          "ci_low": {
+            "title": "Ci Low",
+            "type": "number"
+          },
+          "intercept": {
+            "title": "Intercept",
+            "type": "number"
+          },
+          "n_eff": {
+            "title": "N Eff",
+            "type": "number"
+          },
+          "p": {
+            "title": "P",
+            "type": "number"
+          },
+          "r2": {
+            "title": "R2",
+            "type": "number"
+          },
+          "se": {
+            "title": "Se",
+            "type": "number"
+          },
+          "slope": {
+            "title": "Slope",
+            "type": "number"
+          }
+        },
+        "required": [
+          "slope",
+          "intercept",
+          "se",
+          "p",
+          "ci_low",
+          "ci_high",
+          "r2",
+          "n_eff"
+        ],
+        "title": "Ols",
+        "type": "object"
+      },
+      "Provenance": {
+        "properties": {
+          "doi": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Doi"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instrument"
+          },
+          "kind": {
+            "enum": [
+              "satellite",
+              "reanalysis"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "product": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Product"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "instrument",
+          "product",
+          "doi",
+          "kind"
+        ],
+        "title": "Provenance",
+        "type": "object"
+      },
+      "Region": {
+        "properties": {
+          "bbox": {
+            "maxItems": 4,
+            "minItems": 4,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Bbox",
+            "type": "array"
+          },
+          "centroid": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Centroid",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "nearest_cell_fallback": {
+            "title": "Nearest Cell Fallback",
+            "type": "boolean"
+          },
+          "parent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent"
+          },
+          "type": {
+            "enum": [
+              "country",
+              "state",
+              "ocean",
+              "named"
+            ],
+            "title": "Type",
+            "type": "string"
+          },
+          "valid_variables": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Valid Variables",
+            "type": "array"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "centroid",
+          "bbox",
+          "nearest_cell_fallback",
+          "valid_variables",
+          "parent"
+        ],
+        "title": "Region",
+        "type": "object"
+      },
+      "RegionAnalysis": {
+        "properties": {
+          "fit": {
+            "items": {
+              "$ref": "#/components/schemas/FitPoint"
+            },
+            "title": "Fit",
+            "type": "array"
+          },
+          "monthly": {
+            "items": {
+              "$ref": "#/components/schemas/MonthlyPoint"
+            },
+            "title": "Monthly",
+            "type": "array"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "region": {
+            "$ref": "#/components/schemas/Region"
+          },
+          "stats": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TrendStats"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          },
+          "yearly": {
+            "items": {
+              "$ref": "#/components/schemas/YearlyPoint"
+            },
+            "title": "Yearly",
+            "type": "array"
+          }
+        },
+        "required": [
+          "region",
+          "monthly",
+          "yearly",
+          "fit",
+          "stats",
+          "verdict",
+          "provenance",
+          "warnings"
+        ],
+        "title": "RegionAnalysis",
+        "type": "object"
+      },
+      "ScanEntry": {
+        "properties": {
+          "p": {
+            "title": "P",
+            "type": "number"
+          },
+          "q": {
+            "title": "Q",
+            "type": "number"
+          },
+          "season": {
+            "enum": [
+              "ANN",
+              "DJF",
+              "MAM",
+              "JJA",
+              "SON",
+              "CUSTOM"
+            ],
+            "title": "Season",
+            "type": "string"
+          },
+          "slope_per_decade": {
+            "title": "Slope Per Decade",
+            "type": "number"
+          },
+          "tier": {
+            "enum": [
+              "confirmed",
+              "not_proven",
+              "no_case",
+              "too_short"
+            ],
+            "title": "Tier",
+            "type": "string"
+          },
+          "variable": {
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "variable",
+          "season",
+          "slope_per_decade",
+          "p",
+          "q",
+          "tier"
+        ],
+        "title": "ScanEntry",
+        "type": "object"
+      },
+      "ScanRequest": {
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "integer"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "region",
+          "start",
+          "end"
+        ],
+        "title": "ScanRequest",
+        "type": "object"
+      },
+      "ScanResponse": {
+        "properties": {
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/ScanEntry"
+            },
+            "title": "Entries",
+            "type": "array"
+          },
+          "region": {
+            "title": "Region",
+            "type": "string"
+          }
+        },
+        "required": [
+          "region",
+          "entries"
+        ],
+        "title": "ScanResponse",
+        "type": "object"
+      },
+      "ScatterPoint": {
+        "properties": {
+          "t": {
+            "title": "T",
+            "type": "string"
+          },
+          "x": {
+            "title": "X",
+            "type": "number"
+          },
+          "y": {
+            "title": "Y",
+            "type": "number"
+          }
+        },
+        "required": [
+          "t",
+          "x",
+          "y"
+        ],
+        "title": "ScatterPoint",
+        "type": "object"
+      },
+      "Sen": {
+        "properties": {
+          "ci_high": {
+            "title": "Ci High",
+            "type": "number"
+          },
+          "ci_low": {
+            "title": "Ci Low",
+            "type": "number"
+          },
+          "intercept": {
+            "title": "Intercept",
+            "type": "number"
+          },
+          "slope": {
+            "title": "Slope",
+            "type": "number"
+          }
+        },
+        "required": [
+          "slope",
+          "intercept",
+          "ci_low",
+          "ci_high"
+        ],
+        "title": "Sen",
+        "type": "object"
+      },
+      "TrendMapEntry": {
+        "properties": {
+          "p": {
+            "title": "P",
+            "type": "number"
+          },
+          "q": {
+            "title": "Q",
+            "type": "number"
+          },
+          "slope_per_decade": {
+            "title": "Slope Per Decade",
+            "type": "number"
+          },
+          "tier": {
+            "enum": [
+              "confirmed",
+              "not_proven",
+              "no_case",
+              "too_short"
+            ],
+            "title": "Tier",
+            "type": "string"
+          }
+        },
+        "required": [
+          "slope_per_decade",
+          "p",
+          "q",
+          "tier"
+        ],
+        "title": "TrendMapEntry",
+        "type": "object"
+      },
+      "TrendMapResponse": {
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "integer"
+          },
+          "entries": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/TrendMapEntry"
+            },
+            "title": "Entries",
+            "type": "object"
+          },
+          "season": {
+            "enum": [
+              "ANN",
+              "DJF",
+              "MAM",
+              "JJA",
+              "SON",
+              "CUSTOM"
+            ],
+            "title": "Season",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "integer"
+          },
+          "variable": {
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "variable",
+          "start",
+          "end",
+          "season",
+          "entries"
+        ],
+        "title": "TrendMapResponse",
+        "type": "object"
+      },
+      "TrendStats": {
+        "properties": {
+          "change_per_decade": {
+            "title": "Change Per Decade",
+            "type": "number"
+          },
+          "mk": {
+            "$ref": "#/components/schemas/Mk"
+          },
+          "n_years": {
+            "title": "N Years",
+            "type": "integer"
+          },
+          "ols": {
+            "$ref": "#/components/schemas/Ols"
+          },
+          "pct_of_mean_per_decade": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pct Of Mean Per Decade"
+          },
+          "period_mean": {
+            "title": "Period Mean",
+            "type": "number"
+          },
+          "phi": {
+            "title": "Phi",
+            "type": "number"
+          },
+          "resid_sd": {
+            "title": "Resid Sd",
+            "type": "number"
+          },
+          "sen": {
+            "$ref": "#/components/schemas/Sen"
+          },
+          "tests_agree": {
+            "title": "Tests Agree",
+            "type": "boolean"
+          },
+          "total_change": {
+            "title": "Total Change",
+            "type": "number"
+          }
+        },
+        "required": [
+          "n_years",
+          "phi",
+          "resid_sd",
+          "ols",
+          "mk",
+          "sen",
+          "tests_agree",
+          "period_mean",
+          "change_per_decade",
+          "total_change",
+          "pct_of_mean_per_decade"
+        ],
+        "title": "TrendStats",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "Variable": {
+        "properties": {
+          "definition_scientist": {
+            "title": "Definition Scientist",
+            "type": "string"
+          },
+          "definition_student": {
+            "title": "Definition Student",
+            "type": "string"
+          },
+          "doi": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Doi"
+          },
+          "end_year": {
+            "title": "End Year",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "instrument": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instrument"
+          },
+          "kind": {
+            "enum": [
+              "satellite",
+              "reanalysis"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "land_only": {
+            "title": "Land Only",
+            "type": "boolean"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "ratio_scale": {
+            "title": "Ratio Scale",
+            "type": "boolean"
+          },
+          "signed_off": {
+            "title": "Signed Off",
+            "type": "boolean"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "start_year": {
+            "title": "Start Year",
+            "type": "integer"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "unit",
+          "source",
+          "instrument",
+          "kind",
+          "start_year",
+          "end_year",
+          "land_only",
+          "ratio_scale",
+          "definition_student",
+          "definition_scientist",
+          "doi",
+          "signed_off"
+        ],
+        "title": "Variable",
+        "type": "object"
+      },
+      "Verdict": {
+        "properties": {
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "tier": {
+            "enum": [
+              "confirmed",
+              "not_proven",
+              "no_case",
+              "too_short"
+            ],
+            "title": "Tier",
+            "type": "string"
+          },
+          "years_needed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Years Needed"
+          }
+        },
+        "required": [
+          "tier",
+          "years_needed",
+          "reason"
+        ],
+        "title": "Verdict",
+        "type": "object"
+      },
+      "YearlyPoint": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "year": {
+            "title": "Year",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "year",
+          "value"
+        ],
+        "title": "YearlyPoint",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/py/analyze": {
+      "post": {
+        "operationId": "analyze_api_py_analyze_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Analyze"
+      }
+    },
+    "/api/py/correlate": {
+      "post": {
+        "operationId": "correlate_api_py_correlate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorrelateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CorrelateResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Correlate"
+      }
+    },
+    "/api/py/health": {
+      "get": {
+        "operationId": "health_api_py_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health"
+      }
+    },
+    "/api/py/mirror": {
+      "post": {
+        "operationId": "mirror_api_py_mirror_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MirrorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MirrorResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Mirror"
+      }
+    },
+    "/api/py/regions": {
+      "get": {
+        "operationId": "regions_api_py_regions_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Region"
+                  },
+                  "title": "Response Regions Api Py Regions Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Regions"
+      }
+    },
+    "/api/py/scan": {
+      "post": {
+        "operationId": "scan_api_py_scan_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Scan"
+      }
+    },
+    "/api/py/trendmap": {
+      "get": {
+        "operationId": "trendmap_api_py_trendmap_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "variable",
+            "required": true,
+            "schema": {
+              "title": "Variable",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "required": true,
+            "schema": {
+              "title": "Start",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "required": true,
+            "schema": {
+              "title": "End",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "season",
+            "required": false,
+            "schema": {
+              "default": "ANN",
+              "title": "Season",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "months",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Months"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrendMapResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Trendmap"
+      }
+    },
+    "/api/py/variables": {
+      "get": {
+        "operationId": "variables_api_py_variables_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Variable"
+                  },
+                  "title": "Response Variables Api Py Variables Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Variables"
+      }
+    }
+  }
+}
