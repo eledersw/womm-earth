@@ -113,7 +113,7 @@ Task 2 local verification: `npm run check`, 66 Vitest tests and 4 Chromium E2E p
 - `renderVerdict(r: RegionAnalysis, ctx: { variableName: string; unit: string; regionName: string; period: string; seasonLabel: string }, level: ReadingLevel): { badge: string; title: string; body: string }`
   - The wording comes from `docs/science/VERDICT_TEMPLATES.md`; copy its table into this file as template strings.
 
-- [ ] **Step 1: Write the verdict tests.** In `verdict-templates.test.ts`:
+- [x] **Step 1: Write the verdict tests.** In `verdict-templates.test.ts`:
   - `renderVerdict confirmed student` (badge === "Confirmed"; the body contains `fmtSlope(stats.change_per_decade)` and "per decade");
   - `renderVerdict not_proven shows years` (the body contains `String(verdict.years_needed)`);
   - `renderVerdict no_case never says no change` (the body doesn't match `/no change/i`);
@@ -121,14 +121,16 @@ Task 2 local verification: `npm run check`, 66 Vitest tests and 4 Chromium E2E p
   - `tests_disagree warning surfaces` (when `warnings` includes `"tests_disagree"`, the body includes the caution line).
 
   Run `npx vitest run lib/partner` → FAIL.
-- [ ] **Step 2: Implement** `format.ts` and `verdict-templates.ts`. Run → PASS.
-- [ ] **Step 3: Build the Evidence and Verdict steps.**
+- [x] **Step 2: Implement** `format.ts` and `verdict-templates.ts`. Run → PASS.
+- [x] **Step 3: Build the Evidence and Verdict steps.**
   - **EvidenceStep:** `SeriesChart` plus a Yearly/Monthly toggle (Monthly → `MonthlyChart` with a raw/anomaly switch), and a source badge from `provenance` (`kind` is shown as "Satellite" or "Reanalysis (model)").
   - **VerdictStep:** one card per region with `renderVerdict`. The Scientist level adds an Ols/Mk/Sen numbers table.
-- [ ] **Step 4: Verify and merge (M1).**
+- [x] **Step 4: Verify and merge (M1).**
   - With the H2 stubs (or the real API once Oier merges), Case `?v=T2M&r=US-WI&from=1981&to=2024&s=ANN` shows the chart and a verdict.
   - Run `npm run check`.
   - Commit `feat(panel): evidence chart + verdict card`, then self-merge at the **H8 checkpoint**. You merge last (after Oier, then Eleder).
+
+Task 3 local verification: check + 78 Vitest tests + 6 Chromium E2E pass, using official HTTP fixtures. Light/dark screenshots reviewed, including four-region Scientist layout and widths 1280/768/390. Publication, PR and merge are pending and handled manually by Ekaitz.
 
 ### Task 4: SSE helpers + number check (H8–H10)
 
