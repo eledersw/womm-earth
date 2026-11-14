@@ -1,6 +1,8 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 12:00 (H0), by Claude (docs scaffold)
+**Updated:** Sat 2026-11-14 13:00 (H1), by Eleder (scaffold)
+
+> 📣 **Scaffold is on `main`: branch from it now.** Run `npm ci`, and create a Python venv for `requirements.txt` + `uvicorn`. Then `npm run dev` starts Next.js plus FastAPI on 127.0.0.1:8000. `npm run check` must pass before every PR.
 **Deadline:** target H30 ≈ Sun 2026-11-15 18:00 local. *The Story lead confirms the official time at H1 and corrects this line.* **We submit by H29.**
 **Current milestone:** M0 (due H2)
 
@@ -37,7 +39,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 | Role | Person | Now | Next | State |
 |---|---|---|---|---|
-| Lead | Eleder | — | Scaffold + smoke deploy | ⬜ |
+| Lead | Eleder | Scaffold merged (frontend-shell Task 1); verified locally | Vercel project + production smoke test, then Task 2 (seams) | 🟡 |
 | Coder B (data & stats) | Oier | — | Zarr spike in Colab, stub API | ⬜ |
 | Coder C (panel, charts, partner) | Ekaitz | — | claude-api skill, `<PlotFigure>`, panel shells | ⬜ |
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
@@ -45,15 +47,18 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 ## Checkpoints
 
-- [ ] Smoke deploy (Lead, H2):
-  - [ ] nested route with a query string answers (`/api/py/health?x=1`)
-  - [ ] numpy + `scipy.special` import
-  - [ ] `/api/partner` stub answers alongside `/api/py/*`
-  - [ ] cold start: ___ s
+- [ ] Smoke deploy (Lead, H2). **Local: all pass. Production: pending the Vercel project.**
+  - [ ] nested route with a query string answers (`/api/py/health?x=1`): local ✅ through the Next rewrite
+  - [ ] numpy + `scipy.special` import: local ✅ (numpy 2.5.4, scipy 1.18.1)
+  - [ ] `/api/partner` stub answers alongside `/api/py/*`: local ✅ (501)
+  - [ ] cold start: local 0.08 s import time; production ___ s
+  - [ ] Python version on Vercel is 3.12 (`/api/py/health` → `python`)
 - [ ] Validity checkpoint passed (Methods lead, by H14)
 - [ ] Accuracy eval score: ___ / 20 (Methods lead + Coder C, H22–H24)
 - [ ] Submission checklist complete (Story lead + Lead, H29)
 
 ## Blockers
 
-_None yet._ Format: `- [owner] what is blocked · who can unblock it · since H?`
+- [Eleder] Production deploy · Eleder creates the Vercel project, then adds `ANTHROPIC_API_KEY`, Protection Bypass and the Anthropic spend cap · since H1
+
+Format: `- [owner] what is blocked · who can unblock it · since H?`

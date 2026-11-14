@@ -15,7 +15,7 @@
 **Eleder: shell, globe, state, infra**
 ```
 package.json  package-lock.json  next.config.ts  tsconfig.json  eslint.config.mjs  postcss.config.mjs
-components.json  vercel.json  .env.example  .gitignore  .github/**  playwright.config.ts
+components.json  vercel.json  .env.example  .gitignore  .gitattributes  .python-version  .github/**  playwright.config.ts  vitest.config.mts
 AGENTS.md  CLAUDE.md  .claude/**
 app/layout.tsx  app/page.tsx  app/globals.css  app/tokens.css  app/about/**
 components/ui/**          (shadcn primitives)
@@ -27,7 +27,7 @@ lib/copy/globe.ts
 lib/utils.ts
 public/textures/**  public/favicon*  (everything in public/ except public/geo/)
 e2e/fixtures/**  e2e/globe.spec.ts  e2e/smoke.spec.ts
-scripts/check-ownership.mjs
+scripts/check-ownership.mjs  scripts/check-ownership.test.ts
 ```
 
 **Oier: Python API, engine, data pipeline, region geometry, contract**

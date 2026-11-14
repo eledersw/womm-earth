@@ -13,7 +13,7 @@
 - Next.js App Router (TS), React client components.
 - shadcn primitives from `components/ui/`, Tailwind with Eleder's tokens.
 - Observable Plot for charts.
-- `@anthropic-ai/sdk` (≥ 0.136.0) + `zod` for the partner.
+- `@anthropic-ai/sdk` (installed: 1.8.0) + `zod` (installed: 4.x) for the partner.
 - vitest for unit tests, Playwright for E2E.
 
 **Spec:** `docs/superpowers/specs/2026-11-14-earth-case-files-design.md`. Source docs to convert: `docs/pitch/COPY.md`, `docs/science/VERDICT_TEMPLATES.md`, `docs/science/PROCESS_CARDS.md`, `docs/pitch/DEMO_SCRIPT.md`.
@@ -23,7 +23,7 @@
 - **Model and fallback:** model id `claude-opus-5-5`, exactly. Every request uses the beta endpoint with `betas: ["server-side-fallback-2026-07-01"]` and `fallbacks: "default"`, which reroutes a refused request automatically.
 - **Thinking:** don't send a `thinking` parameter (Opus 5.5 is adaptive by default, and `disabled` returns a 400). Control depth with `output_config.effort`: `"low"` for Explain, `"medium"` for Chat.
 - **Key:** read only server-side, from `process.env.ANTHROPIC_API_KEY`, via `new Anthropic()`. Never ship a `NEXT_PUBLIC_` key.
-- **Route:** `app/api/partner/route.ts` exports `runtime = "nodejs"` and `maxDuration = 60`.
+- **Route:** `app/api/partner/route.ts` exports `maxDuration = 60` and **no `runtime`**: `cacheComponents` is on, and Next 16.4 rejects any `runtime` export (Node.js is already the default; see `node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/02-route-segment-config/runtime.md`). This is Next 16, so check the bundled docs in `node_modules/next/dist/docs/` before relying on older Next.js knowledge.
 - **Prompt caching:** the system prompt is one frozen string (no dates, ids or reading level inside it), sent as a text block with `cache_control: { type: "ephemeral" }`. The reading level and case context go in the user message.
 - **Tool results sent to Claude** never include the `monthly` or `fit` arrays. Use `summarizeAnalysis()` (Task 5) to keep tokens small.
 - **Text:** all UI text comes from `lib/copy/case.ts`, `partner.ts` and `tour.ts`, which follow `docs/pitch/COPY.md`. Verdict tier labels are exactly **Confirmed / Not proven yet / No case / Too short to judge**.

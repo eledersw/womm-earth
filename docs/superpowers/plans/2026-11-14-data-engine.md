@@ -22,7 +22,8 @@
 - **Imports:** `api/index.py` starts with `sys.path.insert(0, str(Path(__file__).parent))` and imports `from _engine... import`. Tests use the same import style via `pythonpath = api` in `pytest.ini`.
 - **Routes:** every route is prefixed `/api/py`. Create the app as `FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")`.
 - **Runtime dependencies** (`requirements.txt`): `fastapi`, `pydantic>=2.7`, `numpy>=2.0`, `scipy>=1.13`. Nothing else.
-- **Dev dependencies** (`requirements-dev.txt`): `-r requirements.txt`, `pytest`, `pymannkendall`, `httpx`, `uvicorn[standard]`.
+- **Dev dependencies** (`requirements-dev.txt`): `-r requirements.txt`, `pytest`, `pymannkendall`, `httpx2`, `uvicorn[standard]`. Starlette's TestClient now asks for `httpx2`; plain `httpx` still works but warns.
+- **Local Python:** Eleder's scaffold uses a git-ignored `.venv/`. Vercel runs Python 3.12 (`.python-version`); write 3.12-compatible code even if your local Python is newer.
 - **Pipeline dependencies:** `pipeline/requirements.txt`, never deployed.
 - **Region ids:**
 
