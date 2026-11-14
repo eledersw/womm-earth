@@ -2,7 +2,7 @@
 
 **Owner:** Methods lead (definitions, kind, caveats). Story lead edits the student wording for tone. Coder B confirms each variable exists in the POWER store and fills in its id, grid and period.
 
-**Status values:** `candidate` (not yet confirmed) → `in store` (Coder B confirmed) → `signed off` (Methods lead approved). Only `signed off` rows ship in `api/data/variables.json`, which Claude can generate from this table.
+**Status values:** `candidate` (not yet confirmed) → `in store` (Coder B confirmed) → `signed off` (Methods lead approved). Oier generates `api/_data/variables.json` from this table with `scripts/catalog_to_json.py`. Rows marked `in store` show up during development; the final app ships the `signed off` rows. Keep the table's column order, because the script parses it.
 
 ## Variables
 

@@ -1,68 +1,63 @@
-# Playbook: Coder C, panel, charts & partner
+# Playbook: Coder C, panel, charts & partner (Ekaitz, Codex)
 
-**Mission:** the experience of working a case. The 5-step panel, charts that make the evidence obvious, and a Claude partner that is helpful and never makes up a number.
+**Mission:** the experience of working a case. A 5-step panel, charts that make the evidence obvious, and a Claude partner that is helpful and never makes up a number.
 **Carries:** Impact, Creativity.
-**Owns:** `components/panel`, `components/charts` (`<PlotFigure>`), `components/tour`, the correlation view, `app/api/partner/route.ts`, the prompts, the number check, `api/data/demo_explanations.json`.
+**Your area:** `components/{panel,charts,partner,tour}/**`, `app/api/partner/**`, `lib/partner/**`, `lib/tour/**`, `lib/copy/{case,partner,tour}.ts` and your scripts and E2E specs. The full list is in `docs/process/OWNERSHIP.md`. **Edit nothing outside it.**
+**Your plan:** [`docs/superpowers/plans/2026-11-14-partner-panel.md`](../superpowers/plans/2026-11-14-partner-panel.md). It has the exact files, interfaces, tests and **verified Anthropic SDK code**. This playbook is the timeline.
+
+**How you work (Codex):**
+1. Open Codex in the repo; it reads `AGENTS.md` automatically. Type **`resume coder-c`**.
+2. Tell it *"work Task N of my plan"*. For anything touching the Anthropic SDK, tell it to use the snippets in the plan as written; Codex's memory of that SDK is likely out of date.
+3. Follow the PR loop in `docs/process/MERGING.md`: an `ekaitz/<topic>` branch, rebase, `npm run check` + `npx vitest run`, PR, then self-merge if the PR only touches your area.
+4. End every session with **`handoff coder-c`**.
+
+**You consume, and never edit, these seams** (from Eleder at H2):
+- `useCase()`, `caseToQuery`, `caseFromQuery`, `caseKey`, `normalizeCase`
+- `useUiStore`
+- `api` / `serverApi`
+- `lib/api/types.ts`
+- the CSS variables in `app/tokens.css`
+
+Need something added to a seam? Ask Eleder; additive changes take minutes.
 
 **Inputs you need:**
 
 | What | From | By |
 |---|---|---|
-| Stub API + types | Coder B | H2 |
-| `COPY.md` | Story lead | H5 |
-| Verdict templates + grounding rules | Methods lead | H11 |
-| Process cards | Methods lead | H10 |
-| Tour captions | Story lead | H10 |
-| `EVAL.md` | Methods lead | H20 |
-| Copy & consistency QA list | Story lead | H24 |
+| Scaffold | Eleder | H1.5 |
+| Seams + stub API | Eleder, Oier | H2 |
+| `COPY.md` | Edur | H5 |
+| Real API | Oier | H8 |
+| Process cards | Sergio | H10 |
+| Tour captions | Edur | H10 |
+| Verdict templates + grounding rules | Sergio | H11 |
+| `EVAL.md` | Sergio | H20 |
+| Copy QA list | Edur | H24 |
 
 **Outputs others need:**
 
 | What | To | By |
 |---|---|---|
-| Panel shell | Lead | H6 |
-| Explain streaming | everyone | H8 |
-| Partner with tools | Methods lead (eval) | H18 |
-| Pre-generated demo explanations | Methods lead (approval) | H24 |
+| Panel shell | Eleder | H2 |
+| Explain streaming | everyone | H14 |
+| Partner with tools | Sergio (eval) | H18 |
+| Demo explanations | Sergio (approval) | H24 |
 
-## Steps
+## Timeline
 
-- [ ] **H0–H1: plan and read up.**
-  - Create your worktree.
-  - Run `superpowers:writing-plans` on this playbook plus ARCHITECTURE → `docs/superpowers/plans/2026-11-14-partner-panel.md`.
-  - Load the `claude-api` skill and read the TS `README.md`, `tool-use.md` and `streaming.md`.
-- [ ] **H1–H2: shells.**
-  - The `<PlotFigure>` client wrapper (`useRef`, cleanup, `ResizeObserver`, CSS-variable colours).
-  - Panel component shells against the stub types.
-- [ ] **H2–H8: the case flow.**
-  - The 5-step panel: variable picker with definition cards, period slider (commits on release), season filter, region chips.
-  - Main chart: raw/anomaly toggle, the yearly series with the OLS line + CI band, and the Sen line (`dataviz` rules for marks and legends).
-  - The verdict card, using the template text.
-  - The Explain route: Opus 5.5, effort `low`, SSE events `text`/`error`; the client posts the stats JSON.
-  - **M1 done when:** on stub data, choosing a case shows the chart and verdict, and Explain streams a paragraph.
-- [ ] **H8–H14: real data.**
-  - Wire everything to the real API; multi-region overlay (up to 4).
-  - Student/Scientist toggle.
-  - Number-check utility: extract the numbers from the output and compare them with the tool JSON.
-  - Correlation view skeleton.
-  - Swap all strings to `COPY.md`.
-- [ ] **H14–H18: the partner and the Should-features.**
-  - Partner chat: Tool Runner with `betaZodTool` tools (`list_variables`, `analyze_case`, `correlate`, `find_mirror`, `scan_region`, `get_process_card`, `propose_case`), an iteration cap, and a `propose_case` → "Open this case" button.
-  - Finish the correlation view, including the "both rising ≠ connected" warning.
-  - Years-until-significant meter.
-  - Tour player reading the tour JSON.
-  - **Done when:** the partner answers "Is Wisconsin getting smokier in summer?" by running the case and offering to open it.
+- [ ] **H0.5–H2: plan Task 1,** panel shell + PlotFigure. Branch from `main` after Eleder's scaffold. Merge **last** at the H2 checkpoint (after Oier, then Eleder).
+- [ ] **H2–H5: plan Task 2,** Lead/Scene/Timeline wired to the case state.
+- [ ] **H5–H8: plan Task 3,** evidence charts + verdict card. Merge last at the **H8 checkpoint**.
+- [ ] **H8–H10: plan Task 4,** SSE helpers + number check.
+- [ ] **H10–H14: plan Task 5,** Explain mode. Merge last at the **H14 checkpoint**: Case #1 explains on production.
+- [ ] **H14–H18: plan Tasks 6–8,** partner chat with tools; correlation, mirror, years meter, predict; tours. Merge before sleeping.
 - [ ] **H18–H22: sleep.**
-- [ ] **H22–H26: quality.**
-  - Pre-generate the 3 demo explanations (both reading levels) → `demo_explanations.json`. The Methods lead approves them.
-  - Run `EVAL.md` with the Methods lead (number check + manual review); fix the prompts.
-  - Playwright E2E for the 3 demo cases.
-  - Apply the copy QA list.
-  - **Done when:** the eval score is recorded in STATUS and the app is frozen at H26.
-- [ ] **H26–H29:** P0 fixes only.
+- [ ] **H22–H26: plan Task 9,** demo explanations (Sergio approves), the eval run with Sergio, E2E, copy QA fixes. Merge before the **H26 freeze**.
+- [ ] **H26–H29:** P0 fixes only, merged by Eleder.
 
 ## If you're blocked
 
-- **No real API yet:** keep building on fixtures; the types are already final.
-- **Claude errors or rate limits:** the template verdict covers the UI; work on the charts and tour meanwhile.
-- **No `COPY.md` yet:** use the glossary terms from `docs/PROJECT.md` as placeholder text.
+- **No real API yet:** keep building on the fixtures and types; the contract is frozen.
+- **Claude errors or rate limits:** the template verdict covers the UI; work on the charts or tours meanwhile.
+- **No `COPY.md` yet:** use the glossary terms from `docs/PROJECT.md` as placeholders in `lib/copy/*`.
+- **You need a change in Eleder's or Oier's files:** ask them. Don't edit those files yourself.

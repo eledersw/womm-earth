@@ -1,4 +1,4 @@
-# METHODS: statistics spec (source of truth for `api/engine/`)
+# METHODS: statistics spec (source of truth for `api/_engine/`)
 
 **Owner:** Methods & Validity lead. **Implementer:** Coder B. **Version:** v0 (starter). Target: v1 by H2.
 

@@ -78,7 +78,7 @@
     6. the real Wisconsin JJA AOD.
   - Compute the expected results independently (Excel LINEST, R, or a Colab notebook Claude writes using pymannkendall/scipy), and save them as `expected.json`.
   - *Ask Claude:* "Write a Colab notebook that generates golden case 3 with seed 42 and computes OLS, naive MK, Hamed-Rao MK and Sen's slope."
-  - **Done when:** all 6 folders have `series.csv` + `expected.json`, and Coder B has copied them to `tests/fixtures/`.
+  - **Done when:** all 6 folders have `series.csv` + `expected.json`, and Oier has copied them to `tests/fixtures/golden/`.
 
 - [ ] **H3–H6: `DATA_CATALOG.md`.**
   - For every variable Coder B marks `in store`, fill in:
@@ -98,7 +98,7 @@
 
 - [ ] **H8–H10: process cards.**
   - Fill in `PROCESS_CARDS.md`: 8–12 cards, each 80–120 words, in a student and a scientist version, with 1–2 citations. Start with the cards your final cases and mirror pairs need.
-  - *Ask Claude:* "Convert PROCESS_CARDS.md to api/data/process_cards.json using the shape in ARCHITECTURE.md." Then tell Coder C.
+  - Tell Ekaitz when cards are ready; he converts them into `lib/partner/process-cards.json`. App code is his area, so don't write it yourself.
   - **Done when:** every final demo case has a card.
 
 - [ ] **H8–H11: verdict templates and grounding rules.**

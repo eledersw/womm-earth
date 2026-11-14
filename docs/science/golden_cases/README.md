@@ -1,6 +1,6 @@
 # Golden cases: the engine's answer key
 
-**Owner:** Methods lead (creates the cases and computes the expected values). **User:** Coder B (copies them to `tests/fixtures/` and asserts against them).
+**Owner:** Methods lead (creates the cases and computes the expected values). **User:** Oier (copies them to `tests/fixtures/golden/` and asserts against them).
 **Due:** H5. Cases 1–3 matter most; get those done first.
 
 Each case lives in its own folder:
