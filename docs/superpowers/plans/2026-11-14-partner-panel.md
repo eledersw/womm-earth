@@ -91,7 +91,7 @@
   - **TimelineStep:** a shadcn `Slider` (range) over the variable's `[start_year, end_year]`, committing only in `onValueCommit` → `setCase({from, to})`. A season `ToggleGroup` (ANN/DJF/MAM/JJA/SON/Custom); Custom shows start/end month selects → contiguous `months`.
 - [x] **Step 4: Verify and commit.** Manually: changing each control updates the URL, and reloading restores it. Run `npm run check`. Commit `feat(panel): lead/scene/timeline steps`, then self-merge.
 
-Task 2 local verification: `npm run check`, 66 Vitest tests and 4 Chromium E2E pass. Browser checks use official HTTP fixtures, not real scientific data. Publication, PR and merge are pending and handled manually by Ekaitz under the current Git workflow.
+Task 2 local verification: `npm run check`, 66 Vitest tests and 4 Chromium E2E pass. Browser checks use official HTTP fixtures, not real scientific data. Merged to main via PR #9 (Task 2 code commit `1ccc4fb`).
 
 ### Task 3: Evidence charts + verdict card (H5–H8, the M1 checkpoint)
 
@@ -130,7 +130,7 @@ Task 2 local verification: `npm run check`, 66 Vitest tests and 4 Chromium E2E p
   - Run `npm run check`.
   - Commit `feat(panel): evidence chart + verdict card`, then self-merge at the **H8 checkpoint**. You merge last (after Oier, then Eleder).
 
-Task 3 local verification: check + 78 Vitest tests + 6 Chromium E2E pass, using official HTTP fixtures. Light/dark screenshots reviewed, including four-region Scientist layout and widths 1280/768/390. Publication, PR and merge are pending and handled manually by Ekaitz.
+Task 3 local verification: check + 78 Vitest tests + 6 Chromium E2E pass, using official HTTP fixtures. Light/dark screenshots reviewed, including four-region Scientist layout and widths 1280/768/390. Publication and merge completed in PR #10; current main is `e772a5b`.
 
 ### Task 4: SSE helpers + number check (H8–H10)
 
@@ -167,7 +167,7 @@ Task 3 local verification: check + 78 Vitest tests + 6 Chromium E2E pass, using 
 
   Run `npx vitest run lib/partner` → FAIL.
 - [x] **Step 2: Implement.** Run → PASS.
-- [ ] **Step 3: Commit and merge.** `feat(partner): sse + number check`, then self-merge.
+- [x] **Step 3: Commit and merge.** `feat(partner): sse + number check`, then self-merge. Verified: commit `4d95598` is an ancestor of current `main`.
 
 ### Task 5: Explain mode (H10–H14, M2)
 

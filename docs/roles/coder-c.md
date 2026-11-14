@@ -48,7 +48,7 @@ Need something added to a seam? Ask Eleder; additive changes take minutes.
 - [x] **H0.5–H2: plan Task 1,** panel shell + PlotFigure. Branch from `main` after Eleder's scaffold. Merge **last** at the H2 checkpoint (after Oier, then Eleder).
 - [x] **H2–H5: plan Task 2,** Lead/Scene/Timeline wired to the case state.
 - [x] **H5–H8: plan Task 3,** evidence charts + verdict card. Merge last at the **H8 checkpoint**.
-- [ ] **H8–H10: plan Task 4,** SSE helpers + number check.
+- [x] **H8–H10: plan Task 4,** SSE helpers + number check.
 - [ ] **H10–H14: plan Task 5,** Explain mode. Merge last at the **H14 checkpoint**: Case #1 explains on production.
 - [ ] **H14–H18: plan Tasks 6–8,** partner chat with tools; correlation, mirror, years meter, predict; tours. Merge before sleeping.
 - [ ] **H18–H22: sleep.**
