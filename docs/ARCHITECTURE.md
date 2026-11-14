@@ -78,7 +78,7 @@ docs/                                     see AGENTS.md "Read when"
 
 1. **Open the POWER monthly Zarr stores** with `fsspec` + `xr.open_zarr(consolidated=True)`.
    - CERES grid: `https://nasa-power.s3.amazonaws.com/syn1deg/temporal/power_syn1deg_monthly_temporal_lst.zarr`.
-   - MERRA-2 grid: find the matching `merra2/…monthly…` path in the H1 spike.
+   - MERRA-2 grid: `https://nasa-power.s3.us-west-2.amazonaws.com/merra2/temporal/power_merra2_monthly_temporal_utc.zarr` (confirmed consolidated metadata, 2026-11-14; T2M, PRECTOTCORR and GWETROOT present). Its time coordinate runs into 2029, so the pipeline trims trailing months with no values.
    - Mask the −999 fill value and check that the latest months are populated.
 2. **Expect about 440 MB per variable** for the full grid. Use dask, and do the demo variables first (T2M, PRECTOTCORR, GWETROOT, AOD if present).
 3. **Masks with `regionmask`:**

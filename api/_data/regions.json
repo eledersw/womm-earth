@@ -1,0 +1,5654 @@
+[
+  {
+    "id": "ZWE",
+    "name": "Zimbabwe",
+    "type": "country",
+    "centroid": [
+      29.34906,
+      -19.01309
+    ],
+    "bbox": [
+      25.22402,
+      -22.40205,
+      33.00674,
+      -15.64307
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ZMB",
+    "name": "Zambia",
+    "type": "country",
+    "centroid": [
+      25.4134,
+      -13.10186
+    ],
+    "bbox": [
+      21.97891,
+      -18.0415,
+      33.66152,
+      -8.19365
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "YEM",
+    "name": "Yemen",
+    "type": "country",
+    "centroid": [
+      47.49073,
+      15.85872
+    ],
+    "bbox": [
+      42.54902,
+      12.31899,
+      54.51113,
+      18.99614
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "VNM",
+    "name": "Vietnam",
+    "type": "country",
+    "centroid": [
+      107.85145,
+      15.97036
+    ],
+    "bbox": [
+      102.12744,
+      8.58325,
+      109.44492,
+      23.34521
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "VEN",
+    "name": "Venezuela",
+    "type": "country",
+    "centroid": [
+      -65.41256,
+      6.41582
+    ],
+    "bbox": [
+      -73.36621,
+      0.68799,
+      -59.82891,
+      12.17788
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "VAT",
+    "name": "Vatican",
+    "type": "country",
+    "centroid": [
+      12.43387,
+      41.9031
+    ],
+    "bbox": [
+      12.42754,
+      41.89756,
+      12.43916,
+      41.9062
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "VUT",
+    "name": "Vanuatu",
+    "type": "country",
+    "centroid": [
+      168.35624,
+      -17.66475
+    ],
+    "bbox": [
+      166.52607,
+      -20.2418,
+      169.89629,
+      -13.70947
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "UZB",
+    "name": "Uzbekistan",
+    "type": "country",
+    "centroid": [
+      63.40393,
+      41.36399
+    ],
+    "bbox": [
+      55.97568,
+      37.17222,
+      73.13691,
+      45.55537
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "URY",
+    "name": "Uruguay",
+    "type": "country",
+    "centroid": [
+      -55.80659,
+      -32.53486
+    ],
+    "bbox": [
+      -58.43813,
+      -34.93281,
+      -53.12559,
+      -30.10107
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "FSM",
+    "name": "Micronesia",
+    "type": "country",
+    "centroid": [
+      158.24224,
+      6.88799
+    ],
+    "bbox": [
+      138.06191,
+      5.27725,
+      162.99346,
+      9.59331
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MHL",
+    "name": "Marshall Is.",
+    "type": "country",
+    "centroid": [
+      171.65361,
+      7.01316
+    ],
+    "bbox": [
+      166.84473,
+      5.7998,
+      171.75684,
+      11.16865
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MNP",
+    "name": "N. Mariana Is.",
+    "type": "country",
+    "centroid": [
+      145.20448,
+      14.14751
+    ],
+    "bbox": [
+      145.15215,
+      14.11133,
+      145.83545,
+      18.80679
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "VIR",
+    "name": "U.S. Virgin Is.",
+    "type": "country",
+    "centroid": [
+      -64.76042,
+      17.72815
+    ],
+    "bbox": [
+      -65.02363,
+      17.70171,
+      -64.58047,
+      18.38521
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GUM",
+    "name": "Guam",
+    "type": "country",
+    "centroid": [
+      144.78355,
+      13.47778
+    ],
+    "bbox": [
+      144.64932,
+      13.25752,
+      144.94082,
+      13.62236
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ASM",
+    "name": "American Samoa",
+    "type": "country",
+    "centroid": [
+      -170.71918,
+      -14.29717
+    ],
+    "bbox": [
+      -170.82051,
+      -14.35977,
+      -170.56812,
+      -14.25742
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PRI",
+    "name": "Puerto Rico",
+    "type": "country",
+    "centroid": [
+      -66.40702,
+      18.23328
+    ],
+    "bbox": [
+      -67.93706,
+      17.94727,
+      -65.29487,
+      18.52217
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "USA",
+    "name": "United States of America",
+    "type": "country",
+    "centroid": [
+      -99.68731,
+      37.25535
+    ],
+    "bbox": [
+      -178.19453,
+      18.96392,
+      179.77998,
+      71.40767
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SGS",
+    "name": "S. Geo. and the Is.",
+    "type": "country",
+    "centroid": [
+      -36.46101,
+      -54.4313
+    ],
+    "bbox": [
+      -38.01743,
+      -58.49229,
+      -26.25986,
+      -53.98408
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "IOT",
+    "name": "Br. Indian Ocean Ter.",
+    "type": "country",
+    "centroid": [
+      72.41478,
+      -7.32207
+    ],
+    "bbox": [
+      72.34971,
+      -7.43535,
+      72.49854,
+      -7.22041
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SHN",
+    "name": "Saint Helena",
+    "type": "country",
+    "centroid": [
+      -14.36107,
+      -7.92402
+    ],
+    "bbox": [
+      -14.41494,
+      -16.004,
+      -5.65972,
+      -7.88262
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PCN",
+    "name": "Pitcairn Is.",
+    "type": "country",
+    "centroid": [
+      -128.31687,
+      -24.36768
+    ],
+    "bbox": [
+      -128.3502,
+      -24.4126,
+      -128.29009,
+      -24.32324
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "AIA",
+    "name": "Anguilla",
+    "type": "country",
+    "centroid": [
+      -63.08435,
+      18.21104
+    ],
+    "bbox": [
+      -63.16001,
+      18.17139,
+      -62.97959,
+      18.26973
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "FLK",
+    "name": "Falkland Is.",
+    "type": "country",
+    "centroid": [
+      -58.76989,
+      -51.80146
+    ],
+    "bbox": [
+      -61.14502,
+      -52.30801,
+      -57.7918,
+      -51.26992
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CYM",
+    "name": "Cayman Is.",
+    "type": "country",
+    "centroid": [
+      -81.26226,
+      19.31733
+    ],
+    "bbox": [
+      -81.41909,
+      19.27187,
+      -79.74229,
+      19.76572
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BMU",
+    "name": "Bermuda",
+    "type": "country",
+    "centroid": [
+      -64.71481,
+      32.34482
+    ],
+    "bbox": [
+      -64.86284,
+      32.25962,
+      -64.66831,
+      32.38691
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "VGB",
+    "name": "British Virgin Is.",
+    "type": "country",
+    "centroid": [
+      -64.61976,
+      18.4249
+    ],
+    "bbox": [
+      -64.69512,
+      18.39912,
+      -64.27358,
+      18.75269
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TCA",
+    "name": "Turks and Caicos Is.",
+    "type": "country",
+    "centroid": [
+      -71.74555,
+      21.81204
+    ],
+    "bbox": [
+      -72.34238,
+      21.75171,
+      -71.63691,
+      21.9519
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MSR",
+    "name": "Montserrat",
+    "type": "country",
+    "centroid": [
+      -62.18677,
+      16.74595
+    ],
+    "bbox": [
+      -62.22305,
+      16.6812,
+      -62.14844,
+      16.80957
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "JEY",
+    "name": "Jersey",
+    "type": "country",
+    "centroid": [
+      -2.12254,
+      49.20933
+    ],
+    "bbox": [
+      -2.23584,
+      49.16982,
+      -2.00991,
+      49.26636
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GGY",
+    "name": "Guernsey",
+    "type": "country",
+    "centroid": [
+      -2.58675,
+      49.45957
+    ],
+    "bbox": [
+      -2.64614,
+      49.42871,
+      -2.5123,
+      49.50659
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "IMN",
+    "name": "Isle of Man",
+    "type": "country",
+    "centroid": [
+      -4.51139,
+      54.24617
+    ],
+    "bbox": [
+      -4.78535,
+      54.05869,
+      -4.33799,
+      54.40718
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GBR",
+    "name": "United Kingdom",
+    "type": "country",
+    "centroid": [
+      -1.95765,
+      54.35037
+    ],
+    "bbox": [
+      -8.14482,
+      50.02139,
+      1.74658,
+      60.83188
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ARE",
+    "name": "United Arab Emirates",
+    "type": "country",
+    "centroid": [
+      55.12543,
+      24.34412
+    ],
+    "bbox": [
+      51.56836,
+      22.62148,
+      56.38799,
+      26.06816
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "UKR",
+    "name": "Ukraine",
+    "type": "country",
+    "centroid": [
+      31.06986,
+      48.80056
+    ],
+    "bbox": [
+      22.13184,
+      45.23413,
+      40.12832,
+      52.35356
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "UGA",
+    "name": "Uganda",
+    "type": "country",
+    "centroid": [
+      32.68193,
+      1.327
+    ],
+    "bbox": [
+      29.56191,
+      -1.46992,
+      34.97822,
+      4.22021
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TKM",
+    "name": "Turkmenistan",
+    "type": "country",
+    "centroid": [
+      58.99751,
+      38.96545
+    ],
+    "bbox": [
+      52.49385,
+      35.1708,
+      66.6293,
+      42.77847
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TUR",
+    "name": "Turkey",
+    "type": "country",
+    "centroid": [
+      35.49893,
+      38.94768
+    ],
+    "bbox": [
+      25.66895,
+      35.83145,
+      44.81719,
+      42.09326
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TUN",
+    "name": "Tunisia",
+    "type": "country",
+    "centroid": [
+      8.87921,
+      33.78037
+    ],
+    "bbox": [
+      7.49561,
+      30.22939,
+      11.53594,
+      37.34038
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TTO",
+    "name": "Trinidad and Tobago",
+    "type": "country",
+    "centroid": [
+      -61.25254,
+      10.43433
+    ],
+    "bbox": [
+      -61.9061,
+      10.06465,
+      -60.52549,
+      11.32539
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TON",
+    "name": "Tonga",
+    "type": "country",
+    "centroid": [
+      -175.24721,
+      -21.16504
+    ],
+    "bbox": [
+      -175.36235,
+      -21.45059,
+      -173.92188,
+      -18.56533
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TGO",
+    "name": "Togo",
+    "type": "country",
+    "centroid": [
+      1.02761,
+      8.61401
+    ],
+    "bbox": [
+      -0.09019,
+      6.0894,
+      1.77793,
+      11.11562
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TLS",
+    "name": "Timor-Leste",
+    "type": "country",
+    "centroid": [
+      125.69663,
+      -8.92759
+    ],
+    "bbox": [
+      124.03633,
+      -9.51191,
+      127.29609,
+      -8.13994
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "THA",
+    "name": "Thailand",
+    "type": "country",
+    "centroid": [
+      101.68016,
+      13.0229
+    ],
+    "bbox": [
+      97.37393,
+      5.63677,
+      105.64102,
+      20.42441
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TZA",
+    "name": "Tanzania",
+    "type": "country",
+    "centroid": [
+      34.23626,
+      -6.36284
+    ],
+    "bbox": [
+      29.32344,
+      -11.71621,
+      40.46357,
+      -0.99492
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TJK",
+    "name": "Tajikistan",
+    "type": "country",
+    "centroid": [
+      70.92037,
+      38.87026
+    ],
+    "bbox": [
+      67.34961,
+      36.68403,
+      75.11875,
+      41.03511
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TWN",
+    "name": "Taiwan",
+    "type": "country",
+    "centroid": [
+      120.81955,
+      23.58977
+    ],
+    "bbox": [
+      118.2873,
+      21.925,
+      121.929,
+      25.2769
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SYR",
+    "name": "Syria",
+    "type": "country",
+    "centroid": [
+      38.55333,
+      34.82871
+    ],
+    "bbox": [
+      35.76445,
+      32.31729,
+      42.35908,
+      37.29727
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CHE",
+    "name": "Switzerland",
+    "type": "country",
+    "centroid": [
+      8.42342,
+      46.79385
+    ],
+    "bbox": [
+      5.97002,
+      45.83003,
+      10.45459,
+      47.77563
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SWE",
+    "name": "Sweden",
+    "type": "country",
+    "centroid": [
+      14.91685,
+      62.18987
+    ],
+    "bbox": [
+      11.14717,
+      55.34639,
+      24.15547,
+      69.03687
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SWZ",
+    "name": "eSwatini",
+    "type": "country",
+    "centroid": [
+      31.44747,
+      -26.56685
+    ],
+    "bbox": [
+      30.7875,
+      -27.30996,
+      32.11289,
+      -25.74297
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SUR",
+    "name": "Suriname",
+    "type": "country",
+    "centroid": [
+      -56.13795,
+      3.95151
+    ],
+    "bbox": [
+      -58.05449,
+      1.84224,
+      -53.99048,
+      5.99346
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SDS",
+    "name": "S. Sudan",
+    "type": "country",
+    "centroid": [
+      29.10052,
+      7.84614
+    ],
+    "bbox": [
+      24.14736,
+      3.49072,
+      35.26836,
+      12.2231
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SDN",
+    "name": "Sudan",
+    "type": "country",
+    "centroid": [
+      29.77011,
+      15.44761
+    ],
+    "bbox": [
+      21.82529,
+      8.66562,
+      38.60947,
+      22.20244
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LKA",
+    "name": "Sri Lanka",
+    "type": "country",
+    "centroid": [
+      80.65931,
+      7.90747
+    ],
+    "bbox": [
+      79.70781,
+      5.94937,
+      81.87695,
+      9.8127
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ESP",
+    "name": "Spain",
+    "type": "country",
+    "centroid": [
+      -3.48715,
+      39.90652
+    ],
+    "bbox": [
+      -18.16055,
+      27.64639,
+      4.32207,
+      43.76455
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KOR",
+    "name": "South Korea",
+    "type": "country",
+    "centroid": [
+      127.99554,
+      36.4502
+    ],
+    "bbox": [
+      126.00752,
+      33.20151,
+      130.93428,
+      38.62344
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ZAF",
+    "name": "South Africa",
+    "type": "country",
+    "centroid": [
+      26.09462,
+      -28.47021
+    ],
+    "bbox": [
+      16.44756,
+      -46.96289,
+      37.8877,
+      -22.14629
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SOM",
+    "name": "Somalia",
+    "type": "country",
+    "centroid": [
+      46.88848,
+      5.28855
+    ],
+    "bbox": [
+      40.96445,
+      -1.69531,
+      51.39023,
+      11.98369
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SOL",
+    "name": "Somaliland",
+    "type": "country",
+    "centroid": [
+      46.09949,
+      9.68962
+    ],
+    "bbox": [
+      42.65645,
+      7.99707,
+      48.93857,
+      11.4998
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SLB",
+    "name": "Solomon Is.",
+    "type": "country",
+    "centroid": [
+      160.15284,
+      -9.61284
+    ],
+    "bbox": [
+      155.67754,
+      -11.83223,
+      166.9292,
+      -6.60889
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SVK",
+    "name": "Slovakia",
+    "type": "country",
+    "centroid": [
+      19.63901,
+      48.68137
+    ],
+    "bbox": [
+      16.8627,
+      47.76343,
+      22.53867,
+      49.59771
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SVN",
+    "name": "Slovenia",
+    "type": "country",
+    "centroid": [
+      14.61274,
+      46.14888
+    ],
+    "bbox": [
+      13.37822,
+      45.42837,
+      16.51621,
+      46.86328
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SGP",
+    "name": "Singapore",
+    "type": "country",
+    "centroid": [
+      103.82304,
+      1.34834
+    ],
+    "bbox": [
+      103.6502,
+      1.26538,
+      103.99639,
+      1.44707
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SLE",
+    "name": "Sierra Leone",
+    "type": "country",
+    "centroid": [
+      -11.86173,
+      8.44819
+    ],
+    "bbox": [
+      -13.29268,
+      6.90654,
+      -10.2832,
+      9.99653
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SYC",
+    "name": "Seychelles",
+    "type": "country",
+    "centroid": [
+      55.48731,
+      -4.67168
+    ],
+    "bbox": [
+      55.3834,
+      -4.78555,
+      55.54297,
+      -4.55879
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SRB",
+    "name": "Serbia",
+    "type": "country",
+    "centroid": [
+      21.0049,
+      44.20715
+    ],
+    "bbox": [
+      18.83906,
+      42.24214,
+      22.97686,
+      46.16919
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SEN",
+    "name": "Senegal",
+    "type": "country",
+    "centroid": [
+      -14.65973,
+      14.5271
+    ],
+    "bbox": [
+      -17.53564,
+      12.32803,
+      -11.38242,
+      16.67891
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SAU",
+    "name": "Saudi Arabia",
+    "type": "country",
+    "centroid": [
+      44.6734,
+      24.22271
+    ],
+    "bbox": [
+      34.61621,
+      16.37178,
+      55.64102,
+      32.12451
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "STP",
+    "name": "S\u00e3o Tom\u00e9 and Principe",
+    "type": "country",
+    "centroid": [
+      6.59061,
+      0.174
+    ],
+    "bbox": [
+      6.46816,
+      0.04736,
+      7.45234,
+      1.69912
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SMR",
+    "name": "San Marino",
+    "type": "country",
+    "centroid": [
+      12.45739,
+      43.94377
+    ],
+    "bbox": [
+      12.39688,
+      43.89409,
+      12.51465,
+      43.98975
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "WSM",
+    "name": "Samoa",
+    "type": "country",
+    "centroid": [
+      -172.45217,
+      -13.61177
+    ],
+    "bbox": [
+      -172.77852,
+      -14.04727,
+      -171.44956,
+      -13.46523
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "VCT",
+    "name": "St. Vin. and Gren.",
+    "type": "country",
+    "centroid": [
+      -61.20106,
+      13.24863
+    ],
+    "bbox": [
+      -61.35352,
+      12.69473,
+      -61.12402,
+      13.35874
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LCA",
+    "name": "Saint Lucia",
+    "type": "country",
+    "centroid": [
+      -60.98026,
+      13.89058
+    ],
+    "bbox": [
+      -61.07314,
+      13.71758,
+      -60.88677,
+      14.09336
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KNA",
+    "name": "St. Kitts and Nevis",
+    "type": "country",
+    "centroid": [
+      -62.75067,
+      17.32104
+    ],
+    "bbox": [
+      -62.84048,
+      17.10059,
+      -62.53223,
+      17.40259
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "RWA",
+    "name": "Rwanda",
+    "type": "country",
+    "centroid": [
+      29.97384,
+      -1.91387
+    ],
+    "bbox": [
+      28.85762,
+      -2.80859,
+      30.87656,
+      -1.06309
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "RUS",
+    "name": "Russia",
+    "type": "country",
+    "centroid": [
+      88.3859,
+      59.46494
+    ],
+    "bbox": [
+      -180.0,
+      41.19927,
+      180.0,
+      81.8542
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ROU",
+    "name": "Romania",
+    "type": "country",
+    "centroid": [
+      24.25188,
+      45.95669
+    ],
+    "bbox": [
+      20.2418,
+      43.6708,
+      29.70586,
+      48.26348
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "QAT",
+    "name": "Qatar",
+    "type": "country",
+    "centroid": [
+      51.15072,
+      25.33711
+    ],
+    "bbox": [
+      50.75459,
+      24.56465,
+      51.60889,
+      26.15327
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PRT",
+    "name": "Portugal",
+    "type": "country",
+    "centroid": [
+      -8.30439,
+      39.59365
+    ],
+    "bbox": [
+      -31.28296,
+      32.64829,
+      -6.2125,
+      42.1374
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "POL",
+    "name": "Poland",
+    "type": "country",
+    "centroid": [
+      19.15777,
+      51.93142
+    ],
+    "bbox": [
+      14.12861,
+      49.02075,
+      24.10576,
+      54.83818
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PHL",
+    "name": "Philippines",
+    "type": "country",
+    "centroid": [
+      125.23455,
+      7.68884
+    ],
+    "bbox": [
+      116.96953,
+      5.06021,
+      126.59336,
+      20.84126
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PER",
+    "name": "Peru",
+    "type": "country",
+    "centroid": [
+      -75.79547,
+      -9.21118
+    ],
+    "bbox": [
+      -81.33662,
+      -18.34561,
+      -68.68525,
+      -0.04175
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PRY",
+    "name": "Paraguay",
+    "type": "country",
+    "centroid": [
+      -58.48117,
+      -23.43657
+    ],
+    "bbox": [
+      -62.65098,
+      -27.55381,
+      -54.2418,
+      -19.28623
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PNG",
+    "name": "Papua New Guinea",
+    "type": "country",
+    "centroid": [
+      144.35987,
+      -6.63696
+    ],
+    "bbox": [
+      140.8623,
+      -11.63057,
+      155.95762,
+      -1.35322
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PAN",
+    "name": "Panama",
+    "type": "country",
+    "centroid": [
+      -81.48037,
+      8.41113
+    ],
+    "bbox": [
+      -83.02734,
+      7.22007,
+      -77.196,
+      9.59785
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PLW",
+    "name": "Palau",
+    "type": "country",
+    "centroid": [
+      134.58913,
+      7.55986
+    ],
+    "bbox": [
+      131.13496,
+      3.02187,
+      134.65957,
+      7.71211
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PAK",
+    "name": "Pakistan",
+    "type": "country",
+    "centroid": [
+      70.09931,
+      30.4147
+    ],
+    "bbox": [
+      60.84336,
+      23.75337,
+      77.04863,
+      37.03667
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "OMN",
+    "name": "Oman",
+    "type": "country",
+    "centroid": [
+      56.99242,
+      20.85562
+    ],
+    "bbox": [
+      51.97764,
+      16.64839,
+      59.8375,
+      26.35635
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NOR",
+    "name": "Norway",
+    "type": "country",
+    "centroid": [
+      12.3313,
+      64.54565
+    ],
+    "bbox": [
+      4.79902,
+      58.02095,
+      30.96064,
+      71.14209
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PRK",
+    "name": "North Korea",
+    "type": "country",
+    "centroid": [
+      126.81094,
+      40.37112
+    ],
+    "bbox": [
+      124.34863,
+      37.71904,
+      130.6873,
+      42.99814
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NGA",
+    "name": "Nigeria",
+    "type": "country",
+    "centroid": [
+      7.90349,
+      9.07261
+    ],
+    "bbox": [
+      2.68604,
+      4.27739,
+      14.62715,
+      13.87285
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NER",
+    "name": "Niger",
+    "type": "country",
+    "centroid": [
+      9.88714,
+      17.70635
+    ],
+    "bbox": [
+      0.16387,
+      11.69629,
+      15.96318,
+      23.51787
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NIC",
+    "name": "Nicaragua",
+    "type": "country",
+    "centroid": [
+      -85.54351,
+      12.83057
+    ],
+    "bbox": [
+      -87.67017,
+      10.73535,
+      -83.15752,
+      15.00806
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NZL",
+    "name": "New Zealand",
+    "type": "country",
+    "centroid": [
+      176.61015,
+      -38.00806
+    ],
+    "bbox": [
+      -176.84766,
+      -52.57031,
+      178.53623,
+      -8.54648
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NIU",
+    "name": "Niue",
+    "type": "country",
+    "centroid": [
+      -169.86912,
+      -19.05771
+    ],
+    "bbox": [
+      -169.94834,
+      -19.13789,
+      -169.79341,
+      -18.96602
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "COK",
+    "name": "Cook Is.",
+    "type": "country",
+    "centroid": [
+      -159.78865,
+      -21.2186
+    ],
+    "bbox": [
+      -159.84248,
+      -21.24951,
+      -159.73687,
+      -21.18643
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NLD",
+    "name": "Netherlands",
+    "type": "country",
+    "centroid": [
+      5.49129,
+      52.08945
+    ],
+    "bbox": [
+      3.3501,
+      50.75044,
+      7.19727,
+      53.62549
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ABW",
+    "name": "Aruba",
+    "type": "country",
+    "centroid": [
+      -69.98869,
+      12.52373
+    ],
+    "bbox": [
+      -70.06611,
+      12.423,
+      -69.8957,
+      12.61411
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CUW",
+    "name": "Cura\u00e7ao",
+    "type": "country",
+    "centroid": [
+      -68.9846,
+      12.19495
+    ],
+    "bbox": [
+      -69.15889,
+      12.04546,
+      -68.75107,
+      12.38027
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NPL",
+    "name": "Nepal",
+    "type": "country",
+    "centroid": [
+      83.07438,
+      28.39092
+    ],
+    "bbox": [
+      80.05166,
+      26.3603,
+      88.16152,
+      30.3875
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NRU",
+    "name": "Nauru",
+    "type": "country",
+    "centroid": [
+      166.93218,
+      -0.52017
+    ],
+    "bbox": [
+      166.90703,
+      -0.55078,
+      166.9584,
+      -0.48936
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NAM",
+    "name": "Namibia",
+    "type": "country",
+    "centroid": [
+      17.19553,
+      -22.94473
+    ],
+    "bbox": [
+      11.72168,
+      -28.93877,
+      25.25879,
+      -16.96768
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MOZ",
+    "name": "Mozambique",
+    "type": "country",
+    "centroid": [
+      34.66831,
+      -18.66099
+    ],
+    "bbox": [
+      30.22178,
+      -26.86162,
+      40.84453,
+      -10.46436
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MAR",
+    "name": "Morocco",
+    "type": "country",
+    "centroid": [
+      -9.91502,
+      28.65508
+    ],
+    "bbox": [
+      -17.00308,
+      21.4207,
+      -1.06553,
+      35.92988
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SAH",
+    "name": "W. Sahara",
+    "type": "country",
+    "centroid": [
+      -12.58595,
+      24.2314
+    ],
+    "bbox": [
+      -17.09878,
+      20.80615,
+      -8.68213,
+      27.65645
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MNE",
+    "name": "Montenegro",
+    "type": "country",
+    "centroid": [
+      19.28241,
+      42.70894
+    ],
+    "bbox": [
+      18.43633,
+      41.86909,
+      20.34766,
+      43.54233
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MNG",
+    "name": "Mongolia",
+    "type": "country",
+    "centroid": [
+      105.4172,
+      46.82463
+    ],
+    "bbox": [
+      87.74316,
+      41.59551,
+      119.89785,
+      52.11729
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MDA",
+    "name": "Moldova",
+    "type": "country",
+    "centroid": [
+      28.82302,
+      46.97122
+    ],
+    "bbox": [
+      26.61895,
+      45.45044,
+      30.13105,
+      48.47773
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MCO",
+    "name": "Monaco",
+    "type": "country",
+    "centroid": [
+      7.40919,
+      43.75183
+    ],
+    "bbox": [
+      7.37773,
+      43.73174,
+      7.43867,
+      43.7709
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MEX",
+    "name": "Mexico",
+    "type": "country",
+    "centroid": [
+      -102.24213,
+      23.63613
+    ],
+    "bbox": [
+      -118.40137,
+      14.54541,
+      -86.69629,
+      32.71533
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MUS",
+    "name": "Mauritius",
+    "type": "country",
+    "centroid": [
+      57.58031,
+      -20.27778
+    ],
+    "bbox": [
+      57.31768,
+      -20.51318,
+      57.79199,
+      -19.98994
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MRT",
+    "name": "Mauritania",
+    "type": "country",
+    "centroid": [
+      -11.49057,
+      21.02244
+    ],
+    "bbox": [
+      -17.06396,
+      14.74536,
+      -4.82261,
+      27.28594
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MLT",
+    "name": "Malta",
+    "type": "country",
+    "centroid": [
+      14.42226,
+      35.92185
+    ],
+    "bbox": [
+      14.18037,
+      35.82021,
+      14.56621,
+      36.07578
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MLI",
+    "name": "Mali",
+    "type": "country",
+    "centroid": [
+      -0.75523,
+      17.56887
+    ],
+    "bbox": [
+      -12.28062,
+      10.14326,
+      4.23467,
+      24.99561
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MDV",
+    "name": "Maldives",
+    "type": "country",
+    "centroid": [
+      73.41105,
+      3.26077
+    ],
+    "bbox": [
+      73.38203,
+      3.22939,
+      73.52832,
+      4.24766
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MYS",
+    "name": "Malaysia",
+    "type": "country",
+    "centroid": [
+      102.10046,
+      4.0126
+    ],
+    "bbox": [
+      99.64629,
+      0.86196,
+      119.26631,
+      7.35166
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MWI",
+    "name": "Malawi",
+    "type": "country",
+    "centroid": [
+      33.7381,
+      -13.30723
+    ],
+    "bbox": [
+      32.67041,
+      -17.13105,
+      35.89277,
+      -9.39502
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MDG",
+    "name": "Madagascar",
+    "type": "country",
+    "centroid": [
+      46.71493,
+      -18.82773
+    ],
+    "bbox": [
+      43.25713,
+      -25.57051,
+      50.48271,
+      -12.07959
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MKD",
+    "name": "North Macedonia",
+    "type": "country",
+    "centroid": [
+      21.73322,
+      41.59019
+    ],
+    "bbox": [
+      20.44863,
+      40.8499,
+      23.00566,
+      42.35815
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LUX",
+    "name": "Luxembourg",
+    "type": "country",
+    "centroid": [
+      6.08125,
+      49.80681
+    ],
+    "bbox": [
+      5.725,
+      49.44546,
+      6.49375,
+      50.16719
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LTU",
+    "name": "Lithuania",
+    "type": "country",
+    "centroid": [
+      24.1649,
+      55.14998
+    ],
+    "bbox": [
+      20.8998,
+      53.89297,
+      26.77568,
+      56.41118
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LIE",
+    "name": "Liechtenstein",
+    "type": "country",
+    "centroid": [
+      9.52569,
+      47.16528
+    ],
+    "bbox": [
+      9.47949,
+      47.05737,
+      9.61055,
+      47.27075
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LBY",
+    "name": "Libya",
+    "type": "country",
+    "centroid": [
+      17.28423,
+      26.38599
+    ],
+    "bbox": [
+      9.31025,
+      19.49663,
+      25.15049,
+      33.18193
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LBR",
+    "name": "Liberia",
+    "type": "country",
+    "centroid": [
+      -9.62905,
+      6.43479
+    ],
+    "bbox": [
+      -11.50752,
+      4.35132,
+      -7.3999,
+      8.5377
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LSO",
+    "name": "Lesotho",
+    "type": "country",
+    "centroid": [
+      28.16927,
+      -29.60908
+    ],
+    "bbox": [
+      27.05176,
+      -30.64229,
+      29.39072,
+      -28.58174
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LBN",
+    "name": "Lebanon",
+    "type": "country",
+    "centroid": [
+      35.92126,
+      33.86743
+    ],
+    "bbox": [
+      35.10859,
+      33.07568,
+      36.58496,
+      34.67871
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LVA",
+    "name": "Latvia",
+    "type": "country",
+    "centroid": [
+      24.3905,
+      56.86025
+    ],
+    "bbox": [
+      21.01494,
+      55.66753,
+      28.20205,
+      58.06343
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "LAO",
+    "name": "Laos",
+    "type": "country",
+    "centroid": [
+      104.68256,
+      18.20725
+    ],
+    "bbox": [
+      100.11494,
+      13.92119,
+      107.65312,
+      22.49526
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KGZ",
+    "name": "Kyrgyzstan",
+    "type": "country",
+    "centroid": [
+      75.07265,
+      41.21045
+    ],
+    "bbox": [
+      69.2291,
+      39.20752,
+      80.24619,
+      43.24038
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KWT",
+    "name": "Kuwait",
+    "type": "country",
+    "centroid": [
+      47.40449,
+      29.31147
+    ],
+    "bbox": [
+      46.53145,
+      28.53315,
+      48.44248,
+      30.09731
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KOS",
+    "name": "Kosovo",
+    "type": "country",
+    "centroid": [
+      20.89671,
+      42.57627
+    ],
+    "bbox": [
+      20.02949,
+      41.85381,
+      21.75293,
+      43.26108
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KIR",
+    "name": "Kiribati",
+    "type": "country",
+    "centroid": [
+      173.10427,
+      1.36106
+    ],
+    "bbox": [
+      -174.54082,
+      -11.45684,
+      174.77891,
+      3.92354
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KEN",
+    "name": "Kenya",
+    "type": "country",
+    "centroid": [
+      37.53487,
+      0.4438
+    ],
+    "bbox": [
+      33.9,
+      -4.69238,
+      41.88398,
+      5.49229
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KAZ",
+    "name": "Kazakhstan",
+    "type": "country",
+    "centroid": [
+      66.32329,
+      47.98391
+    ],
+    "bbox": [
+      46.60918,
+      40.60864,
+      87.32285,
+      55.3896
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "JOR",
+    "name": "Jordan",
+    "type": "country",
+    "centroid": [
+      36.30039,
+      31.27769
+    ],
+    "bbox": [
+      34.95078,
+      29.19048,
+      39.29277,
+      33.37222
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "JPN",
+    "name": "Japan",
+    "type": "country",
+    "centroid": [
+      143.33063,
+      43.4877
+    ],
+    "bbox": [
+      123.67979,
+      24.26606,
+      145.83301,
+      45.50952
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "JAM",
+    "name": "Jamaica",
+    "type": "country",
+    "centroid": [
+      -77.15643,
+      18.09971
+    ],
+    "bbox": [
+      -78.3395,
+      17.71494,
+      -76.21079,
+      18.52222
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ITA",
+    "name": "Italy",
+    "type": "country",
+    "centroid": [
+      12.67004,
+      42.5208
+    ],
+    "bbox": [
+      6.62773,
+      36.68784,
+      18.48584,
+      47.08213
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ISR",
+    "name": "Israel",
+    "type": "country",
+    "centroid": [
+      34.66996,
+      31.45105
+    ],
+    "bbox": [
+      34.24531,
+      29.47734,
+      35.88798,
+      33.41567
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PSX",
+    "name": "Palestine",
+    "type": "country",
+    "centroid": [
+      35.26034,
+      31.9491
+    ],
+    "bbox": [
+      34.19814,
+      31.2083,
+      35.57207,
+      32.53442
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "IRL",
+    "name": "Ireland",
+    "type": "country",
+    "centroid": [
+      -8.11353,
+      53.42922
+    ],
+    "bbox": [
+      -10.39023,
+      51.47373,
+      -6.02739,
+      55.36582
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "IRQ",
+    "name": "Iraq",
+    "type": "country",
+    "centroid": [
+      42.486,
+      33.20203
+    ],
+    "bbox": [
+      38.77354,
+      29.06367,
+      48.54648,
+      37.37187
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "IRN",
+    "name": "Iran",
+    "type": "country",
+    "centroid": [
+      54.05768,
+      32.43962
+    ],
+    "bbox": [
+      44.02324,
+      25.1021,
+      63.30518,
+      39.76855
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "IDN",
+    "name": "Indonesia",
+    "type": "country",
+    "centroid": [
+      113.35194,
+      0.09565
+    ],
+    "bbox": [
+      95.20664,
+      -10.90967,
+      140.97617,
+      5.90703
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "IND",
+    "name": "India",
+    "type": "country",
+    "centroid": [
+      80.23129,
+      21.78394
+    ],
+    "bbox": [
+      68.16504,
+      6.74868,
+      97.34355,
+      35.4959
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ISL",
+    "name": "Iceland",
+    "type": "country",
+    "centroid": [
+      -18.44208,
+      64.97783
+    ],
+    "bbox": [
+      -24.47568,
+      63.40669,
+      -13.5561,
+      66.52607
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "HUN",
+    "name": "Hungary",
+    "type": "country",
+    "centroid": [
+      19.11827,
+      47.18467
+    ],
+    "bbox": [
+      16.09307,
+      45.75303,
+      22.87666,
+      48.55347
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "HND",
+    "name": "Honduras",
+    "type": "country",
+    "centroid": [
+      -87.2443,
+      14.49294
+    ],
+    "bbox": [
+      -89.3626,
+      12.97925,
+      -83.15752,
+      16.51396
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "HTI",
+    "name": "Haiti",
+    "type": "country",
+    "centroid": [
+      -72.25003,
+      18.95352
+    ],
+    "bbox": [
+      -74.47812,
+      18.03916,
+      -71.64531,
+      20.09365
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GUY",
+    "name": "Guyana",
+    "type": "country",
+    "centroid": [
+      -58.96067,
+      4.85051
+    ],
+    "bbox": [
+      -61.39082,
+      1.20122,
+      -56.48281,
+      8.54932
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GNB",
+    "name": "Guinea-Bissau",
+    "type": "country",
+    "centroid": [
+      -14.6089,
+      11.80249
+    ],
+    "bbox": [
+      -16.71182,
+      10.94014,
+      -13.67354,
+      12.67993
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GIN",
+    "name": "Guinea",
+    "type": "country",
+    "centroid": [
+      -9.67245,
+      9.94924
+    ],
+    "bbox": [
+      -15.05122,
+      7.21592,
+      -7.6812,
+      12.67393
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GTM",
+    "name": "Guatemala",
+    "type": "country",
+    "centroid": [
+      -90.28192,
+      15.78535
+    ],
+    "bbox": [
+      -92.23516,
+      13.73652,
+      -88.22832,
+      17.81641
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GRD",
+    "name": "Grenada",
+    "type": "country",
+    "centroid": [
+      -61.67428,
+      12.1468
+    ],
+    "bbox": [
+      -61.78218,
+      12.00845,
+      -61.60703,
+      12.23701
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GRC",
+    "name": "Greece",
+    "type": "country",
+    "centroid": [
+      21.80692,
+      39.08447
+    ],
+    "bbox": [
+      19.64648,
+      34.93447,
+      28.23184,
+      41.7438
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GHA",
+    "name": "Ghana",
+    "type": "country",
+    "centroid": [
+      -1.06849,
+      7.97708
+    ],
+    "bbox": [
+      -3.2439,
+      4.76245,
+      1.18721,
+      11.16689
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "DEU",
+    "name": "Germany",
+    "type": "country",
+    "centroid": [
+      10.47518,
+      51.0759
+    ],
+    "bbox": [
+      5.85752,
+      47.27881,
+      15.0166,
+      55.05874
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GEO",
+    "name": "Georgia",
+    "type": "country",
+    "centroid": [
+      43.63688,
+      42.29604
+    ],
+    "bbox": [
+      39.97832,
+      41.07021,
+      46.67256,
+      43.56978
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GMB",
+    "name": "Gambia",
+    "type": "country",
+    "centroid": [
+      -14.35995,
+      13.44177
+    ],
+    "bbox": [
+      -16.8248,
+      13.06416,
+      -13.82671,
+      13.81211
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GAB",
+    "name": "Gabon",
+    "type": "country",
+    "centroid": [
+      11.62635,
+      -0.8562
+    ],
+    "bbox": [
+      8.70312,
+      -3.91631,
+      14.48057,
+      2.3022
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "FRA",
+    "name": "France",
+    "type": "country",
+    "centroid": [
+      2.19447,
+      46.72012
+    ],
+    "bbox": [
+      -4.7625,
+      41.38491,
+      9.55645,
+      51.09712
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SPM",
+    "name": "St. Pierre and Miquelon",
+    "type": "country",
+    "centroid": [
+      -56.17918,
+      46.78845
+    ],
+    "bbox": [
+      -56.38691,
+      46.75283,
+      -56.13735,
+      47.09897
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "WLF",
+    "name": "Wallis and Futuna Is.",
+    "type": "country",
+    "centroid": [
+      -178.15158,
+      -14.26982
+    ],
+    "bbox": [
+      -178.19438,
+      -14.3249,
+      -176.12808,
+      -13.22168
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MAF",
+    "name": "St-Martin",
+    "type": "country",
+    "centroid": [
+      -63.05522,
+      18.09751
+    ],
+    "bbox": [
+      -63.12305,
+      18.06895,
+      -63.00942,
+      18.11533
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BLM",
+    "name": "St-Barth\u00e9lemy",
+    "type": "country",
+    "centroid": [
+      -62.83724,
+      17.90364
+    ],
+    "bbox": [
+      -62.87544,
+      17.8752,
+      -62.79971,
+      17.92227
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "PYF",
+    "name": "Fr. Polynesia",
+    "type": "country",
+    "centroid": [
+      -139.01235,
+      -9.78154
+    ],
+    "bbox": [
+      -151.5124,
+      -20.87588,
+      -136.2939,
+      -8.78154
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NCL",
+    "name": "New Caledonia",
+    "type": "country",
+    "centroid": [
+      165.25732,
+      -21.23438
+    ],
+    "bbox": [
+      159.92822,
+      -22.66113,
+      168.13906,
+      -19.11465
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ATF",
+    "name": "Fr. S. Antarctic Lands",
+    "type": "country",
+    "centroid": [
+      70.23855,
+      -49.18691
+    ],
+    "bbox": [
+      51.65928,
+      -49.70986,
+      70.55547,
+      -46.32686
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ALD",
+    "name": "\u00c5land",
+    "type": "country",
+    "centroid": [
+      20.05203,
+      60.24714
+    ],
+    "bbox": [
+      19.51904,
+      60.01167,
+      20.61133,
+      60.40581
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "FIN",
+    "name": "Finland",
+    "type": "country",
+    "centroid": [
+      27.4395,
+      64.93372
+    ],
+    "bbox": [
+      20.62217,
+      59.81602,
+      31.53652,
+      70.06484
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "FJI",
+    "name": "Fiji",
+    "type": "country",
+    "centroid": [
+      177.97771,
+      -17.80303
+    ],
+    "bbox": [
+      -180.0,
+      -21.70586,
+      180.0,
+      -12.47695
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ETH",
+    "name": "Ethiopia",
+    "type": "country",
+    "centroid": [
+      38.93757,
+      9.18464
+    ],
+    "bbox": [
+      32.99893,
+      3.4561,
+      47.97822,
+      14.85229
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "EST",
+    "name": "Estonia",
+    "type": "country",
+    "centroid": [
+      25.50183,
+      58.61719
+    ],
+    "bbox": [
+      21.85449,
+      57.52549,
+      28.15107,
+      59.63901
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ERI",
+    "name": "Eritrea",
+    "type": "country",
+    "centroid": [
+      38.10521,
+      15.17661
+    ],
+    "bbox": [
+      36.42676,
+      12.37656,
+      43.1167,
+      18.00508
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GNQ",
+    "name": "Eq. Guinea",
+    "type": "country",
+    "centroid": [
+      10.50233,
+      1.67888
+    ],
+    "bbox": [
+      8.43428,
+      0.96011,
+      11.33535,
+      3.7583
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SLV",
+    "name": "El Salvador",
+    "type": "country",
+    "centroid": [
+      -88.91242,
+      13.79785
+    ],
+    "bbox": [
+      -90.10591,
+      13.16401,
+      -87.71533,
+      14.4311
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "EGY",
+    "name": "Egypt",
+    "type": "country",
+    "centroid": [
+      29.45526,
+      26.82395
+    ],
+    "bbox": [
+      24.70322,
+      21.99487,
+      36.87139,
+      31.65498
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ECU",
+    "name": "Ecuador",
+    "type": "country",
+    "centroid": [
+      -78.28298,
+      -1.77554
+    ],
+    "bbox": [
+      -91.65415,
+      -4.99063,
+      -75.24961,
+      1.45537
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "DOM",
+    "name": "Dominican Rep.",
+    "type": "country",
+    "centroid": [
+      -70.12398,
+      18.76807
+    ],
+    "bbox": [
+      -72.00039,
+      17.6356,
+      -68.33916,
+      19.91396
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "DMA",
+    "name": "Dominica",
+    "type": "country",
+    "centroid": [
+      -61.35737,
+      15.4625
+    ],
+    "bbox": [
+      -61.48115,
+      15.22729,
+      -61.25107,
+      15.63311
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "DJI",
+    "name": "Djibouti",
+    "type": "country",
+    "centroid": [
+      42.39978,
+      11.78423
+    ],
+    "bbox": [
+      41.76465,
+      10.94102,
+      43.40977,
+      12.70859
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "GRL",
+    "name": "Greenland",
+    "type": "country",
+    "centroid": [
+      -37.63632,
+      71.70083
+    ],
+    "bbox": [
+      -72.81807,
+      59.81548,
+      -11.42554,
+      83.59961
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "FRO",
+    "name": "Faeroe Is.",
+    "type": "country",
+    "centroid": [
+      -7.23486,
+      62.08767
+    ],
+    "bbox": [
+      -7.42261,
+      61.41431,
+      -6.40605,
+      62.35566
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "DNK",
+    "name": "Denmark",
+    "type": "country",
+    "centroid": [
+      9.26378,
+      56.26387
+    ],
+    "bbox": [
+      8.12148,
+      54.62886,
+      15.13711,
+      57.73691
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CZE",
+    "name": "Czechia",
+    "type": "country",
+    "centroid": [
+      15.51465,
+      49.80903
+    ],
+    "bbox": [
+      12.08975,
+      48.57622,
+      18.83223,
+      51.03779
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CYN",
+    "name": "N. Cyprus",
+    "type": "country",
+    "centroid": [
+      33.45556,
+      35.31396
+    ],
+    "bbox": [
+      32.7127,
+      35.00034,
+      34.55605,
+      35.66206
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CYP",
+    "name": "Cyprus",
+    "type": "country",
+    "centroid": [
+      32.97761,
+      34.87988
+    ],
+    "bbox": [
+      32.30098,
+      34.56958,
+      34.0502,
+      35.18267
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CUB",
+    "name": "Cuba",
+    "type": "country",
+    "centroid": [
+      -77.95792,
+      21.52671
+    ],
+    "bbox": [
+      -84.88721,
+      19.85547,
+      -74.13682,
+      23.19043
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "HRV",
+    "name": "Croatia",
+    "type": "country",
+    "centroid": [
+      15.33992,
+      44.73621
+    ],
+    "bbox": [
+      13.51719,
+      42.43291,
+      19.40098,
+      46.53462
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CIV",
+    "name": "C\u00f4te d'Ivoire",
+    "type": "country",
+    "centroid": [
+      -5.69515,
+      7.53171
+    ],
+    "bbox": [
+      -8.60356,
+      4.35132,
+      -2.50586,
+      10.72407
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CRI",
+    "name": "Costa Rica",
+    "type": "country",
+    "centroid": [
+      -83.65524,
+      9.63337
+    ],
+    "bbox": [
+      -85.90801,
+      8.07065,
+      -82.56357,
+      11.18945
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "COD",
+    "name": "Dem. Rep. Congo",
+    "type": "country",
+    "centroid": [
+      22.43667,
+      -4.05947
+    ],
+    "bbox": [
+      12.21367,
+      -13.45381,
+      31.27402,
+      5.31211
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "COG",
+    "name": "Congo",
+    "type": "country",
+    "centroid": [
+      16.04037,
+      -0.69668
+    ],
+    "bbox": [
+      11.13018,
+      -5.0043,
+      18.62217,
+      3.6873
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "COM",
+    "name": "Comoros",
+    "type": "country",
+    "centroid": [
+      44.39342,
+      -12.19629
+    ],
+    "bbox": [
+      43.22666,
+      -12.36826,
+      44.52676,
+      -11.36846
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "COL",
+    "name": "Colombia",
+    "type": "country",
+    "centroid": [
+      -72.58701,
+      4.10874
+    ],
+    "bbox": [
+      -79.02544,
+      -4.23594,
+      -66.87603,
+      12.43437
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CHN",
+    "name": "China",
+    "type": "country",
+    "centroid": [
+      98.58217,
+      36.89858
+    ],
+    "bbox": [
+      73.60732,
+      18.21826,
+      134.75234,
+      53.55562
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MAC",
+    "name": "Macao",
+    "type": "country",
+    "centroid": [
+      113.51147,
+      22.21948
+    ],
+    "bbox": [
+      113.47891,
+      22.19556,
+      113.54814,
+      22.24595
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "HKG",
+    "name": "Hong Kong",
+    "type": "country",
+    "centroid": [
+      114.11596,
+      22.43279
+    ],
+    "bbox": [
+      113.83887,
+      22.19517,
+      114.33525,
+      22.56499
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CHL",
+    "name": "Chile",
+    "type": "country",
+    "centroid": [
+      -71.50231,
+      -35.68442
+    ],
+    "bbox": [
+      -109.43413,
+      -55.8917,
+      -66.43579,
+      -17.50605
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TCD",
+    "name": "Chad",
+    "type": "country",
+    "centroid": [
+      18.53588,
+      15.39805
+    ],
+    "bbox": [
+      13.44824,
+      7.47529,
+      23.9834,
+      23.44521
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CAF",
+    "name": "Central African Rep.",
+    "type": "country",
+    "centroid": [
+      20.61866,
+      6.59551
+    ],
+    "bbox": [
+      14.43115,
+      2.27007,
+      27.40332,
+      10.99624
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CPV",
+    "name": "Cabo Verde",
+    "type": "country",
+    "centroid": [
+      -25.17381,
+      17.05852
+    ],
+    "bbox": [
+      -25.34155,
+      14.81821,
+      -22.68188,
+      17.19365
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CAN",
+    "name": "Canada",
+    "type": "country",
+    "centroid": [
+      -110.42655,
+      56.82576
+    ],
+    "bbox": [
+      -141.00215,
+      41.67485,
+      -52.65366,
+      83.11611
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "CMR",
+    "name": "Cameroon",
+    "type": "country",
+    "centroid": [
+      13.61399,
+      7.37944
+    ],
+    "bbox": [
+      8.53281,
+      1.67622,
+      16.1834,
+      13.07852
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KHM",
+    "name": "Cambodia",
+    "type": "country",
+    "centroid": [
+      105.09925,
+      12.55496
+    ],
+    "bbox": [
+      102.31973,
+      10.41123,
+      107.60547,
+      14.70508
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "MMR",
+    "name": "Myanmar",
+    "type": "country",
+    "centroid": [
+      95.9199,
+      19.27966
+    ],
+    "bbox": [
+      92.17959,
+      9.87539,
+      101.14727,
+      28.51704
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BDI",
+    "name": "Burundi",
+    "type": "country",
+    "centroid": [
+      29.91437,
+      -3.37754
+    ],
+    "bbox": [
+      29.01416,
+      -4.45586,
+      30.81143,
+      -2.31299
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BFA",
+    "name": "Burkina Faso",
+    "type": "country",
+    "centroid": [
+      -1.20254,
+      12.25222
+    ],
+    "bbox": [
+      -5.52354,
+      9.42471,
+      2.38916,
+      15.07788
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BGR",
+    "name": "Bulgaria",
+    "type": "country",
+    "centroid": [
+      25.15912,
+      42.73318
+    ],
+    "bbox": [
+      22.34404,
+      41.24355,
+      28.58535,
+      44.23779
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BRN",
+    "name": "Brunei",
+    "type": "country",
+    "centroid": [
+      114.49097,
+      4.50242
+    ],
+    "bbox": [
+      114.06387,
+      4.02397,
+      115.32676,
+      5.02236
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BRA",
+    "name": "Brazil",
+    "type": "country",
+    "centroid": [
+      -49.72302,
+      -14.22393
+    ],
+    "bbox": [
+      -74.00205,
+      -33.74219,
+      -34.80547,
+      5.25796
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BWA",
+    "name": "Botswana",
+    "type": "country",
+    "centroid": [
+      24.47869,
+      -22.33677
+    ],
+    "bbox": [
+      19.97734,
+      -26.8542,
+      29.36484,
+      -17.7876
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BIH",
+    "name": "Bosnia and Herz.",
+    "type": "country",
+    "centroid": [
+      17.92206,
+      43.92825
+    ],
+    "bbox": [
+      15.73662,
+      42.55972,
+      19.58379,
+      45.27656
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BOL",
+    "name": "Bolivia",
+    "type": "country",
+    "centroid": [
+      -64.06578,
+      -16.30195
+    ],
+    "bbox": [
+      -69.6457,
+      -22.8917,
+      -57.49565,
+      -9.71045
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BTN",
+    "name": "Bhutan",
+    "type": "country",
+    "centroid": [
+      90.32702,
+      27.50574
+    ],
+    "bbox": [
+      88.73877,
+      26.70156,
+      92.0834,
+      28.31118
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BEN",
+    "name": "Benin",
+    "type": "country",
+    "centroid": [
+      2.27918,
+      9.30281
+    ],
+    "bbox": [
+      0.76338,
+      6.2168,
+      3.83447,
+      12.38384
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BLZ",
+    "name": "Belize",
+    "type": "country",
+    "centroid": [
+      -88.73735,
+      17.1384
+    ],
+    "bbox": [
+      -89.2375,
+      15.88867,
+      -87.78862,
+      18.48232
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BEL",
+    "name": "Belgium",
+    "type": "country",
+    "centroid": [
+      4.79757,
+      50.50342
+    ],
+    "bbox": [
+      2.5249,
+      49.51089,
+      6.36445,
+      51.49111
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BLR",
+    "name": "Belarus",
+    "type": "country",
+    "centroid": [
+      27.93898,
+      53.73708
+    ],
+    "bbox": [
+      23.1751,
+      51.26504,
+      32.71025,
+      56.1458
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BRB",
+    "name": "Barbados",
+    "type": "country",
+    "centroid": [
+      -59.55058,
+      13.1748
+    ],
+    "bbox": [
+      -59.64668,
+      13.06221,
+      -59.42764,
+      13.31768
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BGD",
+    "name": "Bangladesh",
+    "type": "country",
+    "centroid": [
+      89.86819,
+      23.68069
+    ],
+    "bbox": [
+      88.02344,
+      20.79043,
+      92.63164,
+      26.57153
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BHR",
+    "name": "Bahrain",
+    "type": "country",
+    "centroid": [
+      50.54903,
+      26.0304
+    ],
+    "bbox": [
+      50.45244,
+      25.80679,
+      50.61748,
+      26.24644
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "BHS",
+    "name": "Bahamas",
+    "type": "country",
+    "centroid": [
+      -78.37623,
+      26.64827
+    ],
+    "bbox": [
+      -78.98564,
+      20.9374,
+      -72.74727,
+      26.94009
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "AZE",
+    "name": "Azerbaijan",
+    "type": "country",
+    "centroid": [
+      47.73151,
+      40.13975
+    ],
+    "bbox": [
+      44.76826,
+      38.39873,
+      50.36592,
+      41.89097
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "AUT",
+    "name": "Austria",
+    "type": "country",
+    "centroid": [
+      14.75207,
+      47.70073
+    ],
+    "bbox": [
+      9.52402,
+      46.39971,
+      17.14736,
+      49.00112
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "AUS",
+    "name": "Australia",
+    "type": "country",
+    "centroid": [
+      133.07651,
+      -24.93398
+    ],
+    "bbox": [
+      112.9082,
+      -54.74922,
+      158.95889,
+      -10.05176
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "IOA",
+    "name": "Indian Ocean Ter.",
+    "type": "country",
+    "centroid": [
+      105.65385,
+      -10.50273
+    ],
+    "bbox": [
+      96.82588,
+      -12.1998,
+      105.72539,
+      -10.43066
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "HMD",
+    "name": "Heard I. and McDonald Is.",
+    "type": "country",
+    "centroid": [
+      73.50906,
+      -53.06055
+    ],
+    "bbox": [
+      73.25117,
+      -53.18457,
+      73.83779,
+      -52.96631
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NFK",
+    "name": "Norfolk Island",
+    "type": "country",
+    "centroid": [
+      167.95101,
+      -29.05591
+    ],
+    "bbox": [
+      167.90615,
+      -29.09629,
+      167.99043,
+      -29.01396
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ATC",
+    "name": "Ashmore and Cartier Is.",
+    "type": "country",
+    "centroid": [
+      123.58384,
+      -12.42993
+    ],
+    "bbox": [
+      123.57246,
+      -12.43594,
+      123.59521,
+      -12.42393
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ARM",
+    "name": "Armenia",
+    "type": "country",
+    "centroid": [
+      44.83659,
+      40.08748
+    ],
+    "bbox": [
+      43.43945,
+      38.86904,
+      46.58477,
+      41.29097
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ARG",
+    "name": "Argentina",
+    "type": "country",
+    "centroid": [
+      -63.97133,
+      -37.08564
+    ],
+    "bbox": [
+      -73.57627,
+      -55.03213,
+      -53.66855,
+      -21.80254
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ATG",
+    "name": "Antigua and Barb.",
+    "type": "country",
+    "centroid": [
+      -61.78566,
+      17.08398
+    ],
+    "bbox": [
+      -61.88711,
+      16.99717,
+      -61.68604,
+      17.71406
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "AGO",
+    "name": "Angola",
+    "type": "country",
+    "centroid": [
+      18.85935,
+      -11.92041
+    ],
+    "bbox": [
+      11.74307,
+      -18.01973,
+      24.04668,
+      -4.42891
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "AND",
+    "name": "Andorra",
+    "type": "country",
+    "centroid": [
+      1.57208,
+      42.5396
+    ],
+    "bbox": [
+      1.41484,
+      42.43447,
+      1.74023,
+      42.64272
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "DZA",
+    "name": "Algeria",
+    "type": "country",
+    "centroid": [
+      0.59545,
+      27.97185
+    ],
+    "bbox": [
+      -8.68335,
+      18.98662,
+      11.96787,
+      37.09238
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ALB",
+    "name": "Albania",
+    "type": "country",
+    "centroid": [
+      20.00418,
+      41.1821
+    ],
+    "bbox": [
+      19.28066,
+      39.65352,
+      21.03105,
+      42.64795
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "AFG",
+    "name": "Afghanistan",
+    "type": "country",
+    "centroid": [
+      65.19345,
+      33.92405
+    ],
+    "bbox": [
+      60.48574,
+      29.39194,
+      74.89131,
+      38.4564
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "KAS",
+    "name": "Siachen Glacier",
+    "type": "country",
+    "centroid": [
+      77.26187,
+      35.40725
+    ],
+    "bbox": [
+      76.76689,
+      35.10991,
+      77.79941,
+      35.66172
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "ATA",
+    "name": "Antarctica",
+    "type": "country",
+    "centroid": [
+      66.35569,
+      -76.61899
+    ],
+    "bbox": [
+      -180.0,
+      -89.99893,
+      180.0,
+      -60.5209
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "SXM",
+    "name": "Sint Maarten",
+    "type": "country",
+    "centroid": [
+      -63.05328,
+      18.04341
+    ],
+    "bbox": [
+      -63.12471,
+      18.01919,
+      -63.01118,
+      18.06895
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "TUV",
+    "name": "Tuvalu",
+    "type": "country",
+    "centroid": [
+      179.20666,
+      -8.50039
+    ],
+    "bbox": [
+      179.1957,
+      -8.53496,
+      179.2166,
+      -8.46631
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "US-AK",
+    "name": "Alaska",
+    "type": "state",
+    "centroid": [
+      -152.01962,
+      63.08747
+    ],
+    "bbox": [
+      -178.19452,
+      51.60368,
+      -130.01407,
+      71.40769
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-AL",
+    "name": "Alabama",
+    "type": "state",
+    "centroid": [
+      -86.71834,
+      32.57779
+    ],
+    "bbox": [
+      -88.48619,
+      30.23092,
+      -84.92153,
+      35.025
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-AR",
+    "name": "Arkansas",
+    "type": "state",
+    "centroid": [
+      -92.47082,
+      34.74907
+    ],
+    "bbox": [
+      -94.61838,
+      33.012,
+      -89.68891,
+      36.50087
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-AZ",
+    "name": "Arizona",
+    "type": "state",
+    "centroid": [
+      -111.67972,
+      34.15341
+    ],
+    "bbox": [
+      -114.83595,
+      31.32421,
+      -109.04667,
+      37.00415
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-CA",
+    "name": "California",
+    "type": "state",
+    "centroid": [
+      -119.96328,
+      37.24324
+    ],
+    "bbox": [
+      -124.37165,
+      32.53337,
+      -114.12502,
+      42.00077
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-CO",
+    "name": "Colorado",
+    "type": "state",
+    "centroid": [
+      -105.53362,
+      39.03217
+    ],
+    "bbox": [
+      -109.04667,
+      37.00085,
+      -102.01278,
+      41.00086
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-CT",
+    "name": "Connecticut",
+    "type": "state",
+    "centroid": [
+      -72.65967,
+      41.55037
+    ],
+    "bbox": [
+      -73.72301,
+      40.99186,
+      -71.79579,
+      42.05557
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-DC",
+    "name": "District of Columbia",
+    "type": "state",
+    "centroid": [
+      -76.99278,
+      38.90228
+    ],
+    "bbox": [
+      -77.12205,
+      38.80653,
+      -76.93124,
+      39.01178
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-DE",
+    "name": "Delaware",
+    "type": "state",
+    "centroid": [
+      -75.57571,
+      39.16995
+    ],
+    "bbox": [
+      -75.78472,
+      38.45486,
+      -75.03588,
+      39.84344
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-FL",
+    "name": "Florida",
+    "type": "state",
+    "centroid": [
+      -81.69118,
+      28.02564
+    ],
+    "bbox": [
+      -87.60744,
+      24.54235,
+      -80.04131,
+      31.00167
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-GA",
+    "name": "Georgia",
+    "type": "state",
+    "centroid": [
+      -83.24623,
+      32.66775
+    ],
+    "bbox": [
+      -85.6236,
+      30.37135,
+      -80.87235,
+      35.00148
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-HI",
+    "name": "Hawaii",
+    "type": "state",
+    "centroid": [
+      -155.44663,
+      19.61772
+    ],
+    "bbox": [
+      -177.39048,
+      18.96391,
+      -154.80419,
+      28.22118
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-IA",
+    "name": "Iowa",
+    "type": "state",
+    "centroid": [
+      -93.15799,
+      41.94286
+    ],
+    "bbox": [
+      -96.62683,
+      40.37945,
+      -90.14943,
+      43.50241
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-ID",
+    "name": "Idaho",
+    "type": "state",
+    "centroid": [
+      -115.43631,
+      45.49236
+    ],
+    "bbox": [
+      -117.2017,
+      42.00056,
+      -111.0503,
+      48.99308
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-IL",
+    "name": "Illinois",
+    "type": "state",
+    "centroid": [
+      -89.46648,
+      39.78811
+    ],
+    "bbox": [
+      -91.50165,
+      36.99211,
+      -87.03913,
+      42.51298
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-IN",
+    "name": "Indiana",
+    "type": "state",
+    "centroid": [
+      -86.17296,
+      39.85569
+    ],
+    "bbox": [
+      -88.09532,
+      37.78803,
+      -84.78962,
+      41.76076
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-KS",
+    "name": "Kansas",
+    "type": "state",
+    "centroid": [
+      -98.3208,
+      38.53288
+    ],
+    "bbox": [
+      -102.02449,
+      37.00085,
+      -94.61807,
+      40.00149
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-KY",
+    "name": "Kentucky",
+    "type": "state",
+    "centroid": [
+      -84.75146,
+      37.81147
+    ],
+    "bbox": [
+      -89.56004,
+      36.49968,
+      -81.96528,
+      39.12891
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-LA",
+    "name": "Louisiana",
+    "type": "state",
+    "centroid": [
+      -91.64884,
+      30.97444
+    ],
+    "bbox": [
+      -94.0433,
+      28.98133,
+      -88.81258,
+      33.01592
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-MA",
+    "name": "Massachusetts",
+    "type": "state",
+    "centroid": [
+      -72.09041,
+      42.19646
+    ],
+    "bbox": [
+      -73.50729,
+      41.24947,
+      -69.93384,
+      42.88156
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-MD",
+    "name": "Maryland",
+    "type": "state",
+    "centroid": [
+      -75.97678,
+      38.83162
+    ],
+    "bbox": [
+      -79.48798,
+      37.95396,
+      -75.03766,
+      39.7228
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-ME",
+    "name": "Maine",
+    "type": "state",
+    "centroid": [
+      -69.17374,
+      45.26657
+    ],
+    "bbox": [
+      -71.08455,
+      43.07003,
+      -66.98702,
+      47.46299
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-MI",
+    "name": "Michigan",
+    "type": "state",
+    "centroid": [
+      -84.5273,
+      44.9785
+    ],
+    "bbox": [
+      -90.41259,
+      41.70143,
+      -82.13785,
+      48.3031
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-MN",
+    "name": "Minnesota",
+    "type": "state",
+    "centroid": [
+      -94.49195,
+      46.42266
+    ],
+    "bbox": [
+      -97.22574,
+      43.50117,
+      -89.49838,
+      49.36967
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-MO",
+    "name": "Missouri",
+    "type": "state",
+    "centroid": [
+      -92.49784,
+      38.30694
+    ],
+    "bbox": [
+      -95.76503,
+      35.99274,
+      -89.12249,
+      40.62465
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-MS",
+    "name": "Mississippi",
+    "type": "state",
+    "centroid": [
+      -89.76229,
+      32.60562
+    ],
+    "bbox": [
+      -91.65645,
+      30.19263,
+      -88.08477,
+      35.00111
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-MT",
+    "name": "Montana",
+    "type": "state",
+    "centroid": [
+      -109.32141,
+      46.6917
+    ],
+    "bbox": [
+      -116.04901,
+      44.39662,
+      -104.00478,
+      48.99314
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-NC",
+    "name": "North Carolina",
+    "type": "state",
+    "centroid": [
+      -80.40985,
+      35.23239
+    ],
+    "bbox": [
+      -84.32469,
+      33.87666,
+      -75.45647,
+      36.61058
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-ND",
+    "name": "North Dakota",
+    "type": "state",
+    "centroid": [
+      -100.4422,
+      47.44622
+    ],
+    "bbox": [
+      -104.03393,
+      45.94277,
+      -96.5564,
+      48.99318
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-NE",
+    "name": "Nebraska",
+    "type": "state",
+    "centroid": [
+      -100.00838,
+      41.51073
+    ],
+    "bbox": [
+      -104.02886,
+      40.00112,
+      -95.34668,
+      43.0014
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-NH",
+    "name": "New Hampshire",
+    "type": "state",
+    "centroid": [
+      -71.55201,
+      43.99432
+    ],
+    "bbox": [
+      -72.55281,
+      42.70249,
+      -70.7331,
+      45.29401
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-NJ",
+    "name": "New Jersey",
+    "type": "state",
+    "centroid": [
+      -74.41977,
+      40.11702
+    ],
+    "bbox": [
+      -75.52425,
+      38.94114,
+      -73.91008,
+      41.3573
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-NM",
+    "name": "New Mexico",
+    "type": "state",
+    "centroid": [
+      -106.05096,
+      34.06769
+    ],
+    "bbox": [
+      -109.04781,
+      31.32788,
+      -103.00029,
+      37.00085
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-NV",
+    "name": "Nevada",
+    "type": "state",
+    "centroid": [
+      -116.63327,
+      38.45967
+    ],
+    "bbox": [
+      -120.00081,
+      34.99112,
+      -114.04027,
+      42.00111
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-NY",
+    "name": "New York",
+    "type": "state",
+    "centroid": [
+      -76.0964,
+      42.88696
+    ],
+    "bbox": [
+      -79.76303,
+      40.51871,
+      -71.90321,
+      45.00542
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-OH",
+    "name": "Ohio",
+    "type": "state",
+    "centroid": [
+      -82.70617,
+      40.38192
+    ],
+    "bbox": [
+      -84.82171,
+      38.41497,
+      -80.51908,
+      42.32439
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-OK",
+    "name": "Oklahoma",
+    "type": "state",
+    "centroid": [
+      -97.22039,
+      35.34591
+    ],
+    "bbox": [
+      -103.00084,
+      33.64843,
+      -94.43914,
+      37.00085
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-OR",
+    "name": "Oregon",
+    "type": "state",
+    "centroid": [
+      -120.54049,
+      44.09906
+    ],
+    "bbox": [
+      -124.53963,
+      42.00056,
+      -116.47704,
+      46.22545
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-PA",
+    "name": "Pennsylvania",
+    "type": "state",
+    "centroid": [
+      -77.74166,
+      41.11123
+    ],
+    "bbox": [
+      -80.52076,
+      39.72236,
+      -74.69905,
+      42.53898
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-RI",
+    "name": "Rhode Island",
+    "type": "state",
+    "centroid": [
+      -71.59336,
+      41.67441
+    ],
+    "bbox": [
+      -71.84235,
+      41.33091,
+      -71.23205,
+      42.01686
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-SC",
+    "name": "South Carolina",
+    "type": "state",
+    "centroid": [
+      -80.54117,
+      33.59079
+    ],
+    "bbox": [
+      -83.35557,
+      32.02957,
+      -78.56427,
+      35.21093
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-SD",
+    "name": "South Dakota",
+    "type": "state",
+    "centroid": [
+      -100.24377,
+      44.21299
+    ],
+    "bbox": [
+      -104.03721,
+      42.51126,
+      -96.45362,
+      45.94306
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-TN",
+    "name": "Tennessee",
+    "type": "state",
+    "centroid": [
+      -86.35632,
+      35.83989
+    ],
+    "bbox": [
+      -90.29376,
+      34.9881,
+      -81.65889,
+      36.69301
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-TX",
+    "name": "Texas",
+    "type": "state",
+    "centroid": [
+      -99.66867,
+      31.19509
+    ],
+    "bbox": [
+      -106.66826,
+      25.87052,
+      -93.53059,
+      36.50123
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-UT",
+    "name": "Utah",
+    "type": "state",
+    "centroid": [
+      -111.54396,
+      39.50174
+    ],
+    "bbox": [
+      -114.04259,
+      37.00085,
+      -109.04639,
+      42.00111
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-VA",
+    "name": "Virginia",
+    "type": "state",
+    "centroid": [
+      -78.45841,
+      37.98719
+    ],
+    "bbox": [
+      -83.66752,
+      36.55051,
+      -75.22579,
+      39.45185
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-VT",
+    "name": "Vermont",
+    "type": "state",
+    "centroid": [
+      -72.7879,
+      43.83999
+    ],
+    "bbox": [
+      -73.42613,
+      42.73032,
+      -71.51023,
+      45.00756
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-WA",
+    "name": "Washington",
+    "type": "state",
+    "centroid": [
+      -119.77312,
+      47.29143
+    ],
+    "bbox": [
+      -124.70998,
+      45.59107,
+      -116.89648,
+      48.99308
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-WI",
+    "name": "Wisconsin",
+    "type": "state",
+    "centroid": [
+      -89.72309,
+      44.89023
+    ],
+    "bbox": [
+      -92.89652,
+      42.4928,
+      -86.26452,
+      47.3091
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-WV",
+    "name": "West Virginia",
+    "type": "state",
+    "centroid": [
+      -80.26542,
+      38.9291
+    ],
+    "bbox": [
+      -82.61955,
+      37.20807,
+      -77.72664,
+      40.64696
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "US-WY",
+    "name": "Wyoming",
+    "type": "state",
+    "centroid": [
+      -107.53974,
+      42.96952
+    ],
+    "bbox": [
+      -111.05143,
+      41.00086,
+      -104.02166,
+      45.00113
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "NR-GLOBE",
+    "name": "Globe",
+    "type": "named",
+    "centroid": [
+      0.0,
+      0.0
+    ],
+    "bbox": [
+      -180.0,
+      -90.0,
+      180.0,
+      90.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-LAND",
+    "name": "Land",
+    "type": "named",
+    "centroid": [
+      66.35569,
+      -76.61899
+    ],
+    "bbox": [
+      -180.0,
+      -89.99893,
+      180.0,
+      83.59961
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-OCEAN",
+    "name": "Ocean",
+    "type": "named",
+    "centroid": [
+      0.0,
+      -89.99946
+    ],
+    "bbox": [
+      -180.0,
+      -90.0,
+      180.0,
+      90.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-ARCTIC",
+    "name": "Arctic",
+    "type": "named",
+    "centroid": [
+      0.0,
+      78.25
+    ],
+    "bbox": [
+      -180.0,
+      66.5,
+      180.0,
+      90.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-SAHEL",
+    "name": "Sahel",
+    "type": "named",
+    "centroid": [
+      10.50236,
+      15.10801
+    ],
+    "bbox": [
+      -17.53564,
+      10.0,
+      38.0,
+      20.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-MED",
+    "name": "Mediterranean land",
+    "type": "named",
+    "centroid": [
+      5.31847,
+      36.01528
+    ],
+    "bbox": [
+      -9.87549,
+      30.0,
+      37.0,
+      46.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-ARAL",
+    "name": "Aral Sea region land",
+    "type": "named",
+    "centroid": [
+      60.0,
+      44.5
+    ],
+    "bbox": [
+      55.0,
+      41.0,
+      65.0,
+      48.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-AMAZON",
+    "name": "Amazon region land",
+    "type": "named",
+    "centroid": [
+      -61.5,
+      -8.82847
+    ],
+    "bbox": [
+      -75.0,
+      -15.0,
+      -48.0,
+      5.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-CONGO",
+    "name": "Congo region land",
+    "type": "named",
+    "centroid": [
+      22.0,
+      0.51004
+    ],
+    "bbox": [
+      12.0,
+      -8.0,
+      32.0,
+      6.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-TIBET",
+    "name": "Tibetan Plateau land",
+    "type": "named",
+    "centroid": [
+      90.5,
+      33.0
+    ],
+    "bbox": [
+      78.0,
+      28.0,
+      103.0,
+      38.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-SIBERIA",
+    "name": "Siberia land",
+    "type": "named",
+    "centroid": [
+      100.0,
+      61.96596
+    ],
+    "bbox": [
+      60.0,
+      50.0,
+      140.0,
+      72.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-METRO-LA",
+    "name": "Los Angeles metro box",
+    "type": "named",
+    "centroid": [
+      -118.1,
+      34.59986
+    ],
+    "bbox": [
+      -119.1,
+      33.1,
+      -117.1,
+      35.1
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-METRO-DELHI",
+    "name": "Delhi metro box",
+    "type": "named",
+    "centroid": [
+      77.2,
+      28.6
+    ],
+    "bbox": [
+      76.2,
+      27.6,
+      78.2,
+      29.6
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "NR-METRO-BEIJING",
+    "name": "Beijing metro box",
+    "type": "named",
+    "centroid": [
+      116.4,
+      40.0
+    ],
+    "bbox": [
+      115.4,
+      39.0,
+      117.4,
+      41.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "OCN-NATL",
+    "name": "North Atlantic",
+    "type": "ocean",
+    "centroid": [
+      -43.8532,
+      33.25083
+    ],
+    "bbox": [
+      -100.0,
+      0.0,
+      20.0,
+      66.5
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "OCN-SATL",
+    "name": "South Atlantic",
+    "type": "ocean",
+    "centroid": [
+      -16.55833,
+      -25.01655
+    ],
+    "bbox": [
+      -68.97371,
+      -50.0,
+      20.0,
+      0.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "OCN-NPAC",
+    "name": "North Pacific",
+    "type": "ocean",
+    "centroid": [
+      -149.78031,
+      33.25352
+    ],
+    "bbox": [
+      -180.0,
+      0.0,
+      180.0,
+      66.5
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "OCN-SPAC",
+    "name": "South Pacific",
+    "type": "ocean",
+    "centroid": [
+      -125.251,
+      -24.97559
+    ],
+    "bbox": [
+      -180.0,
+      -50.0,
+      180.0,
+      0.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "OCN-IND",
+    "name": "Indian Ocean",
+    "type": "ocean",
+    "centroid": [
+      79.84158,
+      -9.9835
+    ],
+    "bbox": [
+      20.0,
+      -50.0,
+      120.0,
+      30.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "OCN-SO",
+    "name": "Southern Ocean",
+    "type": "ocean",
+    "centroid": [
+      0.0,
+      -89.99946
+    ],
+    "bbox": [
+      -180.0,
+      -90.0,
+      180.0,
+      -50.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  },
+  {
+    "id": "OCN-ARC",
+    "name": "Arctic Ocean",
+    "type": "ocean",
+    "centroid": [
+      40.38832,
+      78.24949
+    ],
+    "bbox": [
+      -180.0,
+      66.5,
+      180.0,
+      90.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": null
+  }
+]

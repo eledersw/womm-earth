@@ -3,3 +3,6 @@ pytest
 pymannkendall
 httpx
 uvicorn[standard]
+shapely>=2.0
+regionmask>=0.12
+geopandas>=1.0
