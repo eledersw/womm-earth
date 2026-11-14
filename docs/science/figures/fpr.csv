@@ -1,0 +1,3 @@
+noise,seed,n_years,phi,naive_fpr,hamed_rao_fpr
+White noise,7,30,0.0,0.051,0.097
+AR(1) noise,8,40,0.6,0.312,0.246
