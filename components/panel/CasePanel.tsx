@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useEffect } from "react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { caseCopy } from "@/lib/copy/case";
 import { partnerCopy } from "@/lib/copy/partner";
@@ -47,6 +48,9 @@ function CasePanelContent() {
           <TabsTrigger value="partner">{caseCopy.partnerTab}</TabsTrigger>
         </TabsList>
         <TabsContent value="case" className="pt-2">
+          <ToggleGroup type="single" value={state.level} variant="outline" aria-label={partnerCopy.readingLevel} className="mb-3" onValueChange={(level) => { if (level === "student" || level === "scientist") setCase({ level }); }}>
+            <ToggleGroupItem value="student">{partnerCopy.student}</ToggleGroupItem><ToggleGroupItem value="scientist">{partnerCopy.scientist}</ToggleGroupItem>
+          </ToggleGroup>
           <ol aria-label={caseCopy.stepsLabel} className="space-y-3">
             <li><LeadStep {...controls} variables={variables.variables} regions={regions.byId}
               loading={variables.loading || regions.loading} error={!!variables.error || !!regions.error}
@@ -56,7 +60,7 @@ function CasePanelContent() {
             <li><EvidenceStep results={analysis.data?.results} unit={variable?.unit} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>
               <p className="text-sm text-muted-foreground">{state.regions.length && !valid ? caseCopy.controls.catalogRequired : caseCopy.steps.evidence.empty}</p>
             </EvidenceStep></li>
-            <li><VerdictStep results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale}
+            <li><VerdictStep variable={variable} results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale}
               context={{ variableName: variable?.name ?? state.variable, unit: variable?.unit ?? "", period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `${caseCopy.controls.seasons.CUSTOM} (${state.months?.join(", ")})` : caseCopy.controls.seasons[state.season] }}
               loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} /></li>
           </ol>

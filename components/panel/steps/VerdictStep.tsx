@@ -1,13 +1,14 @@
 "use client";
-import type { RegionAnalysis, TrendStats } from "@/lib/api/types";
+import type { RegionAnalysis, TrendStats, Variable } from "@/lib/api/types";
+import { ExplainBox } from "@/components/partner/ExplainBox";
 import type { ReadingLevel } from "@/lib/state/case-codec";
 import { renderVerdict, testsDisagree, type VerdictContext } from "@/lib/partner/verdict-templates";
 import { fmtNumber, fmtP, fmtSlope } from "@/lib/partner/format";
 import { caseCopy } from "@/lib/copy/case";
 import { StepSection, type StepProps } from "./StepSection";
 
-type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean };
-export function VerdictStep({ results, context, level = "student", ratioScale = false, children, ...status }: Props) {
+type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable };
+export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, children, ...status }: Props) {
   const c = caseCopy.verdict;
   return <StepSection step="verdict" {...status}>
     {results?.length && context ? <div className="space-y-4">{results.map((r) => {
@@ -18,6 +19,7 @@ export function VerdictStep({ results, context, level = "student", ratioScale = 
         {testsDisagree(r) && <p className="mt-2 text-sm font-semibold">{c.disagreeBadge}</p>}
         <p className="mt-2 text-sm">{verdict.body}</p>
         {level === "scientist" && r.stats && <StatsTable stats={r.stats} unit={context.unit} ratioScale={ratioScale} />}
+        {variable && r.verdict.tier !== "too_short" && <ExplainBox result={r} variable={variable} regionName={r.region.name} level={level} />}
       </article>;
     })}</div> : children}
   </StepSection>;
