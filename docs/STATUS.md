@@ -1,6 +1,6 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 (H6), by Eleder (required checks on `main`; dark redesign under way; run button decided)
+**Updated:** Sat 2026-11-14 17:39 (H5.7), by Ekaitz (coder-c Task 6 local verification)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
@@ -53,7 +53,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 |---|---|---|---|---|
 | Lead | Eleder | Globe live (#14); Southern Ocean / Arctic click fix (#17); required checks on `main`; three dark mockups for the redesign | Pick the dark direction, then retoken the shell; Task 5 trend-map colouring (needs Oier's `/trendmap`) | 🟡 |
 | Coder B (data & stats) | Oier | Live POWER `/analyze` merged (#16): dynamic monthly POWER catalogue, request-time regional observations, no local series fallback. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review the slide claim. | **Fix the red `api` check (see Blockers).** Regenerate OpenAPI/types; validate a live case and POWER availability limits. | 🟡 |
-| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–5 merged into `main` (Task 5: PR #13). | **Fix the red `web` check in your panel files (see Blockers).** Own the run button. Live Claude + cache-read verification in Vercel still deferred. Process cards still draft; no physical explanations. | 🟡 |
+| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–5 merged. Task 6 implemented locally on `ekaitz/task6-partner-chat`: 7 validated tools, bounded SDK runner, streaming chat, explicit Open this case, cancellation and numeric checks. Web regressions from PR #16 fixed locally; Calculate remains explicit. Check + 124 tests + 12 Chromium E2E pass with mocks/fixtures. | User publishes/PR/merges; live Claude/tool smoke in Vercel pending. Oier still owns the Python CI issue. Process cards remain draft, so no physical explanations. | 🟡 |
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
 | Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
 
@@ -75,6 +75,8 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 - [coder-c] Confirm production rate limit for `/api/partner` before public Explain rollout · Eleder (Vercel firewall) · since H4.1
 
-- [Oier, Ekaitz] ⛔ **`main` CI is red since PR #16** (`oier/power-live-all-variables`). (1) api: `tests/test_api.py` calls NASA POWER live and fails in CI (422 "NASA POWER cannot serve this variable"), so mock the network or mark those tests live-only. (2) web: commit e5613bb edited **Ekaitz's** panel files (`useAnalysis.ts`, `LeadStep`, `TimelineStep`, `CasePanel`, `controls.ts`), giving 1 lint error (`react-hooks/set-state-in-effect` in `useAnalysis.ts:22`) and 5 failing panel tests. Ekaitz owns the fix in his files; Oier says what the API change needs. **GitHub now enforces it:** no PR merges normally until both checks are green. The first fix PR will still show the other job red, so post it in STATUS and Eleder merges it with the bypass once its own job is green. · Oier + Ekaitz · since H5.8
+- [Oier, Ekaitz] ⛔ **`main` CI is red since PR #16** (`oier/power-live-all-variables`). (1) api: `tests/test_api.py` calls NASA POWER live and fails in CI (422 "NASA POWER cannot serve this variable"), so mock the network or mark those tests live-only. (2) web: Ekaitz fixed the lint/panel-test regressions locally on `ekaitz/task6-partner-chat` (check + 124 tests pass); Calculate is still manual. Awaiting user PR/merge. **GitHub now enforces it:** no PR merges normally until both checks are green. The first fix PR will still show the other job red, so post it in STATUS and Eleder merges it with the bypass once its own job is green. · Oier + Ekaitz · since H5.8
+
+- [coder-c] At 390px the shell header Share button extends ~2px past the viewport; panel bounds pass independently · Eleder (header) · since H5.7
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
