@@ -31,10 +31,10 @@ export function StepSection({
       className="min-w-0 rounded-xl border bg-card p-4 text-card-foreground"
       data-case-step={step}
     >
-      <h2 id={`${id}-title`} className="text-base font-semibold">
+      <h2 id={`${id}-title`} className="label-mono text-[0.8rem] text-silver">
         {copy.label}
       </h2>
-      <p id={`${id}-helper`} className="mt-1 text-sm text-muted-foreground">
+      <p id={`${id}-helper`} className="mt-2 text-sm text-muted-foreground">
         {copy.helper}
       </p>
       <div className="mt-4 min-w-0">

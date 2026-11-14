@@ -13,13 +13,11 @@ import {
   type CapRing,
   type RegionFeature,
 } from "./layers";
-import { THEME_EVENT } from "@/components/shell/theme";
 import { povStore } from "./povStore";
 import { useGeo } from "./useGeo";
 import { useRegionToggle } from "./useRegionToggle";
 
-// Token values for three.js, which can't read CSS variables. Read at mount and
-// again whenever the colour scheme changes (header switch).
+// Token values for three.js, which can't read CSS variables. Read once at mount.
 function readTokens() {
   const css = getComputedStyle(document.documentElement);
   const v = (name: string) => css.getPropertyValue(name).trim();
@@ -54,7 +52,7 @@ export default function GlobeView() {
   const boxRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [zoomedIn, setZoomedIn] = useState(START_POV.altitude < ZOOM_STATES_ALTITUDE);
-  const [tokens, setTokens] = useState(readTokens);
+  const [tokens] = useState(readTokens);
   const reduced = useMemo(() => prefersReducedMotion(), []);
 
   // Fill the viewing window.
@@ -66,13 +64,6 @@ export default function GlobeView() {
     );
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
-
-  // Re-read colours when the scheme changes.
-  useEffect(() => {
-    const onTheme = () => setTokens(readTokens());
-    window.addEventListener(THEME_EVENT, onTheme);
-    return () => window.removeEventListener(THEME_EVENT, onTheme);
   }, []);
 
   // A dark, faintly metallic sphere: the chrome of Fragment's tiles, kept quiet.

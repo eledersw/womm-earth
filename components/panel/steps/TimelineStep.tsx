@@ -11,18 +11,19 @@ import { StepSection, type StepProps } from "./StepSection";
 
 export function TimelineStep({ state, setCase, variable, onCalculate, calculateDisabled, calculating, ...status }: StepProps & CaseControls & {
   variable?: Variable;
-  onCalculate: () => void;
-  calculateDisabled: boolean;
-  calculating: boolean;
+  /** Optional: the case panel now runs the case from one Investigate button. */
+  onCalculate?: () => void;
+  calculateDisabled?: boolean;
+  calculating?: boolean;
 }) {
   return <StepSection step="timeline" {...status}>
     {variable ? <>
       <TimelineControls key={`${variable.id}:${state.from}:${state.to}`} state={state} setCase={setCase} variable={variable} />
-      <div className="mt-4 flex justify-end">
+      {onCalculate ? <div className="mt-4 flex justify-end">
         <Button onClick={onCalculate} disabled={calculateDisabled}>
           {calculating ? caseCopy.controls.calculating : caseCopy.controls.calculate}
         </Button>
-      </div>
+      </div> : null}
     </>
       : <p className="text-sm text-muted-foreground">{caseCopy.steps.timeline.empty}</p>}
   </StepSection>;
