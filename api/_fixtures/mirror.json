@@ -1,0 +1,11 @@
+{
+  "base": {
+    "region": "US-WI",
+    "slope_per_decade": 0.8,
+    "p": 0.01,
+    "z": 2.58,
+    "tier": "confirmed"
+  },
+  "mirrors": [],
+  "none_found": true
+}

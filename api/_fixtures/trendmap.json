@@ -1,0 +1,14 @@
+{
+  "variable": "T2M",
+  "start": 2002,
+  "end": 2025,
+  "season": "JJA",
+  "entries": {
+    "US-WI": {
+      "slope_per_decade": 0.8,
+      "p": 0.01,
+      "q": 0.02,
+      "tier": "confirmed"
+    }
+  }
+}
