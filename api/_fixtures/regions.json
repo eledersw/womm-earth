@@ -1,0 +1,90 @@
+[
+  {
+    "id": "USA",
+    "name": "United States",
+    "type": "country",
+    "centroid": [
+      39.8,
+      -98.6
+    ],
+    "bbox": [
+      -179.1,
+      18.9,
+      179.8,
+      71.4
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [
+      "T2M",
+      "PRECTOTCORR",
+      "GWETROOT"
+    ],
+    "parent": null
+  },
+  {
+    "id": "US-WI",
+    "name": "Wisconsin",
+    "type": "state",
+    "centroid": [
+      44.5,
+      -89.6
+    ],
+    "bbox": [
+      -92.9,
+      42.5,
+      -86.8,
+      47.1
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [
+      "T2M",
+      "PRECTOTCORR",
+      "GWETROOT",
+      "MODIS_AQUA_AOD"
+    ],
+    "parent": "USA"
+  },
+  {
+    "id": "ESP",
+    "name": "Spain",
+    "type": "country",
+    "centroid": [
+      40.2,
+      -3.5
+    ],
+    "bbox": [
+      -9.4,
+      35.9,
+      4.3,
+      43.8
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [
+      "T2M",
+      "PRECTOTCORR",
+      "GWETROOT"
+    ],
+    "parent": null
+  },
+  {
+    "id": "NR-SAHEL",
+    "name": "Sahel",
+    "type": "named",
+    "centroid": [
+      15.0,
+      10.0
+    ],
+    "bbox": [
+      -18.0,
+      10.0,
+      38.0,
+      20.0
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [
+      "T2M",
+      "PRECTOTCORR"
+    ],
+    "parent": null
+  }
+]
