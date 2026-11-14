@@ -5,18 +5,23 @@ import { CasePanel } from "./CasePanel";
 import { EvidenceStep } from "./steps/EvidenceStep";
 import { caseCopy } from "@/lib/copy/case";
 import { partnerCopy } from "@/lib/copy/partner";
+import fixture from "@/api/_fixtures/analyze.json";
 
 afterEach(cleanup);
 
 describe("case panel shell", () => {
-  it("shows the five steps in order, without a fabricated verdict", () => {
+  it("feeds all five sections from the official fixture and labels its values as illustrative", () => {
     render(<CasePanel />);
     const panel = screen.getByRole("region", { name: caseCopy.panel });
     expect(within(panel).getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent))
       .toEqual(["Lead", "Scene", "Timeline", "Evidence", "Verdict"]);
     expect(screen.getByRole("tab", { name: "Case" }).getAttribute("aria-selected")).toBe("true");
-    expect(screen.getByText(caseCopy.steps.verdict.empty)).toBeDefined();
-    expect(screen.queryByText(caseCopy.tiers.confirmed)).toBeNull();
+    expect(screen.getByText(caseCopy.fixture.disclaimer)).toBeDefined();
+    expect(screen.getByText(`Wisconsin (${fixture.results[0].region.id})`)).toBeDefined();
+    expect(screen.getByText(`${fixture.case.start}–${fixture.case.end} · ${fixture.case.season}`)).toBeDefined();
+    expect(screen.getByRole("figure", { name: caseCopy.fixture.chart })).toBeDefined();
+    expect(screen.getByText(`${fixture.results[0].region.name}: ${caseCopy.tiers.confirmed}`)).toBeDefined();
+    expect(screen.getByText(caseCopy.fixture.verdict)).toBeDefined();
   });
 
   it("switches to the Partner with keyboard and returns to the Case", async () => {
