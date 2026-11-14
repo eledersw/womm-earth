@@ -1,0 +1,155 @@
+{
+  "q": 0.05,
+  "contains": [
+    [
+      "NR-1",
+      "NR-3"
+    ]
+  ],
+  "regions": [
+    {
+      "id": "CTY-A",
+      "type": "country",
+      "p_verdict": 0.0001,
+      "z_mk": 3.890591886413094,
+      "slope_per_decade": 0.0778,
+      "raw_significant": true
+    },
+    {
+      "id": "CTY-B",
+      "type": "country",
+      "p_verdict": 0.0004,
+      "z_mk": -3.5400837992061445,
+      "slope_per_decade": -0.0708,
+      "raw_significant": true
+    },
+    {
+      "id": "CTY-C",
+      "type": "country",
+      "p_verdict": 0.01,
+      "z_mk": 2.575829303548901,
+      "slope_per_decade": 0.0515,
+      "raw_significant": true
+    },
+    {
+      "id": "CTY-D",
+      "type": "country",
+      "p_verdict": 0.023,
+      "z_mk": -2.273434650942775,
+      "slope_per_decade": -0.0455,
+      "raw_significant": true
+    },
+    {
+      "id": "CTY-E",
+      "type": "country",
+      "p_verdict": 0.033,
+      "z_mk": -2.1320832908065,
+      "slope_per_decade": -0.0426,
+      "raw_significant": true
+    },
+    {
+      "id": "CTY-F",
+      "type": "country",
+      "p_verdict": 0.041,
+      "z_mk": -2.043530007439856,
+      "slope_per_decade": -0.0409,
+      "raw_significant": true
+    },
+    {
+      "id": "CTY-G",
+      "type": "country",
+      "p_verdict": 0.015,
+      "z_mk": 2.4323790585844467,
+      "slope_per_decade": 0.0486,
+      "raw_significant": true
+    },
+    {
+      "id": "CTY-H",
+      "type": "country",
+      "p_verdict": 0.35,
+      "z_mk": -0.9345892910734802,
+      "slope_per_decade": -0.0187,
+      "raw_significant": false
+    },
+    {
+      "id": "CTY-I",
+      "type": "country",
+      "p_verdict": 0.0185,
+      "z_mk": 2.3554557554350586,
+      "slope_per_decade": 0.0471,
+      "raw_significant": true
+    },
+    {
+      "id": "CTY-J",
+      "type": "country",
+      "p_verdict": null,
+      "z_mk": null,
+      "slope_per_decade": null,
+      "raw_significant": null
+    },
+    {
+      "id": "NR-1",
+      "type": "named",
+      "p_verdict": 0.0009,
+      "z_mk": 3.3200541166994473,
+      "slope_per_decade": 0.0664,
+      "raw_significant": true
+    },
+    {
+      "id": "NR-2",
+      "type": "named",
+      "p_verdict": 0.003,
+      "z_mk": -2.9677379253417833,
+      "slope_per_decade": -0.0594,
+      "raw_significant": true
+    },
+    {
+      "id": "NR-3",
+      "type": "named",
+      "p_verdict": 0.027,
+      "z_mk": -2.2115178091866805,
+      "slope_per_decade": -0.0442,
+      "raw_significant": true
+    },
+    {
+      "id": "NR-4",
+      "type": "named",
+      "p_verdict": 0.048,
+      "z_mk": -1.977368428181947,
+      "slope_per_decade": -0.0395,
+      "raw_significant": true
+    },
+    {
+      "id": "NR-5",
+      "type": "named",
+      "p_verdict": 0.45,
+      "z_mk": 0.7554150263604693,
+      "slope_per_decade": 0.0151,
+      "raw_significant": false
+    },
+    {
+      "id": "NR-6",
+      "type": "named",
+      "p_verdict": null,
+      "z_mk": null,
+      "slope_per_decade": null,
+      "raw_significant": null
+    },
+    {
+      "id": "OCN-1",
+      "type": "ocean",
+      "p_verdict": 0.6,
+      "z_mk": 0.5244005127080409,
+      "slope_per_decade": 0.0105,
+      "raw_significant": false
+    },
+    {
+      "id": "OCN-2",
+      "type": "ocean",
+      "p_verdict": 0.85,
+      "z_mk": -0.18911842627279252,
+      "slope_per_decade": -0.0038,
+      "raw_significant": false
+    }
+  ]
+}
