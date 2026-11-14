@@ -86,19 +86,19 @@ def test_large_region_is_split_into_valid_power_tiles(monkeypatch):
     def request(url):
         urls.append(url)
         n = len(urls)
-        return {"features": [{"geometry": {"coordinates": [n, 40]},
+        return {"features": [{"geometry": {"coordinates": [n - 7, 40]},
                               "properties": {"parameter": {"T2M": {"201001": float(n)}}}}]}
 
     monkeypatch.setattr(power, "_request_json", request)
     values, _ = asyncio.run(power.fetch_monthly_region(variable, region, 2010, 2010))
 
-    assert len(urls) == 6
+    assert len(urls) == 4
     for url in urls:
         query = parse_qs(urlparse(url).query)
         for axis in ("latitude", "longitude"):
             span = float(query[f"{axis}-max"][0]) - float(query[f"{axis}-min"][0])
             assert 2 <= span <= 10
-    assert values[0] == pytest.approx(3.5)
+    assert values[0] == pytest.approx(2.5)
 
 
 def test_small_region_uses_power_point_at_centroid(monkeypatch):

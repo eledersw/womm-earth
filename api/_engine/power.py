@@ -272,9 +272,9 @@ def _monthly_region_series(
         fill_value = response.get("header", {}).get("fill_value", -999)
         for feature in features:
             try:
-                geometry = feature["geometry"]
-                longitude = float(geometry["coordinates"][0])
-                latitude = float(geometry["coordinates"][1])
+                feature_geometry = feature["geometry"]
+                longitude = float(feature_geometry["coordinates"][0])
+                latitude = float(feature_geometry["coordinates"][1])
                 monthly = feature["properties"]["parameter"][variable.id]
             except (KeyError, IndexError, TypeError, ValueError) as error:
                 raise PowerUpstreamError("NASA POWER regional response has an invalid grid feature.") from error
