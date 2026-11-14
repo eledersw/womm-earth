@@ -4,11 +4,11 @@ Fill in the names at the H0 huddle.
 
 | Role | Person | Playbook | Carries (judging) | One-line mission |
 |---|---|---|---|---|
-| Lead / integrator (coder) | _name_ | [lead.md](roles/lead.md) | Presentation, Relevance | One working app on the production URL that can always be demoed. Owns the look; unblocks everyone. |
-| Coder B: data & stats engine | _name_ | [coder-b.md](roles/coder-b.md) | Validity | Turns NASA data into region series and implements `METHODS.md` exactly. |
-| Coder C: panel, charts & partner | _name_ | [coder-c.md](roles/coder-c.md) | Impact, Creativity | The 5-step case experience, the charts and the Claude partner. |
-| Methods & Validity lead (statistician) | _name_ | [methods-lead.md](roles/methods-lead.md) | Validity | Every number is correct, correctly explained and defensible in front of a judge. Writes the stats spec, the test answer key and the sign-off. |
-| Story & Submission lead | _name_ | [story-lead.md](roles/story-lead.md) | Presentation, Impact | Turns the work into the project page, slides, video and every word in the app. Makes sure we submit correctly. |
+| Lead / integrator (coder) | Eleder | [lead.md](roles/lead.md) | Presentation, Relevance | One working app on the production URL that can always be demoed. Owns the look; unblocks everyone. |
+| Coder B: data & stats engine | Oier | [coder-b.md](roles/coder-b.md) | Validity | Turns NASA data into region series and implements `METHODS.md` exactly. |
+| Coder C: panel, charts & partner | Ekaitz | [coder-c.md](roles/coder-c.md) | Impact, Creativity | The 5-step case experience, the charts and the Claude partner. |
+| Methods & Validity lead (statistician) | Sergio | [methods-lead.md](roles/methods-lead.md) | Validity | Every number is correct, correctly explained and defensible in front of a judge. Writes the stats spec, the test answer key and the sign-off. |
+| Story & Submission lead | Edur | [story-lead.md](roles/story-lead.md) | Presentation, Impact | Turns the work into the project page, slides, video and every word in the app. Makes sure we submit correctly. |
 
 ## Who works with whom
 
