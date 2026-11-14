@@ -54,7 +54,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 | Lead | Eleder | Globe live (#14); Southern Ocean / Arctic click fix (#17); required checks on `main`; three dark mockups for the redesign | Pick the dark direction, then retoken the shell; Task 5 trend-map colouring (needs Oier's `/trendmap`) | 🟡 |
 | Coder B (data & stats) | Oier | Live POWER `/analyze` merged (#16): dynamic monthly POWER catalogue, request-time regional observations, no local series fallback. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review the slide claim. | **Fix the red `api` check (see Blockers).** Regenerate OpenAPI/types; validate a live case and POWER availability limits. | 🟡 |
 | Coder C (panel, charts, partner) | Ekaitz | Tasks 1–6 completed and merged into `main` (Task 6: PR #18). Seven validated tools, streaming chat, explicit Open this case, cancellation and numeric checks. Web regressions from PR #16 fixed; Calculate remains explicit. Check + 124 tests + 12 Chromium E2E pass with mocks/fixtures. | Live Claude/tool smoke in Vercel pending. Oier still owns the Python CI issue. Process cards remain draft, so no physical explanations. | 🟡 |
-| Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
+| Methods & Validity lead | Sergio | On `sergio/methods`: DATA_CATALOG complete with 16 scientifically signed-off POWER variables, live metadata/coverage evidence and citations. METHODS v1 ready for Oier review; engine acceptance not granted. | Oier: fix regional user parameter and integrate catalog metadata (see `docs/science/catalog/README.md`); methods/golden review. Edur tone review and Giovanni hero import remain pending. | 🟡 |
 | Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
 
 ## Checkpoints
@@ -80,5 +80,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 - [coder-c] At 390px the shell header Share button extends ~2px past the viewport; panel bounds pass independently · Eleder (header) · since H5.7
 
 - [methods-lead] METHODS v1 review and engine alignment pending: flat golden key is not consumed by the current harness; missing-year inference and undefined-OLS fallback need validation. See `docs/science/METHODS_REVIEW.md`. No validity sign-off yet. · Oier + Sergio · since 2026-11-14
+
+- [methods-lead] Catalog handoff: NASA regional API rejects the app's `user=womm_earth` (422, alphanumeric required); `user=wommearth` succeeds with valid bounds. Approved definitions are not yet overlaid on the dynamic catalog. Reproduction and owner actions: `docs/science/catalog/README.md`. · Oier (API/integration), Edur (tone review) · since 2026-11-14
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
