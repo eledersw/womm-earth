@@ -9,16 +9,16 @@ export const caseCopy = {
   loading: "Loading…",
   error: "This part of the Case could not be loaded.",
   retry: "Try again",
-  fixture: {
-    notice: "Example Case · illustrative test data",
-    disclaimer: "These values come from a test fixture. They are not observations or a validated scientific result.",
-    chart: "Example yearly series",
-    caption: "Illustrative test values only. The live Case will replace this example.",
-    year: "Year",
-    yearlyValues: "Yearly values",
-    verdict: "Example verdict from the test fixture",
-    source: "Source represented by the fixture",
+  controls: {
+    variable: "Variable", source: "Source", period: "Period", season: "Season",
+    startYear: "Start year", endYear: "End year", startMonth: "Start month", endMonth: "End month",
+    removeRegion: "Remove region", addOnGlobe: "Add regions on the globe or in its search box.",
+    nearestCellFallback: "This small region uses the nearest grid cell.",
     kinds: { satellite: "Satellite", reanalysis: "Reanalysis (model)" },
+    seasons: { ANN: "Annual", DJF: "DJF", MAM: "MAM", JJA: "JJA", SON: "SON", CUSTOM: "Custom" },
+    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    chart: "Yearly series", year: "Year", yearlyValues: "Yearly values",
+    catalogRequired: "Choose an available variable and region before requesting Evidence.",
   },
   steps: {
     lead: {

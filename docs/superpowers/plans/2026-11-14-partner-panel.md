@@ -66,7 +66,7 @@
 
 - [x] **Step 1: Build the shells.** Build `PlotFigure` and the 5 step components as presentational shells with props. Until the H2 merges land, feed them from `api/_fixtures/analyze.json`, imported read-only inside `CasePanel.tsx`; remove that import in Task 2. Don't create pages under `app/`, which is Eleder's area.
 - [x] **Step 2: Verify.** `npm run check` passes, and the panel renders all 5 sections at `/`.
-- [ ] **Step 3: Merge at H2.** Commit `feat(panel): case panel shell + PlotFigure`, rebase after Oier's and Eleder's H2 merges, then self-merge.
+- [x] **Step 3: Merge at H2.** Commit `feat(panel): case panel shell + PlotFigure`, rebase after Oier's and Eleder's H2 merges, then self-merge.
 
 ### Task 2: Lead, Scene, Timeline wired to case state (H2–H5)
 
@@ -83,13 +83,15 @@
   - A new case aborts the in-flight request (`AbortController`).
   - Skips the request when `regions.length === 0`.
 
-- [ ] **Step 1: Write the abort test.** `useAnalysis.test.ts` (first line `// @vitest-environment jsdom`; use `renderHook` from `@testing-library/react`): test `useAnalysis aborts stale requests` (mock `api.POST`; two rapid cases → the first signal is aborted and only the second result is returned). Run `npx vitest run components/panel/useAnalysis.test.ts` → FAIL.
-- [ ] **Step 2: Implement the hooks.** Run the test → PASS.
-- [ ] **Step 3: Wire the three steps.**
+- [x] **Step 1: Write the abort test.** `useAnalysis.test.ts` (first line `// @vitest-environment jsdom`; use `renderHook` from `@testing-library/react`): test `useAnalysis aborts stale requests` (mock `api.POST`; two rapid cases → the first signal is aborted and only the second result is returned). Run `npx vitest run components/panel/useAnalysis.test.ts` → FAIL.
+- [x] **Step 2: Implement the hooks.** Run the test → PASS.
+- [x] **Step 3: Wire the three steps.**
   - **LeadStep:** a variable select grouped by `kind` (satellite / reanalysis), plus a definition card with `definition_student` or `definition_scientist` depending on `state.level`. Variables not valid for every selected region are disabled, with the `notAvailableHere` copy.
   - **SceneStep:** chips for `state.regions` (names via `useRegions`) with remove buttons. Show the `nearestCellFallback` hint when `Region.nearest_cell_fallback`. Max 4. Adding happens on the globe or in its search box (Eleder's area).
   - **TimelineStep:** a shadcn `Slider` (range) over the variable's `[start_year, end_year]`, committing only in `onValueCommit` → `setCase({from, to})`. A season `ToggleGroup` (ANN/DJF/MAM/JJA/SON/Custom); Custom shows start/end month selects → contiguous `months`.
-- [ ] **Step 4: Verify and commit.** Manually: changing each control updates the URL, and reloading restores it. Run `npm run check`. Commit `feat(panel): lead/scene/timeline steps`, then self-merge.
+- [x] **Step 4: Verify and commit.** Manually: changing each control updates the URL, and reloading restores it. Run `npm run check`. Commit `feat(panel): lead/scene/timeline steps`, then self-merge.
+
+Task 2 local verification: `npm run check`, 66 Vitest tests and 4 Chromium E2E pass. Browser checks use official HTTP fixtures, not real scientific data. Publication, PR and merge are pending and handled manually by Ekaitz under the current Git workflow.
 
 ### Task 3: Evidence charts + verdict card (H5–H8, the M1 checkpoint)
 
