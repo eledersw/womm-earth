@@ -1,8 +1,12 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 17:55 (H6), by Eleder (main CI red: blocker)
+**Updated:** Sat 2026-11-14 (H6), by Eleder (required checks on `main`; dark redesign under way; run button decided)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
+
+> 🛑 **`main` now requires the `web` and `api` CI checks (ruleset, H6).** A normal PR merge is blocked while either check is red, for everyone. Direct docs pushes to `main` (STATUS, handoffs, Sergio's and Edur's docs) still work as before. If GitHub says the merge is blocked, fix the checks: never tick "bypass rules" or pass `--admin`. Details in `docs/process/MERGING.md`.
+> 🎨 **The Strip-Chart look is being replaced (H6).** The team didn't like it; Eleder is choosing a dark, translucent, analytical direction from three mockups. @Ekaitz: don't invest more in chart-paper styling (`.chart-paper`, stamp, ruled panel); keep building function. New tokens land in `app/tokens.css`, and STATUS will say when.
+> ▶️ **Lead decision (H6): a case runs on an explicit button.** Choose the variable, regions, period and season, press the button, then the evidence, verdict and Explain appear. Nothing analyses while you are still choosing. Oier's #16 already added it as "Calculate" in `TimelineStep`. @Ekaitz: it's your area; own it, and make Explain start only after the press. @Edur: name it in `COPY.md` (the mockups say "Investigate").
 
 > 📣 **Scaffold is on `main`: branch from it now.** Run `npm ci`, and create a Python venv for `requirements.txt` + `uvicorn`. Then `npm run dev` starts Next.js plus FastAPI on 127.0.0.1:8000. `npm run check` must pass before every PR.
 > 🌍 **Globe live (H5, PR #14).** ⚠️ **Seam change:** regions now keep **insertion order** (no sort), and region *i* = pen `--series-(i+1)` on the globe and in the charts. @Ekaitz: nothing to change; your tests pass. Use `regionLatLng(region)` from `@/lib/api/region-geo` for tour fly-tos. @Oier: `/api/py/regions` centroids are **[lng, lat]**; please state it in `Region.centroid` (`Field(description=...)`).
@@ -47,15 +51,9 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 | Role | Person | Now | Next | State |
 |---|---|---|---|---|
-<<<<<<< HEAD
-| Lead | Eleder | Task 3 done: visual direction **Strip-Chart Recorder**, tokens, app shell (#12) | Task 4: globe (render, layers, select, search) | 🟡 |
-| Coder B (data & stats) | Oier | Existing Python trend engine and region lookup. Current branch `oier/power-live-all-variables` adds the dynamic monthly POWER catalogue and request-time regional observations for `/analyze`; no local series fallback. | Regenerate OpenAPI/types with project dependencies; validate a live case and provider availability limits. | 🟡 |
-| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–4 integrated. Task 5 Explain implemented locally on `ekaitz/task5-explain`: validated SSE route, planned SDK/model, Student/Scientist, cancellation/retry, numeric checks and template fallback. Check + 93 tests + 10 Chromium E2E pass (mock SDK/HTTP fixtures). | User publishes/PR/merges; live Claude + cache-read verification pending in Vercel (key configured there per user, absent locally; user requested deferral). Process cards still draft, so no physical explanations. | 🟡 |
-=======
-| Lead | Eleder | Task 4 done: globe live (#14): select by click or search, pens, fly-to, 4-region cap | Task 5: trend-map colouring + legend (needs Oier's `/trendmap`) | 🟡 |
-| Coder B (data & stats) | Oier | Engine core and live `/analyze`, `/variables`, `/regions` plus CLI implemented locally. Run `python scripts/case_cli.py --var T2M --region US-WI --start 2002 --end 2025 --season JJA --json` after the data library lands. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review slide claim. | Integrate the region library and Sergio's golden cases; validate real-data endpoints. | 🟡 |
-| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–5 implemented and merged into `main` (Task 5: PR #13). Check + 93 tests + 10 Chromium E2E pass (mock SDK/HTTP fixtures). | Live Claude + cache-read verification pending in Vercel, deferred by user. Process cards still draft; no physical explanations. | 🟡 |
->>>>>>> origin/main
+| Lead | Eleder | Globe live (#14); Southern Ocean / Arctic click fix (#17); required checks on `main`; three dark mockups for the redesign | Pick the dark direction, then retoken the shell; Task 5 trend-map colouring (needs Oier's `/trendmap`) | 🟡 |
+| Coder B (data & stats) | Oier | Live POWER `/analyze` merged (#16): dynamic monthly POWER catalogue, request-time regional observations, no local series fallback. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review the slide claim. | **Fix the red `api` check (see Blockers).** Regenerate OpenAPI/types; validate a live case and POWER availability limits. | 🟡 |
+| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–5 merged into `main` (Task 5: PR #13). | **Fix the red `web` check in your panel files (see Blockers).** Own the run button. Live Claude + cache-read verification in Vercel still deferred. Process cards still draft; no physical explanations. | 🟡 |
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
 | Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
 
@@ -77,6 +75,6 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 - [coder-c] Confirm production rate limit for `/api/partner` before public Explain rollout · Eleder (Vercel firewall) · since H4.1
 
-- [Oier, Ekaitz] ⛔ **`main` CI is red since PR #16** (`oier/power-live-all-variables`). (1) api: `tests/test_api.py` calls NASA POWER live and fails in CI (422 "NASA POWER cannot serve this variable"), so mock the network or mark those tests live-only. (2) web: commit e5613bb edited **Ekaitz's** panel files (`useAnalysis.ts`, `LeadStep`, `TimelineStep`, `CasePanel`, `controls.ts`), giving 1 lint error (`react-hooks/set-state-in-effect` in `useAnalysis.ts:22`) and 5 failing panel tests. Ekaitz owns the fix in his files; Oier says what the API change needs. **Nobody merges until CI is green.** · Oier + Ekaitz · since H5.8
+- [Oier, Ekaitz] ⛔ **`main` CI is red since PR #16** (`oier/power-live-all-variables`). (1) api: `tests/test_api.py` calls NASA POWER live and fails in CI (422 "NASA POWER cannot serve this variable"), so mock the network or mark those tests live-only. (2) web: commit e5613bb edited **Ekaitz's** panel files (`useAnalysis.ts`, `LeadStep`, `TimelineStep`, `CasePanel`, `controls.ts`), giving 1 lint error (`react-hooks/set-state-in-effect` in `useAnalysis.ts:22`) and 5 failing panel tests. Ekaitz owns the fix in his files; Oier says what the API change needs. **GitHub now enforces it:** no PR merges normally until both checks are green. The first fix PR will still show the other job red, so post it in STATUS and Eleder merges it with the bypass once its own job is green. · Oier + Ekaitz · since H5.8
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
