@@ -6,20 +6,24 @@ import type { AnalyzeResponse } from "@/lib/api/types";
 import { caseKey, caseFromQuery, type CaseState } from "@/lib/state/case-codec";
 import { caseCopy } from "@/lib/copy/case";
 
-// Cache completed results only. In-flight requests belong to their effect and
-// must never outlive it. Keep the session cache bounded.
-const cache = new Map<string, AnalyzeResponse>();
 type Snapshot = { key: string; data: AnalyzeResponse | null; error: string | null };
 
 export function useAnalysis(state: CaseState, enabled = true) {
   const key = caseKey(state);
-  const active = enabled && state.regions.length > 0;
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
-  const [attempt, setAttempt] = useState(0);
-  const retry = useCallback(() => { cache.delete(key); setSnapshot(null); setAttempt((n) => n + 1); }, [key]);
+  const [submission, setSubmission] = useState<{ key: string; request: number } | null>(null);
+  const calculate = useCallback(() => {
+    setSnapshot(null);
+    setSubmission((previous) => ({ key, request: (previous?.request ?? 0) + 1 }));
+  }, [key]);
+  const active = enabled && state.regions.length > 0 && submission?.key === key;
 
   useEffect(() => {
-    if (!active || cache.has(key)) return;
+    setSubmission((previous) => previous && previous.key !== key ? null : previous);
+  }, [key]);
+
+  useEffect(() => {
+    if (!active) return;
     const controller = new AbortController();
     const current = caseFromQuery(key);
     void (async () => {
@@ -34,17 +38,16 @@ export function useAnalysis(state: CaseState, enabled = true) {
         if (controller.signal.aborted) return;
         if (error || !data) throw new Error("analysis unavailable");
         const result = data as AnalyzeResponse; // Restore generated fixed-length geo tuples.
-        cache.set(key, result);
-        if (cache.size > 32) cache.delete(cache.keys().next().value!);
         setSnapshot({ key, data: result, error: null });
       } catch {
         if (!controller.signal.aborted) setSnapshot({ key, data: null, error: caseCopy.error });
       }
     })();
     return () => controller.abort();
-  }, [key, active, attempt]);
+  }, [key, active, submission?.request]);
 
-  const current = active ? cache.get(key) ?? (snapshot?.key === key ? snapshot.data : null) : null;
+  const current = active && snapshot?.key === key ? snapshot.data : null;
   const error = active && snapshot?.key === key ? snapshot.error : null;
-  return { data: current ?? null, error, loading: active && !current && !error, retry };
+  const loading = active && !current && !error;
+  return { data: current ?? null, error, loading, calculate, retry: calculate };
 }

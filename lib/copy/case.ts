@@ -11,6 +11,10 @@ export const caseCopy = {
   retry: "Try again",
   controls: {
     variable: "Variable", source: "Source", period: "Period", season: "Season",
+    searchVariables: "Search NASA POWER parameters",
+    noVariableMatches: "No NASA POWER parameters match this search.",
+    calculate: "Calculate",
+    calculating: "Calculating…",
     startYear: "Start year", endYear: "End year", startMonth: "Start month", endMonth: "End month",
     removeRegion: "Remove region", addOnGlobe: "Add regions on the globe or in its search box.",
     nearestCellFallback: "This small region uses the nearest grid cell.",

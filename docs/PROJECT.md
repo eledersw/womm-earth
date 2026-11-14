@@ -39,7 +39,7 @@ NASA Space Apps 2026, *Be An Earth System Trend Detective!* The app must let use
 - **Chart.** Raw monthly values and anomalies, the yearly series, an OLS line with its CI band, a Sen's slope line, and an overlay when several regions are selected.
 - **Statistics engine and verdicts** as defined in `docs/science/METHODS.md`, plus a template verdict that works without Claude.
 - **Claude Explain,** streamed, with a Student/Scientist toggle. The demo cases use pre-generated explanations.
-- **Variables.** About 15, each with a definition card; land-only variables are greyed out over the ocean.
+- **Variables.** The Lead catalogue is discovered from NASA POWER's monthly parameter metadata; region and period availability is checked by POWER when a case is calculated.
 - **Demo.** 3 demo cases, each with a "Watch this case" tour.
 - **Deployment** on Vercel.
 
@@ -100,3 +100,6 @@ Use these words in code, UI and docs.
 | H0.5 | Every file has one owner (`docs/process/OWNERSHIP.md`); seams frozen at H2; self-merge own-area PRs, Eleder merges cross-area ones; integration checkpoints at H2/H8/H14/H22/H26, merging Oier → Eleder → Ekaitz | Three coders working in parallel without stepping on each other |
 | H0.5 | Python engine and data under `api/_engine/` and `api/_data/` (underscore prefix) | Vercel turns every non-underscore `.py` file in `api/` into its own function |
 | H3.5 | Visual direction: **Strip-Chart Recorder** (impeccable seed 3670b4b9, chosen on the decision page). Ruled chart-paper panel, enamel instrument frame, dark globe window, four pen inks = region channels, verdict as a calibration stamp. Placeholder brand until Edur's brief. | Instrument metaphor carries the mechanism (trace before verdict); light paper survives a lit-hall projector |
+| 2026-11-14 | Case analysis fetches monthly observations from NASA POWER Regional when `/api/py/analyze` is called; Python computes the regional monthly series and statistics. The prebuilt Zarr/NPZ pipeline remains offline tooling, not the Case Files runtime source. The POWER Manager monthly catalogue is dynamic; its metadata may be cached in process, but observation responses are fetched for every calculation. | The product requirement is to calculate the selected variable, bbox and time period from POWER on demand. |
+
+The Case panel now searches the dynamic POWER catalogue, treats POWER as the authority for regional support, and sends analysis only when Calculate is pressed. Each Calculate click triggers a fresh request, including when the case fields are unchanged.
