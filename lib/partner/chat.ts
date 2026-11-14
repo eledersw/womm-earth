@@ -6,7 +6,7 @@ import { CHAT_SYSTEM } from "./prompts";
 import { makeTools } from "./tools";
 import type { PartnerEvent } from "./events";
 import type { ChatInput } from "./chat-input";
-import { checkNumbers } from "./number-check";
+import { keepGroundedLines } from "./number-check";
 import { caseToQuery, normalizeCase } from "@/lib/state/case-codec";
 export async function streamChat(input: ChatInput, py: ReturnType<typeof serverApi>, emit: (e: PartnerEvent) => void, signal?: AbortSignal) {
   const abort = new AbortController();
@@ -31,7 +31,6 @@ export async function streamChat(input: ChatInput, py: ReturnType<typeof serverA
         if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
           finalText += event.delta.text;
           if (finalText.length > 32_000) { emit({ type: "error", message: partnerCopy.tooLong }); return; }
-          trackedEmit({ type: "text", text: event.delta.text });
         }
       }
       const message = await messageStream.finalMessage();
@@ -40,8 +39,9 @@ export async function streamChat(input: ChatInput, py: ReturnType<typeof serverA
       if (message.stop_reason === "end_turn") completed = true;
     }
     if (!completed || !finalText.trim()) { emit({ type: "error", message: partnerCopy.tooLong }); return; }
-    const grounded = checkNumbers(finalText, results);
-    if (!grounded.ok) { emit({ type: "error", message: partnerCopy.grounding }); return; }
+    const grounded = keepGroundedLines(finalText, results);
+    if (!grounded) { emit({ type: "error", message: partnerCopy.grounding }); return; }
+    trackedEmit({ type: "text", text: grounded });
 
   } catch (error) {
     if (signal?.aborted) return;
