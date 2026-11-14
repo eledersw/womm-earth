@@ -31,4 +31,12 @@ export const globeCopy = {
   hudLng: "Lng",
   hudRegions: "Regions",
   hint: "Click a place to add it. Drag to turn.",
+  legendLabel: "Trend map legend",
+  legendTitle: "Trend",
+  perDecade: "per decade",
+  legendSignificant: "Significant",
+  legendNotSignificant: "Not significant",
+  legendNoData: "No data",
+  trendLoading: "Loading trend map…",
+  trendUnavailable: "Trend map unavailable",
 } as const;

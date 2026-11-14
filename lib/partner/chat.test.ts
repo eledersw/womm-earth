@@ -6,7 +6,7 @@ import { getClient } from "./anthropic";
 import { streamChat } from "./chat";
 import { chatInputSchema } from "./chat-input";
 import type { PartnerEvent } from "./events";
-vi.mock("./anthropic", () => ({ getClient: vi.fn(), MODEL: "claude-opus-5-5", FALLBACK: { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" } }));
+vi.mock("./anthropic", () => ({ getClient: vi.fn(), MODEL: "claude-sonnet-5-5", FALLBACK: { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" } }));
 afterEach(() => vi.resetAllMocks());
 const input = chatInputSchema.parse({ mode: "chat", level: "student", case: DEFAULT_CASE, messages: [{ role: "user", content: "What can I investigate?" }] });
 const py = {} as ReturnType<typeof serverApi>;
@@ -21,7 +21,7 @@ function setup(stop = "end_turn", text = "Choose a variable and a place.") {
 it("uses the planned runner and prepends Case context without mutating history", async () => {
   const runner = setup(); const events: PartnerEvent[] = []; await streamChat(input, py, (e) => events.push(e));
   expect(events.map((e) => e.type)).toEqual(["text"]);
-  expect(runner).toHaveBeenCalledWith(expect.objectContaining({ model: "claude-opus-5-5", max_tokens: 16000, max_iterations: 6, stream: true, output_config: { effort: "medium" }, tools: expect.any(Array), messages: [expect.objectContaining({ content: expect.stringContaining("Current Case") })] }), expect.objectContaining({ signal: expect.any(AbortSignal) }));
+  expect(runner).toHaveBeenCalledWith(expect.objectContaining({ model: "claude-sonnet-5-5", max_tokens: 16000, max_iterations: 6, stream: true, output_config: { effort: "medium" }, tools: expect.any(Array), messages: [expect.objectContaining({ content: expect.stringContaining("Current Case") })] }), expect.objectContaining({ signal: expect.any(AbortSignal) }));
   expect(input.messages[0].content).toBe("What can I investigate?");
 });
 it.each(["refusal", "max_tokens", "tool_use"])("rejects unfinished/%s turns", async (stop) => {
