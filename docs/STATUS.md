@@ -37,11 +37,11 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 | Role | Person | Now | Next | State |
 |---|---|---|---|---|
-| Lead | _name_ | — | Scaffold + smoke deploy | ⬜ |
-| Coder B (data & stats) | _name_ | — | Zarr spike in Colab, stub API | ⬜ |
-| Coder C (panel, charts, partner) | _name_ | — | claude-api skill, `<PlotFigure>`, panel shells | ⬜ |
-| Methods & Validity lead | _name_ | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
-| Story & Submission lead | _name_ | — | Submission recon, brand brief | ⬜ |
+| Lead | Eleder | — | Scaffold + smoke deploy | ⬜ |
+| Coder B (data & stats) | Oier | — | Zarr spike in Colab, stub API | ⬜ |
+| Coder C (panel, charts, partner) | Ekaitz | — | claude-api skill, `<PlotFigure>`, panel shells | ⬜ |
+| Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
+| Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
 
 ## Checkpoints
 
