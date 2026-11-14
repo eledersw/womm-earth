@@ -5,7 +5,7 @@ import { useVariables } from "@/components/panel/useVariables";
 import { globeCopy } from "@/lib/copy/globe";
 import { useCase } from "@/lib/state/use-case";
 import { useUiStore } from "@/lib/state/ui-store";
-import { UP_IS_WET, colorFor, domainFor, formatSlope, MUTE, type TrendRamp } from "./palette";
+import { UP_IS_WET, colorFor, displayUnit, domainFor, formatSlope, MUTE, type TrendRamp } from "./palette";
 import { useTrendMap } from "./useTrendMap";
 
 // CSS can read the ramp directly; the same order the palette uses (weak → strong).
@@ -37,7 +37,8 @@ export function Legend() {
   if (loading) return <p className="label-mono glass-pill rounded-full px-3 py-2" role="status">{globeCopy.trendLoading}</p>;
   if (!entries || !Object.keys(entries).length) return null;
 
-  const unit = variable?.unit ? `${variable.unit} / decade` : globeCopy.perDecade;
+  const shown = displayUnit(variable?.unit);
+  const unit = shown ? `${shown} / decade` : globeCopy.perDecade;
   return (
     <figure aria-label={globeCopy.legendLabel} className="glass-pill m-0 flex w-60 flex-col gap-2 rounded-xl px-3.5 py-3">
       <figcaption className="flex items-baseline justify-between gap-2">
