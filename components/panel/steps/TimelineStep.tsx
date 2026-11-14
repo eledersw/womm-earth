@@ -2,15 +2,28 @@
 import { useId, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Button } from "@/components/ui/button";
 import type { Variable } from "@/lib/api/types";
 import { SEASONS, type Season } from "@/lib/state/case-codec";
 import { caseCopy } from "@/lib/copy/case";
 import { clampPeriod, contiguousMonths, type CaseControls } from "../controls";
 import { StepSection, type StepProps } from "./StepSection";
 
-export function TimelineStep({ state, setCase, variable, ...status }: StepProps & CaseControls & { variable?: Variable }) {
+export function TimelineStep({ state, setCase, variable, onCalculate, calculateDisabled, calculating, ...status }: StepProps & CaseControls & {
+  variable?: Variable;
+  onCalculate: () => void;
+  calculateDisabled: boolean;
+  calculating: boolean;
+}) {
   return <StepSection step="timeline" {...status}>
-    {variable ? <TimelineControls key={`${variable.id}:${state.from}:${state.to}`} state={state} setCase={setCase} variable={variable} />
+    {variable ? <>
+      <TimelineControls key={`${variable.id}:${state.from}:${state.to}`} state={state} setCase={setCase} variable={variable} />
+      <div className="mt-4 flex justify-end">
+        <Button onClick={onCalculate} disabled={calculateDisabled}>
+          {calculating ? caseCopy.controls.calculating : caseCopy.controls.calculate}
+        </Button>
+      </div>
+    </>
       : <p className="text-sm text-muted-foreground">{caseCopy.steps.timeline.empty}</p>}
   </StepSection>;
 }

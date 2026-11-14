@@ -8,6 +8,7 @@ Season = Literal["ANN", "DJF", "MAM", "JJA", "SON", "CUSTOM"]
 Tier = Literal["confirmed", "not_proven", "no_case", "too_short"]
 RegionType = Literal["country", "state", "ocean", "named"]
 VariableKind = Literal["satellite", "reanalysis"]
+PowerCommunity = Literal["AG", "RE", "SB"]
 
 
 class Variable(BaseModel):
@@ -25,6 +26,8 @@ class Variable(BaseModel):
     definition_scientist: str
     doi: str | None
     signed_off: bool
+    power_community: PowerCommunity = "AG"
+    power_type: str | None = None
 
 
 class Region(BaseModel):
