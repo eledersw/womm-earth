@@ -79,4 +79,6 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 - [coder-c] At 390px the shell header Share button extends ~2px past the viewport; panel bounds pass independently · Eleder (header) · since H5.7
 
+- [methods-lead] METHODS v1 review and engine alignment pending: flat golden key is not consumed by the current harness; missing-year inference and undefined-OLS fallback need validation. See `docs/science/METHODS_REVIEW.md`. No validity sign-off yet. · Oier + Sergio · since 2026-11-14
+
 Format: `- [owner] what is blocked · who can unblock it · since H?`
