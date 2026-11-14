@@ -1,37 +1,84 @@
 import { expect, test } from "@playwright/test";
+import variables from "../api/_fixtures/variables.json";
+import regions from "../api/_fixtures/regions.json";
+import fixture from "../api/_fixtures/analyze.json";
 
-test("case shell presents the official fixture with an explicit test-data label", async ({ page }) => {
-  await page.goto("/");
+// Browser checks exercise the real URL adapter and controls against the official
+// HTTP fixtures. They do not claim validation of the scientific data pipeline.
+test.beforeEach(async ({ page }) => {
+  await page.route("**/api/py/variables", (route) => route.fulfill({ json: variables }));
+  await page.route("**/api/py/regions", (route) => route.fulfill({ json: regions }));
+  await page.route("**/api/py/analyze", (route) => {
+    const body = route.request().postDataJSON();
+    return route.fulfill({ json: {
+      ...fixture, case: body,
+      results: body.regions.map((id: string) => ({ ...fixture.results[0], region: regions.find((region) => region.id === id) })),
+    } });
+  });
+});
+
+test("case controls update the URL and restore it on reload", async ({ page }) => {
+  await page.goto("/?v=T2M&r=US-WI&from=1981&to=2025&s=JJA&lvl=scientist");
+  const variable = page.getByRole("combobox", { name: "Variable", exact: true });
+  await expect(page.getByText("Monthly mean 2 m air temperature.")).toBeVisible();
+  await variable.selectOption("MODIS_AQUA_AOD");
+  await expect(page).toHaveURL(/from=2002/);
+  const start = page.getByRole("slider").nth(0);
+  await start.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(page).toHaveURL(/from=2003/);
+  await page.getByRole("radio", { name: "Custom", exact: true }).click();
+  await page.getByRole("combobox", { name: "Start month", exact: true }).selectOption("11");
+  await page.getByRole("combobox", { name: "End month", exact: true }).selectOption("2");
+  await expect.poll(() => new URL(page.url()).searchParams.get("m")).toBe("11,12,1,2");
+  await page.reload();
+  await expect(variable).toHaveValue("MODIS_AQUA_AOD");
+  await expect(page.getByRole("radio", { name: "Custom", exact: true })).toHaveAttribute("aria-checked", "true");
+  await expect(page.getByRole("combobox", { name: "Start month", exact: true })).toHaveValue("11");
+  await expect(page.getByRole("combobox", { name: "End month", exact: true })).toHaveValue("2");
+  await expect(page.getByRole("slider").nth(0)).toHaveAttribute("aria-valuenow", "2003");
+  await expect(page.getByText("Wisconsin (US-WI)", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Remove region: Wisconsin" }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.has("r")).toBe(false);
+  await expect(page.getByText("Choose a region for your Case.", { exact: true })).toBeVisible();
+  await expect(page.getByText("Wisconsin: Confirmed", { exact: true })).toHaveCount(0);
+});
+
+test("five panel sections fit the viewport and unavailable variables are disabled", async ({ page }) => {
+  await page.goto("/?r=ESP");
   const panel = page.getByRole("region", { name: "Case panel", exact: true });
-  await expect(panel.getByRole("heading", { level: 2 })).toHaveText([
-    "Lead", "Scene", "Timeline", "Evidence", "Verdict",
-  ]);
-  await expect(panel.getByText("These values come from a test fixture. They are not observations or a validated scientific result.")).toBeVisible();
-  await expect(panel.getByText("Wisconsin (US-WI)")).toBeVisible();
-  await expect(panel.getByText("2002–2025 · JJA")).toBeVisible();
-  await expect(panel.getByText("Wisconsin: Confirmed", { exact: true })).toBeVisible();
-  await expect(panel.getByRole("img", { name: "Example yearly series", exact: true })).toBeVisible();
-
+  await expect(panel.getByRole("heading", { level: 2 })).toHaveText(["Lead", "Scene", "Timeline", "Evidence", "Verdict"]);
+  await expect(page.getByRole("option", { name: /Aerosol optical depth/ })).toBeDisabled();
   for (const width of [1280, 768, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   }
   await page.setViewportSize({ width: 1280, height: 1100 });
-  await page.screenshot({ path: test.info().outputPath("case-panel.png"), fullPage: true });
+  await page.screenshot({ path: test.info().outputPath("case-controls.png"), fullPage: true });
+});
+
+test("analysis errors can be retried without showing the previous result", async ({ page }) => {
+  let calls = 0;
+  await page.route("**/api/py/analyze", (route) => {
+    calls++;
+    return calls === 1 ? route.fulfill({ status: 503, json: { detail: "unavailable" } }) : route.fulfill({ json: fixture });
+  });
+  await page.goto("/?r=US-WI");
+  const evidence = page.locator('[data-case-step="evidence"]');
+  await expect(evidence.getByRole("alert")).toBeVisible();
+  await expect(page.getByText("Wisconsin: Confirmed", { exact: true })).toHaveCount(0);
+  await evidence.getByRole("button", { name: "Try again" }).click();
+  await expect(page.getByText("Wisconsin: Confirmed", { exact: true })).toBeVisible();
 });
 
 test("case tabs support keyboard navigation and the partner empty state", async ({ page }) => {
   await page.goto("/");
   const caseTab = page.getByRole("tab", { name: "Case", exact: true });
   const partnerTab = page.getByRole("tab", { name: "Partner", exact: true });
-  await caseTab.focus();
-  await page.keyboard.press("ArrowRight");
-  await expect(partnerTab).toBeFocused();
-  await page.keyboard.press("Enter");
+  await caseTab.focus(); await page.keyboard.press("ArrowRight");
+  await expect(partnerTab).toBeFocused(); await page.keyboard.press("Enter");
   await expect(partnerTab).toHaveAttribute("aria-selected", "true");
   await expect(page.getByText("The partner is unavailable. You can still investigate your Case.")).toBeVisible();
-  await page.keyboard.press("ArrowLeft");
-  await expect(caseTab).toBeFocused();
-  await page.keyboard.press("Enter");
+  await page.keyboard.press("ArrowLeft"); await page.keyboard.press("Enter");
   await expect(page.getByRole("heading", { name: "Evidence", exact: true })).toBeVisible();
 });
