@@ -64,7 +64,7 @@
 - `CasePanel()`: no props. Tabs **Case** and **Partner**. The Case tab stacks the 5 step sections in order.
 - `lib/copy/case.ts` exports `caseCopy`: step labels and helpers, tier labels, tooltips, empty and error states (placeholders from the glossary until `COPY.md` is filled in).
 
-- [ ] **Step 1: Build the shells.** Build `PlotFigure` and the 5 step components as presentational shells with props. Until the H2 merges land, feed them from `api/_fixtures/analyze.json`, imported read-only inside `CasePanel.tsx`; remove that import in Task 2. Don't create pages under `app/`, which is Eleder's area.
+- [x] **Step 1: Build the shells.** Build `PlotFigure` and the 5 step components as presentational shells with props. Until the H2 merges land, feed them from `api/_fixtures/analyze.json`, imported read-only inside `CasePanel.tsx`; remove that import in Task 2. Don't create pages under `app/`, which is Eleder's area.
 - [x] **Step 2: Verify.** `npm run check` passes, and the panel renders all 5 sections at `/`.
 - [ ] **Step 3: Merge at H2.** Commit `feat(panel): case panel shell + PlotFigure`, rebase after Oier's and Eleder's H2 merges, then self-merge.
 
