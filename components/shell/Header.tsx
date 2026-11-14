@@ -7,10 +7,10 @@ import { ShareButton } from "./ShareButton";
 // so the globe stays draggable underneath.
 export function Header() {
   return (
-    <header className="pointer-events-none relative z-20 flex h-(--header-height) shrink-0 items-center justify-between gap-4 px-7 min-[900px]:absolute min-[900px]:inset-x-0 min-[900px]:top-0">
+    <header className="pointer-events-none relative z-20 flex h-(--header-height) shrink-0 items-center justify-between gap-4 px-7 min-[900px]:absolute min-[900px]:inset-x-0 min-[900px]:top-0 min-[900px]:px-6">
       <Link
         href="/"
-        className="pointer-events-auto rounded-lg py-1 font-display text-[1.6rem] leading-none font-light tracking-[-0.02em] whitespace-nowrap text-silver no-underline"
+        className="pointer-events-auto rounded-lg py-1 font-display text-[27px] leading-none font-light tracking-[-0.02em] whitespace-nowrap text-silver no-underline"
       >
         {shellCopy.productName}
       </Link>

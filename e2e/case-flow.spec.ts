@@ -84,7 +84,7 @@ test("analysis errors can be retried without showing the previous result", async
   await expect(page.getByText("Wisconsin: Confirmed", { exact: true })).toBeVisible();
 });
 
-test("Investigate opens the results pane with evidence, verdict and the partner", async ({ page }) => {
+test("Investigate opens the results pane; the explain-and-ask pane stays open", async ({ page }) => {
   await page.route("**/api/py/analyze", (route) => route.fulfill({ json: fixture }));
   await page.goto("/?r=US-WI");
   await expect(page.getByRole("heading", { name: "Evidence", exact: true })).toHaveCount(0);
@@ -92,9 +92,11 @@ test("Investigate opens the results pane with evidence, verdict and the partner"
   const results = page.getByRole("region", { name: "Results", exact: true });
   await expect(results.getByRole("heading", { name: "Evidence", exact: true })).toBeVisible();
   await expect(results.getByText("Wisconsin: Confirmed", { exact: true })).toBeVisible();
-  await expect(results.getByRole("textbox", { name: "Ask the Partner" })).toBeVisible();
+  const explain = page.getByRole("region", { name: "Explain & ask", exact: true });
+  await expect(explain.getByRole("textbox", { name: "Your question" })).toBeVisible();
   await results.getByRole("button", { name: "Hide results" }).click();
   await expect(results).toHaveCount(0);
+  await expect(explain).toBeVisible();
 });
 
 test("Evidence switches yearly/monthly/anomalies and Scientist renders the methods table", async ({ page }) => {

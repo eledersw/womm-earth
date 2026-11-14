@@ -7,7 +7,7 @@ import { streamExplain } from "./explain";
 import { getClient } from "./anthropic";
 import type { PartnerEvent } from "./events";
 import { partnerCopy } from "@/lib/copy/partner";
-vi.mock("./anthropic", () => ({ getClient: vi.fn(), MODEL: "claude-opus-5-5", FALLBACK: { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" } }));
+vi.mock("./anthropic", () => ({ getClient: vi.fn(), MODEL: "claude-sonnet-5-5", FALLBACK: { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" } }));
 const input = explainInputSchema.parse({ mode: "explain", level: "student", analysis: fixture.results[0], variable: variables[0], regionName: "Wisconsin", period: "2002–2025", seasonLabel: "JJA" });
 function mockStream(text = "Mann-Kendall detects a trend, p = 0.01.", stopReason = "end_turn") {
   const abort = vi.fn();
@@ -24,7 +24,7 @@ it("streams text with the planned model, fallback, adaptive thinking and cached 
   const { stream } = mockStream(); const events: PartnerEvent[] = [];
   await streamExplain(input, (e) => events.push(e));
   expect(events.map((e) => e.type)).toEqual(["text"]);
-  expect(stream).toHaveBeenCalledWith(expect.objectContaining({ model: "claude-opus-5-5", max_tokens: 4000, thinking: { type: "adaptive" }, fallbacks: "default", output_config: { effort: "low" }, system: [expect.objectContaining({ cache_control: { type: "ephemeral" } })] }));
+  expect(stream).toHaveBeenCalledWith(expect.objectContaining({ model: "claude-sonnet-5-5", max_tokens: 4000, thinking: { type: "adaptive" }, fallbacks: "default", output_config: { effort: "low" }, system: [expect.objectContaining({ cache_control: { type: "ephemeral" } })] }));
   expect(console.info).toHaveBeenCalledWith("partner.explain.cache_read_input_tokens", 1);
 });
 it.each(["refusal", "max_tokens"])("flags a %s response instead of accepting partial text", async (reason) => {

@@ -10,8 +10,8 @@ import { fmtNumber, fmtP, fmtSlope } from "@/lib/partner/format";
 import { caseCopy } from "@/lib/copy/case";
 import { StepSection, type StepProps } from "./StepSection";
 
-type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable };
-export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, children, ...status }: Props) {
+type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable; showExplanation?: boolean };
+export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, showExplanation = true, children, ...status }: Props) {
   const hidden = useUiStore((s) => s.predictMode && !s.reveal);
   const predict = useUiStore((s) => s.predictMode);
   const c = caseCopy.verdict;
@@ -26,7 +26,7 @@ export function VerdictStep({ results, context, level = "student", ratioScale = 
         <p className="mt-2 text-sm">{verdict.body}</p>
         {r.stats && hasUsableYearsEstimate(r) && <YearsMeter nYears={r.stats.n_years} yearsNeeded={r.verdict.years_needed} />}
         {level === "scientist" && r.stats && <StatsTable stats={r.stats} unit={context.unit} ratioScale={ratioScale} />}
-        {variable && r.verdict.tier !== "too_short" && <ExplainBox result={r} variable={variable} regionName={r.region.name} level={level} />}
+        {showExplanation && variable && r.verdict.tier !== "too_short" && <ExplainBox result={r} variable={variable} regionName={r.region.name} level={level} />}
       </article>;
     })}</div> : !hidden ? children : null}
   </StepSection>;

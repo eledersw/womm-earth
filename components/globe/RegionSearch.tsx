@@ -47,7 +47,7 @@ export function RegionSearch() {
       <PopoverTrigger asChild>
         <button
           type="button"
-          className="label-nav glass-pill inline-flex h-11 items-center gap-2.5 rounded-full pr-5 pl-4 text-ink transition-colors duration-150 hover:bg-well-2"
+          className="label-nav glass-pill inline-flex h-9 items-center gap-2 rounded-full pr-4 pl-3 text-ink transition-colors duration-150 hover:bg-well-2"
         >
           <Search aria-hidden className="size-4" strokeWidth={1.75} />
           {globeCopy.searchTrigger}

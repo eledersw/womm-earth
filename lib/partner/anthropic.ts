@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-export const MODEL = "claude-opus-5-5";
+export const MODEL = "claude-sonnet-5-5";
 export const FALLBACK = { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" } as const;
 let client: Anthropic | undefined;
 export function getClient(): Anthropic {
