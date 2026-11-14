@@ -26,13 +26,20 @@ from _models import (  # noqa: E402
     Health,
     MirrorResponse,
     MirrorRequest,
+    MonthlyPoint,
+    Provenance,
     Region,
+    RegionAnalysis,
     ScanRequest,
     ScanResponse,
     TrendMapRequest,
     TrendMapResponse,
     Variable,
+    YearlyPoint,
 )
+from _engine import store  # noqa: E402
+from _engine.series import monthly_with_anomalies, yearly_series  # noqa: E402
+from _engine.verdict import analyze_yearly  # noqa: E402
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 
@@ -57,17 +64,55 @@ async def health() -> Health:
 
 @app.get("/api/py/variables", response_model=list[Variable])
 async def variables() -> list[Variable]:
-    return json.loads(_fixture("variables"))
+    return list(store.variables().values())
 
 
 @app.get("/api/py/regions", response_model=list[Region])
 async def regions() -> list[Region]:
-    return json.loads(_fixture("regions"))
+    return list(store.regions().values())
 
 
 @app.post("/api/py/analyze", response_model=AnalyzeResponse)
 async def analyze(case: CaseRequest) -> AnalyzeResponse:
-    return json.loads(_fixture("analyze"))
+    variables_by_id = store.variables()
+    regions_by_id = store.regions()
+    if case.variable not in variables_by_id:
+        raise HTTPException(status_code=422, detail=f"Unknown variable: {case.variable}")
+    unknown = [region for region in case.regions if region not in regions_by_id]
+    if unknown:
+        raise HTTPException(status_code=422, detail=f"Unknown region: {unknown[0]}")
+
+    variable = variables_by_id[case.variable]
+    results = []
+    for region_id in case.regions:
+        region = regions_by_id[region_id]
+        stored = store.get_series(case.variable, region_id)
+        values, t0 = stored if stored is not None else (numpy.empty(0), f"{case.start}-01")
+        labels, raw, anomalies = monthly_with_anomalies(values, t0, case.start, case.end)
+        years, annual = yearly_series(values, t0, case.start, case.end, case.season, case.months)
+        stats, verdict, fit = analyze_yearly(years, annual, variable.ratio_scale)
+        hero = store.hero_metadata(case.variable, region_id) or {}
+        monthly = [MonthlyPoint(t=label, value=float(value) if numpy.isfinite(value) else None,
+                                anomaly=float(anomaly) if numpy.isfinite(anomaly) else None)
+                   for label, value, anomaly in zip(labels, raw, anomalies)]
+        yearly = [YearlyPoint(year=int(year), value=float(value) if numpy.isfinite(value) else None)
+                  for year, value in zip(years, annual)]
+        warnings = []
+        if region.nearest_cell_fallback:
+            warnings.append("nearest_cell_fallback")
+        if stats is not None and not stats.tests_agree:
+            warnings.append("tests_disagree")
+        results.append(RegionAnalysis(
+            region=region, monthly=monthly, yearly=yearly, fit=fit, stats=stats,
+            verdict=verdict,
+            provenance=Provenance(
+                source=hero.get("source", variable.source),
+                instrument=hero.get("instrument", variable.instrument),
+                product=hero.get("product"), doi=hero.get("doi", variable.doi), kind=variable.kind,
+            ),
+            warnings=warnings,
+        ))
+    return AnalyzeResponse(case=case, results=results)
 
 
 @app.get("/api/py/trendmap", response_model=TrendMapResponse)
