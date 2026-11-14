@@ -56,7 +56,7 @@ function StreamedExplanation({ input }: { input: ExplainInput }) {
     <div aria-live="polite">
       {status === "loading" && <p>{text ? partnerCopy.draft : partnerCopy.loading}</p>}
       {!!text && <p className="whitespace-pre-wrap">{text}</p>}
-      {status === "error" && <p role="alert">{partnerCopy.offline} {message === partnerCopy.offline ? "" : message}</p>}
+      {status === "error" && <p role="alert">{message || partnerCopy.offline}</p>}
       {status === "stopped" && <p>{partnerCopy.cancelled}</p>}
     </div>
     {status === "loading" ? <Button size="sm" variant="outline" onClick={() => { controller?.abort(); setText(""); setStatus("stopped"); }}>{partnerCopy.stop}</Button>
