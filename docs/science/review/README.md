@@ -14,7 +14,7 @@ The review is performed; the gate is not satisfied. No engine, endpoint, contrac
 | Runtime BH and mirror key | local_engine_review.json; api/index.py | Not exercised: map and mirror handlers serve fixtures; no runtime all-family BH/mirror implementation is available for case 9. |
 | Deployed real-series comparison | production_review.json and production_monthly/ | All 16 Case requests return HTTP 200. Aggregation and Sen point estimates match independently; every case has uncertainty-field differences. Tiers match in 15/16. |
 | Ten genuine map regions | Two production map requests | Not passed. Both responses are the same single Wisconsin fixture and ignore the requested context. Ten separate analyses are supplementary, not a map check. |
-| H13 user test | No observed session or notes available at this review | Pending. Do not claim it happened or that wording was validated with users. |
+| H13 outside-user test | Sergio reports team self-testing and explicitly omits the outsider session. | Waived by user decision, 2026-11-14; no independent-session evidence claimed or required for this gate. |
 | Validity sign-off | docs/STATUS.md | Withheld. Passing routine tests does not override these discrepancies. |
 
 The production endpoint exposes runtime versions but no deployment commit. Health returned HTTP 200 with Python 3.12.16, numpy 2.5.4 and scipy 1.18.1. Local source identity and remote artifact identity must not be conflated. Production comparisons below use the returned monthly observations, so the observed output discrepancies do not depend on proving that identity.
@@ -123,7 +123,7 @@ Other rows use 1981–2025; valid Wisconsin winter labels begin in 1982 because 
 
 ## User-test and wording follow-up
 
-No H13 session was observed or supplied during this review. The task-7 templates already address likely misreadings: non-detection versus no change, significance versus causation, CIs versus combined tiers, and approximate additional years versus a promised deadline. Those are desk-review findings, not observed user behavior. Record actual user-test evidence when it exists and amend wording only from that evidence and the statistical rules.
+No outside-user session was observed or supplied. Sergio subsequently reported that the team tested the app themselves and liked its appearance, and chose to omit the planned outside-user session. That session is therefore no longer a gate prerequisite. The task-7 templates already address likely misreadings: non-detection versus no change, significance versus causation, CIs versus combined tiers, and approximate additional years versus a promised deadline. Those are desk-review findings, not observed outsider behavior. Team self-testing is recorded as reported, without invented observations or an independent-usability claim.
 
 ## Reproduce and re-open the gate
 
@@ -153,7 +153,7 @@ Evidence layout:
 - ../golden_cases/verification.json: renewed reference/key and narrower core verification.
 - review_engine.py: inspection/replay tooling inside Sergio's ownership; not application code.
 
-After Oier's fixes, require all applicable golden checks (including runtime aggregation, unavailable/gapped inference and BH/mirrors), a newly identified deployment with matching real-series output, ten genuine map entries, and the actual user-test review. Sergio then records the decision. **No automatic test script grants the manual validity sign-off.**
+After Oier's fixes, require all applicable golden checks (including runtime aggregation, unavailable/gapped inference and BH/mirrors), a newly identified deployment with matching real-series output, ten genuine map entries, and scientific wording review. The outside-user session is omitted by Sergio’s decision; numerical and factual checks remain required. Sergio then records the decision. **No automatic test script grants the manual validity sign-off.**
 
 ## Verification of the review packet
 
