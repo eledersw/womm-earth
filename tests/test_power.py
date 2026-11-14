@@ -1,6 +1,9 @@
+import asyncio
 import json
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
+
+import pytest
 
 import _engine.power as power
 from _engine.power import _manager_url, _regional_url
@@ -71,3 +74,63 @@ def test_approved_catalogue_matches_verified_power_snapshot(monkeypatch):
     assert len(variables) == 16
     assert {variable.id for variable in variables} == set(snapshot["parameters"])
     assert all(variable.signed_off for variable in variables)
+
+
+def test_large_region_is_split_into_valid_power_tiles(monkeypatch):
+    variable = power._variable("T2M", {"type": "METEOROLOGY", "units": "C"}, "AG")
+    region = Region(id="ESP", name="Spain", type="country", centroid=(-3.5, 40),
+                    bbox=(-18, 28, 4, 44), nearest_cell_fallback=False,
+                    valid_variables=[], parent=None)
+    urls = []
+
+    def request(url):
+        urls.append(url)
+        n = len(urls)
+        return {"features": [{"geometry": {"coordinates": [n, 40]},
+                              "properties": {"parameter": {"T2M": {"201001": float(n)}}}}]}
+
+    monkeypatch.setattr(power, "_request_json", request)
+    values, _ = asyncio.run(power.fetch_monthly_region(variable, region, 2010, 2010))
+
+    assert len(urls) == 6
+    for url in urls:
+        query = parse_qs(urlparse(url).query)
+        for axis in ("latitude", "longitude"):
+            span = float(query[f"{axis}-max"][0]) - float(query[f"{axis}-min"][0])
+            assert 2 <= span <= 10
+    assert values[0] == pytest.approx(3.5)
+
+
+def test_small_region_uses_power_point_at_centroid(monkeypatch):
+    variable = power._variable("T2M", {"type": "METEOROLOGY", "units": "C"}, "AG")
+    region = Region(id="AND", name="Andorra", type="country", centroid=(1.57, 42.54),
+                    bbox=(1.41, 42.43, 1.74, 42.64), nearest_cell_fallback=False,
+                    valid_variables=[], parent=None)
+    urls = []
+
+    def request(url):
+        urls.append(url)
+        return {"geometry": {"coordinates": [1.57, 42.54]},
+                "properties": {"parameter": {"T2M": {"201001": 4.2}}}}
+
+    monkeypatch.setattr(power, "_request_json", request)
+    values, _ = asyncio.run(power.fetch_monthly_region(variable, region, 2010, 2010))
+
+    assert len(urls) == 1
+    assert "/monthly/point?" in urls[0]
+    assert parse_qs(urlparse(urls[0]).query)["latitude"] == ["42.54"]
+    assert values[0] == pytest.approx(4.2)
+
+
+def test_tiled_region_counts_shared_boundary_cell_once():
+    variable = power._variable("T2M", {"type": "METEOROLOGY", "units": "C"}, "AG")
+
+    def response(longitude, value):
+        return {"features": [{"geometry": {"coordinates": [longitude, 40]},
+                              "properties": {"parameter": {"T2M": {"201001": value}}}}]}
+
+    values, _ = power._monthly_region_series(
+        [response(1, 1.0), response(1, 1.0), response(2, 3.0)], variable, 2010, 2010,
+    )
+
+    assert values[0] == pytest.approx(2.0)
