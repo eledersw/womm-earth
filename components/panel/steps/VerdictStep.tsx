@@ -1,4 +1,5 @@
 "use client";
+import { displayUnit } from "@/components/globe/palette";
 import type { RegionAnalysis, TrendStats, Variable } from "@/lib/api/types";
 import { useUiStore } from "@/lib/state/ui-store";
 import { PredictPrompt } from "../PredictPrompt";
@@ -25,8 +26,8 @@ export function VerdictStep({ results, context, level = "student", ratioScale = 
         {verdict.evidence.eligible && verdict.evidence.tests_disagree && <p className="mt-2 text-sm font-semibold">{c.disagreeBadge}</p>}
         <p className="mt-2 text-sm">{verdict.body}</p>
         {r.stats && verdict.evidence.years_eligible && <YearsMeter nYears={r.stats.n_years} yearsNeeded={r.verdict.years_needed} />}
-        {level === "scientist" && r.stats && verdict.evidence.eligible && verdict.evidence.count_matches && verdict.evidence.status !== "unavailable" && <StatsTable stats={r.stats} olsAvailable={verdict.evidence.p_ols !== null} unit={context.unit} ratioScale={ratioScale} />}
-        {variable && (verdict.evidence.status === "combined" || verdict.evidence.status === "mk_only") && <ExplainBox result={r} variable={variable} regionName={r.region.name} level={level} />}
+        {level === "scientist" && r.stats && verdict.evidence.eligible && verdict.evidence.count_matches && verdict.evidence.status !== "unavailable" && <StatsTable stats={r.stats} olsAvailable={verdict.evidence.p_ols !== null} unit={context.unit === "1" ? caseCopy.controls.dimensionless : displayUnit(context.unit)} ratioScale={ratioScale} />}
+        {showExplanation && variable && (verdict.evidence.status === "combined" || verdict.evidence.status === "mk_only") && <ExplainBox result={r} variable={variable} regionName={r.region.name} level={level} />}
       </article>;
     })}</div> : !hidden ? children : null}
   </StepSection>;

@@ -32,3 +32,20 @@ it("uses streaming when a generated cache entry is still awaiting Sergio's appro
   expect(screen.queryByText(entry.student)).toBeNull();
   expect(fetcher).toHaveBeenCalledTimes(1);
 });
+it("keeps an inconsistent verdict provisional even when an approved cache entry exists", async () => {
+  mock.cache[key] = entry;
+  const fetcher = vi.fn(); vi.stubGlobal("fetch", fetcher);
+  const result = { ...input.analysis, stats: { ...input.analysis.stats!, tests_agree: false, ols: { ...input.analysis.stats!.ols, p: 0.42 } } };
+  render(<ExplainBox result={result} variable={input.variable} regionName="Wisconsin" level="student" />);
+  expect(screen.getByRole("alert").textContent).toContain("provisional");
+  expect(screen.queryByText(entry.student)).toBeNull();
+  await Promise.resolve();
+  expect(fetcher).not.toHaveBeenCalled();
+});
+it("withholds automatic Explain when yearly coverage is insufficient", async () => {
+  const fetcher = vi.fn(); vi.stubGlobal("fetch", fetcher);
+  render(<ExplainBox result={{ ...input.analysis, yearly: input.analysis.yearly.slice(0, 2) }} variable={input.variable} regionName="Wisconsin" level="student" />);
+  expect(screen.getByRole("alert").textContent).toContain("provisional");
+  await Promise.resolve();
+  expect(fetcher).not.toHaveBeenCalled();
+});

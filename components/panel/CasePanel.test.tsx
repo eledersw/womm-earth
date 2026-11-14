@@ -105,3 +105,16 @@ describe("case controls", () => {
     expect(screen.queryByText("Old evidence")).toBeNull();
   });
 });
+
+it("streams one explanation in the explain pane and none in the results pane", async () => {
+  const fetcher = vi.spyOn(globalThis, "fetch").mockImplementation(async () => new Response('data: {"type":"text","text":"Checked explanation."}\n\ndata: {"type":"done"}\n\n', { headers: { "content-type": "text/event-stream" } }));
+  try {
+    setup();
+    await waitFor(() => expect((screen.getByRole("button", { name: "Investigate" }) as HTMLButtonElement).disabled).toBe(false));
+    fireEvent.click(screen.getByRole("button", { name: "Investigate" }));
+    await waitFor(() => expect(screen.getAllByText("Checked explanation.")).toHaveLength(1));
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    const results = screen.getByRole("region", { name: caseCopy.results });
+    expect(within(results).queryByRole("region", { name: partnerCopy.explain })).toBeNull();
+  } finally { fetcher.mockRestore(); }
+});

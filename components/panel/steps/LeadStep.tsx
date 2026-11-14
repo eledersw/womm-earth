@@ -1,4 +1,5 @@
 "use client";
+import { displayUnit } from "@/components/globe/palette";
 import { useId, useState } from "react";
 import type { Variable } from "@/lib/api/types";
 import { caseCopy } from "@/lib/copy/case";
@@ -29,7 +30,7 @@ export function LeadStep({ state, setCase, variables, ...status }: Props) {
       {(["satellite", "reanalysis"] as const).map((kind) => <optgroup key={kind} label={caseCopy.controls.kinds[kind]}>
         {matching.filter((item) => item.kind === kind).map((item) => (
           <option key={item.id} value={item.id}>
-            {item.name} [{item.id}] ({item.unit}){item.power_type ? ` — ${item.power_type}` : ""}
+            {item.name} [{item.id}] ({item.unit === "1" ? caseCopy.controls.dimensionless : displayUnit(item.unit)}){item.power_type ? ` — ${item.power_type}` : ""}
           </option>
         ))}
       </optgroup>)}
