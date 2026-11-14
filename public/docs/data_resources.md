@@ -1,6 +1,7 @@
 # Resources: NASA Space Apps 2026 - "Be An Earth System Trend Detective!"
 
 ## NASA Data & Resources
+- [NASA Power](https://power.larc.nasa.gov/): Prediction Of Worldwide Energy Resources. Solar radiation and meteorological variables (temperature, precipitation, humidity, wind, etc.) at hourly, daily, monthly and climatology resolution, accessible for a point, region or global grid through a web interface and a REST API.
 - [Giovanni](https://giovanni.gsfc.nasa.gov/): Menus of numerous data variables; generates and downloads time series.
 - [Hydrology Time Series](https://disc.gsfc.nasa.gov/information/tools?title=Hydrology%20Time%20Series): Time series generation with hydrological data.
 - [AppEEARS](https://appeears.earthdatacloud.nasa.gov/): Access and transform geospatial data from federal archives; includes time-series generation.
