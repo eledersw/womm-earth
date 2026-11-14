@@ -4,6 +4,9 @@ import regions from "../api/_fixtures/regions.json";
 import fixture from "../api/_fixtures/analyze.json";
 const sse = (text: string) => `data: ${JSON.stringify({ type: "text", text })}\n\ndata: {"type":"done"}\n\n`;
 test.beforeEach(async ({ page }) => {
+  // These tests exercise the panel. Globe geometry is covered by its owner.
+  await page.route("**/geo/*.geojson", (route) => route.fulfill({ json: { type: "FeatureCollection", features: [] } }));
+  await page.route("**/api/py/mirror", (route) => route.fulfill({ json: { base: { region: route.request().postDataJSON().regions[0], slope_per_decade: 0.8, p: 0.01, z: 2.5, tier: "confirmed" }, mirrors: [], none_found: true } }));
   await page.route("**/api/py/variables", (route) => route.fulfill({ json: variables }));
   await page.route("**/api/py/regions", (route) => route.fulfill({ json: regions }));
   await page.route("**/api/py/analyze", (route) => route.fulfill({ json: fixture }));
@@ -15,7 +18,7 @@ test("Explain failure keeps the template verdict and supports retry", async ({ p
     return route.fulfill({ contentType: "text/event-stream", body: requests === 1 ? 'data: {"type":"error","message":"Unavailable"}\n\ndata: {"type":"done"}\n\n' : sse("Mann-Kendall detects a trend, p = 0.01.") });
   });
   await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
-  await page.getByRole("button", { name: "Calculate", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
   const box = page.getByRole("region", { name: "Explain this verdict" });
   await expect(box.getByRole("alert")).toBeVisible();
@@ -30,7 +33,7 @@ test("reading-level changes abort stale explanations and update the URL", async 
     return route.fulfill({ contentType: "text/event-stream", body: sse("Scientist explanation.") });
   });
   await page.goto("/?r=US-WI&from=2002&to=2025");
-  await page.getByRole("button", { name: "Calculate", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect.poll(() => held.length).toBe(1);
   await page.getByRole("radio", { name: "Scientist", exact: true }).click();
   await expect(page).toHaveURL(/lvl=scientist/);
@@ -44,7 +47,7 @@ test("too-short verdicts do not request explanations", async ({ page }) => {
   await page.route("**/api/py/analyze", (route) => route.fulfill({ json: { ...fixture, results: [{ ...fixture.results[0], stats: null, verdict: { tier: "too_short", years_needed: null, reason: null } }] } }));
   await page.route("**/api/partner", (route) => { requests++; return route.fulfill({ contentType: "text/event-stream", body: sse("Unexpected") }); });
   await page.goto("/?r=US-WI");
-  await page.getByRole("button", { name: "Calculate", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Too short to judge" })).toBeVisible();
   await expect(page.getByRole("region", { name: "Explain this verdict" })).toHaveCount(0);
   expect(requests).toBe(0);
@@ -53,7 +56,7 @@ test("Stop cancels an in-flight explanation and permits retry", async ({ page })
   const held: Route[] = [];
   await page.route("**/api/partner", (route) => { held.push(route); });
   await page.goto("/?r=US-WI");
-  await page.getByRole("button", { name: "Calculate", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect.poll(() => held.length).toBe(1);
   const box = page.getByRole("region", { name: "Explain this verdict" });
   await box.getByRole("button", { name: "Stop", exact: true }).click();
@@ -83,13 +86,12 @@ test("Partner proposes a Case without changing the URL until Open this case", as
     return route.fulfill({ contentType: "text/event-stream", body: events.map((e) => `data: ${JSON.stringify(e)}\n\n`).join("") });
   });
   await page.goto("/?r=US-WI");
-  await page.getByRole("tab", { name: "Partner", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await page.getByRole("textbox", { name: "Ask the Partner" }).fill("Is Wisconsin getting smokier in summer?");
   await page.getByRole("button", { name: "Send", exact: true }).click();
   await expect(page.getByRole("button", { name: "Open this case", exact: true })).toBeVisible();
   expect(new URL(page.url()).searchParams.get("r")).toBe("US-WI");
-  await page.getByRole("tab", { name: "Case", exact: true }).click();
-  await page.getByRole("tab", { name: "Partner", exact: true }).click();
+
   await expect(page.getByText("You can open the proposed Case.", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Open this case", exact: true }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("r")).toBe("ESP");
@@ -98,9 +100,12 @@ test("Partner proposes a Case without changing the URL until Open this case", as
 });
 test("Partner cancellation discards late text and allows a fresh question", async ({ page }) => {
   const held: Route[] = [];
-  await page.route("**/api/partner", (route) => { held.push(route); });
-  await page.goto("/");
-  await page.getByRole("tab", { name: "Partner", exact: true }).click();
+  await page.route("**/api/partner", (route) => {
+    if (route.request().postDataJSON().mode === "chat") { held.push(route); return; }
+    return route.fulfill({ contentType: "text/event-stream", body: sse("Template explanation.") });
+  });
+  await page.goto("/?r=US-WI");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await page.getByRole("textbox", { name: "Ask the Partner" }).fill("Check this Case");
   await page.getByRole("button", { name: "Send", exact: true }).click();
   await expect.poll(() => held.length).toBe(1);

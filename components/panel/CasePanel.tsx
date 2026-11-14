@@ -8,6 +8,10 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { CASE_RESULTS_SLOT } from "@/components/shell/slots";
 import { caseCopy } from "@/lib/copy/case";
 import { partnerCopy } from "@/lib/copy/partner";
+import { caseKey } from "@/lib/state/case-codec";
+import { useUiStore } from "@/lib/state/ui-store";
+import { CorrelationView } from "./CorrelationView";
+import { MirrorList } from "./MirrorList";
 import { useCase } from "@/lib/state/use-case";
 import { LeadStep } from "./steps/LeadStep";
 import { SceneStep } from "./steps/SceneStep";
@@ -30,6 +34,8 @@ export function CasePanel() {
 // questions open on the results pane. Nothing runs while you are choosing.
 function CasePanelContent() {
   const { state, setCase } = useCase();
+  const predict = useUiStore((s) => s.predictMode);
+  const hidden = useUiStore((s) => s.predictMode && !s.reveal);
   const variables = useVariables();
   const regions = useRegions();
   const variable = variables.byId[state.variable];
@@ -49,6 +55,7 @@ function CasePanelContent() {
   }, [variable, state.from, state.to, setCase]);
 
   function investigate() {
+    if (predict) useUiStore.getState().setReveal(false);
     setOpen(true);
     analysis.calculate();
   }
@@ -74,6 +81,12 @@ function CasePanelContent() {
               <ToggleGroupItem value="scientist">{partnerCopy.scientist}</ToggleGroupItem>
             </ToggleGroup>
           </div>
+          <label className="flex items-center gap-2 text-scale">
+            <input type="checkbox" checked={predict} onChange={(e) => {
+              useUiStore.getState().setPredictMode(e.target.checked);
+              useUiStore.getState().setReveal(!e.target.checked);
+            }} />{caseCopy.explorations.predict}
+          </label>
           <Button size="lg" className="w-full" onClick={investigate} disabled={!valid || analysis.loading}>
             {analysis.loading ? caseCopy.controls.calculating : caseCopy.controls.calculate}
           </Button>
@@ -83,11 +96,15 @@ function CasePanelContent() {
 
       {open && submitted ? (
         <Results onClose={() => setOpen(false)}>
-          <EvidenceStep results={analysis.data?.results} unit={variable?.unit} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} />
-          <VerdictStep variable={variable} results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale}
+          <EvidenceStep results={hidden ? undefined : analysis.data?.results} unit={variable?.unit} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>{hidden && <p>{caseCopy.explorations.predictEvidence}</p>}</EvidenceStep>
+          <VerdictStep key={caseKey(state)} variable={variable} results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale}
             context={{ variableName: variable?.name ?? state.variable, unit: variable?.unit ?? "", period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `${caseCopy.controls.seasons.CUSTOM} (${state.months?.join(", ")})` : caseCopy.controls.seasons[state.season] }}
             loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} />
-          {analysis.data ? <div className="rounded-xl border bg-card p-4"><PartnerChat /></div> : null}
+          {analysis.data && !hidden ? <>
+            <CorrelationView state={state} variables={variables.variables} />
+            <MirrorList key={caseKey(state)} state={state} setCase={setCase} regions={regions.byId} unit={variable?.unit ?? ""} />
+          </> : null}
+          {analysis.data && !hidden ? <div className="rounded-xl border bg-card p-4"><PartnerChat /></div> : null}
         </Results>
       ) : null}
     </>
