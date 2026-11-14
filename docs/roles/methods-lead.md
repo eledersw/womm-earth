@@ -96,7 +96,7 @@
   - Decide keep or swap, and pick the final 3 cases + 2 backups.
   - **Done when:** `DEMO_CASES.md` shows "FINAL" on 3 cases and the Story lead has it.
 
-- [ ] **H8–H10: process cards.**
+- [x] **H8–H10: process cards.**
   - Fill in `PROCESS_CARDS.md`: 8–12 cards, each 80–120 words, in a student and a scientist version, with 1–2 citations. Start with the cards your final cases and mirror pairs need.
   - Tell Ekaitz when cards are ready; he converts them into `lib/partner/process-cards.json`. App code is his area, so don't write it yourself.
   - **Done when:** every final demo case has a card.
