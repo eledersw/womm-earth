@@ -23,3 +23,13 @@ Additional missing-year, unavailable-test and optional-feature fixtures remain t
 `DEMO_CASES.md` contains three FINAL scientific selections and two BACKUP cases, based on eight declared candidate dry-runs. Actual monthly series, independent v1 results and current-engine comparisons are saved in `demo/`. The initial unmodified CLI failed before the team's request fix; subsequent CLI checks on the updated code succeed for all five selections, recorded separately in `demo/cli_checks.json`.
 
 FINAL means selected scientific content, not a passing deployment checkpoint. The provider user fix is verified locally; Oier still needs to align the statistical/reporting implementation. The source-backed process cards, final pitch copy and production smoke test remain their existing tasks. No one should present the reference numbers as current production output before that work is verified.
+
+## Task 6: process-card authoring completed
+
+`PROCESS_CARDS.md` now contains ten cards with student and scientist versions, two primary-source citations each, explicit variable/region IDs and interpretation limits. All three FINAL selections and both BACKUP cases have a primary card. Supporting cards address aerosol mixtures, conditional snow-albedo feedback, evaporative demand, internal variability and reanalysis/regional averaging. No mirror pair is selected for the final demo, and no causal connection is inferred from opposite slopes.
+
+The handoff to Ekaitz is recorded in STATUS and in the card document: he converts the source text into the existing partner JSON shape and verifies tool retrieval and applicability. That app integration remains his work; the process-card file in the app was not edited. Card completion does not pass the engine validity gate. Task 7, verdict templates and grounding rules, remains next.
+
+Validation checks the ten unique IDs, both 80–120-word versions, one or two citations per card, absence of placeholders, exact live catalog/region IDs and coverage of the five selected cases. Sources were checked against NASA/NOAA/IPCC publications, institutional assessments and original research.
+
+Validation result: all 20 versions are 99–108 whitespace-delimited words, with two citations per card; exact IDs and 5/5 case coverage pass. `git diff --check` passes. In the ignored validation environment, `python -X utf8 -m pytest -q` reports 53 passed, 1 skipped (existing golden harness) and one dependency deprecation warning after installing declared geospatial dependencies. The initial plain Windows run failed because of default text encoding and missing dependencies; no application files were changed to resolve the environment. `npm run check` cannot start because npm is unavailable locally; web CI remains required before merge.
