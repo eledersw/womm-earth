@@ -126,12 +126,8 @@
     text-underline-offset: 0.2em;
     text-decoration-thickness: 1px;
   }
-  /* Cards inside the glass panes frost what's behind them (globe lines, stars) */
-  [data-case-step],
-  #case-results .rounded-xl.border {
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-  }
+  /* Cards inside glass panes use a denser smoked fill, not a second blur:
+     nested backdrop-filters over the live globe cost a frame on every repaint. */
   /* Measurements line up in columns everywhere */
   :where(table, output, data, time, [data-num]) {
     font-variant-numeric: tabular-nums lining-nums;
