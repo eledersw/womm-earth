@@ -39,3 +39,8 @@ describe("verdict templates", () => {
     expect(fmtSlope(NaN)).toBe("—"); expect(fmtP(Infinity)).toBe("—");
   });
 });
+
+it("does not show a detection estimate when OLS uncertainty is unavailable", () => {
+  const r = { ...base, stats: { ...base.stats!, ols: { ...base.stats!.ols, n_eff: 2 } }, verdict: { tier: "not_proven" as const, years_needed: 12, reason: null } };
+  expect(renderVerdict(r, ctx, "student").body).not.toContain("≈12");
+});
