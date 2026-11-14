@@ -1,4 +1,5 @@
 "use client";
+import { displayUnit } from "@/components/globe/palette";
 import { useMemo } from "react";
 import * as Plot from "@observablehq/plot";
 import type { RegionAnalysis } from "@/lib/api/types";
@@ -13,7 +14,7 @@ export function monthlyOptions(results: RegionAnalysis[], mode: "raw" | "anomaly
   })));
   return {
     width, height: 300, ariaLabel: mode === "raw" ? caseCopy.evidence.monthlyChart : caseCopy.evidence.anomalyChart,
-    x: { type: "utc", label: caseCopy.evidence.date }, y: { label: unit },
+    x: { type: "utc", label: caseCopy.evidence.date }, y: { label: displayUnit(unit) },
     color: { domain: results.map((r) => `${r.region.name} (${r.region.id})`), range: seriesColors, legend: true },
     marks: [
       ...(mode === "anomaly" ? [Plot.ruleY([0], { strokeOpacity: 0.4 })] : []),

@@ -26,3 +26,11 @@ it("plots server-provided anomalies without recomputing them", () => {
   expect(chart.scale("y")?.domain).toEqual([-2, 4]);
   expect(chart.querySelector('g[aria-label="line"] path')?.getAttribute("d")?.match(/M/g)).toHaveLength(2);
 });
+it("never plots unavailable OLS interval bounds as zero", () => {
+  const result = { ...base, fit: base.fit.map((p) => ({ ...p, ols_low: null, ols_high: null })) };
+  const chart = Plot.plot(yearlyOptions([result], "C", 800));
+  expect(chart.textContent).toContain("°C");
+  const [low] = chart.scale("y")!.domain as number[];
+  expect(low).toBeGreaterThan(0);
+  for (const path of chart.querySelectorAll('g[aria-label="area"] path')) expect(path.getAttribute("d") ?? "").not.toMatch(/[ML]/);
+});

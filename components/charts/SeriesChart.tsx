@@ -1,4 +1,5 @@
 "use client";
+import { displayUnit } from "@/components/globe/palette";
 import { useMemo } from "react";
 import * as Plot from "@observablehq/plot";
 import type { RegionAnalysis } from "@/lib/api/types";
@@ -13,7 +14,7 @@ export function yearlyOptions(results: RegionAnalysis[], unit: string, width: nu
   const fit = results.flatMap((r) => r.fit.map((p) => ({ ...p, region: `${r.region.name} (${r.region.id})` })));
   return {
     width, height: 300, ariaLabel: caseCopy.controls.chart,
-    x: { label: caseCopy.controls.year, tickFormat: "d" }, y: { label: unit },
+    x: { label: caseCopy.controls.year, tickFormat: "d" }, y: { label: displayUnit(unit) },
     color: { domain: results.map((r) => `${r.region.name} (${r.region.id})`), range: seriesColors, legend: true },
     marks: [
       Plot.areaY(fit, { x: "year", y1: "ols_low", y2: "ols_high", fill: "region", fillOpacity: 0.2 }),

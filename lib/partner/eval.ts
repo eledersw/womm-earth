@@ -3,7 +3,7 @@ import type { Tour } from "@/lib/tour/types";
 import { readSse } from "./sse-client";
 import { checkNumbers } from "./number-check";
 export type EvalQuestion = { id: number; question: string; context: string; keyFacts: string; mustNotSay: string };
-export type EvalResult = { id: number; question: string; answer: string; numbersOk: boolean; unmatched: string[]; error: boolean };
+export type EvalResult = { id: number; question: string; answer: string; numbersOk: boolean; unmatched: string[]; error: boolean; toolResults?: unknown[]; toolEvents?: { name: string; data: unknown }[]; partialAnswer?: string };
 function cells(line: string) {
   const result: string[] = []; let cell = ""; let escaped = false;
   for (const char of line.trim().replace(/^\||\|$/g, "")) {
@@ -33,21 +33,22 @@ export function contextFor(row: EvalQuestion, tours: Tour[], fallback?: CaseStat
   return caseFromQuery(tour.steps.at(-1)!.query);
 }
 export async function evaluateQuestion(row: EvalQuestion, state: CaseState, base: string, fetcher: typeof fetch = fetch, headers: Record<string, string> = {}): Promise<EvalResult> {
-  let answer = ""; let failed = false; let done = false; const results: unknown[] = [];
+  let answer = ""; let failed = false; let done = false; const results: unknown[] = []; const toolEvents: { name: string; data: unknown }[] = [];
   const signal = AbortSignal.timeout(65000);
   try {
     const response = await fetcher(new URL("/api/partner", base), { method: "POST", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify({ mode: "chat", level: state.level, case: state, messages: [{ role: "user", content: row.question }] }), signal, redirect: "error" });
     await readSse(response, (event) => {
       if (event.type === "text") { answer += event.text; if (answer.length > 64000) throw new Error("Response limit"); }
-      if (event.type === "tool_result") results.push(event.data);
+      if (event.type === "tool_result") { results.push(event.data); toolEvents.push({ name: event.name, data: event.data });
+        if (event.data && typeof event.data === "object" && "error" in event.data && event.data.error) failed = true; }
       if (event.type === "error") failed = true;
       if (event.type === "done") done = true;
     }, { signal });
   } catch { failed = true; }
   if (!done || !answer.trim()) failed = true;
-  if (failed) return { id: row.id, question: row.question, answer: "", numbersOk: false, unmatched: [], error: true };
+  if (failed) return { id: row.id, question: row.question, answer: "", numbersOk: false, unmatched: [], error: true, toolResults: results, toolEvents, partialAnswer: answer };
   const numbers = checkNumbers(answer, results);
-  return { id: row.id, question: row.question, answer, numbersOk: numbers.ok, unmatched: numbers.unmatched, error: false };
+  return { id: row.id, question: row.question, answer, numbersOk: numbers.ok, unmatched: numbers.unmatched, error: false, toolResults: results, toolEvents };
 }
 const escapeCell = (text: string) => text.replace(/\\/g, "\\\\").replace(/\|/g, "\\|").replace(/[\r\n]+/g, " ").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 export function formatEvalReport(rows: EvalResult[]) {

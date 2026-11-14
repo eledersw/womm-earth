@@ -79,3 +79,12 @@ it("labels MK fallback and preserves an eligible zero estimate", () => {
   expect(renderVerdict(r, ctx, "student").body).toContain("0 additional years");
   expect(renderVerdict(r, ctx, "student").body).toContain("already meet its threshold");
 });
+it("displays provider Celsius code as degrees without converting any value", () => {
+  const view = renderVerdict(base, { ...ctx, unit: "C" }, "student");
+  expect(view.body).toContain("°C per decade");
+  expect(view.body).toContain(fmtSlope(base.stats!.change_per_decade));
+});
+it("retains the magnitude for dimensionless provider units", () => {
+  const view = renderVerdict(base, { ...ctx, unit: "1" }, "student");
+  expect(view.body).toContain(`${fmtSlope(base.stats!.change_per_decade)} dimensionless per decade`);
+});
