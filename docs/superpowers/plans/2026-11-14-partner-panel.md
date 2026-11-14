@@ -65,7 +65,7 @@
 - `lib/copy/case.ts` exports `caseCopy`: step labels and helpers, tier labels, tooltips, empty and error states (placeholders from the glossary until `COPY.md` is filled in).
 
 - [ ] **Step 1: Build the shells.** Build `PlotFigure` and the 5 step components as presentational shells with props. Until the H2 merges land, feed them from `api/_fixtures/analyze.json`, imported read-only inside `CasePanel.tsx`; remove that import in Task 2. Don't create pages under `app/`, which is Eleder's area.
-- [ ] **Step 2: Verify.** `npm run check` passes, and the panel renders all 5 sections at `/`.
+- [x] **Step 2: Verify.** `npm run check` passes, and the panel renders all 5 sections at `/`.
 - [ ] **Step 3: Merge at H2.** Commit `feat(panel): case panel shell + PlotFigure`, rebase after Oier's and Eleder's H2 merges, then self-merge.
 
 ### Task 2: Lead, Scene, Timeline wired to case state (H2–H5)
@@ -154,7 +154,7 @@
   - A match is any tool number within `max(0.5·10^(−decimals), 0.01·|v|)`.
   - For values written with `%`, also compare `v/100`.
 
-- [ ] **Step 1: Write the tests.**
+- [x] **Step 1: Write the tests.**
   - `extracts signed decimals and percents`;
   - `skips years`;
   - `matches rounded numbers` ("about 0.04 per decade" vs `0.0412` → ok);
@@ -162,7 +162,7 @@
   - `sse roundtrip` (`sseStream` → `readSse` yields the same events, ending in `done`).
 
   Run `npx vitest run lib/partner` → FAIL.
-- [ ] **Step 2: Implement.** Run → PASS.
+- [x] **Step 2: Implement.** Run → PASS.
 - [ ] **Step 3: Commit and merge.** `feat(partner): sse + number check`, then self-merge.
 
 ### Task 5: Explain mode (H10–H14, M2)
