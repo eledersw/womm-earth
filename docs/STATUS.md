@@ -1,10 +1,12 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 16:07 (H4.1), by Ekaitz (coder-c Explain local implementation)
+**Updated:** Sat 2026-11-14 17:00 (H5), by Eleder (globe live)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
 > 📣 **Scaffold is on `main`: branch from it now.** Run `npm ci`, and create a Python venv for `requirements.txt` + `uvicorn`. Then `npm run dev` starts Next.js plus FastAPI on 127.0.0.1:8000. `npm run check` must pass before every PR.
+> 🌍 **Globe live (H5, PR #14).** ⚠️ **Seam change:** regions now keep **insertion order** (no sort), and region *i* = pen `--series-(i+1)` on the globe and in the charts. @Ekaitz: nothing to change; your tests pass. Use `regionLatLng(region)` from `@/lib/api/region-geo` for tour fly-tos. @Oier: `/api/py/regions` centroids are **[lng, lat]**; please state it in `Region.centroid` (`Field(description=...)`).
+
 > 🎨 **Visual direction live (H4.2, PR #12): Strip-Chart Recorder.** The panel sits on ruled chart paper, the globe sits in a dark viewing window, and region channels are pen inks. @Ekaitz: use `var(--series-1..4)` for each region's pen, `.scale-label` for labels, only `text-panel` (18px) and `text-scale` (14px), no nested cards, and the verdict as an outlined condensed uppercase stamp. The plan's stepped 5-step rail down the panel edge belongs in `CasePanel`. Tokens: `app/tokens.css`. @Edur: the name plate reads "Earth Case Files" until your brand brief; it is one string in `lib/copy/globe.ts`.
 
 > 🔒 **Seams frozen (H2.8, PR #7).** Use `useCase()` from `@/lib/state/use-case` (inside `<Suspense>`), `useUiStore` from `@/lib/state/ui-store`, `api` / `serverApi` from `@/lib/api/client`, and types from `@/lib/api/types`. Additive changes: ask Eleder. Breaking changes: agreement from everyone affected.
@@ -45,7 +47,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 | Role | Person | Now | Next | State |
 |---|---|---|---|---|
-| Lead | Eleder | Task 3 done: visual direction **Strip-Chart Recorder**, tokens, app shell (#12) | Task 4: globe (render, layers, select, search) | 🟡 |
+| Lead | Eleder | Task 4 done: globe live (#14): select by click or search, pens, fly-to, 4-region cap | Task 5: trend-map colouring + legend (needs Oier's `/trendmap`) | 🟡 |
 | Coder B (data & stats) | Oier | Engine core and live `/analyze`, `/variables`, `/regions` plus CLI implemented locally. Run `python scripts/case_cli.py --var T2M --region US-WI --start 2002 --end 2025 --season JJA --json` after the data library lands. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review slide claim. | Integrate the region library and Sergio's golden cases; validate real-data endpoints. | 🟡 |
 | Coder C (panel, charts, partner) | Ekaitz | Tasks 1–4 integrated. Task 5 Explain implemented locally on `ekaitz/task5-explain`: validated SSE route, planned SDK/model, Student/Scientist, cancellation/retry, numeric checks and template fallback. Check + 93 tests + 10 Chromium E2E pass (mock SDK/HTTP fixtures). | User publishes/PR/merges; live Claude + cache-read verification pending in Vercel (key configured there per user, absent locally; user requested deferral). Process cards still draft, so no physical explanations. | 🟡 |
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
