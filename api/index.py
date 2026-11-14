@@ -38,7 +38,7 @@ from _models import (  # noqa: E402
     YearlyPoint,
 )
 from _engine import store  # noqa: E402
-from _engine.power import PowerUpstreamError, fetch_monthly_region, list_monthly_parameters  # noqa: E402
+from _engine.power import PowerUpstreamError, fetch_monthly_region, list_monthly_parameters, uses_point_fallback  # noqa: E402
 from _engine.series import monthly_with_anomalies, yearly_series  # noqa: E402
 from _engine.verdict import analyze_yearly  # noqa: E402
 
@@ -120,6 +120,8 @@ async def analyze(case: CaseRequest) -> AnalyzeResponse:
         yearly = [YearlyPoint(year=int(year), value=float(value) if numpy.isfinite(value) else None)
                   for year, value in zip(years, annual)]
         warnings = []
+        if uses_point_fallback(region):
+            warnings.append("nearest_cell_fallback")
         if stats is not None and not stats.tests_agree:
             warnings.append("tests_disagree")
         results.append(RegionAnalysis(
