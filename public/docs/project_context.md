@@ -1,3 +1,5 @@
+We are participating on the Nasa Space Apps Challenge 2026 Hackathon event, that lasts the whole weekend. We are a team of 6 members, and among the possible challenges, we chose "Be An Earth System Trend Detective!"
+
 Summary
 Change is always occurring in the Earth’s interconnected environmental system, and when it runs in a consistent direction – rising or falling, increasing or decreasing, thickening or thinning – measured variables reflect it. But a measured Earth science data variable can trend one way in one region and the opposite way in another, even when the same process drives both. The multitude of Earth science data variables makes it difficult to select variables that could indicate change, and to then perform an analysis on the selected variables. Your challenge is to create a tool that can select variables measured by Earth science missions or produced by Earth science models, visualize how they change over time, and determine what is changing, where it is changing, how much it is changing, and if these changes are what scientists call “significant.”
 
