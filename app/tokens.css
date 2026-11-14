@@ -70,16 +70,16 @@
   /* Errors: reserved, never a pen; always with an icon and a label */
   --critical: #f0857a;
 
-  /* Type: 17px root for the projector; figures in thin Stack Sans Headline */
+  /* Type: compact 14px root (the WOMM Earth wordmark is sized in px and stays large) */
   --text-body: 1rem;
   --leading-body: 1.55;
   --tracking-label: 0.18em;
   --tracking-nav: 0.14em;
 
-  /* Shape: glass panels 20px, controls 10px, pills full */
+  /* Shape: glass panels 16px, controls 10px, pills full */
   --radius: 0.625rem;
-  --radius-panel: 1.25rem;
-  --panel-width: 420px;
-  --results-width: 540px;
-  --header-height: 4.5rem;
+  --radius-panel: 1rem;
+  --panel-width: 320px;
+  --results-width: 400px;
+  --header-height: 4.25rem;
 }
