@@ -33,7 +33,7 @@ This packet supports the playbook's METHODS v1 review. `METHODS.md` is normative
 
 Review executed on 2026-11-14 against main e4225ba and the public production API. The gate is **not passed**. Expanded yearly comparisons match only 1/7 full cases; all seven aggregation/gate variants match; runtime BH/mirrors remain fixture-only. All 16 live Case requests succeed and reproduce their yearly aggregation and Sen slopes, but uncertainty differs in every case. Production Aral has the wrong combined tier; No case precipitation exposes 27 extra years. Production map requests return the exact single-Wisconsin fixture, including wrong requested context and a same-context disagreement with live analysis.
 
-The complete owner handoff, archived monthly data, independent comparisons, unknown remote-revision limitation and re-open criteria are in [review/README.md](review/README.md). The actual H13 user test has not been observed or supplied; no validity sign-off is issued. The findings supersede the old pending-comparison/environment notes below. Oier review and fixes remain outstanding.
+The complete owner handoff, archived monthly data, independent comparisons, unknown remote-revision limitation and re-open criteria are in [review/README.md](review/README.md). Sergio has omitted the outside-user session after reporting team self-testing; it is no longer a gate prerequisite. Numerical and factual checks still prevent validity sign-off. The findings supersede the old pending-comparison/environment notes below. Oier review and fixes remain outstanding.
 
 ## Acceptance record
 
