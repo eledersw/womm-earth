@@ -13,6 +13,7 @@ export const caseCopy = {
   error: "This part of the Case could not be loaded.",
   retry: "Try again",
   controls: {
+    dimensionless: "dimensionless",
     variable: "Variable", source: "Source", period: "Period", season: "Season",
     searchVariables: "Search NASA POWER parameters",
     noVariableMatches: "No NASA POWER parameters match this search.",
