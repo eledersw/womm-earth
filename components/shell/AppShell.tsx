@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
 import { shellCopy } from "@/lib/copy/globe";
 import { Header } from "./Header";
+import { CASE_RESULTS_SLOT } from "./slots";
 
-// Silver Orbit: the globe floats in open space and the case sits on a pane of
-// liquid glass beside it. From 900px the globe fills the screen (offset right
-// so it clears the panel) and everything else floats over it; below 900px the
-// globe sits on top and the glass panel stacks beneath it.
+// The globe floats in open space. The case is set up on a pane of glass on the
+// left; after Investigate the results open on a second pane on the right. From
+// 900px the globe fills the screen and both panes float over it; below 900px
+// the globe sits on top and the panes stack beneath it.
 export function AppShell({ panel, globe }: { panel: ReactNode; globe: ReactNode }) {
   return (
     <div className="relative flex min-h-dvh flex-col bg-background min-[900px]:h-dvh min-[900px]:overflow-hidden">
@@ -33,10 +34,16 @@ export function AppShell({ panel, globe }: { panel: ReactNode; globe: ReactNode 
         aria-label="Case"
         className="glass relative z-10 mx-3 mb-3 flex flex-col min-[900px]:absolute min-[900px]:top-(--header-height) min-[900px]:bottom-6 min-[900px]:left-6 min-[900px]:m-0 min-[900px]:w-(--panel-width)"
       >
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 [scrollbar-gutter:stable] [scrollbar-width:thin]">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain [scrollbar-gutter:stable] [scrollbar-width:thin]">
           {panel}
         </div>
       </section>
+
+      {/* Empty until Investigate; never blocks the globe while empty. */}
+      <div
+        id={CASE_RESULTS_SLOT}
+        className="pointer-events-none relative z-10 mx-3 mb-3 flex flex-col empty:hidden min-[900px]:absolute min-[900px]:top-(--header-height) min-[900px]:right-6 min-[900px]:bottom-6 min-[900px]:m-0 min-[900px]:w-(--results-width)"
+      />
     </div>
   );
 }
