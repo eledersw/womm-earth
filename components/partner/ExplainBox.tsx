@@ -6,6 +6,7 @@ import { caseKey } from "@/lib/state/case-codec";
 import { useCase } from "@/lib/state/use-case";
 import { partnerCopy } from "@/lib/copy/partner";
 import { readSse } from "@/lib/partner/sse-client";
+import { approvedDemo } from "@/lib/partner/demo-cache";
 import demos from "@/lib/partner/demo-explanations.json";
 import type { ExplainInput } from "@/lib/partner/input";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,7 @@ type Props = { result: RegionAnalysis; variable: Variable; regionName: string; l
 export function ExplainBox(props: Props) {
   const { state } = useCase();
   const key = caseKey(state);
-  const demo = (demos as Record<string, Partial<Record<ReadingLevel, string>>>)[key]?.[props.level];
+  const demo = approvedDemo(demos, state, props.result.region.id, props.level);
   const input = useMemo<ExplainInput>(() => ({ mode: "explain", level: props.level, analysis: props.result, variable: props.variable, regionName: props.regionName,
     period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `CUSTOM (${state.months?.join(",")})` : state.season,
   }), [props.level, props.result, props.variable, props.regionName, state.from, state.to, state.season, state.months]);
@@ -56,7 +57,7 @@ function StreamedExplanation({ input }: { input: ExplainInput }) {
     <div aria-live="polite">
       {status === "loading" && <p>{text ? partnerCopy.draft : partnerCopy.loading}</p>}
       {!!text && <p className="whitespace-pre-wrap">{text}</p>}
-      {status === "error" && <p role="alert">{partnerCopy.offline} {message === partnerCopy.offline ? "" : message}</p>}
+      {status === "error" && <p role="alert">{message || partnerCopy.offline}</p>}
       {status === "stopped" && <p>{partnerCopy.cancelled}</p>}
     </div>
     {status === "loading" ? <Button size="sm" variant="outline" onClick={() => { controller?.abort(); setText(""); setStatus("stopped"); }}>{partnerCopy.stop}</Button>

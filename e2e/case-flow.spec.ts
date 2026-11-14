@@ -2,12 +2,19 @@ import { expect, test } from "@playwright/test";
 import variables from "../api/_fixtures/variables.json";
 import regions from "../api/_fixtures/regions.json";
 import fixture from "../api/_fixtures/analyze.json";
+import regionCatalog from "../api/_data/regions.json";
+// Legacy HTTP fixtures predate the [lng, lat] seam. Use the actual catalogue's
+// centroid for camera checks without modifying Oier's fixture files.
+const regionFixtures = regions.map((region) => ({ ...region, centroid: regionCatalog.find((item) => item.id === region.id)?.centroid ?? region.centroid }));
 
 // Browser checks exercise the real URL adapter and controls against the official
 // HTTP fixtures. They do not claim validation of the scientific data pipeline.
 test.beforeEach(async ({ page }) => {
+  // These tests exercise the panel. Globe geometry is covered by its owner.
+  await page.route("**/geo/*.geojson", (route) => route.fulfill({ json: { type: "FeatureCollection", features: [] } }));
+  await page.route("**/api/py/mirror", (route) => route.fulfill({ json: { base: { region: route.request().postDataJSON().regions[0], slope_per_decade: 0.8, p: 0.01, z: 2.5, tier: "confirmed" }, mirrors: [], none_found: true } }));
   await page.route("**/api/py/variables", (route) => route.fulfill({ json: variables }));
-  await page.route("**/api/py/regions", (route) => route.fulfill({ json: regions }));
+  await page.route("**/api/py/regions", (route) => route.fulfill({ json: regionFixtures }));
   await page.route("**/api/py/analyze", (route) => {
     const body = route.request().postDataJSON();
     return route.fulfill({ json: {
@@ -131,4 +138,78 @@ test("four-region Scientist comparison fits narrow windows and shows warnings", 
   await page.screenshot({ path: test.info().outputPath("four-regions-light.png"), fullPage: true });
   await page.evaluate(() => document.documentElement.classList.add("dark"));
   await page.screenshot({ path: test.info().outputPath("four-regions-dark.png"), fullPage: true });
+});
+
+test("predict gates evidence and explanations; correlation and mirrors use the active Case", async ({ page }) => {
+  let explains = 0;
+  const mirror = { base: { region: "US-WI", slope_per_decade: 0.8, p: 0.01, z: 2.5, tier: "confirmed" }, mirrors: [{ region: "NR-SAHEL", slope_per_decade: -0.4, p: 0.02, z: -2.4 }], none_found: false };
+  await page.route("**/api/py/mirror", (route) => {
+    expect(route.request().postDataJSON().regions).toEqual(["US-WI"]);
+    return route.fulfill({ json: mirror });
+  });
+  await page.route("**/api/py/correlate", (route) => {
+    const request = route.request().postDataJSON();
+    expect(request.region).toBe("US-WI"); expect(request.max_lag).toBe(6);
+    return route.fulfill({ json: { n: 24, n_eff: 20, pearson_raw: 0.68, pearson_detrended: 0.15, spearman_raw: 0.65, spearman_detrended: 0.12, p_raw: 0.01, p_detrended: 0.52, best_lag: 0, best_lag_r: 0.68,
+      lags: [{ lag: -1, r: 0.4 }, { lag: 0, r: 0.68 }, { lag: 1, r: 0.5 }], scatter: [{ t: "2002-01", x: 1, y: 3 }, { t: "2002-02", x: 2, y: 4 }, { t: "2002-03", x: 3, y: 4 }], warning: "both_trending" } });
+  });
+  await page.route("**/api/partner", (route) => { explains++; return route.fulfill({ contentType: "text/event-stream", body: 'data: {"type":"error","message":"Unavailable"}\n\ndata: {"type":"done"}\n\n' }); });
+  await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
+  await page.getByRole("checkbox", { name: "Predict before reveal" }).check();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Up", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toHaveCount(0);
+  await expect(page.getByRole("figure", { name: "Yearly series" })).toHaveCount(0);
+  expect(explains).toBe(0);
+  await page.getByRole("button", { name: "Up", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
+  await expect(page.getByText(/You guessed Up; the data says Up/)).toBeVisible();
+  await page.getByRole("combobox", { name: "Compare with another variable" }).selectOption("PRECTOTCORR");
+  await expect(page.getByText("Both are trending, but that alone doesn't mean they're connected.")).toBeVisible();
+  await expect(page.getByRole("img", { name: "Paired monthly anomalies", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Show on globe", exact: true }).click();
+  await expect(page.getByText("Mirror highlight requested on the globe.")).toBeVisible();
+  await page.screenshot({ path: test.info().outputPath("case-explorations.png"), fullPage: true });
+  await page.getByRole("button", { name: "Compare Sahel", exact: true }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("r")).toBe("US-WI,NR-SAHEL");
+});
+
+test("current-Case guide navigates without analyzing and stays mounted across Investigate", async ({ page }) => {
+  let analyses = 0;
+  await page.route("**/api/py/analyze", (route) => { analyses++; return route.fulfill({ json: fixture }); });
+  await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
+  const initial = new URL(page.url()).searchParams;
+  await page.getByRole("button", { name: "Guide me through this Case", exact: true }).click();
+  const guide = page.getByRole("region", { name: "Guided cases", exact: true });
+  await expect(guide.getByText("Step 1 of 5", { exact: true })).toBeVisible();
+  expect(analyses).toBe(0);
+  await guide.getByRole("button", { name: "Next", exact: true }).click();
+  await expect(guide.getByText("Step 2 of 5", { exact: true })).toBeVisible();
+  await guide.getByRole("button", { name: "Previous", exact: true }).click();
+  await expect(guide.getByText("Step 1 of 5", { exact: true })).toBeVisible();
+  await guide.getByRole("button", { name: "Play", exact: true }).click();
+  await guide.getByRole("button", { name: "Pause", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
+  await expect(guide.getByText("Step 1 of 5", { exact: true })).toBeVisible();
+  await page.screenshot({ path: test.info().outputPath("current-case-guide.png"), fullPage: true });
+  await guide.getByRole("button", { name: "Exit guide", exact: true }).click();
+  await expect(guide.getByText("Step 1 of 5", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Guide me through this Case", exact: true })).toBeVisible();
+  expect(new URL(page.url()).searchParams.get("r")).toBe(initial.get("r"));
+  expect(analyses).toBe(1);
+});
+
+test("case from URL shows verdict within ten seconds after Investigate", async ({ page }) => {
+  await page.route("**/api/partner", (route) => route.fulfill({ contentType: "text/event-stream", body: 'data: {"type":"text","text":"Fixture explanation."}\n\ndata: {"type":"done"}\n\n' }));
+  await page.goto("/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN");
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible({ timeout: 10000 });
+});
+
+test("season change updates URL", async ({ page }) => {
+  await page.goto("/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN");
+  await page.getByRole("radio", { name: "JJA", exact: true }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("s")).toBe("JJA");
 });

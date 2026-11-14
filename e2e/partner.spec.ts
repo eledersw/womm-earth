@@ -4,6 +4,9 @@ import regions from "../api/_fixtures/regions.json";
 import fixture from "../api/_fixtures/analyze.json";
 const sse = (text: string) => `data: ${JSON.stringify({ type: "text", text })}\n\ndata: {"type":"done"}\n\n`;
 test.beforeEach(async ({ page }) => {
+  // These tests exercise the panel. Globe geometry is covered by its owner.
+  await page.route("**/geo/*.geojson", (route) => route.fulfill({ json: { type: "FeatureCollection", features: [] } }));
+  await page.route("**/api/py/mirror", (route) => route.fulfill({ json: { base: { region: route.request().postDataJSON().regions[0], slope_per_decade: 0.8, p: 0.01, z: 2.5, tier: "confirmed" }, mirrors: [], none_found: true } }));
   await page.route("**/api/py/variables", (route) => route.fulfill({ json: variables }));
   await page.route("**/api/py/regions", (route) => route.fulfill({ json: regions }));
   await page.route("**/api/py/analyze", (route) => route.fulfill({ json: fixture }));
@@ -78,6 +81,7 @@ test("Partner proposes a Case without changing the URL until Open this case", as
     return route.fulfill({ contentType: "text/event-stream", body: events.map((e) => `data: ${JSON.stringify(e)}\n\n`).join("") });
   });
   await page.goto("/?r=US-WI");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await page.getByRole("textbox", { name: "Your question" }).fill("Is Wisconsin getting smokier in summer?");
   await page.getByRole("button", { name: "Send", exact: true }).click();
   await expect(page.getByRole("button", { name: "Open this case", exact: true })).toBeVisible();
@@ -90,8 +94,9 @@ test("Partner proposes a Case without changing the URL until Open this case", as
 });
 test("Partner cancellation discards late text and allows a fresh question", async ({ page }) => {
   const held: Route[] = [];
-  await page.route("**/api/partner", (route) => { held.push(route); });
-  await page.goto("/");
+  await page.route("**/api/partner", (route) => { if (route.request().postDataJSON().mode === "chat") held.push(route); else return route.fulfill({ contentType: "text/event-stream", body: sse("Template explanation.") }); });
+  await page.goto("/?r=US-WI");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await page.getByRole("textbox", { name: "Your question" }).fill("Check this Case");
   await page.getByRole("button", { name: "Send", exact: true }).click();
   await expect.poll(() => held.length).toBe(1);
@@ -100,4 +105,17 @@ test("Partner cancellation discards late text and allows a fresh question", asyn
   await expect(page.getByText("Stale chat response", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("textbox", { name: "Your question" })).toHaveValue("Check this Case");
   await expect(page.getByRole("button", { name: "Send", exact: true })).toBeEnabled();
+});
+
+// Explicit opt-in: real backend and Claude, with no fixture or SSE routes.
+// BASE_URL points at the deployment with its server-side API key configured.
+test("live partner proposes a case", async ({ page }) => {
+  test.skip(process.env.E2E_PARTNER !== "1", "Requires E2E_PARTNER=1 and a deployment with Anthropic configured.");
+  test.setTimeout(120000);
+  await page.unrouteAll();
+  await page.goto("/?v=T2M&r=US-CO&from=1981&to=2025&s=ANN&lvl=student");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await page.getByRole("textbox", { name: "Ask the Partner" }).fill("Analyze annual T2M in US-CO from 1981 to 2025 with analyze_case. Explain the returned verdict, then use propose_case to offer this Case for me to open.");
+  await page.getByRole("button", { name: "Send", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Open this case", exact: true })).toBeVisible({ timeout: 65000 });
 });

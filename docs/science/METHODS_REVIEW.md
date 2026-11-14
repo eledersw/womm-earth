@@ -31,6 +31,12 @@ This packet supports the playbook's METHODS v1 review. `METHODS.md` is normative
 
 ## Acceptance record
 
+**Subsequent verification (2026-11-14):** the existing nine-case key reproduced successfully; the six numerical yearly cases passed scipy/pymannkendall 1.4.3/statsmodels cross-checks. `pytest tests/test_golden.py -q -p no:cacheprovider` confirms one skipped test. The separate engine comparison matches all checked fields in only 1/7 yearly cases (the minimum-length rejection); case 7 also differs in verdict. Actual results and differing fields are saved in `golden_cases/verification.json`. An isolated ignored science environment now supplies the dependencies; the earlier environment-limitation record below describes the original attempt, not the current verification.
+
+The real-data dry-run also exposes a material disagreement: for `GWETROOT`, `NR-ARAL`, 1981–2025, Annual, the current engine returns Confirmed, whereas the v1 reference returns No case (capped MK p ≈0.00636, adjusted OLS p ≈0.42062). See `demo/results.json`. This is an implementation review blocker, not evidence that the supplied answer key needs to be recreated.
+
+**Latest CLI check:** after the team's provider-user fix, all three FINAL cases and both BACKUP cases succeed through the unmodified CLI; see `demo/cli_checks.json`. This resolves the request-format issue locally, not the v1 numerical mismatches. The Wisconsin precipitation backup also returns 27 years-needed under No case, contrary to v1's visibility rule. Reference and core-engine source hashes still match the verified comparison after rebasing.
+
 - Methods document: v1 written and reconciled to the existing key; missing-year inference is explicitly unresolved.
 - Oier review: pending.
 - Engine comparison: pending; harness mismatch identified by inspection, not a test run.

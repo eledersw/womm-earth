@@ -68,7 +68,7 @@
   - Do the same for any candidate case that needs a satellite series (e.g. OMI NO₂ over a city).
   - **Done when:** the CSVs are in `docs/science/hero/` and Coder B is told.
 
-- [ ] **H2–H5: golden cases, the engine's answer key.**
+- [x] **H2–H5: golden cases, the engine's answer key.**
   - Follow `golden_cases/README.md`. Build the 6 series:
     1. a linear trend with white noise;
     2. pure noise;
@@ -89,19 +89,19 @@
   - Then mark each row `signed off`. The Story lead edits the student wording for tone.
   - **Done when:** at least 12 variables are `signed off`.
 
-- [ ] **H6–H8: demo-case dry-run.**
+- [x] **H6–H8: demo-case dry-run.**
   - Run every candidate in `DEMO_CASES.md` (plus backups) with `python scripts/case_cli.py ...`; Claude can run it for you.
   - Fill in each case's result table.
   - Check each result against published research. *Ask Claude with deep research:* "Does published research agree that <variable> over <region> has trended <up/down> since <year>? Give 1–2 citations."
   - Decide keep or swap, and pick the final 3 cases + 2 backups.
   - **Done when:** `DEMO_CASES.md` shows "FINAL" on 3 cases and the Story lead has it.
 
-- [ ] **H8–H10: process cards.**
+- [x] **H8–H10: process cards.**
   - Fill in `PROCESS_CARDS.md`: 8–12 cards, each 80–120 words, in a student and a scientist version, with 1–2 citations. Start with the cards your final cases and mirror pairs need.
   - Tell Ekaitz when cards are ready; he converts them into `lib/partner/process-cards.json`. App code is his area, so don't write it yourself.
   - **Done when:** every final demo case has a card.
 
-- [ ] **H8–H11: verdict templates and grounding rules.**
+- [x] **H8–H11: verdict templates and grounding rules.**
   - Fill in `VERDICT_TEMPLATES.md`: the wording for each tier × reading level with placeholders, the misconceptions to avoid, and the partner grounding rules for Claude's system prompt.
   - Review the statistical tooltips in `docs/pitch/COPY.md` with the Story lead.
   - **Done when:** Coder C has the templates and rules.
