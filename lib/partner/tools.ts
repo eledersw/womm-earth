@@ -51,7 +51,7 @@ export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEve
       if ("error" in checked) return checked;
       const { data, error } = await py.POST("/api/py/analyze", { body: { variable: c.variable, regions: c.regions, start: c.from, end: c.to, season: c.season, months: c.months }, signal: requestSignal() });
       if (error || !data) throw new Error("analysis");
-      return { results: data.results.map((r) => summarizeAnalysis(r as RegionAnalysis, checked.variable, r.region.name, `${c.from}–${c.to}`, c.season)) };
+      return { results: data.results.map((r) => summarizeAnalysis(r as RegionAnalysis, checked.variable, r.region.name, `${c.from}–${c.to}`, c.season === "CUSTOM" ? `CUSTOM (${c.months?.join(",")})` : c.season)) };
     }),
     define("correlate", z.object({ var_x: id, var_y: id, region: id, ...period }).strict(), "Correlate two variables; correlation does not establish causation.", async (input) => {
       for (const v of [input.var_x, input.var_y]) { const checked = await validate(v, [input.region], input.from, input.to); if ("error" in checked) return checked; }

@@ -34,6 +34,6 @@ it("covers all selected FINAL and BACKUP demo candidates without treating cards 
     expect(card.applies_to.variables).toContain(variable);
     expect(card.applies_to.regions).toContain(region);
   }
-  expect(SYSTEM).toContain("Report the engine's verdict without recomputing or reclassifying it");
-  expect(SYSTEM).toContain("No causal claims from significance");
+  expect(SYSTEM).toContain("Keep the engine's reported verdict distinct from scientific approval");
+  expect(SYSTEM).toContain("Significance establishes neither");
 });

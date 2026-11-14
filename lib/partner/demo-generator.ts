@@ -3,6 +3,7 @@ import { caseFromQuery, caseKey } from "@/lib/state/case-codec";
 import type { AnalyzeResponse, Variable } from "@/lib/api/types";
 import type { PartnerEvent } from "./events";
 import { explainInputSchema, type ExplainInput } from "./input";
+import { inspectEvidence } from "./evidence";
 import { summarizeAnalysis } from "./summarize";
 import { checkNumbers } from "./number-check";
 import type { DemoCache } from "./demo-cache";
@@ -25,6 +26,8 @@ export async function generateDemoExplanations(tours: Tour[], dependencies: {
     const regions: NonNullable<DemoCache[string]["regions"]> = {};
     for (const result of analysis.results) {
       if (!result.stats || result.verdict.tier === "too_short") throw new Error("Demo series cannot support an explanation.");
+      const evidence = inspectEvidence(result, state);
+      if (!["combined", "mk_only"].includes(evidence.status) || evidence.gapped_years) throw new Error("Demo engine evidence needs alignment/review before cache generation.");
       const texts = { student: "", scientist: "" };
       for (const level of ["student", "scientist"] as const) {
         const input = explainInputSchema.parse({ mode: "explain", level, analysis: result, variable, regionName: result.region.name, period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `CUSTOM (${state.months?.join(",")})` : state.season });
