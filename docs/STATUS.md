@@ -1,6 +1,6 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 18:37 (H6.6), by Ekaitz (coder-c Task 7 panel completion)
+**Updated:** Sat 2026-11-14 18:54 (H6.9), by Ekaitz (coder-c guided-tour player)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
@@ -53,7 +53,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 |---|---|---|---|---|
 | Lead | Eleder | Globe live (#14); Southern Ocean / Arctic click fix (#17); required checks on `main`; three dark mockups for the redesign | Pick the dark direction, then retoken the shell; Task 5 trend-map colouring (needs Oier's `/trendmap`) | 🟡 |
 | Coder B (data & stats) | Oier | Live POWER `/analyze` merged (#16): dynamic monthly POWER catalogue, request-time regional observations, no local series fallback. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review the slide claim. | **Fix the red `api` check (see Blockers).** Regenerate OpenAPI/types; validate a live case and POWER availability limits. | 🟡 |
-| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–6 merged. Task 7 panel completed: correlation/scatter/lags with raw/detrended statistics, mirror list/Compare, conditional years meter and predict-before-reveal. Check + 135 tests + 13 Chromium E2E pass with fixtures; screenshot reviewed. | User publishes `ekaitz/task7-case-explorations` and handles PR/merge. Eleder must consume mirror highlight and predict/reveal flags in GlobeView; full globe acceptance remains pending. Live data/Claude and scientific review remain pending. | 🟡 |
+| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–7 panel work merged (Task 7: PR #26). Task 8 player completed: canonical Case steps, fly-to/highlight/reveal, Prev/Next/Play/Exit, restoration and procedural current-Case guide. Check + 143 tests + 14 Chromium E2E pass; screenshot reviewed. Official demo collection stays empty pending approvals. | Sergio: 3 FINAL cases in DEMO_CASES.md; Edur: tour captions in DEMO_SCRIPT.md. User publishes `ekaitz/task8-guided-tours` and handles PR/merge. Task 7 globe highlight/predict integration and live verification remain pending. | 🟡 |
 | Methods & Validity lead | Sergio | On `sergio/methods`: DATA_CATALOG complete with 16 scientifically signed-off POWER variables, live metadata/coverage evidence and citations. METHODS v1 ready for Oier review; engine acceptance not granted. | Oier: fix regional user parameter and integrate catalog metadata (see `docs/science/catalog/README.md`); methods/golden review. Edur tone review and Giovanni hero import remain pending. | 🟡 |
 | Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
 
@@ -84,5 +84,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 - [methods-lead] Catalog handoff: NASA regional API rejects the app's `user=womm_earth` (422, alphanumeric required); `user=wommearth` succeeds with valid bounds. Approved definitions are not yet overlaid on the dynamic catalog. Reproduction and owner actions: `docs/science/catalog/README.md`. · Oier (API/integration), Edur (tone review) · since 2026-11-14
 
 - [coder-c] Task 7 globe integration: `components/globe/GlobeView.tsx` does not consume `highlight` (mirror regions/arcs) or `predictMode && !reveal` (hide trend colours). Panel already writes the frozen store fields; no seam change needed · Eleder (globe) · since H6.6
+
+- [coder-c] Task 8 official demos: DEMO_CASES.md has no FINAL decisions and DEMO_SCRIPT.md captions are placeholders; tours.json remains empty. Procedural current-Case guide is available, with no invented scientific results · Sergio (FINAL cases) + Edur (captions) · since H6.9
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
