@@ -68,3 +68,9 @@ it("rejects too-short series and malformed cache metadata", async () => {
   await expect(generateDemoExplanations([tour], deps)).rejects.toThrow("cannot support");
   expect(approvedDemo({ [caseKey(state)]: { student: "Test", scientist: "Test", generated_at: "invalid", approved_by: "methods-lead" } }, state, "US-WI", "student")).toBeUndefined();
 });
+it("blocks demo generation before Claude when engine statistics conflict with its tier", async () => {
+  const deps = dependencies();
+  deps.analyze.mockResolvedValue({ ...fixture, results: [{ ...analysis, stats: { ...analysis.stats!, tests_agree: false, ols: { ...analysis.stats!.ols, p: 0.42 } } }] });
+  await expect(generateDemoExplanations([tour], deps)).rejects.toThrow("alignment/review");
+  expect(deps.explain).not.toHaveBeenCalled();
+});

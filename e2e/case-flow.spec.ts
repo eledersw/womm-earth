@@ -100,7 +100,7 @@ test("Investigate opens the results pane; the explain-and-ask pane stays open", 
 });
 
 test("Evidence switches yearly/monthly/anomalies and Scientist renders the methods table", async ({ page }) => {
-  await page.goto("/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN&lvl=scientist");
+  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA&lvl=scientist");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   const evidence = page.locator('[data-case-step="evidence"]');
   await expect(evidence.getByRole("img", { name: "Yearly series", exact: true })).toBeVisible();
@@ -119,7 +119,7 @@ test("Evidence switches yearly/monthly/anomalies and Scientist renders the metho
 test("four-region Scientist comparison fits narrow windows and shows warnings", async ({ page }) => {
   await page.route("**/api/py/analyze", (route) => {
     const body = route.request().postDataJSON();
-    return route.fulfill({ json: { ...fixture, case: body, results: body.regions.map((id: string) => ({ ...fixture.results[0], region: regions.find((r) => r.id === id), warnings: ["tests_disagree"] })) } });
+    return route.fulfill({ json: { ...fixture, case: body, results: body.regions.map((id: string) => ({ ...fixture.results[0], region: regions.find((r) => r.id === id), stats: { ...fixture.results[0].stats, tests_agree: false, ols: { ...fixture.results[0].stats.ols, p: 0.1 } }, warnings: ["tests_disagree"] })) } });
   });
   await page.goto("/?v=T2M&r=USA,US-WI,ESP,NR-SAHEL&from=2002&to=2025&s=JJA&lvl=scientist");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
@@ -212,4 +212,18 @@ test("season change updates URL", async ({ page }) => {
   await page.goto("/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN");
   await page.getByRole("radio", { name: "JJA", exact: true }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("s")).toBe("JJA");
+});
+
+test("inconsistent engine verdict stays provisional and does not trigger Explain", async ({ page }) => {
+  let explains = 0;
+  await page.route("**/api/py/analyze", (route) => route.fulfill({ json: {
+    ...fixture, results: [{ ...fixture.results[0], stats: { ...fixture.results[0].stats, tests_agree: false, ols: { ...fixture.results[0].stats.ols, p: 0.42 } } }],
+  } }));
+  await page.route("**/api/partner", (route) => { explains++; return route.fulfill({ status: 503 }); });
+  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
+  await expect(page.getByText(/Treat this result as provisional/)).toBeVisible();
+  await expect(page.getByRole("region", { name: "Explain this verdict" })).toHaveCount(0);
+  expect(explains).toBe(0);
 });

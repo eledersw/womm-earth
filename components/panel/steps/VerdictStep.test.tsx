@@ -12,7 +12,7 @@ it("shows the Scientist table and gates percentages by ratio scale", () => {
   const { rerender } = render(<VerdictStep results={[r]} context={context} level="scientist" />);
   expect(screen.getByRole("table")).toBeDefined();
   expect(screen.queryByText("% of period mean per decade")).toBeNull();
-  rerender(<VerdictStep results={[r]} context={context} level="scientist" ratioScale />);
+  rerender(<VerdictStep results={[r]} context={{ ...context, unit: "mm/day" }} level="scientist" ratioScale />);
   expect(screen.getByText("% of period mean per decade")).toBeDefined();
   rerender(<VerdictStep results={[r]} context={context} level="student" />);
   expect(screen.queryByRole("table")).toBeNull();
@@ -21,4 +21,16 @@ it("renders one card per region and keeps too-short series usable without statis
   render(<VerdictStep results={[base, { ...base, region: { ...base.region, id: "ESP", name: "Spain" }, stats: null, verdict: { tier: "too_short", years_needed: null, reason: null } }]} context={context} level="scientist" />);
   expect(screen.getAllByRole("article")).toHaveLength(2);
   expect(screen.getByRole("heading", { name: "Spain: Too short to judge" })).toBeDefined();
+});
+it("withholds scientific tables and Explain for failed eligibility despite a reported Confirmed", () => {
+  render(<VerdictStep results={[{ ...base, yearly: base.yearly.slice(0, 2) }]} context={context} level="scientist" />);
+  expect(screen.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeDefined();
+  expect(screen.getByText(/Treat this result as provisional/)).toBeDefined();
+  expect(screen.queryByRole("table")).toBeNull();
+  expect(screen.queryByRole("region", { name: "Explain this verdict" })).toBeNull();
+});
+it("never presents an unavailable adjusted OLS p-value as observed inference", () => {
+  render(<VerdictStep results={[{ ...base, stats: { ...base.stats!, ols: { ...base.stats!.ols, n_eff: 2 } } }]} context={context} level="scientist" />);
+  expect(screen.getByText(/disclosed capped-MK-only fallback/)).toBeDefined();
+  expect(screen.getAllByText("Statistics are unavailable for this Case.")).toHaveLength(2);
 });

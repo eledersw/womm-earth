@@ -41,7 +41,7 @@ test("too-short verdicts do not request explanations", async ({ page }) => {
   let requests = 0;
   await page.route("**/api/py/analyze", (route) => route.fulfill({ json: { ...fixture, results: [{ ...fixture.results[0], stats: null, verdict: { tier: "too_short", years_needed: null, reason: null } }] } }));
   await page.route("**/api/partner", (route) => { requests++; return route.fulfill({ contentType: "text/event-stream", body: sse("Unexpected") }); });
-  await page.goto("/?r=US-WI");
+  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Too short to judge" })).toBeVisible();
   await expect(page.getByRole("region", { name: "Explanation" })).toHaveCount(0);
@@ -50,7 +50,7 @@ test("too-short verdicts do not request explanations", async ({ page }) => {
 test("Stop cancels an in-flight explanation and permits retry", async ({ page }) => {
   const held: Route[] = [];
   await page.route("**/api/partner", (route) => { held.push(route); });
-  await page.goto("/?r=US-WI");
+  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect.poll(() => held.length).toBe(1);
   const box = page.getByRole("region", { name: "Explanation" });
@@ -80,7 +80,7 @@ test("Partner proposes a Case without changing the URL until Open this case", as
     ];
     return route.fulfill({ contentType: "text/event-stream", body: events.map((e) => `data: ${JSON.stringify(e)}\n\n`).join("") });
   });
-  await page.goto("/?r=US-WI");
+  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await page.getByRole("textbox", { name: "Your question" }).fill("Is Wisconsin getting smokier in summer?");
   await page.getByRole("button", { name: "Send", exact: true }).click();
@@ -94,8 +94,11 @@ test("Partner proposes a Case without changing the URL until Open this case", as
 });
 test("Partner cancellation discards late text and allows a fresh question", async ({ page }) => {
   const held: Route[] = [];
-  await page.route("**/api/partner", (route) => { if (route.request().postDataJSON().mode === "chat") held.push(route); else return route.fulfill({ contentType: "text/event-stream", body: sse("Template explanation.") }); });
-  await page.goto("/?r=US-WI");
+  await page.route("**/api/partner", (route) => {
+    if (route.request().postDataJSON().mode === "chat") { held.push(route); return; }
+    return route.fulfill({ contentType: "text/event-stream", body: sse("Template explanation.") });
+  });
+  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await page.getByRole("textbox", { name: "Your question" }).fill("Check this Case");
   await page.getByRole("button", { name: "Send", exact: true }).click();
