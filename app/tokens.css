@@ -1,0 +1,71 @@
+/*
+ * Design tokens: the "strip-chart recorder" world (impeccable seed 3670b4b9).
+ * Owner: Eleder. Components read these through Tailwind (bg-paper, text-ink, ...)
+ * or var(--token) in charts. Never hard-code hex in components.
+ *
+ * Contrast (checked with the dataviz validator, WCAG 2 ratio):
+ *   ink 16.5 · ink-2 8.8 · ink-3 5.8 on paper; enamel-ink 10.3 on enamel;
+ *   window-ink 15.1 on window; signal ring 3.7 on paper.
+ * Pens (series-1..4): categorical palette PASS (CVD ΔE ≥ 21.6) on paper.
+ * Trend ramp: validated as ordinal arms ON THE DARK WINDOW (magnitude rises
+ * with lightness there); poles CVD ΔE ≥ 16. Use it on --window, not on paper.
+ */
+:root {
+  /* Chart paper + ink */
+  --paper: #f3f6f1;
+  --paper-2: #e5ece4; /* recessed wells, hover */
+  --paper-leaf: #fafcf9; /* a sheet lying on the roll (popovers, cards) */
+  --grid-minor: #dbe7dd;
+  --grid-major: #a3b8aa;
+  --ink: #14171a;
+  --ink-2: #3d4744;
+  --ink-3: #56625e;
+  --rule: #7e968a; /* control borders: >= 3:1 on paper */
+
+  /* Enamel instrument frame */
+  --enamel: #2e3b36;
+  --enamel-2: #3a4943;
+  --enamel-seam: #1b2420;
+  --enamel-ink: #eef2ec;
+  --enamel-ink-2: #b9c6bf;
+
+  /* Viewing window (globe) */
+  --window: #0e1a1f;
+  --window-2: #16262d;
+  --window-ink: #e6eef0;
+  --window-ink-2: #a7b6bb;
+
+  /* Pilot lamp: focus, selection, live state */
+  --signal: #b86e00; /* on paper */
+  --signal-lamp: #f2b233; /* on enamel / window */
+
+  /* Pen inks: one channel per region, assigned in this order, never cycled */
+  --series-1: #d12a2a;
+  --series-2: #1f5fbf;
+  --series-3: #1c8c5a;
+  --series-4: #6d3fb0;
+
+  /* Trend ramp (on --window): up = increase, down = decrease; 3 = strongest */
+  --trend-up-3: #f59a73;
+  --trend-up-2: #d55c3f;
+  --trend-up-1: #9c3b2f;
+  --trend-neutral: #46525a;
+  --trend-down-1: #2f64a0;
+  --trend-down-2: #4f95d6;
+  --trend-down-3: #9ccbf0;
+
+  /* Errors: reserved, never a series colour; always with an icon + label */
+  --critical: #b3261e;
+
+  /* Type: two sizes inside the panel; rank by weight, case and rule */
+  --text-body: 1.125rem; /* 18px, projector floor */
+  --text-label: 0.875rem; /* 14px condensed uppercase labels */
+  --leading-body: 1.5;
+  --tracking-label: 0.08em;
+
+  /* Machined, not rounded SaaS */
+  --radius: 0.125rem;
+  --seam: 1px;
+  --panel-width: 440px;
+  --header-height: 3.25rem;
+}
