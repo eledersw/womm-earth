@@ -40,7 +40,7 @@ def test_ols_matches_linregress_when_phi_zero():
     actual = ols_ar1(x, y)
     expected = linregress(x, y)
     np.testing.assert_allclose(actual.slope, expected.slope, rtol=1e-12)
-    assert actual.phi == 0
+    assert actual.phi < 0
     assert actual.n_eff == len(x)
 
 

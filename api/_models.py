@@ -106,18 +106,18 @@ class YearlyPoint(BaseModel):
 class FitPoint(BaseModel):
     year: int
     ols: float
-    ols_low: float
-    ols_high: float
+    ols_low: float | None
+    ols_high: float | None
     sen: float
 
 
 class Ols(BaseModel):
     slope: float
     intercept: float
-    se: float
-    p: float
-    ci_low: float
-    ci_high: float
+    se: float | None
+    p: float | None
+    ci_low: float | None
+    ci_high: float | None
     r2: float
     n_eff: float
 
@@ -143,7 +143,7 @@ class TrendStats(BaseModel):
     ols: Ols
     mk: Mk
     sen: Sen
-    tests_agree: bool
+    tests_agree: bool | None
     period_mean: float
     change_per_decade: float
     total_change: float

@@ -37,7 +37,7 @@ function StatsTable({ stats: s, unit, ratioScale, olsAvailable }: { stats: Trend
     <table className="w-full text-left text-sm"><caption className="text-left font-medium">{c.table} · {unit}</caption>
       <thead><tr>{[c.method, c.slope, c.interval, c.p].map((label) => <th key={label} className="p-2">{label}</th>)}</tr></thead>
       <tbody>
-        <tr><th scope="row">{c.ols}</th><td>{fmtSlope(s.ols.slope * 10)}</td><td>{olsAvailable ? `${fmtSlope(s.ols.ci_low * 10)} … ${fmtSlope(s.ols.ci_high * 10)}` : c.unavailable}</td><td>{olsAvailable ? fmtP(s.ols.p) : c.unavailable}</td></tr>
+        <tr><th scope="row">{c.ols}</th><td>{fmtSlope(s.ols.slope * 10)}</td><td>{olsAvailable && s.ols.ci_low !== null && s.ols.ci_high !== null ? `${fmtSlope(s.ols.ci_low * 10)} … ${fmtSlope(s.ols.ci_high * 10)}` : c.unavailable}</td><td>{olsAvailable && s.ols.p !== null ? fmtP(s.ols.p) : c.unavailable}</td></tr>
         <tr><th scope="row">{c.mk}</th><td>—</td><td>—</td><td>{fmtP(s.mk.p)}</td></tr>
         <tr><th scope="row">{c.sen}</th><td>{fmtSlope(s.sen.slope * 10)}</td><td>{fmtSlope(s.sen.ci_low * 10)} … {fmtSlope(s.sen.ci_high * 10)}</td><td>—</td></tr>
       </tbody>
