@@ -44,7 +44,7 @@ Follow `docs/process/MERGING.md`:
 - **Engine code is test-first,** written against the golden cases in `tests/fixtures/golden/`.
 - **Claude partner:**
   - Every number it states comes from a tool result, and every physical explanation comes from a process card.
-  - Model id `claude-opus-5-5`.
+  - Model id `claude-sonnet-5-5` (switched from Opus 5.5 at H7 for cost and speed).
   - The API key is read server-side only, from `ANTHROPIC_API_KEY`.
 - **UI text** comes from `lib/copy/*`, which follows `docs/pitch/COPY.md`.
 - **Freeze at H26:** only P0 fixes after it.

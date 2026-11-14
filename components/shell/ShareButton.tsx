@@ -20,7 +20,7 @@ export function ShareButton() {
       type="button"
       onClick={share}
       aria-label={shellCopy.share}
-      className="label-nav glass-pill inline-flex h-10 items-center gap-2 rounded-full px-4 whitespace-nowrap text-ink transition-[transform,background-color] duration-150 ease-out hover:bg-well-2 active:scale-[0.98]"
+      className="label-nav glass-pill inline-flex h-9 items-center gap-2 rounded-full px-3.5 whitespace-nowrap text-ink transition-[transform,background-color] duration-150 ease-out hover:bg-well-2 active:scale-[0.98]"
     >
       <Link2 aria-hidden className="size-4" strokeWidth={1.75} />
       <span aria-hidden>{shellCopy.shareShort}</span>

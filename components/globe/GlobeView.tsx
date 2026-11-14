@@ -13,7 +13,10 @@ import {
   type CapRing,
   type RegionFeature,
 } from "./layers";
+import { useVariables } from "@/components/panel/useVariables";
+import { UP_IS_WET, colorFor, domainFor, formatSlope, mixHex, type TrendRamp } from "./palette";
 import { povStore } from "./povStore";
+import { useTrendMap } from "./useTrendMap";
 import { useGeo } from "./useGeo";
 import { useRegionToggle } from "./useRegionToggle";
 
@@ -30,8 +33,15 @@ function readTokens() {
     oceanSeam: v("--globe-ocean-seam"),
     atmosphere: v("--globe-atmosphere"),
     pens: [v("--series-1"), v("--series-2"), v("--series-3"), v("--series-4")],
+    ramp: {
+      up: [v("--trend-up-1"), v("--trend-up-2"), v("--trend-up-3")],
+      down: [v("--trend-down-1"), v("--trend-down-2"), v("--trend-down-3")],
+      neutral: v("--trend-neutral"),
+    } as TrendRamp,
   };
 }
+
+const TIER_WORD = { confirmed: "confirmed", not_proven: "not proven yet", no_case: "no case", too_short: "too short to judge" } as const;
 
 const START_POV = { lat: 28, lng: -35, altitude: 2.3 };
 
@@ -54,6 +64,22 @@ export default function GlobeView() {
   const [zoomedIn, setZoomedIn] = useState(START_POV.altitude < ZOOM_STATES_ALTITUDE);
   const [tokens] = useState(readTokens);
   const reduced = useMemo(() => prefersReducedMotion(), []);
+
+  // Trend map for the current variable, period and season (Task 5).
+  const trend = useTrendMap(state);
+  const variables = useVariables();
+  const unit = variables.byId[state.variable]?.unit ?? "";
+  const hidden = useUiStore((s) => s.predictMode && !s.reveal);
+  const domain = useMemo(() => domainFor(trend.entries), [trend.entries]);
+  const upIsWet = UP_IS_WET.has(state.variable);
+  const trendColor = useCallback(
+    (regionId: string): string | null => {
+      const entry = trend.entries?.[regionId];
+      if (!entry) return null;
+      return colorFor(entry, domain, tokens.ramp, { upIsWet, hidden });
+    },
+    [trend.entries, domain, tokens.ramp, upIsWet, hidden],
+  );
 
   // Fill the viewing window.
   useEffect(() => {
@@ -117,10 +143,12 @@ export default function GlobeView() {
     (f: object) => {
       const pen = penIndex(id(f), regions);
       if (pen !== null) return tokens.pens[pen];
+      const trendFill = trendColor(id(f));
+      if (trendFill) return id(f) === hovered ? mixHex(trendFill, "#ffffff", 0.18) : trendFill;
       if (isOcean(f)) return id(f) === hovered ? tokens.oceanSeam : "rgba(0, 0, 0, 0)";
       return id(f) === hovered ? tokens.landHover : tokens.land;
     },
-    [regions, hovered, tokens],
+    [regions, hovered, tokens, trendColor],
   );
 
   const strokeColor = useCallback(
@@ -146,11 +174,15 @@ export default function GlobeView() {
       const p = (f as RegionFeature).properties;
       const pen = penIndex(p.id, regions);
       const action = pen !== null ? "Click to remove" : "Click to add to the case";
+      const entry = hidden ? undefined : trend.entries?.[p.id];
+      const trendLine = entry
+        ? `<div class="mt-1 flex items-baseline gap-1.5"><span class="figure text-lg">${formatSlope(entry.slope_per_decade)}</span><span class="font-mono text-xs text-ink-2">${unit} / decade · ${TIER_WORD[entry.tier]}</span></div>`
+        : "";
       return `<div class="glass-pill rounded-xl px-3 py-2 text-ink">
         <div class="font-medium">${p.name} <span class="font-mono text-xs text-ink-3">${p.id}</span></div>
-        <div class="label-mono mt-1">${action}</div></div>`;
+        ${trendLine}<div class="label-mono mt-1">${action}</div></div>`;
     },
-    [regions],
+    [regions, hidden, trend.entries, unit],
   );
 
   return (

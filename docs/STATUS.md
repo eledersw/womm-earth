@@ -80,7 +80,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 - [coder-c] At 390px the shell header Share button extends ~2px past the viewport; panel bounds pass independently · Eleder (header) · since H5.7
 
-- [methods-lead] Answer key authoring is complete (9/9 reference cases reproduce), but current golden pytest is skipped and only 1/7 yearly cases matches all checked engine fields. Real Aral GWETROOT 1981–2025 Annual: engine Confirmed vs v1 No case (OLS p ≈0.42062). Oier must integrate the key and align statistics; see `docs/science/golden_cases/verification.json` and `docs/science/METHODS_REVIEW.md`. No validity sign-off. · Oier + Sergio · since 2026-11-14
+- [methods-lead] Task 8 gate FAILED on reviewed main e4225ba and live API: reference 9/9; full checked yearly engine fields 1/7; golden CI still skips delivered fixtures. Production Aral GWETROOT returns Confirmed versus v1 No case; Wisconsin precipitation No case still has 27 additional years. Oier owns statistical alignment/harness/visibility fixes. See `docs/science/review/README.md` and archived evidence. Validity checkpoint remains unticked. · Oier + Sergio · reviewed 2026-11-14
 
 - [methods-lead] Catalog metadata overlay landed on main in PR #24; upstream alphanumeric-user fix also verified by five successful unmodified CLI cases. Original request/overlay blocker resolved. Production metadata QA and engine validity remain separate; Edur tone review pending. See `docs/science/catalog/README.md` for original evidence and `docs/science/demo/cli_checks.json`. · Oier + Sergio + Edur · updated 2026-11-14
 
@@ -91,5 +91,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 - [coder-c] Task 9 official eval (tooling merged #32): EVAL.md has 3/20 complete questions; its Wisconsin smoke Case 1 context differs from the new FINAL 1 Colorado temperature. Harness preflight blocks an incomplete/unresolved run. No accuracy score or scientific approval claimed; real Claude/cache verification remains deferred (key only in Vercel). Python checks could not start: pytest and backend dependencies absent · Sergio (rubric/context reconciliation, score) + deployment/environment setup · since H7.2
 
 - [coder-c] Scientific templates/grounding are integrated with conservative guards, not engine validity sign-off. The current non-nullable OLS contract cannot represent every unavailable-inference case; only the existing n_eff <= 2 diagnostic authorizes an MK-only display fallback. Malformed/unknown inference is withheld. Missing-year inference remains provisional; its years estimate and demo-cache generation are blocked. Edur tone/tooltips adoption and Oier/Sergio validation remain pending · Oier + Sergio + Edur · since H7.7
+
+- [methods-lead] Production trendmap returns the exact one-region fixture for different variable/period requests; fixture Wisconsin summer temperature is +0.8 °C/decade Confirmed versus live /analyze +0.098637 No case in the same context. Ten genuine map-region checks and runtime BH/mirror key cannot pass. Oier: implement real map/BH; Eleder: consume real values, not fixture colouring. Evidence in `docs/science/review/production_review.json`. · Oier + Eleder + Sergio · since 2026-11-14
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
