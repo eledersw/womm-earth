@@ -12,6 +12,7 @@ from _models import (
     CorrelateResponse,
     Health,
     MirrorResponse,
+    MirrorRequest,
     Region,
     ScanResponse,
     TrendMapResponse,
@@ -74,3 +75,49 @@ def test_custom_season_months_must_be_cyclically_contiguous():
 
     with pytest.raises(ValueError):
         CaseRequest(variable="T2M", regions=["US-WI"], start=2002, end=2025, season="CUSTOM", months=[12, 2])
+
+
+def test_mirror_requires_exactly_one_region():
+    with pytest.raises(ValueError):
+        MirrorRequest(variable="T2M", regions=["US-WI", "ESP"], start=2002, end=2025)
+
+
+def test_trendmap_rejects_invalid_period_and_custom_months():
+    from _models import TrendMapRequest
+
+    for values in (
+        {"variable": "T2M", "start": 2002, "end": 2025, "season": "CUSTOM"},
+        {"variable": "T2M", "start": 2002, "end": 2025, "season": "CUSTOM", "months": [12, 2]},
+        {"variable": "T2M", "start": 2025, "end": 2002},
+    ):
+        with pytest.raises(ValueError):
+            TrendMapRequest(**values)
+
+
+def test_health_preserves_python_version():
+    assert "python" in Health.model_fields
+
+
+def test_invalid_trendmap_and_mirror_requests_return_422():
+    async def check_invalid_requests():
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            invalid_trendmaps = [
+                {"variable": "T2M", "start": 2002, "end": 2025, "season": "CUSTOM"},
+                {"variable": "T2M", "start": 2002, "end": 2025, "season": "CUSTOM", "months": [12, 2]},
+                {"variable": "T2M", "start": 2025, "end": 2002},
+            ]
+            for params in invalid_trendmaps:
+                response = await client.get("/api/py/trendmap", params=params)
+                assert response.status_code == 422
+
+            response = await client.post(
+                "/api/py/mirror",
+                json={"variable": "T2M", "regions": ["US-WI", "ESP"], "start": 2002, "end": 2025},
+            )
+            assert response.status_code == 422
+
+            health = await client.get("/api/py/health")
+            assert health.status_code == 200
+            assert health.json()["python"]
+
+    asyncio.run(check_invalid_requests())

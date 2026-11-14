@@ -16,7 +16,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 import numpy  # noqa: E402
 import scipy  # noqa: E402
-from fastapi import FastAPI, Query  # noqa: E402
+from fastapi import FastAPI, HTTPException, Query  # noqa: E402
+from pydantic import ValidationError  # noqa: E402
 from _models import (  # noqa: E402
     AnalyzeResponse,
     CaseRequest,
@@ -24,10 +25,11 @@ from _models import (  # noqa: E402
     CorrelateResponse,
     Health,
     MirrorResponse,
+    MirrorRequest,
     Region,
     ScanRequest,
     ScanResponse,
-    Season,
+    TrendMapRequest,
     TrendMapResponse,
     Variable,
 )
@@ -46,6 +48,7 @@ def _fixture(name: str):
 async def health() -> Health:
     return {
         "ok": True,
+        "python": sys.version.split()[0],
         "numpy": numpy.__version__,
         "scipy": scipy.__version__,
         "cold_start_ms": _COLD_START_MS,
@@ -72,9 +75,14 @@ async def trendmap(
     variable: str,
     start: int,
     end: int,
-    season: Season = "ANN",
+    season: str = "ANN",
     months: list[int] | None = Query(default=None),
 ) -> TrendMapResponse:
+    try:
+        TrendMapRequest(variable=variable, start=start, end=end, season=season, months=months)
+    except ValidationError as error:
+        detail = error.errors(include_context=False, include_url=False)
+        raise HTTPException(status_code=422, detail=detail) from error
     return json.loads(_fixture("trendmap"))
 
 
@@ -84,7 +92,7 @@ async def correlate(request: CorrelateRequest) -> CorrelateResponse:
 
 
 @app.post("/api/py/mirror", response_model=MirrorResponse)
-async def mirror(case: CaseRequest) -> MirrorResponse:
+async def mirror(case: MirrorRequest) -> MirrorResponse:
     return json.loads(_fixture("mirror"))
 
 

@@ -64,6 +64,31 @@ class CaseRequest(BaseModel):
         return self
 
 
+class MirrorRequest(CaseRequest):
+    regions: list[str] = Field(min_length=1, max_length=1)
+
+
+class TrendMapRequest(BaseModel):
+    variable: str
+    start: int
+    end: int
+    season: Season = "ANN"
+    months: list[int] | None = None
+
+    @model_validator(mode="after")
+    def validate_period_and_months(self):
+        if self.end < self.start:
+            raise ValueError("end must be greater than or equal to start")
+        if self.season == "CUSTOM":
+            if not self.months:
+                raise ValueError("months are required for CUSTOM season")
+            if any(month < 1 or month > 12 for month in self.months):
+                raise ValueError("months must be between 1 and 12")
+            if len(set(self.months)) != len(self.months) or not _months_are_contiguous(self.months):
+                raise ValueError("months must be contiguous in cyclic order")
+        return self
+
+
 class MonthlyPoint(BaseModel):
     t: str
     value: float | None
@@ -267,6 +292,7 @@ class ScanResponse(BaseModel):
 
 class Health(BaseModel):
     ok: bool
+    python: str
     numpy: str
     scipy: str
     cold_start_ms: float
