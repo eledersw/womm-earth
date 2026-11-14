@@ -8,6 +8,7 @@ import math
 import re
 import threading
 import time
+from functools import lru_cache
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Literal
@@ -34,7 +35,7 @@ CATALOG_TTL_SECONDS = 6 * 60 * 60
 CATALOG_FALLBACK_TTL_SECONDS = 15 * 60
 MIN_REGION_SPAN = 2.0
 MAX_REGION_SPAN = 10.0
-MAX_REGION_TILES = 12
+MAX_REGION_TILES = 128
 API_USER = "wommearth"
 _HOURLY_PARAMETER_NAME = re.compile(
     r"(?:\bat\s+\d{2}\s+Hour\b|\bHour-Based Parameter Set\b)",
@@ -59,6 +60,34 @@ _APPROVED = json.loads(
 _CATALOG_SNAPSHOT = json.loads(
     (Path(__file__).resolve().parent.parent / "_data" / "power_manager_snapshot.json").read_text(encoding="utf-8")
 )
+
+
+@lru_cache(maxsize=1)
+def _country_geometries() -> dict[str, dict[str, Any]]:
+    path = Path(__file__).resolve().parent.parent / "_data" / "countries.geojson"
+    features = json.loads(path.read_text(encoding="utf-8"))["features"]
+    return {feature["properties"]["id"]: feature["geometry"] for feature in features}
+
+
+def _point_in_ring(longitude: float, latitude: float, ring: list[list[float]]) -> bool:
+    inside = False
+    previous = ring[-1]
+    for current in ring:
+        x1, y1 = previous[:2]
+        x2, y2 = current[:2]
+        if (y1 > latitude) != (y2 > latitude):
+            crossing = (x2 - x1) * (latitude - y1) / (y2 - y1) + x1
+            if longitude < crossing:
+                inside = not inside
+        previous = current
+    return inside
+
+
+def _inside_country(longitude: float, latitude: float, geometry: dict[str, Any]) -> bool:
+    polygons = geometry["coordinates"] if geometry["type"] == "MultiPolygon" else [geometry["coordinates"]]
+    return any(_point_in_ring(longitude, latitude, polygon[0]) and
+               not any(_point_in_ring(longitude, latitude, hole) for hole in polygon[1:])
+               for polygon in polygons)
 
 
 def _request_json(url: str) -> dict[str, Any]:
@@ -224,17 +253,33 @@ def _axis_tiles(lower: float, upper: float) -> list[tuple[float, float]]:
 
 
 def _region_tiles(region: Region) -> list[tuple[float, float, float, float]]:
-    west, south, east, north = region.bbox
-    longitudes = _axis_tiles(west, east)
-    latitudes = _axis_tiles(south, north)
-    if len(longitudes) * len(latitudes) > MAX_REGION_TILES:
+    if region.type == "country" and region.id in _country_geometries():
+        geometry = _country_geometries()[region.id]
+        polygons = geometry["coordinates"] if geometry["type"] == "MultiPolygon" else [geometry["coordinates"]]
+        keys: set[tuple[int, int]] = set()
+        for polygon in polygons:
+            points = [point for ring in polygon for point in ring]
+            west, east = min(p[0] for p in points), max(p[0] for p in points)
+            south, north = min(p[1] for p in points), max(p[1] for p in points)
+            for x in range(max(0, math.floor((west + 180) / MAX_REGION_SPAN)),
+                           min(35, math.floor((east + 180) / MAX_REGION_SPAN)) + 1):
+                for y in range(max(0, math.floor((south + 90) / MAX_REGION_SPAN)),
+                               min(17, math.floor((north + 90) / MAX_REGION_SPAN)) + 1):
+                    keys.add((x, y))
+        tiles = [(x * 10 - 180, y * 10 - 90, x * 10 - 170, y * 10 - 80) for x, y in sorted(keys)]
+    else:
+        west, south, east, north = region.bbox
+        tiles = [(left, bottom, right, top)
+                 for left, right in _axis_tiles(west, east)
+                 for bottom, top in _axis_tiles(south, north)]
+    if len(tiles) > MAX_REGION_TILES:
         raise PowerUpstreamError("Region is too large for live POWER analysis.", status_code=422)
-    return [(left, bottom, right, top)
-            for left, right in longitudes for bottom, top in latitudes]
+    return tiles
 
 
 def _monthly_region_series(
-    payload: dict[str, Any] | list[dict[str, Any]], variable: Variable, start: int, end: int
+    payload: dict[str, Any] | list[dict[str, Any]], variable: Variable, start: int, end: int,
+    geometry: dict[str, Any] | None = None,
 ) -> tuple[np.ndarray, str]:
     count = (end - start + 1) * 12
     weighted_sum = np.zeros(count, dtype=float)
@@ -247,15 +292,17 @@ def _monthly_region_series(
         fill_value = response.get("header", {}).get("fill_value", -999)
         for feature in features:
             try:
-                geometry = feature["geometry"]
-                longitude = float(geometry["coordinates"][0])
-                latitude = float(geometry["coordinates"][1])
+                feature_geometry = feature["geometry"]
+                longitude = float(feature_geometry["coordinates"][0])
+                latitude = float(feature_geometry["coordinates"][1])
                 monthly = feature["properties"]["parameter"][variable.id]
             except (KeyError, IndexError, TypeError, ValueError) as error:
                 raise PowerUpstreamError("NASA POWER regional response has an invalid grid feature.") from error
             if not isinstance(monthly, dict):
                 raise PowerUpstreamError("NASA POWER regional response has invalid parameter values.")
             if (longitude, latitude) in seen_coordinates:
+                continue
+            if geometry is not None and not _inside_country(longitude, latitude, geometry):
                 continue
             seen_coordinates.add((longitude, latitude))
 
@@ -293,8 +340,10 @@ async def fetch_monthly_region(
     try:
         if uses_point_fallback(region):
             payload = await asyncio.to_thread(_request_json, _point_url(variable, region, start, end))
+            geometry = None
         else:
             tiles = _region_tiles(region)
+            geometry = _country_geometries().get(region.id) if region.type == "country" else None
             semaphore = asyncio.Semaphore(3)
 
             async def fetch(tile: tuple[float, float, float, float]) -> dict[str, Any]:
@@ -302,7 +351,7 @@ async def fetch_monthly_region(
                     return await asyncio.to_thread(_request_json, _regional_url(variable, region, start, end, tile))
 
             payload = await asyncio.gather(*(fetch(tile) for tile in tiles))
-        return _monthly_region_series(payload, variable, start, end)
+        return _monthly_region_series(payload, variable, start, end, geometry)
     except PowerUpstreamError:
         raise
     except Exception as error:
