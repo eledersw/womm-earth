@@ -9,17 +9,17 @@ from dataclasses import dataclass
 import numpy as np
 from scipy.special import ndtr, ndtri, stdtr, stdtrit
 
-from .config import ALPHA, PHI_CLIP
+from .config import ALPHA
 
 
 @dataclass(frozen=True)
 class OlsFit:
     slope: float
     intercept: float
-    se: float
-    p: float
-    ci_low: float
-    ci_high: float
+    se: float | None
+    p: float | None
+    ci_low: float | None
+    ci_high: float | None
     r2: float
     n_eff: float
     phi: float
@@ -57,7 +57,7 @@ def _mk_score_variance(y: np.ndarray) -> tuple[float, float]:
 
 def _mk_fit(s: float, var_s: float, n: int) -> MkFit:
     z = float(np.sign(s) * (abs(s) - 1) / np.sqrt(var_s)) if s and var_s > 0 else 0.0
-    p = float(2 * (1 - ndtr(abs(z))))
+    p = float(2 * ndtr(-abs(z)))
     tau = float(s / (n * (n - 1) / 2)) if n > 1 else 0.0
     return MkFit(s, var_s, z, p, tau)
 
@@ -101,7 +101,7 @@ def hamed_rao(y: np.ndarray, alpha: float = ALPHA) -> MkFit:
     interval = ndtri(1 - alpha / 2) / np.sqrt(n)
     sni = sum((n - lag) * (n - lag - 1) * (n - lag - 2) * acf[lag]
               for lag in range(1, n) if abs(acf[lag]) > interval)
-    corrected = var_s * (1 + 2 * sni / (n * (n - 1) * (n - 2)))
+    corrected = var_s * max(1.0, 1 + 2 * sni / (n * (n - 1) * (n - 2)))
     return _mk_fit(s, float(corrected), n)
 
 
@@ -119,9 +119,12 @@ def sens_slope(x: np.ndarray, y: np.ndarray, alpha: float = ALPHA) -> SenFit:
     correction = hamed_rao(y, alpha).var_s
     c = ndtri(1 - alpha / 2) * np.sqrt(max(0.0, correction))
     count = len(slopes)
-    low = max(0, int(np.floor((count - c) / 2)))
-    high = min(count - 1, int(np.ceil((count + c) / 2)))
-    return SenFit(slope, intercept, float(slopes[low]), float(slopes[high]))
+    def at_rank(rank: float) -> float:
+        rank = float(np.clip(rank, 1, count)) - 1
+        lower = int(np.floor(rank))
+        upper = min(lower + 1, count - 1)
+        return float(slopes[lower] + (rank - lower) * (slopes[upper] - slopes[lower]))
+    return SenFit(slope, intercept, at_rank((count - c) / 2), at_rank((count + c) / 2 + 1))
 
 
 def ols_ar1(x: np.ndarray, y: np.ndarray, alpha: float = ALPHA) -> OlsFit:
@@ -139,22 +142,26 @@ def ols_ar1(x: np.ndarray, y: np.ndarray, alpha: float = ALPHA) -> OlsFit:
     slope = float((dx @ dy) / sxx)
     intercept = float(y.mean() - slope * x.mean())
     residual = dy - slope * dx
+    scale = max(1.0, float(np.max(np.abs(y))), abs(slope) * float(np.max(np.abs(dx))))
+    if np.max(np.abs(residual)) <= 32 * np.finfo(float).eps * scale:
+        residual = np.zeros_like(residual)
     rss = float(residual @ residual)
     resid_sd = float(np.sqrt(rss / (n - 2)))
     if rss == 0:
         phi = 0.0
     else:
-        phi = float(np.corrcoef(residual[:-1], residual[1:])[0, 1])
+        phi = float(np.dot(residual[:-1], residual[1:]) / rss)
         if not np.isfinite(phi):
             phi = 0.0
-    phi = float(np.clip(phi, *PHI_CLIP))
-    n_eff = max(3.0, n * (1 - phi) / (1 + phi))
+    n_eff = n if phi <= 0 else n * (1 - phi) / (1 + phi)
+    r2 = float(1 - rss / (dy @ dy)) if dy @ dy else 1.0
+    if n_eff <= 2:
+        return OlsFit(slope, intercept, None, None, None, None, r2, n_eff, phi, resid_sd)
     se = float(resid_sd / np.sqrt(sxx) * np.sqrt((n - 2) / (n_eff - 2)))
     if se == 0:
         p = 1.0 if slope == 0 else 0.0
     else:
         p = float(2 * stdtr(n_eff - 2, -abs(slope / se)))
     critical = float(stdtrit(n_eff - 2, 1 - alpha / 2))
-    r2 = float(1 - rss / (dy @ dy)) if dy @ dy else 1.0
     return OlsFit(slope, intercept, se, p, slope - critical * se,
                   slope + critical * se, r2, n_eff, phi, resid_sd)

@@ -9,9 +9,7 @@ from .config import (
     ALPHA,
     MIN_YEARS,
     NOT_PROVEN_MAX_P,
-    PHI_CLIP,
     SERIES_MIN_VALID_FRACTION,
-    YEARS_NEEDED_HIDE_P,
     YEARS_NEEDED_MAX,
 )
 from .trend import hamed_rao, mann_kendall, ols_ar1, sens_slope
@@ -28,12 +26,12 @@ def tier_for(p: float, valid_years: int, requested_years: int) -> str:
 
 
 def years_until_significant(
-    slope: float, resid_sd: float, phi: float, n: int, p_mk: float
+    slope: float, resid_sd: float, phi: float, n: int, p_used: float
 ) -> int | None:
-    if p_mk < ALPHA or p_mk >= YEARS_NEEDED_HIDE_P or slope == 0 or resid_sd <= 0:
+    if p_used < ALPHA or p_used >= NOT_PROVEN_MAX_P or slope == 0 or resid_sd <= 0 or not np.isfinite([slope, resid_sd, phi]).all() or phi >= 1:
         return None
-    phi = float(np.clip(phi, *PHI_CLIP))
-    for m in range(n + 1, n + YEARS_NEEDED_MAX + 1):
+    phi = max(phi, 0.0)
+    for m in range(n, n + YEARS_NEEDED_MAX + 1):
         var_b = 12 * resid_sd**2 / (m * (m**2 - 1)) * (1 + phi) / (1 - phi)
         n_eff = m * (1 - phi) / (1 + phi)
         if n_eff > 2 and abs(slope) / np.sqrt(var_b) >= stdtrit(n_eff - 2, 1 - ALPHA / 2):
@@ -75,25 +73,27 @@ def analyze_yearly(
         mk=Mk(p=mk.p, p_naive=naive.p, z=mk.z, tau=mk.tau),
         sen=Sen(slope=sen.slope, intercept=sen.intercept,
                 ci_low=sen.ci_low, ci_high=sen.ci_high),
-        tests_agree=(ols.p < ALPHA) == (mk.p < ALPHA),
+        tests_agree=(ols.p < ALPHA) == (mk.p < ALPHA) if ols.p is not None else None,
         period_mean=period_mean,
         change_per_decade=change_per_decade,
         total_change=float(sen.slope * (x[-1] - x[0])),
         pct_of_mean_per_decade=pct,
     )
+    p_used = max(mk.p, ols.p) if ols.p is not None else mk.p
     verdict = Verdict(
-        tier=tier_for(mk.p, count, len(y)),
-        years_needed=years_until_significant(ols.slope, ols.resid_sd, ols.phi, count, mk.p),
+        tier=tier_for(p_used, count, len(y)),
+        years_needed=years_until_significant(ols.slope, ols.resid_sd, ols.phi, count, p_used) if ols.p is not None else None,
         reason=None,
     )
-    critical = float(stdtrit(ols.n_eff - 2, 1 - ALPHA / 2))
-    s_adj = ols.resid_sd * np.sqrt((count - 2) / (ols.n_eff - 2))
+    critical = float(stdtrit(ols.n_eff - 2, 1 - ALPHA / 2)) if ols.p is not None else None
+    s_adj = ols.resid_sd * np.sqrt((count - 2) / (ols.n_eff - 2)) if ols.p is not None else None
     sxx = float(np.sum((x - x.mean()) ** 2))
     fit = []
     for year in x:
         point = ols.intercept + ols.slope * year
-        half_width = critical * s_adj * np.sqrt(1 / count + (year - x.mean()) ** 2 / sxx)
+        half_width = critical * s_adj * np.sqrt(1 / count + (year - x.mean()) ** 2 / sxx) if critical is not None else None
         fit.append(FitPoint(year=int(year), ols=float(point),
-                            ols_low=float(point - half_width), ols_high=float(point + half_width),
+                            ols_low=float(point - half_width) if half_width is not None else None,
+                            ols_high=float(point + half_width) if half_width is not None else None,
                             sen=float(sen.intercept + sen.slope * year)))
     return stats, verdict, fit
