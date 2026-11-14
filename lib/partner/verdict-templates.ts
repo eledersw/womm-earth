@@ -2,38 +2,53 @@ import type { RegionAnalysis } from "@/lib/api/types";
 import type { ReadingLevel } from "@/lib/state/case-codec";
 import { caseCopy } from "@/lib/copy/case";
 import { fmtP, fmtSlope } from "./format";
+import { evidencePeriod, inspectEvidence, METHOD } from "./evidence";
 export type VerdictContext = { variableName: string; unit: string; regionName: string; period: string; seasonLabel: string };
 export function testsDisagree(r: RegionAnalysis) {
-  return r.warnings.includes("tests_disagree") || r.stats?.tests_agree === false;
+  return inspectEvidence(r).tests_disagree;
 }
-export function hasUsableYearsEstimate(r: RegionAnalysis) {
-  const s = r.stats; const years = r.verdict.years_needed;
-  return r.verdict.tier === "not_proven" && !!s && years != null && Number.isInteger(years) && years >= 0 && years <= 50 &&
-    [s.n_years, s.ols.n_eff, s.ols.se, s.ols.slope, s.resid_sd, s.phi].every(Number.isFinite) &&
-    s.n_years >= 10 && s.ols.n_eff > 2 && s.ols.se > 0 && s.resid_sd > 0 && s.phi < 1 && s.ols.slope !== 0;
+export function hasUsableYearsEstimate(r: RegionAnalysis, ctx?: Pick<VerdictContext, "period" | "seasonLabel">) {
+  return inspectEvidence(r, ctx ? evidencePeriod(ctx.period, ctx.seasonLabel) : undefined).years_eligible;
 }
-// Based on VERDICT_TEMPLATES.md; METHODS §§2–11 supply coverage, primary
-// test, Sen headline and the conditional interpretation of detection time.
+const pText = (p: number | null) => p === null ? "" : `${p < 0.001 ? "" : "= "}${fmtP(p)}`;
+
+/** Preserve the reported badge; mismatches with METHODS are provisional, never silently relabelled. */
 export function renderVerdict(r: RegionAnalysis, ctx: VerdictContext, level: ReadingLevel) {
-  const c = caseCopy.verdict;
-  const s = r.stats;
-  const scientist = level === "scientist";
+  const c = caseCopy.verdict; const s = r.stats; const scientist = level === "scientist";
+  const e = inspectEvidence(r, evidencePeriod(ctx.period, ctx.seasonLabel));
   let body: string;
-  switch (r.verdict.tier) {
-    case "confirmed": body = s ? (scientist ? c.confirmedScientist : c.confirmedStudent) : c.unavailable; break;
-    case "not_proven": body = scientist ? c.notProvenScientist : c.notProvenStudent;
-      body += " " + (hasUsableYearsEstimate(r) ? c.estimate : c.noEstimate); break;
-    case "no_case": body = scientist ? c.noCaseScientist : c.noCaseStudent; break;
-    case "too_short": body = scientist ? c.tooShortScientist : c.tooShortStudent; break;
+  if (e.status === "mismatch") body = c.mismatch;
+  else if (e.status === "ineligible") body = scientist ? c.tooShortScientist : c.tooShortStudent;
+  else if (e.status === "unavailable") body = scientist ? c.unavailableScientist : c.unavailableStudent;
+  else if (e.status === "mk_only") body = scientist ? c.fallbackScientist : c.fallbackStudent;
+  else {
+    switch (r.verdict.tier) {
+      case "confirmed": body = scientist ? c.confirmedScientist : c.confirmedStudent; break;
+      case "not_proven": body = scientist ? c.notProvenScientist : c.notProvenStudent; break;
+      case "no_case": body = scientist ? c.noCaseScientist : c.noCaseStudent; break;
+      case "too_short": body = scientist ? c.tooShortScientist : c.tooShortStudent; break;
+    }
+    body += " " + (scientist ? c.evidenceScientist : c.evidenceStudent);
   }
-  if (s && scientist && r.verdict.tier !== "confirmed" && r.verdict.tier !== "too_short") body += ` ${c.mk}: p ${s.mk.p < 0.001 ? "" : "= "}${fmtP(s.mk.p)}.`;
-  if (testsDisagree(r)) body += " " + (scientist ? c.disagreeScientist : c.disagreeStudent);
+  if (e.tests_disagree && e.status === "combined") body += " " + (scientist ? c.disagreeScientist : c.disagreeStudent);
+  if (e.persistent && e.eligible) body += " " + (scientist ? c.persistentScientist : c.persistentStudent);
+  if (e.gapped_years) body += " " + c.gaps;
+  if (r.verdict.tier === "not_proven") {
+    body += " " + (e.years_eligible ? scientist ? c.estimateScientist : c.estimate : c.noEstimate);
+    if (e.years_eligible && e.years_needed === 0) body += " " + c.zeroEstimate;
+  }
+  // Unknown reason strings never pass through into scientific UI or prompts.
+  const reasons = scientist ? c.reasonsScientist : c.reasonsStudent;
+  const reason = r.verdict.reason && Object.hasOwn(reasons, r.verdict.reason) ? reasons[r.verdict.reason as keyof typeof reasons] : reasons.unknown;
+  const finite = (x: number | undefined) => x !== undefined && Number.isFinite(x) ? fmtSlope(x) : "";
   const values: Record<string, string> = {
-    variable: ctx.variableName, region: ctx.regionName, period: ctx.period, unit: ctx.unit,
-    slope: s ? fmtSlope(s.change_per_decade) : "—", p: s ? `${s.mk.p < 0.001 ? "" : "= "}${fmtP(s.mk.p)}` : "—",
-    olsP: s ? `${s.ols.p < 0.001 ? "" : "= "}${fmtP(s.ols.p)}` : "—",
-    low: s ? fmtSlope(s.sen.ci_low * 10) : "—", high: s ? fmtSlope(s.sen.ci_high * 10) : "—",
-    n: s ? String(s.n_years) : "—", years: String(r.verdict.years_needed ?? "—"), agreement: testsDisagree(r) ? c.disagrees : c.agrees,
+    badge: caseCopy.tiers[r.verdict.tier], variable: ctx.variableName, region: ctx.regionName, period: ctx.period, unit: ctx.unit,
+    slope: finite(s?.change_per_decade), p: pText(e.p_mk), olsP: pText(e.p_ols), p_used: pText(e.p_used),
+    low: finite(s ? s.sen.ci_low * 10 : undefined), high: finite(s ? s.sen.ci_high * 10 : undefined),
+    n: String(e.valid_years), years: String(e.years_needed ?? ""), reason,
+    alpha: String(METHOD.alpha), confidence: `${METHOD.confidence * 100}%`, min_years: String(METHOD.min_years), min_coverage: `${METHOD.min_coverage * 100}%`,
   };
-  return { badge: caseCopy.tiers[r.verdict.tier], title: `${ctx.regionName} · ${ctx.period} · ${ctx.seasonLabel}`, body: body.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? "—") };
+  // Optional scientific sentences with unavailable inputs are omitted whole.
+  body = body.split(/(?<=\.) /).filter((sentence) => [...sentence.matchAll(/\{(\w+)\}/g)].every(([, key]) => values[key] !== undefined && values[key] !== "")).join(" ");
+  return { badge: caseCopy.tiers[r.verdict.tier], title: `${ctx.regionName} · ${ctx.variableName} · ${ctx.period} · ${ctx.seasonLabel}`, body: body.replace(/\{(\w+)\}/g, (_, key: string) => values[key]), evidence: e };
 }
