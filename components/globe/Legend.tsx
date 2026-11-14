@@ -43,17 +43,17 @@ export function Legend() {
     <figure aria-label={globeCopy.legendLabel} className="glass-pill m-0 flex w-60 flex-col gap-2 rounded-xl px-3.5 py-3">
       <figcaption className="flex items-baseline justify-between gap-2">
         <span className="label-mono">{globeCopy.legendTitle}</span>
-        <span className="font-mono text-[0.7rem] text-ink-3">{unit}</span>
+        <span className="font-mono text-[0.857rem] text-ink-3">{unit}</span>
       </figcaption>
       <div aria-hidden className="grid h-2.5 grid-cols-7 gap-0.5 overflow-hidden rounded-sm">
         {steps.map((c, i) => <span key={i} style={{ background: c }} />)}
       </div>
       <div className="flex items-baseline justify-between">
         <span className="figure text-base">{formatSlope(-domain)}</span>
-        <span className="font-mono text-[0.7rem] text-ink-3">0</span>
+        <span className="font-mono text-[0.857rem] text-ink-3">0</span>
         <span className="figure text-base">{formatSlope(domain)}</span>
       </div>
-      <ul className="m-0 flex list-none flex-wrap gap-x-3 gap-y-1 p-0 text-[0.72rem] text-ink-2">
+      <ul className="m-0 flex list-none flex-wrap gap-x-3 gap-y-1 p-0 text-[0.857rem] text-ink-2">
         <li className="flex items-center gap-1.5">
           <span aria-hidden className="size-2.5 rounded-sm" style={{ background: "var(--trend-up-3)" }} />
           {globeCopy.legendSignificant}

@@ -19,21 +19,21 @@ export function GlobeHud() {
       aria-label={globeCopy.hudLabel}
       className="glass-pill flex items-end gap-5 rounded-xl px-4 py-2.5"
     >
-      <Readout label={globeCopy.hudLat} value={lat.value} unit={`° ${lat.hemi}`} />
-      <Readout label={globeCopy.hudLng} value={lng.value} unit={`° ${lng.hemi}`} />
+      <Readout label={globeCopy.hudLat} value={lat.value} unit={lat.hemi} degrees />
+      <Readout label={globeCopy.hudLng} value={lng.value} unit={lng.hemi} degrees />
       <span aria-hidden className="mb-1 h-6 w-px bg-hairline-strong" />
       <Readout label={globeCopy.hudRegions} value={String(state.regions.length)} unit={`/ ${MAX_REGIONS}`} />
     </dl>
   );
 }
 
-function Readout({ label, value, unit }: { label: string; value: string; unit: string }) {
+function Readout({ label, value, unit, degrees = false }: { label: string; value: string; unit: string; degrees?: boolean }) {
   return (
     <div className="flex flex-col gap-1.5">
       <dt className="label-mono">{label}</dt>
       <dd className="m-0 flex items-baseline gap-1">
-        <span className="figure min-w-[2.6ch] text-right text-[1.7rem]">{value}</span>
-        <span className="font-mono text-xs text-ink-3">{unit}</span>
+        <span className="figure min-w-[2.6ch] text-right text-[1.7rem]">{value}{degrees ? "°" : ""}</span>
+        <span className="font-mono text-[0.857rem] text-ink-2">{unit}</span>
       </dd>
     </div>
   );
