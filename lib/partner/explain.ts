@@ -1,6 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { getClient, MODEL, FALLBACK } from "./anthropic";
-import { SYSTEM, explainUserMessage } from "./prompts";
+import { EXPLAIN_SYSTEM, explainUserMessage } from "./prompts";
 import { checkNumbers } from "./number-check";
 import { summarizeAnalysis } from "./summarize";
 import type { ExplainInput } from "./input";
@@ -14,7 +14,7 @@ export async function streamExplain(input: ExplainInput, emit: (event: PartnerEv
     const stream = getClient().beta.messages.stream({
       model: MODEL, max_tokens: 4000, ...FALLBACK, betas: [...FALLBACK.betas],
       thinking: { type: "adaptive" }, output_config: { effort: "low" },
-      system: [{ type: "text", text: SYSTEM, cache_control: { type: "ephemeral" } }],
+      system: [{ type: "text", text: EXPLAIN_SYSTEM, cache_control: { type: "ephemeral" } }],
       messages: [{ role: "user", content: explainUserMessage(input) }],
     });
     const abort = () => stream.abort();

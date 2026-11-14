@@ -110,6 +110,9 @@ The offline pipeline below can still build regional `.npz` libraries for researc
   - Tool Runner with `betaZodTool` tools: `list_variables`, `analyze_case`, `correlate`, `find_mirror`, `scan_region`, `get_process_card`, `propose_case`.
   - Tools call `/api/py` by absolute URL. On protected previews, send the `x-vercel-protection-bypass` header.
 - **Grounding:**
+  - Common scientific rules and separate mode prefixes come from `docs/science/VERDICT_TEMPLATES.md`; Explain has no tools, Partner retains its tool access.
+  - Coder C’s internal display adapter checks actual valid yearly coverage (including DJF/custom boundaries), component availability and combined-p consistency. It preserves the API tier and flags discrepancies as provisional; it does not certify or replace Oier’s engine. Ineligible/unavailable inference is withheld and unsafe years estimates are suppressed.
+  - Analysis tool envelopes retain Case IDs/custom months, labelled method constants and per-decade Sen CI bounds, and include only cards matching variable/region. Card conditions still apply. No Pydantic/HTTP seam fields were changed.
   - System prompt rules: only numbers from tool results; name the test; "not significant" ≠ "no change"; physical explanations only from process cards.
   - A **number check** compares every number in the output against the tool JSON. It flags mismatches in dev and doubles as the eval harness.
 - **Cost:**

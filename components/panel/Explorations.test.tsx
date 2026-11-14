@@ -77,7 +77,7 @@ it("switching secondary variables aborts the previous correlation and hides its 
 });
 
 it("years meter is restricted to not_proven with usable OLS uncertainty", () => {
-  const stats = { ...result.stats!, resid_sd: 0.5, phi: 0.1, ols: { ...result.stats!.ols, slope: 0.01, se: 0.1, n_eff: 20 } };
+  const stats = { ...result.stats!, mk: { ...result.stats!.mk, p: 0.1 }, resid_sd: 0.5, phi: 0.1, ols: { ...result.stats!.ols, p: 0.1, slope: 0.01, se: 0.1, n_eff: 20 } };
   const r = { ...result, stats, verdict: { tier: "not_proven" as const, years_needed: 12, reason: null } };
   const props = { context: { variableName: "Temperature", unit: "°C", period: "2002–2025", seasonLabel: "JJA" } };
   const { rerender } = render(<VerdictStep {...props} results={[r]} />);
