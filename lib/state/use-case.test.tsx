@@ -17,7 +17,7 @@ describe("useCase", () => {
     const { hook } = setup("?v=T2M&r=USA,US-WI,USA&from=2020&to=1990&s=JJA");
     expect(hook.result.current.state).toMatchObject({
       variable: "T2M",
-      regions: ["US-WI", "USA"],
+      regions: ["USA", "US-WI"],
       from: 1990,
       to: 2020,
       season: "JJA",

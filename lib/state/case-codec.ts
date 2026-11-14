@@ -71,11 +71,12 @@ export function normalizeCase(c: Partial<CaseState>): CaseState {
   const variable =
     typeof c.variable === "string" && c.variable.trim() ? c.variable.trim() : DEFAULT_CASE.variable;
 
+  // Insertion order is kept (first occurrence wins): region i draws with pen
+  // --series-(i+1) on the globe and in the charts, so adding a region must never
+  // repaint the ones already chosen.
   const regions = [
     ...new Set((c.regions ?? []).map((r) => (typeof r === "string" ? r.trim() : "")).filter(Boolean)),
-  ]
-    .sort() // by UTF-16 code unit, so share links are stable
-    .slice(0, MAX_REGIONS);
+  ].slice(0, MAX_REGIONS);
 
   let from = toYear(c.from, DEFAULT_CASE.from);
   let to = toYear(c.to, DEFAULT_CASE.to);
@@ -112,7 +113,7 @@ export function caseToQuery(c: CaseState): string {
   return query(c, true);
 }
 
-/** Canonical key for a case, ignoring the reading level (e.g. demo-explanations lookup). */
+/** Key for a case, ignoring the reading level (e.g. demo-explanations lookup). Region order is part of the case (pens follow it). */
 export function caseKey(c: CaseState): string {
   return query(c, false);
 }

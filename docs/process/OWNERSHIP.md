@@ -22,7 +22,7 @@ components/ui/**          (shadcn primitives)
 components/shell/**       (app frame, header, layout grid)
 components/globe/**
 lib/state/**              (case-codec.ts, use-case.ts, ui-store.ts)
-lib/api/client.ts  lib/api/types.ts
+lib/api/client.ts  lib/api/types.ts  lib/api/region-geo.ts  lib/api/region-geo.test.ts
 lib/copy/globe.ts
 lib/utils.ts
 public/textures/**  public/favicon*  (everything in public/ except public/geo/)

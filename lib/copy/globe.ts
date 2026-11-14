@@ -15,6 +15,16 @@ export const shellCopy = {
 export const globeCopy = {
   windowLabel: "Viewing window",
   placeholder: "The globe is being installed in this window.",
+  loading: "Warming up the globe…",
+  searchTrigger: "Find a place",
+  searchPlaceholder: "Country, US state, ocean or region…",
+  searchEmpty: "No region with that name. Try a country or US state.",
+  searchUnavailable: "Region list unavailable. Click the globe instead.",
+  groupCountry: "Countries",
+  groupState: "US states",
+  groupOcean: "Ocean basins",
+  groupNamed: "Named regions",
+  selectedPen: "In the case",
   noWebgl: "This browser can't draw the 3D globe. Use the search box to choose regions.",
   maxRegions: "Four pens is the limit. Remove a region to add another.",
 } as const;
