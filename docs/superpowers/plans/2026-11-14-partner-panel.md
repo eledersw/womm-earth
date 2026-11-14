@@ -341,8 +341,10 @@ Task 6 local verification: check + 124 Vitest tests + 12 Chromium E2E pass (mock
   - Answering calls `setReveal(true)` and shows "You guessed X; the data says Y".
   - The switch lives in the panel header: `setPredictMode`. When predict mode is turned on, call `setReveal(false)`.
 
-- [ ] **Step 1: Build** the four components and wire them into VerdictStep and CasePanel.
+- [x] **Step 1: Build** the four components and wire them into VerdictStep and CasePanel.
 - [ ] **Step 2: Verify.** Manually: the Sahel/Mediterranean mirror highlights on the globe, the correlation warning appears for two co-trending temperature variables, and predict mode hides the verdict and the globe colours until you answer. Run `npm run check`. Commit `feat(panel): correlation, mirror, years meter, predict`, then self-merge.
+
+Task 7 panel completion: check + 135 Vitest tests + 13 Chromium E2E pass with official fixtures/mocked extension results. First-region request mapping, abort/stale responses, mirror store updates/Compare, conditional years and prediction gating are verified. Step 2 remains open for actual globe integration by Eleder (GlobeView currently ignores highlight/predict/reveal), real backend/science verification, and user publication/PR/merge. No globe files or frozen seams modified.
 
 ### Task 8: Guided tours (H16–H18)
 
