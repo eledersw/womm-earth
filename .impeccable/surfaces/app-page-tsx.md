@@ -14,18 +14,18 @@ related_targets: ["components/shell/AppShell.tsx","components/globe/GlobeArea.ts
 - Up to 4 regions.
 - Ownership split: Eleder owns the shell, globe and tokens; Ekaitz owns the panel content, charts and partner.
 
-**Memorable moment:** the globe hangs in open space; you pick places in amber and teal, and the case answers on a pane of glass beside it.
-**Unresolved:** final product name and voice (Edur); the partner persona; which of the three colour schemes ships as default.
+**Memorable moment:** the globe hangs in open space; you pick places in amber and teal, press Investigate, and the evidence opens on a clear pane of glass on the far side.
+**Unresolved:** voice (Edur); the partner persona. Name decided: WOMM Earth.
 
 ## Direction contract
 
 **THESIS.** Fragment Studio's silver-on-black language, pinned by the user (fragment.im), joined to liquid glass and a starfield. The interface is quiet chrome; the only colour is the data. Refused: the strip-chart recorder, neon space HUDs, giant hero numbers.
 
-**OWN-WORLD.** Near-black space with faint nebula light and a still starfield. Silver ink (#C9D0D2). Liquid-glass panels: translucent, blurred, bright top edge, 20px radius. Chrome silver action button with dark capitals. Stack Sans Headline (thin figures), Stack Sans Text, Fragment Mono capitals for labels. Region pens amber, teal, orchid, silver; no red or blue. Three schemes: silver, nebula, ember.
+**OWN-WORLD.** Near-black space with faint nebula light and a still starfield. Silver ink (#C9D0D2). Liquid-glass panes: mostly clear, light frost, bright top edge, 20px radius; cards inside are smoked so content reads. Chrome silver action button with dark capitals. Stack Sans Headline (thin figures and the WOMM Earth wordmark, no logo mark), Stack Sans Text for reading, Fragment Mono capitals for every label, heading, control and button. Region pens amber, teal, orchid, silver; no red or blue. One scheme: silver.
 
-**STORY.** A student sees the planet first, adds places on it, presses the one bright button, and reads the evidence on glass.
+**STORY.** A student sees the planet first, adds places on it, presses the one bright button (Investigate), and the evidence, verdict, explanation and follow-up questions open on the right. No Case/Partner tabs.
 
-**FIRST VIEWPORT.** Header floats over space: wordmark left; About, the scheme pill and Share right. Glass case panel left (440px). Globe fills the rest, offset right. Find a place pill top-left of the globe; read-out (lat, lng, regions in thin figures) bottom-right.
+**FIRST VIEWPORT.** Header floats over space: WOMM Earth wordmark left; About and Share right. Glass setup pane left (420px: Lead, Scene, Timeline, reading level, Investigate pinned at the bottom). Globe fills the rest, offset right. Find a place pill top-left of the globe; read-out (lat, lng, regions in thin figures) bottom-left beside the pane. Results pane (540px) opens on the right after Investigate.
 
 **FORM.** User-pinned reference (fragment.im) plus liquid glass; supersedes roll 1a0d8f65 and the strip-chart contract (3670b4b9).
 

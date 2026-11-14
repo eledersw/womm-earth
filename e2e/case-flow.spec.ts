@@ -44,10 +44,10 @@ test("case controls update the URL and restore it on reload", async ({ page }) =
   await expect(page.getByText("Wisconsin: Confirmed", { exact: true })).toHaveCount(0);
 });
 
-test("five panel sections fit the viewport and live-provider variables remain selectable", async ({ page }) => {
+test("the setup panel fits the viewport and live-provider variables remain selectable", async ({ page }) => {
   await page.goto("/?r=ESP");
   const panel = page.getByRole("region", { name: "Case panel", exact: true });
-  await expect(panel.getByRole("heading", { level: 2 })).toHaveText(["Lead", "Scene", "Timeline", "Evidence", "Verdict"]);
+  await expect(panel.getByRole("heading", { level: 2 })).toHaveText(["Lead", "Scene", "Timeline"]);
   await expect(page.getByRole("option", { name: /Aerosol optical depth/ })).toBeEnabled();
   for (const width of [1280, 768, 390]) {
     await page.setViewportSize({ width, height: 1000 });
@@ -69,7 +69,7 @@ test("analysis errors can be retried without showing the previous result", async
     return calls === 1 ? route.fulfill({ status: 503, json: { detail: "unavailable" } }) : route.fulfill({ json: fixture });
   });
   await page.goto("/?r=US-WI");
-  await page.getByRole("button", { name: "Calculate", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   const evidence = page.locator('[data-case-step="evidence"]');
   await expect(evidence.getByRole("alert")).toBeVisible();
   await expect(page.getByText("Wisconsin: Confirmed", { exact: true })).toHaveCount(0);
@@ -77,21 +77,22 @@ test("analysis errors can be retried without showing the previous result", async
   await expect(page.getByText("Wisconsin: Confirmed", { exact: true })).toBeVisible();
 });
 
-test("case tabs support keyboard navigation and the partner empty state", async ({ page }) => {
-  await page.goto("/");
-  const caseTab = page.getByRole("tab", { name: "Case", exact: true });
-  const partnerTab = page.getByRole("tab", { name: "Partner", exact: true });
-  await caseTab.focus(); await page.keyboard.press("ArrowRight");
-  await expect(partnerTab).toBeFocused(); await page.keyboard.press("Enter");
-  await expect(partnerTab).toHaveAttribute("aria-selected", "true");
-  await expect(page.getByRole("textbox", { name: "Ask the Partner" })).toBeVisible();
-  await page.keyboard.press("ArrowLeft"); await page.keyboard.press("Enter");
-  await expect(page.getByRole("heading", { name: "Evidence", exact: true })).toBeVisible();
+test("Investigate opens the results pane with evidence, verdict and the partner", async ({ page }) => {
+  await page.route("**/api/py/analyze", (route) => route.fulfill({ json: fixture }));
+  await page.goto("/?r=US-WI");
+  await expect(page.getByRole("heading", { name: "Evidence", exact: true })).toHaveCount(0);
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  const results = page.getByRole("region", { name: "Results", exact: true });
+  await expect(results.getByRole("heading", { name: "Evidence", exact: true })).toBeVisible();
+  await expect(results.getByText("Wisconsin: Confirmed", { exact: true })).toBeVisible();
+  await expect(results.getByRole("textbox", { name: "Ask the Partner" })).toBeVisible();
+  await results.getByRole("button", { name: "Hide results" }).click();
+  await expect(results).toHaveCount(0);
 });
 
 test("Evidence switches yearly/monthly/anomalies and Scientist renders the methods table", async ({ page }) => {
   await page.goto("/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN&lvl=scientist");
-  await page.getByRole("button", { name: "Calculate", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   const evidence = page.locator('[data-case-step="evidence"]');
   await expect(evidence.getByRole("img", { name: "Yearly series", exact: true })).toBeVisible();
   await expect(page.getByRole("table", { name: "Statistical results · °C" })).toBeVisible();
@@ -112,7 +113,7 @@ test("four-region Scientist comparison fits narrow windows and shows warnings", 
     return route.fulfill({ json: { ...fixture, case: body, results: body.regions.map((id: string) => ({ ...fixture.results[0], region: regions.find((r) => r.id === id), warnings: ["tests_disagree"] })) } });
   });
   await page.goto("/?v=T2M&r=USA,US-WI,ESP,NR-SAHEL&from=2002&to=2025&s=JJA&lvl=scientist");
-  await page.getByRole("button", { name: "Calculate", exact: true }).click();
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("article")).toHaveCount(4);
   await expect(page.getByText("Tests disagree", { exact: true })).toHaveCount(4);
   for (const width of [1280, 768, 390]) {

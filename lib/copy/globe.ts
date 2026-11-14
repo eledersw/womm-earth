@@ -1,7 +1,7 @@
 // UI strings for the shell and the globe (Eleder's area). Follows docs/pitch/COPY.md;
-// update both together. Placeholder name until Edur's brand brief lands.
+// update both together. Product name decided by Eleder (H7): WOMM Earth.
 export const shellCopy = {
-  productName: "Earth Case Files",
+  productName: "WOMM Earth",
   about: "About",
   share: "Share case",
   shareShort: "Share",
@@ -9,8 +9,6 @@ export const shellCopy = {
   shareCopied: "Link copied. Anyone with it opens this exact case.",
   shareFailed: "Couldn't copy the link. Copy it from the address bar instead.",
   skipToPanel: "Skip to the case panel",
-  themeLabel: "Colour scheme",
-  themes: { silver: "Silver", nebula: "Nebula", ember: "Ember" },
   backToCase: "Back to the case",
 } as const;
 

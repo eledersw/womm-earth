@@ -28,10 +28,12 @@ describe("case controls", () => {
   it("loads catalogues and live analysis through the shared client", async () => {
     setup();
     const panel = screen.getByRole("region", { name: caseCopy.panel });
-    expect(within(panel).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["Lead", "Scene", "Timeline", "Evidence", "Verdict"]);
+    expect(within(panel).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["Lead", "Scene", "Timeline"]);
     expect(api.POST).not.toHaveBeenCalled();
     fireEvent.click(await screen.findByRole("button", { name: caseCopy.controls.calculate }));
     await screen.findByText("Wisconsin: Confirmed");
+    const results = screen.getByRole("region", { name: caseCopy.results });
+    expect(within(results).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["Results", "Evidence", "Verdict", partnerCopy.title]);
     expect(screen.getByRole("combobox", { name: "Variable" }).getAttribute("value") ?? (screen.getByRole("combobox", { name: "Variable" }) as HTMLSelectElement).value).toBe("T2M");
     expect(screen.getByRole("figure", { name: caseCopy.controls.chart })).toBeDefined();
     expect(api.POST).toHaveBeenCalledWith("/api/py/analyze", expect.objectContaining({ body: { variable: "T2M", regions: ["US-WI"], start: 2002, end: 2025, season: "JJA", months: null } }));
@@ -71,18 +73,18 @@ describe("case controls", () => {
     expect(updates.at(-1)?.searchParams.has("m")).toBe(false);
   });
 
-  it("switches to Partner with keyboard and returns to Case", async () => {
+  it("shows evidence, verdict and the partner only after Investigate, and hides them on request", async () => {
     setup();
-    const caseTab = screen.getByRole("tab", { name: "Case" });
-    caseTab.focus(); fireEvent.keyDown(caseTab, { key: "ArrowRight" });
-    const partnerTab = screen.getByRole("tab", { name: "Partner" });
-    await waitFor(() => expect(document.activeElement).toBe(partnerTab));
-    fireEvent.keyDown(partnerTab, { key: "Enter" });
-    expect(screen.getByText(partnerCopy.chatIntro)).toBeDefined();
-    fireEvent.keyDown(partnerTab, { key: "ArrowLeft" });
-    await waitFor(() => expect(document.activeElement).toBe(caseTab));
-    fireEvent.keyDown(caseTab, { key: "Enter" });
+    await screen.findByRole("button", { name: "Investigate" });
+    expect(screen.queryByRole("heading", { name: "Evidence" })).toBeNull();
+    expect(screen.queryByText(partnerCopy.chatIntro)).toBeNull();
+    await waitFor(() => expect((screen.getByRole("button", { name: "Investigate" }) as HTMLButtonElement).disabled).toBe(false));
+    fireEvent.click(screen.getByRole("button", { name: "Investigate" }));
+    await screen.findByText("Wisconsin: Confirmed");
     expect(screen.getByRole("heading", { name: "Evidence" })).toBeDefined();
+    expect(screen.getByText(partnerCopy.chatIntro)).toBeDefined();
+    fireEvent.click(screen.getByRole("button", { name: caseCopy.hideResults }));
+    expect(screen.queryByRole("region", { name: caseCopy.results })).toBeNull();
   });
 
   it("hides stale content while loading or in error and supports retry", () => {
