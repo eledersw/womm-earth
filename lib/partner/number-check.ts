@@ -90,3 +90,11 @@ export function checkNumbers(text: string, toolResults: unknown[]): { ok: boolea
   }).map(({ raw }) => raw);
   return { ok: unmatched.length === 0, unmatched };
 }
+
+/** Keep supported parts of a chat answer when a separate line invents a number. */
+export function keepGroundedLines(text: string, toolResults: unknown[]): string | null {
+  if (checkNumbers(text, toolResults).ok) return text;
+  const kept = text.split(/\r?\n/).filter((line) => checkNumbers(line, toolResults).ok);
+  const answer = kept.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  return answer && checkNumbers(answer, toolResults).ok ? answer : null;
+}
