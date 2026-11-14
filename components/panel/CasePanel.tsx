@@ -1,12 +1,10 @@
 "use client";
 
-import { Suspense, useEffect, useMemo } from "react";
+import { Suspense, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { caseCopy } from "@/lib/copy/case";
 import { partnerCopy } from "@/lib/copy/partner";
 import { useCase } from "@/lib/state/use-case";
-import * as Plot from "@observablehq/plot";
-import { PlotFigure } from "@/components/charts/PlotFigure";
 import { LeadStep } from "./steps/LeadStep";
 import { SceneStep } from "./steps/SceneStep";
 import { TimelineStep } from "./steps/TimelineStep";
@@ -40,15 +38,6 @@ function CasePanelContent() {
     }
   }, [variable, state.from, state.to, setCase]);
 
-  const chartOptions = useMemo(() => {
-    const yearly = analysis.data?.results.flatMap((result) => result.yearly.map((point) => ({ ...point, region: result.region.name }))) ?? [];
-    return (width: number): Plot.PlotOptions => ({
-      width, height: 240, ariaLabel: caseCopy.controls.chart,
-      x: { label: caseCopy.controls.year, tickFormat: "d" }, y: { label: variable?.unit },
-      color: { legend: true, ...(analysis.data?.results.length === 1 ? { range: ["currentColor"] } : {}) },
-      marks: [Plot.lineY(yearly, { x: "year", y: "value", stroke: "region" }), Plot.dot(yearly, { x: "year", y: "value", stroke: "region" })],
-    });
-  }, [analysis.data, variable?.unit]);
   const controls = { state, setCase };
   return (
     <section aria-label={caseCopy.panel} className="w-full min-w-0">
@@ -64,20 +53,12 @@ function CasePanelContent() {
               onRetry={() => { variables.retry(); regions.retry(); }} /></li>
             <li><SceneStep {...controls} regions={regions.byId} loading={regions.loading} error={!!regions.error} onRetry={regions.retry} /></li>
             <li><TimelineStep {...controls} variable={variable} loading={variables.loading} error={!!variables.error} onRetry={variables.retry} /></li>
-            <li><EvidenceStep loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>
-              {analysis.data ? <>
-                <PlotFigure options={chartOptions} label={caseCopy.controls.chart} />
-                {analysis.data.results.map((result) => <div key={result.region.id} className="mt-3 text-sm">
-                  <p>{result.region.name} · {caseCopy.controls.yearlyValues}: {result.yearly.length}</p>
-                  <p className="text-muted-foreground">{caseCopy.controls.source}: {result.provenance.source} · {caseCopy.controls.kinds[result.provenance.kind]}</p>
-                </div>)}
-              </> : <p className="text-sm text-muted-foreground">{state.regions.length && !valid ? caseCopy.controls.catalogRequired : caseCopy.steps.evidence.empty}</p>}
+            <li><EvidenceStep results={analysis.data?.results} unit={variable?.unit} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>
+              <p className="text-sm text-muted-foreground">{state.regions.length && !valid ? caseCopy.controls.catalogRequired : caseCopy.steps.evidence.empty}</p>
             </EvidenceStep></li>
-            <li><VerdictStep loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>
-              {analysis.data ? <ul className="space-y-1">{analysis.data.results.map((result) => <li key={result.region.id}>
-                {result.region.name}: {caseCopy.tiers[result.verdict.tier]}
-              </li>)}</ul> : null}
-            </VerdictStep></li>
+            <li><VerdictStep results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale}
+              context={{ variableName: variable?.name ?? state.variable, unit: variable?.unit ?? "", period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `${caseCopy.controls.seasons.CUSTOM} (${state.months?.join(", ")})` : caseCopy.controls.seasons[state.season] }}
+              loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} /></li>
           </ol>
         </TabsContent>
         <TabsContent value="partner" className="rounded-xl border bg-card p-4">

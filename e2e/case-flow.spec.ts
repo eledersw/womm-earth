@@ -37,7 +37,7 @@ test("case controls update the URL and restore it on reload", async ({ page }) =
   await expect(page.getByRole("combobox", { name: "Start month", exact: true })).toHaveValue("11");
   await expect(page.getByRole("combobox", { name: "End month", exact: true })).toHaveValue("2");
   await expect(page.getByRole("slider").nth(0)).toHaveAttribute("aria-valuenow", "2003");
-  await expect(page.getByText("Wisconsin (US-WI)", { exact: true })).toBeVisible();
+  await expect(page.locator('[data-case-step="scene"]').getByText("Wisconsin (US-WI)", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Remove region: Wisconsin" }).click();
   await expect.poll(() => new URL(page.url()).searchParams.has("r")).toBe(false);
   await expect(page.getByText("Choose a region for your Case.", { exact: true })).toBeVisible();
@@ -81,4 +81,38 @@ test("case tabs support keyboard navigation and the partner empty state", async 
   await expect(page.getByText("The partner is unavailable. You can still investigate your Case.")).toBeVisible();
   await page.keyboard.press("ArrowLeft"); await page.keyboard.press("Enter");
   await expect(page.getByRole("heading", { name: "Evidence", exact: true })).toBeVisible();
+});
+
+test("Evidence switches yearly/monthly/anomalies and Scientist renders the methods table", async ({ page }) => {
+  await page.goto("/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN&lvl=scientist");
+  const evidence = page.locator('[data-case-step="evidence"]');
+  await expect(evidence.getByRole("img", { name: "Yearly series", exact: true })).toBeVisible();
+  await expect(page.getByRole("table", { name: "Statistical results · °C" })).toBeVisible();
+  await expect(page.getByText("Mann-Kendall (Hamed–Rao)", { exact: true })).toBeVisible();
+  await evidence.getByRole("radio", { name: "Monthly", exact: true }).click();
+  await expect(evidence.getByRole("img", { name: "Monthly series", exact: true })).toBeVisible();
+  await evidence.getByRole("radio", { name: "Anomalies", exact: true }).click();
+  await expect(evidence.getByRole("img", { name: "Monthly anomalies", exact: true })).toBeVisible();
+  await expect(evidence.getByText(/Anomalies subtract/)).toBeVisible();
+  await evidence.getByRole("radio", { name: "Yearly", exact: true }).click();
+  await expect(evidence.getByRole("img", { name: "Yearly series", exact: true })).toBeVisible();
+  await page.screenshot({ path: test.info().outputPath("evidence-verdict.png"), fullPage: true });
+});
+
+test("four-region Scientist comparison fits narrow windows and shows warnings", async ({ page }) => {
+  await page.route("**/api/py/analyze", (route) => {
+    const body = route.request().postDataJSON();
+    return route.fulfill({ json: { ...fixture, case: body, results: body.regions.map((id: string) => ({ ...fixture.results[0], region: regions.find((r) => r.id === id), warnings: ["tests_disagree"] })) } });
+  });
+  await page.goto("/?v=T2M&r=USA,US-WI,ESP,NR-SAHEL&from=2002&to=2025&s=JJA&lvl=scientist");
+  await expect(page.getByRole("article")).toHaveCount(4);
+  await expect(page.getByText("Tests disagree", { exact: true })).toHaveCount(4);
+  for (const width of [1280, 768, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  }
+  await page.setViewportSize({ width: 1280, height: 1100 });
+  await page.screenshot({ path: test.info().outputPath("four-regions-light.png"), fullPage: true });
+  await page.evaluate(() => document.documentElement.classList.add("dark"));
+  await page.screenshot({ path: test.info().outputPath("four-regions-dark.png"), fullPage: true });
 });
