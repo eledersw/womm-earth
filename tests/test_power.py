@@ -1,3 +1,5 @@
+import json
+from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 import _engine.power as power
@@ -30,6 +32,7 @@ def test_monthly_catalog_excludes_hourly_variants(monkeypatch):
         "T2M_00": {"temporal": "MONTHLY", "type": "METEOROLOGY", "units": "C", "name": "Temperature at 2 Meters at 00 Hour"},
         "T2M_HR": {"temporal": "MONTHLY", "type": "OTHER", "units": "", "name": "Temperature (Hour-Based Parameter Set)"},
         "PRECTOTCORR": {"temporal": "MONTHLY", "type": "METEOROLOGY", "units": "mm/day", "name": "Precipitation"},
+        "UNREVIEWED": {"temporal": "MONTHLY", "type": "METEOROLOGY", "units": "C", "name": "Unreviewed parameter"},
         "DAILY_ONLY": {"temporal": "DAILY", "type": "METEOROLOGY", "units": "C", "name": "Daily temperature"},
     }
     monkeypatch.setattr(power, "_request_json", lambda _url: parameters)
@@ -39,3 +42,32 @@ def test_monthly_catalog_excludes_hourly_variants(monkeypatch):
     variables = power._load_monthly_parameters()
 
     assert [variable.id for variable in variables] == ["PRECTOTCORR", "T2M"]
+    assert variables[1].signed_off is True
+    assert variables[1].definition_student.startswith("How warm the air is")
+
+
+def test_approved_aod_uses_verified_start_year(monkeypatch):
+    monkeypatch.setattr(power, "_request_json", lambda _url: {
+        "AOD_55": {"temporal": "MONTHLY", "type": "RADIATION", "units": "dimensionless", "name": "Aerosol Optical Depth 55"},
+    })
+    monkeypatch.setattr(power, "_catalog_cache", ())
+    monkeypatch.setattr(power, "_catalog_expires_at", 0.0)
+
+    variable, = power._load_monthly_parameters()
+
+    assert variable.start_year == 2001
+    assert variable.signed_off is True
+
+
+def test_approved_catalogue_matches_verified_power_snapshot(monkeypatch):
+    snapshot = json.loads((Path(__file__).resolve().parents[1] / "docs/science/catalog/power_verification.json").read_text())
+    metadata = {code: entry["metadata"] for code, entry in snapshot["parameters"].items()}
+    monkeypatch.setattr(power, "_request_json", lambda _url: metadata)
+    monkeypatch.setattr(power, "_catalog_cache", ())
+    monkeypatch.setattr(power, "_catalog_expires_at", 0.0)
+
+    variables = power._load_monthly_parameters()
+
+    assert len(variables) == 16
+    assert {variable.id for variable in variables} == set(snapshot["parameters"])
+    assert all(variable.signed_off for variable in variables)
