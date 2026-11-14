@@ -68,7 +68,7 @@
   - Do the same for any candidate case that needs a satellite series (e.g. OMI NO₂ over a city).
   - **Done when:** the CSVs are in `docs/science/hero/` and Coder B is told.
 
-- [ ] **H2–H5: golden cases, the engine's answer key.**
+- [x] **H2–H5: golden cases, the engine's answer key.**
   - Follow `golden_cases/README.md`. Build the 6 series:
     1. a linear trend with white noise;
     2. pure noise;
@@ -89,7 +89,7 @@
   - Then mark each row `signed off`. The Story lead edits the student wording for tone.
   - **Done when:** at least 12 variables are `signed off`.
 
-- [ ] **H6–H8: demo-case dry-run.**
+- [x] **H6–H8: demo-case dry-run.**
   - Run every candidate in `DEMO_CASES.md` (plus backups) with `python scripts/case_cli.py ...`; Claude can run it for you.
   - Fill in each case's result table.
   - Check each result against published research. *Ask Claude with deep research:* "Does published research agree that <variable> over <region> has trended <up/down> since <year>? Give 1–2 citations."
