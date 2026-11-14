@@ -26,7 +26,7 @@ export const explainInputSchema = z.object({
     warnings: z.array(text).max(30),
   }),
 }).strict().superRefine((input, ctx) => {
-  if (input.regionName !== input.analysis.region.name || !input.analysis.region.valid_variables.includes(input.variable.id)) {
+  if (input.regionName !== input.analysis.region.name) {
     ctx.addIssue({ code: "custom", message: "Mismatched case metadata" });
   }
 });
