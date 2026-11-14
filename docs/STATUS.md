@@ -1,6 +1,6 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 15:32 (H3.5), by Ekaitz (coder-c Task 4 verification)
+**Updated:** Sat 2026-11-14 16:07 (H4.1), by Ekaitz (coder-c Explain local implementation)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
@@ -45,7 +45,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 |---|---|---|---|---|
 | Lead | Eleder | Task 2 done: seams merged (#7). **Seams frozen**: `useCase`, `useUiStore`, `api`/`serverApi`, `lib/api/types` | Task 3 (design direction with Edur + tokens + shell), then Task 4 (globe) | 🟡 |
 | Coder B (data & stats) | Oier | Engine core and live `/analyze`, `/variables`, `/regions` plus CLI implemented locally. Run `python scripts/case_cli.py --var T2M --region US-WI --start 2002 --end 2025 --season JJA --json` after the data library lands. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review slide claim. | Integrate the region library and Sergio's golden cases; validate real-data endpoints. | 🟡 |
-| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–4 implemented and integrated in `main`; Task 4 SSE + number-check commit `4d95598` is present. Current verification: 31 partner tests, 78 total Vitest tests, `npm run check` pass. | Await user direction; Task 5 has not started. Real-data and production verification remain pending. | 🟡 |
+| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–4 integrated. Task 5 Explain implemented locally on `ekaitz/task5-explain`: validated SSE route, planned SDK/model, Student/Scientist, cancellation/retry, numeric checks and template fallback. Check + 93 tests + 10 Chromium E2E pass (mock SDK/HTTP fixtures). | User publishes/PR/merges; live Claude + cache-read verification pending in Vercel (key configured there per user, absent locally; user requested deferral). Process cards still draft, so no physical explanations. | 🟡 |
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
 | Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
 
@@ -63,6 +63,8 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 ## Blockers
 
-- [Eleder] `ANTHROPIC_API_KEY` in Vercel, Protection Bypass for Automation, Anthropic spend cap · Eleder (dashboard) · since H3.5
+- [Eleder] Protection Bypass for Automation and Anthropic spend cap · Eleder (dashboard); ANTHROPIC_API_KEY is configured in Vercel per user report · since H3.5
+
+- [coder-c] Confirm production rate limit for `/api/partner` before public Explain rollout · Eleder (Vercel firewall) · since H4.1
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`

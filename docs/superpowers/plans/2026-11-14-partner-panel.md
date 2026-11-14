@@ -221,15 +221,17 @@ if (final.stop_reason === "refusal") emit({ type: "error", message: partnerCopy.
 
 Errors: catch `Anthropic.RateLimitError` → the `partnerCopy.busy` message, `Anthropic.APIError` → `partnerCopy.offline`. Check them in that order and never match error strings.
 
-- [ ] **Step 1: Write the tests.**
+- [x] **Step 1: Write the tests.**
   - `prompts.test.ts`: `SYSTEM is deterministic` (importing twice gives the same string; it doesn't contain the current year or `Date`); `summarizeAnalysis drops arrays` (no `monthly`/`fit` keys).
   - `explain route returns error event without key` (call the route handler with `ANTHROPIC_API_KEY` unset → the stream contains an `error` event, then `done`).
 
   Run → FAIL.
-- [ ] **Step 2: Implement** `anthropic.ts`, `prompts.ts`, `summarize.ts`, `explain.ts` and the explain branch of the route. Run → PASS.
+- [x] **Step 2: Implement** `anthropic.ts`, `prompts.ts`, `summarize.ts`, `explain.ts` and the explain branch of the route. Run → PASS.
 - [ ] **Step 3: Live check.** With a real key in `.env.local`, an Explain request streams text. Log `final.usage.cache_read_input_tokens`; it must be > 0 on the second identical request. If it stays 0, the prefix is changing between requests.
-- [ ] **Step 4: Wire it into the UI.** Add `ExplainBox` under each verdict card, hidden for `too_short`. Add a Student/Scientist switch in the panel header → `setCase({level})`.
+- [x] **Step 4: Wire it into the UI.** Add `ExplainBox` under each verdict card, hidden for `too_short`. Add a Student/Scientist switch in the panel header → `setCase({level})`.
 - [ ] **Step 5: Merge (M2).** Commit `feat(partner): explain mode`, then self-merge at the **H14 checkpoint**. Case #1 must explain end to end on production.
+
+Task 5 local implementation: check + 93 Vitest tests + 10 Chromium E2E pass with mocked SDK/HTTP fixtures. Steps 3 and 5 remain pending: user confirmed the key is only in Vercel and requested deferring the real streaming/cache check; user handles publication/PR/merge. Process cards are empty pending Methods content, so Explain makes no physical claims.
 
 ### Task 6: Partner chat with tools (H14–H18)
 
