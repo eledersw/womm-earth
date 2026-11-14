@@ -1,6 +1,8 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 13:00 (H1), by Eleder (scaffold)
+**Updated:** Sat 2026-11-14 15:30 (H3.5), by Eleder (Vercel production live)
+
+**Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
 > 📣 **Scaffold is on `main`: branch from it now.** Run `npm ci`, and create a Python venv for `requirements.txt` + `uvicorn`. Then `npm run dev` starts Next.js plus FastAPI on 127.0.0.1:8000. `npm run check` must pass before every PR.
 **Deadline:** target H30 ≈ Sun 2026-11-15 18:00 local. *The Story lead confirms the official time at H1 and corrects this line.* **We submit by H29.**
@@ -39,7 +41,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 | Role | Person | Now | Next | State |
 |---|---|---|---|---|
-| Lead | Eleder | Scaffold merged (frontend-shell Task 1); verified locally | Vercel project + production smoke test, then Task 2 (seams) | 🟡 |
+| Lead | Eleder | Task 1 done: scaffold + Vercel production live, smoke test passed | Task 2 (seams: case state, UI store, API client) | 🟡 |
 | Coder B (data & stats) | Oier | Engine core and live `/analyze`, `/variables`, `/regions` plus CLI implemented locally. Run `python scripts/case_cli.py --var T2M --region US-WI --start 2002 --end 2025 --season JJA --json` after the data library lands. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review slide claim. | Integrate the region library and Sergio's golden cases; validate real-data endpoints. | 🟡 |
 | Coder C (panel, charts, partner) | Ekaitz | — | claude-api skill, `<PlotFigure>`, panel shells | ⬜ |
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
@@ -47,18 +49,18 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 ## Checkpoints
 
-- [ ] Smoke deploy (Lead, H2). **Local: all pass. Production: pending the Vercel project.**
-  - [ ] nested route with a query string answers (`/api/py/health?x=1`): local ✅ through the Next rewrite
-  - [ ] numpy + `scipy.special` import: local ✅ (numpy 2.5.4, scipy 1.18.1)
-  - [ ] `/api/partner` stub answers alongside `/api/py/*`: local ✅ (501)
-  - [ ] cold start: local 0.08 s import time; production ___ s
-  - [ ] Python version on Vercel is 3.12 (`/api/py/health` → `python`)
+- [x] Smoke deploy (Lead). **Production ✅ at H3.5** (https://womm-earth.vercel.app)
+  - [x] nested route with a query string answers (`/api/py/health?x=1`) → 200
+  - [x] numpy 2.5.4 + scipy 1.18.1 import on Vercel
+  - [x] `/api/partner` answers alongside `/api/py/*` (stub → 501); Oier's `/api/py/regions` stub → 200
+  - [x] cold start: 0.64 s import on Vercel (0.08 s locally); a warm request takes ~0.55 s round trip from Spain to iad1
+  - [x] Python 3.12.16 on Vercel (from `.python-version`)
 - [ ] Validity checkpoint passed (Methods lead, by H14)
 - [ ] Accuracy eval score: ___ / 20 (Methods lead + Coder C, H22–H24)
 - [ ] Submission checklist complete (Story lead + Lead, H29)
 
 ## Blockers
 
-- [Eleder] Production deploy · Eleder creates the Vercel project, then adds `ANTHROPIC_API_KEY`, Protection Bypass and the Anthropic spend cap · since H1
+- [Eleder] `ANTHROPIC_API_KEY` in Vercel, Protection Bypass for Automation, Anthropic spend cap · Eleder (dashboard) · since H3.5
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
