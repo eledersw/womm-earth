@@ -1,51 +1,137 @@
 /*
- * Design tokens: the "strip-chart recorder" world (impeccable seed 3670b4b9).
- * Owner: Eleder. Components read these through Tailwind (bg-paper, text-ink, ...)
- * or var(--token) in charts. Never hard-code hex in components.
+ * Design tokens: "Silver Orbit". Fragment Studio's silver-on-black language
+ * (thin Stack Sans Headline figures, Stack Sans Text, Fragment Mono labels,
+ * a chrome action button) with liquid-glass panels over a starfield and the globe.
+ * Owner: Eleder. Components read these through Tailwind (bg-background,
+ * text-muted-foreground, ...) or var(--token) in charts. Never hard-code hex in components.
  *
- * Contrast (checked with the dataviz validator, WCAG 2 ratio):
- *   ink 16.5 · ink-2 8.8 · ink-3 5.8 on paper; enamel-ink 10.3 on enamel;
- *   window-ink 15.1 on window; signal ring 3.7 on paper.
- * Pens (series-1..4): categorical palette PASS (CVD ΔE ≥ 21.6) on paper.
- * Trend ramp: validated as ordinal arms ON THE DARK WINDOW (magnitude rises
- * with lightness there); poles CVD ΔE ≥ 16. Use it on --window, not on paper.
+ * Three colour schemes, chosen with the header switch (data-theme on <html>):
+ *   silver (default) · nebula (violet) · ember (warm champagne)
+ * Pens and the trend ramp are the same in every scheme.
+ *
+ * Contrast on the ground (WCAG 2): ink >= 15:1, ink-2 >= 8:1, ink-3 >= 6:1.
+ * Pens (dataviz validator, surface #050607, all pairs): CVD ΔE >= 8.3, normal >= 20.4.
+ * The fourth pen is Fragment silver on purpose: it is told apart by lightness,
+ * not hue, so it fails only the validator's hue rule, never the CVD checks.
  */
+:root,
+[data-theme="silver"] {
+  --space: #030405;
+  --space-2: #0b0d0f; /* solid stand-in for glass (reduced transparency) */
+  --nebula-1: rgb(150 166 176 / 0.16);
+  --nebula-2: rgb(92 104 112 / 0.12);
+
+  --ink: #e4e9eb;
+  --silver: #c9d0d2; /* Fragment's ink: display type and figures */
+  --ink-2: #a5aeb1;
+  --ink-3: #8d9496;
+  --hairline: rgb(201 208 210 / 0.14);
+  --hairline-strong: rgb(201 208 210 / 0.3);
+
+  --glass-hi: rgb(255 255 255 / 0.09);
+  --glass-lo: rgb(255 255 255 / 0.025);
+  --glass-tint: rgb(6 8 10 / 0.5); /* keeps text readable over a bright globe */
+  --glass-edge: rgb(255 255 255 / 0.16);
+  --glass-shine: rgb(255 255 255 / 0.28);
+  --well: rgb(255 255 255 / 0.035);
+  --well-2: rgb(255 255 255 / 0.075);
+  --popover-glass: rgb(16 19 21 / 0.92);
+
+  --action-top: #f1f4f5;
+  --action-bottom: #b4bdc0;
+  --action-ink: #050607;
+  --focus: #e4e9eb;
+
+  --globe-ocean: #0a0e11;
+  --globe-specular: #3d474c;
+  --globe-land: #1c2326;
+  --globe-land-hover: #2b3438;
+  --globe-seam: rgb(201 208 210 / 0.32);
+  --globe-ocean-seam: rgb(201 208 210 / 0.1);
+  --globe-atmosphere: #aab6bb;
+}
+
+[data-theme="nebula"] {
+  --space: #05040a;
+  --space-2: #0e0c17;
+  --nebula-1: rgb(128 96 220 / 0.22);
+  --nebula-2: rgb(70 56 150 / 0.18);
+
+  --ink: #ebe8f4;
+  --silver: #d4cdeb;
+  --ink-2: #aea8c4;
+  --ink-3: #958fad;
+  --hairline: rgb(212 205 235 / 0.14);
+  --hairline-strong: rgb(212 205 235 / 0.3);
+
+  --glass-hi: rgb(232 224 255 / 0.1);
+  --glass-lo: rgb(232 224 255 / 0.03);
+  --glass-tint: rgb(8 6 16 / 0.5);
+  --glass-edge: rgb(232 224 255 / 0.18);
+  --glass-shine: rgb(240 234 255 / 0.3);
+  --well: rgb(232 224 255 / 0.04);
+  --well-2: rgb(232 224 255 / 0.08);
+  --popover-glass: rgb(18 15 30 / 0.92);
+
+  --action-top: #f3efff;
+  --action-bottom: #bdb2e6;
+  --action-ink: #07050d;
+  --focus: #ebe8f4;
+
+  --globe-ocean: #0c0a16;
+  --globe-specular: #463d63;
+  --globe-land: #221e35;
+  --globe-land-hover: #322c4c;
+  --globe-seam: rgb(212 205 235 / 0.32);
+  --globe-ocean-seam: rgb(212 205 235 / 0.1);
+  --globe-atmosphere: #b6abe3;
+}
+
+[data-theme="ember"] {
+  --space: #060504;
+  --space-2: #110e0b;
+  --nebula-1: rgb(214 162 96 / 0.15);
+  --nebula-2: rgb(150 100 62 / 0.13);
+
+  --ink: #f0ebe3;
+  --silver: #e1d5c1;
+  --ink-2: #b8ae9f;
+  --ink-3: #9e9484;
+  --hairline: rgb(225 213 193 / 0.14);
+  --hairline-strong: rgb(225 213 193 / 0.3);
+
+  --glass-hi: rgb(255 240 220 / 0.09);
+  --glass-lo: rgb(255 240 220 / 0.025);
+  --glass-tint: rgb(12 9 6 / 0.5);
+  --glass-edge: rgb(255 240 220 / 0.16);
+  --glass-shine: rgb(255 244 228 / 0.28);
+  --well: rgb(255 240 220 / 0.035);
+  --well-2: rgb(255 240 220 / 0.075);
+  --popover-glass: rgb(26 21 16 / 0.92);
+
+  --action-top: #f8efe0;
+  --action-bottom: #cdb88e;
+  --action-ink: #0a0806;
+  --focus: #f0ebe3;
+
+  --globe-ocean: #100d0a;
+  --globe-specular: #54473a;
+  --globe-land: #29221b;
+  --globe-land-hover: #392f26;
+  --globe-seam: rgb(225 213 193 / 0.32);
+  --globe-ocean-seam: rgb(225 213 193 / 0.1);
+  --globe-atmosphere: #d6c19c;
+}
+
 :root {
-  /* Chart paper + ink */
-  --paper: #f3f6f1;
-  --paper-2: #e5ece4; /* recessed wells, hover */
-  --paper-leaf: #fafcf9; /* a sheet lying on the roll (popovers, cards) */
-  --grid-minor: #dbe7dd;
-  --grid-major: #a3b8aa;
-  --ink: #14171a;
-  --ink-2: #3d4744;
-  --ink-3: #56625e;
-  --rule: #7e968a; /* control borders: >= 3:1 on paper */
+  /* Region pens: one per region, assigned in order, never cycled. No red, no blue:
+     red and blue belong to the trend map (rising / falling). */
+  --series-1: #c98318; /* amber */
+  --series-2: #14a08a; /* teal */
+  --series-3: #c062c4; /* orchid */
+  --series-4: #b9c2c6; /* silver */
 
-  /* Enamel instrument frame */
-  --enamel: #2e3b36;
-  --enamel-2: #3a4943;
-  --enamel-seam: #1b2420;
-  --enamel-ink: #eef2ec;
-  --enamel-ink-2: #b9c6bf;
-
-  /* Viewing window (globe) */
-  --window: #0e1a1f;
-  --window-2: #16262d;
-  --window-ink: #e6eef0;
-  --window-ink-2: #a7b6bb;
-
-  /* Pilot lamp: focus, selection, live state */
-  --signal: #b86e00; /* on paper */
-  --signal-lamp: #f2b233; /* on enamel / window */
-
-  /* Pen inks: one channel per region, assigned in this order, never cycled */
-  --series-1: #d12a2a;
-  --series-2: #1f5fbf;
-  --series-3: #1c8c5a;
-  --series-4: #6d3fb0;
-
-  /* Trend ramp (on --window): up = increase, down = decrease; 3 = strongest */
+  /* Trend ramp (globe trend map): up = increase, down = decrease; 3 = strongest */
   --trend-up-3: #f59a73;
   --trend-up-2: #d55c3f;
   --trend-up-1: #9c3b2f;
@@ -54,18 +140,18 @@
   --trend-down-2: #4f95d6;
   --trend-down-3: #9ccbf0;
 
-  /* Errors: reserved, never a series colour; always with an icon + label */
-  --critical: #b3261e;
+  /* Errors: reserved, never a pen; always with an icon and a label */
+  --critical: #f0857a;
 
-  /* Type: two sizes inside the panel; rank by weight, case and rule */
-  --text-body: 1.125rem; /* 18px, projector floor */
-  --text-label: 0.875rem; /* 14px condensed uppercase labels */
-  --leading-body: 1.5;
-  --tracking-label: 0.08em;
+  /* Type: 17px root for the projector; figures in thin Stack Sans Headline */
+  --text-body: 1rem;
+  --leading-body: 1.55;
+  --tracking-label: 0.18em;
+  --tracking-nav: 0.1em;
 
-  /* Machined, not rounded SaaS */
-  --radius: 0.125rem;
-  --seam: 1px;
+  /* Shape: glass panels 20px, controls 10px, pills full */
+  --radius: 0.625rem;
+  --radius-panel: 1.25rem;
   --panel-width: 440px;
-  --header-height: 3.25rem;
+  --header-height: 4.5rem;
 }

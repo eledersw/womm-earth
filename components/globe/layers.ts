@@ -89,7 +89,9 @@ export function visibleFeatures(
   const zoomedIn = altitude < ZOOM_STATES_ALTITUDE;
   const showStates = zoomedIn && !selected.includes("USA");
   const named = selected.filter((id) => id.startsWith("NR-") && !WHOLE_EARTH.has(id)).sort();
-  const key = `${showStates ? "states" : "countries"}|${named.join(",")}`;
+  // Zoomed out, selected US states still draw (over the USA outline) so the case stays visible.
+  const pickedStates = showStates ? [] : selected.filter((id) => id.startsWith("US-")).sort();
+  const key = `${showStates ? "states" : "countries"}|${named.join(",")}|${pickedStates.join(",")}`;
 
   let byKey = cache.get(geo);
   if (!byKey) {
@@ -100,10 +102,11 @@ export function visibleFeatures(
   if (hit) return hit;
 
   const namedSet = new Set(named);
+  const stateSet = new Set(pickedStates);
   const features = [
     ...geo.oceans.filter((o) => polarCapLatitude(o) === null),
     ...(showStates ? geo.countries.filter((c) => c.properties.id !== "USA") : geo.countries),
-    ...(showStates ? geo.states : []),
+    ...(showStates ? geo.states : geo.states.filter((s) => stateSet.has(s.properties.id))),
     ...geo.named.filter((n) => namedSet.has(n.properties.id) && polarCapLatitude(n) === null),
   ];
   byKey.set(key, features);

@@ -47,13 +47,13 @@ export function RegionSearch() {
       <PopoverTrigger asChild>
         <button
           type="button"
-          className="scale-label inline-flex h-10 items-center gap-2 rounded-sm border border-paper-leaf/20 bg-window-2/90 px-3 text-window-ink shadow-[0_2px_6px_rgb(0_0_0/0.4)] backdrop-blur-[2px] hover:border-paper-leaf/40 focus-visible:outline-signal-lamp"
+          className="label-nav glass-pill inline-flex h-11 items-center gap-2.5 rounded-full pr-5 pl-4 text-ink transition-colors duration-150 hover:bg-well-2"
         >
-          <Search aria-hidden className="size-4" strokeWidth={2} />
+          <Search aria-hidden className="size-4" strokeWidth={1.75} />
           {globeCopy.searchTrigger}
         </button>
       </PopoverTrigger>
-      <PopoverContent align="start" sideOffset={8} className="w-[min(22rem,calc(100vw-2rem))] p-0">
+      <PopoverContent align="start" sideOffset={10} className="w-[min(24rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border-hairline-strong p-0 backdrop-blur-xl">
         <Command
           filter={(value, search) =>
             value.toLowerCase().includes(search.trim().toLowerCase()) ? 1 : 0
@@ -73,12 +73,12 @@ export function RegionSearch() {
                       <CommandItem key={r.id} value={`${r.name} ${r.id}`} onSelect={() => choose(r)}>
                         <span className="flex-1">{r.name}</span>
                         {pen ? (
-                          <span className="scale-label flex items-center gap-1.5 text-ink-3">
+                          <span className="label-mono flex items-center gap-1.5">
                             <span aria-hidden className="size-2.5 rounded-full" style={{ background: pen }} />
                             {globeCopy.selectedPen}
                           </span>
                         ) : (
-                          <span className="font-mono text-sm text-ink-3">{r.id}</span>
+                          <span className="font-mono text-xs text-ink-3">{r.id}</span>
                         )}
                       </CommandItem>
                     );

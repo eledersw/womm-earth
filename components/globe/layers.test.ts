@@ -40,6 +40,12 @@ describe("visibleFeatures", () => {
     expect(v).not.toContain("USA");
   });
 
+  it("zoomed out still draws the selected states over the USA outline", () => {
+    const v = ids(visibleFeatures(geo, FAR, ["US-WI", "ESP"]));
+    expect(v).toEqual(expect.arrayContaining(["USA", "US-WI"]));
+    expect(v).not.toContain("US-MN");
+  });
+
   it("zoomed in keeps USA when the whole country is selected", () => {
     const v = ids(visibleFeatures(geo, NEAR, ["USA"]));
     expect(v).toContain("USA");
