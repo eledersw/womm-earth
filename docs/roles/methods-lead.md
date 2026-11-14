@@ -115,7 +115,7 @@
 
 - [ ] **H14–H18: sleep.**
 
-- [ ] **H18–H22: pitch block with the Story lead.** The Lead and Coder C are asleep, so this is the two of you.
+- [x] **H18–H22: pitch block with the Story lead.** The Lead and Coder C are asleep, so this is the two of you.
   - **`EVAL.md`:** 20 partner questions, each with an expected answer and a "must not say" list.
   - **Validity slides:** use Coder B's false-positive figure (`docs/science/figures/`). Cover "why we test yearly values", "why two tests" and the years-until-significant explainer.
   - **`LIMITATIONS.md`:** reanalysis vs observation, regional means hiding spatial patterns, linear trends only, short records, multiple testing.
