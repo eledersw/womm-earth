@@ -40,7 +40,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 | Role | Person | Now | Next | State |
 |---|---|---|---|---|
 | Lead | Eleder | Scaffold merged (frontend-shell Task 1); verified locally | Vercel project + production smoke test, then Task 2 (seams) | 🟡 |
-| Coder B (data & stats) | Oier | — | Zarr spike in Colab, stub API | ⬜ |
+| Coder B (data & stats) | Oier | Engine core and live `/analyze`, `/variables`, `/regions` plus CLI implemented locally. Run `python scripts/case_cli.py --var T2M --region US-WI --start 2002 --end 2025 --season JJA --json` after the data library lands. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review slide claim. | Integrate the region library and Sergio's golden cases; validate real-data endpoints. | 🟡 |
 | Coder C (panel, charts, partner) | Ekaitz | — | claude-api skill, `<PlotFigure>`, panel shells | ⬜ |
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
 | Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
