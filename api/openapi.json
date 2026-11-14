@@ -351,6 +351,10 @@
             "title": "Ok",
             "type": "boolean"
           },
+          "python": {
+            "title": "Python",
+            "type": "string"
+          },
           "scipy": {
             "title": "Scipy",
             "type": "string"
@@ -358,6 +362,7 @@
         },
         "required": [
           "ok",
+          "python",
           "numpy",
           "scipy",
           "cold_start_ms"
@@ -455,6 +460,66 @@
           "z"
         ],
         "title": "MirrorEntry",
+        "type": "object"
+      },
+      "MirrorRequest": {
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "integer"
+          },
+          "months": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Months"
+          },
+          "regions": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "title": "Regions",
+            "type": "array"
+          },
+          "season": {
+            "default": "ANN",
+            "enum": [
+              "ANN",
+              "DJF",
+              "MAM",
+              "JJA",
+              "SON",
+              "CUSTOM"
+            ],
+            "title": "Season",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "integer"
+          },
+          "variable": {
+            "title": "Variable",
+            "type": "string"
+          }
+        },
+        "required": [
+          "variable",
+          "regions",
+          "start",
+          "end"
+        ],
+        "title": "MirrorRequest",
         "type": "object"
       },
       "MirrorResponse": {
@@ -1411,7 +1476,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CaseRequest"
+                "$ref": "#/components/schemas/MirrorRequest"
               }
             }
           },
@@ -1539,14 +1604,6 @@
             "required": false,
             "schema": {
               "default": "ANN",
-              "enum": [
-                "ANN",
-                "DJF",
-                "MAM",
-                "JJA",
-                "SON",
-                "CUSTOM"
-              ],
               "title": "Season",
               "type": "string"
             }

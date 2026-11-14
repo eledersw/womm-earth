@@ -250,6 +250,8 @@ export interface components {
             numpy: string;
             /** Ok */
             ok: boolean;
+            /** Python */
+            python: string;
             /** Scipy */
             scipy: string;
         };
@@ -286,6 +288,25 @@ export interface components {
             slope_per_decade: number;
             /** Z */
             z: number;
+        };
+        /** MirrorRequest */
+        MirrorRequest: {
+            /** End */
+            end: number;
+            /** Months */
+            months?: number[] | null;
+            /** Regions */
+            regions: string[];
+            /**
+             * Season
+             * @default ANN
+             * @enum {string}
+             */
+            season: "ANN" | "DJF" | "MAM" | "JJA" | "SON" | "CUSTOM";
+            /** Start */
+            start: number;
+            /** Variable */
+            variable: string;
         };
         /** MirrorResponse */
         MirrorResponse: {
@@ -676,7 +697,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CaseRequest"];
+                "application/json": components["schemas"]["MirrorRequest"];
             };
         };
         responses: {
@@ -759,7 +780,7 @@ export interface operations {
                 variable: string;
                 start: number;
                 end: number;
-                season?: "ANN" | "DJF" | "MAM" | "JJA" | "SON" | "CUSTOM";
+                season?: string;
                 months?: number[] | null;
             };
             header?: never;
