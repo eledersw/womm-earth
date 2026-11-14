@@ -31,6 +31,14 @@ The PR body uses `.github/pull_request_template.md`: which area it touches, whet
 
 Squash merges keep `main` readable. Delete the branch after merging.
 
+## Required checks on `main`
+
+A GitHub ruleset ("main: checks must pass") requires the `web` and `api` CI jobs to pass before a PR merges.
+
+- **A red check blocks the merge** for everyone, in the GitHub UI and in `gh pr merge`. Fix the check; don't work around it.
+- **Never tick "bypass rules" and never pass `--admin`.** Only Eleder bypasses, for a P0 or to unblock a fix PR, and he says so in STATUS.
+- **Direct docs pushes to `main` still work** (STATUS, handoffs, Sergio's and Edur's docs). That's why everyone can bypass on a push; it is not permission to push code to `main`.
+
 ## Integration checkpoints
 
 All three coders merge what they have in a **fixed order**, rebasing in between:
