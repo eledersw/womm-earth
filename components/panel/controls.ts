@@ -6,8 +6,10 @@ export type CaseControls = {
   setCase: (patch: Partial<CaseState>) => void;
 };
 
-export function availableHere(variable: string, ids: string[], regions: Record<string, Region>) {
-  return ids.every((id) => regions[id]?.valid_variables.includes(variable));
+export function availableHere(_variable: string, ids: string[], regions: Record<string, Region>) {
+  // POWER is queried at calculation time. `valid_variables` only describes
+  // an optional offline library and is empty for the live POWER region index.
+  return ids.every((id) => Boolean(regions[id]));
 }
 
 export function clampPeriod(from: number, to: number, variable: Variable) {

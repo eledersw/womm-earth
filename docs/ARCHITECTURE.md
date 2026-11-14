@@ -48,9 +48,9 @@ docs/                                     see AGENTS.md "Read when"
 | Method | Path | Input | Output |
 |---|---|---|---|
 | GET | `/api/py/health` | — | `{ok, numpy, scipy, cold_start_ms}` |
-| GET | `/api/py/variables` | — | `Variable[]`: id, name, unit, source, kind (`satellite` \| `reanalysis`), period, definitions (student, scientist) |
+| GET | `/api/py/variables` | — | `Variable[]` discovered from the NASA POWER Manager monthly catalogue (canonical `AG` units and request community) |
 | GET | `/api/py/regions` | — | `Region[]`: id, name, type (`country` \| `state` \| `ocean` \| `named`), centroid, bbox, nearest_cell_fallback, valid_variables[] |
-| POST | `/api/py/analyze` | `Case` | Per region: `monthly[]`, `anomalies[]`, `yearly[]`, `stats` {ols{slope, se, p, ci, r2, n_eff}, mk{p, tau}, sen{slope, ci}, phi, agree, change_per_decade, pct_of_mean}, `verdict` {tier, years_needed?}, `provenance` |
+| POST | `/api/py/analyze` | `Case` | Fetches POWER monthly regional grid cells at request time, computes a cos(latitude)-weighted bbox mean in Python, then returns per region: `monthly[]`, `yearly[]`, `stats`, `verdict`, `provenance` |
 | GET | `/api/py/trendmap` | `variable, start, end, season` | `{region_id: {slope, p, verdict}}`, with a Cache-Control header |
 | POST | `/api/py/correlate` | `{var_x, var_y, region, start, end, season, max_lag}` | `{pearson, spearman, raw, detrended, n_eff, p, best_lag, scatter[], warning?}` |
 | POST | `/api/py/mirror` | `Case` (one region) | `{mirrors: [{region, slope, p, z}], none_found}` |
@@ -74,7 +74,13 @@ docs/                                     see AGENTS.md "Read when"
 - **`public/geo/*.geojson`** (Oier): features with `properties {id, name, type}`; the ids match `regions.json`.
 - **Region ids:** countries use `ADM0_A3` (`USA`), US states `US-<postal>` (`US-WI`), oceans `OCN-<CODE>`, named regions `NR-<CODE>` (`NR-GLOBE`, `NR-SAHEL`).
 
-## Data pipeline (offline; run in Colab or a Codespace, not over venue wifi)
+## Runtime climate data and offline pipeline
+
+**Case analysis uses live NASA POWER requests.** `GET /api/py/variables` reads the monthly POWER Manager catalogue. Each `POST /api/py/analyze` fetches the selected parameter for every requested region and time range from the Monthly Regional API. POWER returns one point feature per grid cell in the requested bbox; Python ignores annual `YYYY13` keys and calculates a per-month cos(latitude)-weighted mean across finite grid values before applying the existing seasonal and statistical engine. No `.npz` or hero series is used by `/api/py/analyze`.
+
+`api/_data/regions.json` remains local lookup metadata (ids, names, centroids and bounding boxes); `public/geo/*.geojson` remains local map geometry. They do not contain climate time series. `api/_fixtures/*.json` remain local fixtures for endpoints not yet backed by live calculation.
+
+The offline pipeline below can still build regional `.npz` libraries for research or offline work, but it is not the runtime source for case analysis.
 
 1. **Open the POWER monthly Zarr stores** with `fsspec` + `xr.open_zarr(consolidated=True)`.
    - CERES grid: `https://nasa-power.s3.amazonaws.com/syn1deg/temporal/power_syn1deg_monthly_temporal_lst.zarr`.

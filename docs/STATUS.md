@@ -47,9 +47,15 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 
 | Role | Person | Now | Next | State |
 |---|---|---|---|---|
+<<<<<<< HEAD
+| Lead | Eleder | Task 3 done: visual direction **Strip-Chart Recorder**, tokens, app shell (#12) | Task 4: globe (render, layers, select, search) | 🟡 |
+| Coder B (data & stats) | Oier | Existing Python trend engine and region lookup. Current branch `oier/power-live-all-variables` adds the dynamic monthly POWER catalogue and request-time regional observations for `/analyze`; no local series fallback. | Regenerate OpenAPI/types with project dependencies; validate a live case and provider availability limits. | 🟡 |
+| Coder C (panel, charts, partner) | Ekaitz | Tasks 1–4 integrated. Task 5 Explain implemented locally on `ekaitz/task5-explain`: validated SSE route, planned SDK/model, Student/Scientist, cancellation/retry, numeric checks and template fallback. Check + 93 tests + 10 Chromium E2E pass (mock SDK/HTTP fixtures). | User publishes/PR/merges; live Claude + cache-read verification pending in Vercel (key configured there per user, absent locally; user requested deferral). Process cards still draft, so no physical explanations. | 🟡 |
+=======
 | Lead | Eleder | Task 4 done: globe live (#14): select by click or search, pens, fly-to, 4-region cap | Task 5: trend-map colouring + legend (needs Oier's `/trendmap`) | 🟡 |
 | Coder B (data & stats) | Oier | Engine core and live `/analyze`, `/variables`, `/regions` plus CLI implemented locally. Run `python scripts/case_cli.py --var T2M --region US-WI --start 2002 --end 2025 --season JJA --json` after the data library lands. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review slide claim. | Integrate the region library and Sergio's golden cases; validate real-data endpoints. | 🟡 |
 | Coder C (panel, charts, partner) | Ekaitz | Tasks 1–5 implemented and merged into `main` (Task 5: PR #13). Check + 93 tests + 10 Chromium E2E pass (mock SDK/HTTP fixtures). | Live Claude + cache-read verification pending in Vercel, deferred by user. Process cards still draft; no physical explanations. | 🟡 |
+>>>>>>> origin/main
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
 | Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
 

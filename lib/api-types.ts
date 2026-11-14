@@ -563,6 +563,10 @@ export interface components {
             land_only: boolean;
             /** Name */
             name: string;
+            /** Power Community */
+            power_community?: "AG" | "RE" | "SB";
+            /** Power Type */
+            power_type?: string | null;
             /** Ratio Scale */
             ratio_scale: boolean;
             /** Signed Off */

@@ -52,11 +52,12 @@ function CasePanelContent() {
             <ToggleGroupItem value="student">{partnerCopy.student}</ToggleGroupItem><ToggleGroupItem value="scientist">{partnerCopy.scientist}</ToggleGroupItem>
           </ToggleGroup>
           <ol aria-label={caseCopy.stepsLabel} className="space-y-3">
-            <li><LeadStep {...controls} variables={variables.variables} regions={regions.byId}
+            <li><LeadStep {...controls} variables={variables.variables}
               loading={variables.loading || regions.loading} error={!!variables.error || !!regions.error}
               onRetry={() => { variables.retry(); regions.retry(); }} /></li>
             <li><SceneStep {...controls} regions={regions.byId} loading={regions.loading} error={!!regions.error} onRetry={regions.retry} /></li>
-            <li><TimelineStep {...controls} variable={variable} loading={variables.loading} error={!!variables.error} onRetry={variables.retry} /></li>
+            <li><TimelineStep {...controls} variable={variable} loading={variables.loading} error={!!variables.error} onRetry={variables.retry}
+              onCalculate={analysis.calculate} calculateDisabled={!valid || analysis.loading} calculating={analysis.loading} /></li>
             <li><EvidenceStep results={analysis.data?.results} unit={variable?.unit} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>
               <p className="text-sm text-muted-foreground">{state.regions.length && !valid ? caseCopy.controls.catalogRequired : caseCopy.steps.evidence.empty}</p>
             </EvidenceStep></li>
