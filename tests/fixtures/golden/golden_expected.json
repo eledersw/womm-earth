@@ -1,0 +1,277 @@
+{
+  "spec_version": "METHODS v0 + Methods-lead recommended Decisions (H0 draft); update after H2 review",
+  "conventions": {
+    "series": "yearly series, float64 (cast float32 npz values to float64 before testing)",
+    "time_axis": "calendar years; slopes are per year (per decade = x10)",
+    "alpha": 0.05,
+    "mk": "two-sided, normal approximation with continuity correction and tie-corrected Var(S); tau = S / (n(n-1)/2)",
+    "hamed_rao": "Var(S) multiplied by n/n*_s = 1 + 2/(n(n-1)(n-2)) * sum_k (n-k)(n-k-1)(n-k-2) rho_k over ALL lags 1..n-1 whose rho_k is outside +-1.96/sqrt(n); rho = biased ACF (denominator n) of the ranks of y - Sen_slope*index. Not capped at 1 (matches pymannkendall).",
+    "sen_ci": "Gilbert 1987: C = 1.96*sqrt(Var(S)); lower = pair-slope at 1-indexed rank (N-C)/2, upper at rank (N+C)/2+1, N = n(n-1)/2, linear interpolation between order statistics. Headline CI uses the Hamed-Rao-corrected Var(S).",
+    "ols_ar1": "r1 = sum(e_t e_{t+1}) / sum(e_t^2) of OLS residuals; n_eff = n(1-r1)/(1+r1), n_eff = n if r1 <= 0; SE_adj = SE_ols * sqrt((n-2)/(n_eff-2)); t on n_eff-2 df (Santer et al. 2000).",
+    "tiers": "from the Hamed-Rao MK p: <0.05 confirmed; <0.20 not_proven_yet; else no_case",
+    "tests_agree": "false iff exactly one of {MK-HR p<0.05, OLS-AR(1) p<0.05}",
+    "years_needed": "METHODS s10 with b = OLS slope, sigma = sqrt(SSE/(n-2)), phi = max(r1,0); smallest n*>=n with |b|/SE(n*) >= t_{0.975,n_eff(n*)-2}; i.e. ~50% detection odds. displayed iff tier == not_proven_yet and p<0.5 and extra years <= 50.",
+    "magnitude": "total_change_sen = Sen slope x (last_year - first_year); pct_of_mean_per_decade = 100*10*Sen/mean"
+  },
+  "tolerances": {
+    "integers": "exact",
+    "slopes_means_CI_ends_n_eff_r1": "rel 1e-9 (abs 1e-12)",
+    "p_values_z_t": "rel 1e-7",
+    "booleans_tiers_years_needed": "exact"
+  },
+  "cases": {
+    "golden_01_linear_trend": {
+      "file": "golden_01_linear_trend.csv",
+      "kind": "white noise around a true linear trend (0.008/yr, sd 0.03); n=24",
+      "purpose": "Happy path: a clear, real trend. Both tests must agree and the verdict is Confirmed.",
+      "generator": {
+        "seed": 0,
+        "model": "y = 0.15 + 0.008*(year-2002) + N(0, 0.03)"
+      },
+      "expected": {
+        "inputs": {
+          "n": 24,
+          "first_year": 2002,
+          "last_year": 2025
+        },
+        "descriptive": {
+          "mean": 0.23857583333333332,
+          "sd": 0.061895535518334835
+        },
+        "mk_original": {
+          "S": 208,
+          "var_S": 1625.3333333333333,
+          "z": 5.13451142244029,
+          "p": 2.828779144015751e-07,
+          "tau": 0.7536231884057971
+        },
+        "mk_hamed_rao": {
+          "n_ns": 0.8114592283897577,
+          "significant_acf_lags": [
+            9
+          ],
+          "var_S": 1318.8917325428195,
+          "z": 5.6998807871328445,
+          "p": 1.1989123822530534e-08,
+          "if_factor_capped_at_1": {
+            "z": 5.13451142244029,
+            "p": 2.828779144015751e-07
+          }
+        },
+        "sen": {
+          "slope_per_year": 0.007936833333333334,
+          "slope_per_decade": 0.07936833333333335,
+          "ci95_per_year_hamed_rao_variance": [
+            0.0065060590083328386,
+            0.009544807185221335
+          ],
+          "ci95_per_year_original_variance": [
+            0.006312067493787763,
+            0.009806702845792792
+          ]
+        },
+        "ols": {
+          "slope": 0.007943213913043479,
+          "sigma": 0.026590731412135037,
+          "se_naive": 0.000784117890998932,
+          "p_naive": 9.536173413039053e-10,
+          "r2": 0.8234625854685,
+          "r1_residual": 0.17555009572383445,
+          "n_eff": 16.83194767675505,
+          "se_adj": 0.0009549785374481046,
+          "p_adj": 5.759442741150891e-07,
+          "ci95_adj": [
+            0.005905714786355618,
+            0.009980713039731338
+          ]
+        },
+        "agreement": {
+          "mk_significant": true,
+          "ols_ar1_significant": true,
+          "tests_agree": true
+        },
+        "verdict": {
+          "p_used": 1.1989123822530534e-08,
+          "tier": "confirmed"
+        },
+        "magnitude": {
+          "total_change_sen": 0.18254716666666668,
+          "pct_of_mean_per_decade": 33.26754945143229
+        },
+        "years_needed": {
+          "raw_extra_years": 0,
+          "displayed": false
+        }
+      }
+    },
+    "golden_02_white_noise": {
+      "file": "golden_02_white_noise.csv",
+      "kind": "pure white noise, no trend (sd 0.03); n=31 (odd length)",
+      "purpose": "Null case: no trend. Verdict No case; tests agree; years_needed not displayed.",
+      "generator": {
+        "seed": 1,
+        "model": "y = 0.20 + N(0, 0.03)"
+      },
+      "expected": {
+        "inputs": {
+          "n": 31,
+          "first_year": 1995,
+          "last_year": 2025
+        },
+        "descriptive": {
+          "mean": 0.2001303870967742,
+          "sd": 0.02747353735467085
+        },
+        "mk_original": {
+          "S": -53,
+          "var_S": 3461.6666666666665,
+          "z": -0.8838136822542504,
+          "p": 0.3767967991819644,
+          "tau": -0.11397849462365592
+        },
+        "mk_hamed_rao": {
+          "n_ns": 1.3230670362377501,
+          "significant_acf_lags": [
+            7
+          ],
+          "var_S": 4580.017057109678,
+          "z": -0.7683689311337928,
+          "p": 0.44226803302528017,
+          "if_factor_capped_at_1": {
+            "z": -0.7683689311337928,
+            "p": 0.44226803302528017
+          }
+        },
+        "sen": {
+          "slope_per_year": -0.000524999999999999,
+          "slope_per_decade": -0.00524999999999999,
+          "ci95_per_year_hamed_rao_variance": [
+            -0.0015000455174448285,
+            0.0007931022875574405
+          ],
+          "ci95_per_year_original_variance": [
+            -0.0013259684125608998,
+            0.0006680970903296043
+          ]
+        },
+        "ols": {
+          "slope": -0.00029424435483870923,
+          "sigma": 0.027810404829894417,
+          "se_naive": 0.0005584463675993652,
+          "p_naive": 0.6022718928370598,
+          "r2": 0.009482384117620812,
+          "r1_residual": 0.10890459254636914,
+          "n_eff": 24.911031856789293,
+          "se_adj": 0.0006282871027676724,
+          "p_adj": 0.643975139667775,
+          "ci95_adj": [
+            -0.0015942345804966403,
+            0.0010057458708192216
+          ]
+        },
+        "agreement": {
+          "mk_significant": false,
+          "ols_ar1_significant": false,
+          "tests_agree": true
+        },
+        "verdict": {
+          "p_used": 0.44226803302528017,
+          "tier": "no_case"
+        },
+        "magnitude": {
+          "total_change_sen": -0.01574999999999997,
+          "pct_of_mean_per_decade": -2.6232897843051304
+        },
+        "years_needed": {
+          "raw_extra_years": null,
+          "displayed": false
+        }
+      }
+    },
+    "golden_03_ar1_null": {
+      "file": "golden_03_ar1_null.csv",
+      "kind": "AR(1) noise phi=0.6, NO true trend (marginal sd 0.03); n=24",
+      "purpose": "Autocorrelation trap, deliberately selected: the NAIVE tests (plain MK, plain OLS) call it significant, the corrected tests do not. Verdict: Not proven yet; years_needed displayed. Fails if the engine skips the autocorrelation correction.",
+      "generator": {
+        "seed": 7,
+        "model": "x_t = 0.6*x_{t-1} + e_t; y = 0.20 + x",
+        "phi": 0.6
+      },
+      "expected": {
+        "inputs": {
+          "n": 24,
+          "first_year": 2002,
+          "last_year": 2025
+        },
+        "descriptive": {
+          "mean": 0.17711212499999998,
+          "sd": 0.027813069050846833
+        },
+        "mk_original": {
+          "S": -92,
+          "var_S": 1625.3333333333333,
+          "z": -2.257200673633171,
+          "p": 0.023995538353677178,
+          "tau": -0.3333333333333333
+        },
+        "mk_hamed_rao": {
+          "n_ns": 2.0024456521739133,
+          "significant_acf_lags": [
+            1
+          ],
+          "var_S": 3254.641666666667,
+          "z": -1.595106931605131,
+          "p": 0.11068832570105681,
+          "if_factor_capped_at_1": {
+            "z": -1.595106931605131,
+            "p": 0.11068832570105681
+          }
+        },
+        "sen": {
+          "slope_per_year": -0.0018502316176470589,
+          "slope_per_decade": -0.01850231617647059,
+          "ci95_per_year_hamed_rao_variance": [
+            -0.005146751593652312,
+            0.0008115876795812323
+          ],
+          "ci95_per_year_original_variance": [
+            -0.0036918171257032018,
+            -8.936135184610195e-05
+          ]
+        },
+        "ols": {
+          "slope": -0.0020360508695652173,
+          "sigma": 0.024331711459112476,
+          "se_naive": 0.000717503026825614,
+          "p_naive": 0.009577890495328445,
+          "r2": 0.26794732463455007,
+          "r1_residual": 0.5892441821967958,
+          "n_eff": 6.203036473382019,
+          "se_adj": 0.0016415476681646288,
+          "p_adj": 0.2795947492508188,
+          "ci95_adj": [
+            -0.006508187475380456,
+            0.0024360857362500216
+          ]
+        },
+        "agreement": {
+          "mk_significant": false,
+          "ols_ar1_significant": false,
+          "tests_agree": true
+        },
+        "verdict": {
+          "p_used": 0.11068832570105681,
+          "tier": "not_proven_yet"
+        },
+        "magnitude": {
+          "total_change_sen": -0.04255532720588236,
+          "pct_of_mean_per_decade": -10.446668276647118
+        },
+        "years_needed": {
+          "raw_extra_years": 10,
+          "displayed": true
+        }
+      }
+    }
+  }
+}
