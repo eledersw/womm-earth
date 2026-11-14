@@ -4,6 +4,8 @@ export const caseCopy = {
   panel: "Case panel",
   results: "Results",
   hideResults: "Hide results",
+  explainPane: "Explain & ask",
+  explainEmpty: "Press Investigate. The explanation of each verdict appears here, and you can ask follow-up questions below.",
   investigateHint: "Tests one value per year (or season) for each region.",
   chooseFirst: "Choose a variable and at least one region, then investigate.",
   stepsLabel: "Case steps",

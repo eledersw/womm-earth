@@ -10,8 +10,8 @@ import { fmtNumber, fmtP, fmtSlope } from "@/lib/partner/format";
 import { caseCopy } from "@/lib/copy/case";
 import { StepSection, type StepProps } from "./StepSection";
 
-type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable };
-export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, children, ...status }: Props) {
+type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable; showExplanation?: boolean };
+export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, showExplanation = true, children, ...status }: Props) {
   const hidden = useUiStore((s) => s.predictMode && !s.reveal);
   const predict = useUiStore((s) => s.predictMode);
   const c = caseCopy.verdict;

@@ -20,26 +20,21 @@ test("Explain failure keeps the template verdict and supports retry", async ({ p
   await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
-  const box = page.getByRole("region", { name: "Explain this verdict" });
+  const box = page.getByRole("region", { name: "Explanation" });
   await expect(box.getByRole("alert")).toBeVisible();
   await box.getByRole("button", { name: "Retry explanation" }).click();
   await expect(box.getByText("Mann-Kendall detects a trend, p = 0.01.", { exact: true })).toBeVisible();
   await expect(box.getByText("Draft explanation · being checked")).toHaveCount(0);
 });
-test("reading-level changes abort stale explanations and update the URL", async ({ page }) => {
-  const held: Route[] = [];
+test("a scientist link explains at that level and shows the methods table", async ({ page }) => {
+  // The reading-level switch is gone from the UI (H7); shared links still carry lvl.
   await page.route("**/api/partner", (route) => {
-    if (route.request().postDataJSON().level === "student") { held.push(route); return; }
-    return route.fulfill({ contentType: "text/event-stream", body: sse("Scientist explanation.") });
+    const level = route.request().postDataJSON().level;
+    return route.fulfill({ contentType: "text/event-stream", body: sse(level === "scientist" ? "Scientist explanation." : "Student explanation.") });
   });
-  await page.goto("/?r=US-WI&from=2002&to=2025");
+  await page.goto("/?r=US-WI&from=2002&to=2025&lvl=scientist");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
-  await expect.poll(() => held.length).toBe(1);
-  await page.getByRole("radio", { name: "Scientist", exact: true }).click();
-  await expect(page).toHaveURL(/lvl=scientist/);
   await expect(page.getByText("Scientist explanation.", { exact: true })).toBeVisible();
-  await held[0].fulfill({ contentType: "text/event-stream", body: sse("Stale Student explanation.") }).catch(() => {});
-  await expect(page.getByText("Stale Student explanation.", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("table")).toBeVisible();
 });
 test("too-short verdicts do not request explanations", async ({ page }) => {
@@ -49,7 +44,7 @@ test("too-short verdicts do not request explanations", async ({ page }) => {
   await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Too short to judge" })).toBeVisible();
-  await expect(page.getByRole("region", { name: "Explain this verdict" })).toHaveCount(0);
+  await expect(page.getByRole("region", { name: "Explanation" })).toHaveCount(0);
   expect(requests).toBe(0);
 });
 test("Stop cancels an in-flight explanation and permits retry", async ({ page }) => {
@@ -58,7 +53,7 @@ test("Stop cancels an in-flight explanation and permits retry", async ({ page })
   await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect.poll(() => held.length).toBe(1);
-  const box = page.getByRole("region", { name: "Explain this verdict" });
+  const box = page.getByRole("region", { name: "Explanation" });
   await box.getByRole("button", { name: "Stop", exact: true }).click();
   await expect(box.getByText("Explanation stopped.", { exact: true })).toBeVisible();
   await held[0].fulfill({ contentType: "text/event-stream", body: sse("Stale explanation") }).catch(() => {});
@@ -87,11 +82,10 @@ test("Partner proposes a Case without changing the URL until Open this case", as
   });
   await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
-  await page.getByRole("textbox", { name: "Ask the Partner" }).fill("Is Wisconsin getting smokier in summer?");
+  await page.getByRole("textbox", { name: "Your question" }).fill("Is Wisconsin getting smokier in summer?");
   await page.getByRole("button", { name: "Send", exact: true }).click();
   await expect(page.getByRole("button", { name: "Open this case", exact: true })).toBeVisible();
   expect(new URL(page.url()).searchParams.get("r")).toBe("US-WI");
-
   await expect(page.getByText("You can open the proposed Case.", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Open this case", exact: true }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("r")).toBe("ESP");
@@ -106,13 +100,13 @@ test("Partner cancellation discards late text and allows a fresh question", asyn
   });
   await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
-  await page.getByRole("textbox", { name: "Ask the Partner" }).fill("Check this Case");
+  await page.getByRole("textbox", { name: "Your question" }).fill("Check this Case");
   await page.getByRole("button", { name: "Send", exact: true }).click();
   await expect.poll(() => held.length).toBe(1);
   await page.getByRole("button", { name: "Stop", exact: true }).click();
   await held[0].fulfill({ contentType: "text/event-stream", body: sse("Stale chat response") }).catch(() => {});
   await expect(page.getByText("Stale chat response", { exact: true })).toHaveCount(0);
-  await expect(page.getByRole("textbox", { name: "Ask the Partner" })).toHaveValue("Check this Case");
+  await expect(page.getByRole("textbox", { name: "Your question" })).toHaveValue("Check this Case");
   await expect(page.getByRole("button", { name: "Send", exact: true })).toBeEnabled();
 });
 
