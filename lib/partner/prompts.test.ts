@@ -18,6 +18,14 @@ it("summarizeAnalysis drops arrays", () => {
 });
 it("grounds the documented significance threshold in explanations", () => {
   const input = explainInputSchema.parse({ mode: "explain", level: "student", analysis: fixture.results[0], variable: variables[0], regionName: "Wisconsin", period: "2002–2025", seasonLabel: "JJA" });
-  const summary = summarizeAnalysis(input.analysis, input.variable, input.regionName, input.period, input.seasonLabel);
-  expect(checkNumbers("Mann-Kendall p = 0.01; the threshold is 0.05, with a 95% confidence interval", [summary]).ok).toBe(true);
+  const analysis = {
+    ...input.analysis,
+    stats: { ...input.analysis.stats!, change_per_decade: -0.842 },
+    verdict: { ...input.analysis.verdict, years_needed: 10 },
+  };
+  const summary = summarizeAnalysis(analysis, input.variable, input.regionName, input.period, input.seasonLabel);
+  expect(checkNumbers(
+    "Mann-Kendall p = 0.01; threshold 0.05; 95% interval; dipped by 0.84 per decade; a 50–50 chance in 10 years",
+    [summary],
+  ).ok).toBe(true);
 });
