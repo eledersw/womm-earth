@@ -1,6 +1,6 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 15:30 (H3.5), by Eleder (Vercel production live)
+**Updated:** Sat 2026-11-14 14:52 (H2.9), by Ekaitz (coder-c status reconciliation)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
@@ -43,7 +43,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 |---|---|---|---|---|
 | Lead | Eleder | Task 1 done: scaffold + Vercel production live, smoke test passed | Task 2 (seams: case state, UI store, API client) | 🟡 |
 | Coder B (data & stats) | Oier | Engine core and live `/analyze`, `/variables`, `/regions` plus CLI implemented locally. Run `python scripts/case_cli.py --var T2M --region US-WI --start 2002 --end 2025 --season JJA --json` after the data library lands. FPR check: Hamed–Rao 9.7% (white) / 24.6% (AR1), matching pymannkendall; Sergio to review slide claim. | Integrate the region library and Sergio's golden cases; validate real-data endpoints. | 🟡 |
-| Coder C (panel, charts, partner) | Ekaitz | — | claude-api skill, `<PlotFigure>`, panel shells | ⬜ |
+| Coder C (panel, charts, partner) | Ekaitz | Task 1 merged into main (PR #6, 915327b): all 5 panel sections use official test fixtures; responsive PlotFigure and explicit illustrative-data labels. Task 4 SSE + number-check helpers also merged (4d95598). Last local validation: npm run check, 37 tests and 2 panel E2E passed. | Task 2: wire Lead/Scene/Timeline to Eleder's case state and API client once available. Partner route remains a 501 stub; Explain/chat integration is pending. | ⛔ |
 | Methods & Validity lead | Sergio | — | `METHODS.md` v1, Giovanni hero series | ⬜ |
 | Story & Submission lead | Edur | — | Submission recon, brand brief | ⬜ |
 
@@ -62,5 +62,6 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 ## Blockers
 
 - [Eleder] `ANTHROPIC_API_KEY` in Vercel, Protection Bypass for Automation, Anthropic spend cap · Eleder (dashboard) · since H3.5
+- [coder-c] Task 2 awaits `lib/state/*` (case state + UI store) and `lib/api/client.ts`; Oier's contract, generated `lib/api-types.ts` and official fixtures are already available · Eleder (state/API seams) · since H2
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
