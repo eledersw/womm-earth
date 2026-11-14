@@ -1,6 +1,6 @@
 """Read-only METHODS v1 gate audit. Never changes app code or golden inputs.
 
-Run --local for observable yearly fields, season aggregation and fixture routing.
+Run --local for observable yearly fields, aggregation and offline family tests.
 Run --production for public API evidence and independent returned-monthly checks.
 Production golden injection is intentionally unsupported: /analyze accepts Cases,
 not arbitrary series. Local golden checks do not certify a deployed artifact.
@@ -151,22 +151,35 @@ def local():
         aggregation[season] = dict(matches_checked_aggregation=not differences,
                                   expected=wanted, actual=actual, differences=differences,
                                   inference_scope="No uncertainty sign-off for retained missing-year series.")
-    from fastapi.testclient import TestClient
-    from index import app
-    queries = [dict(variable="T2M", start=1981, end=2025, season="ANN"),
-               dict(variable="AOD_55", start=2002, end=2025, season="JJA")]
-    with TestClient(app) as client:
-        maps = [dict(request=q, status=(r := client.get("/api/py/trendmap", params=q)).status_code,
-                     response=r.json()) for q in queries]
-    record.update(yearly=yearly, golden_08_aggregation=aggregation,
-                  golden_09=dict(status="not_exercised_in_runtime",
-                                 reason="No runtime BH/mirror implementation: index.py serves fixed fixtures.",
-                                 reference_verification="9/9 key cases verified separately in golden_cases/verification.json"),
-                  local_map_requests=maps,
+    from _engine.fdr import bh
+    from _engine.map import MapRecord, select_mirrors
+    from _engine import store
+    ids = ["US-CO", "US-WI", "US-AZ", "US-NV"]
+    pvalues = [0.025, 0.025, 0.8, 0.9]
+    adjusted = bh(np.array(pvalues))
+    regions = store.regions()
+    family = {rid: MapRecord(regions[rid], 1 if j != 1 else -1, pvalues[j], float(adjusted[j]),
+                             2.3, "confirmed" if pvalues[j] < 0.05 else "no_case")
+              for j, rid in enumerate(ids)}
+    selected = [r.region.id for r in select_mirrors("US-CO", family)]
+    boundary = dict(p=pvalues, q=adjusted.tolist(), expected_mirror_ids=["US-WI"],
+                    actual_mirror_ids=selected, passed=selected == ["US-WI"],
+                    source="METHODS §§13–14: inclusive BH cutoff, both raw combined p-values below alpha.")
+    command = [sys.executable, "-X", "utf8", "-m", "pytest", "tests/test_golden.py",
+               "tests/test_v1_edge_inference.py", "tests/test_live_families.py", "-q"]
+    completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", timeout=60)
+    record.update(yearly=yearly, golden_08_aggregation=aggregation, mirror_q_boundary=boundary,
+                  golden_09=dict(status="runtime_key_and_mocked_family_tests_passed" if completed.returncode == 0 else "failed",
+                                 scope="Existing golden/BH/mirror and deterministic family tests; no network or real-data map request."),
+                  targeted_tests=dict(command=command[1:], returncode=completed.returncode,
+                                      stdout=completed.stdout, stderr=completed.stderr),
+                  local_scope_passed=all(c["matches_all_checked_fields"] for c in yearly.values()) and
+                                     all(c["matches_checked_aggregation"] for c in aggregation.values()) and completed.returncode == 0 and boundary["passed"],
                   gate_passed=False)
-    save("local_engine_review.json", record)
+    save("local_recheck.json", record)
     print("Local full-field yearly matches:", sum(r["matches_all_checked_fields"] for r in yearly.values()), "/", len(yearly), flush=True)
     print("Aggregation matches:", sum(r["matches_checked_aggregation"] for r in aggregation.values()), "/", len(aggregation), flush=True)
+    print("Mirror exact-cutoff probe:", "PASS" if boundary["passed"] else "FAIL; see local_recheck.json", flush=True)
 
 def request_json(path, body=None):
     started = time.perf_counter()

@@ -1,4 +1,6 @@
-# Engine validity gate: not passed
+# Engine validity review: historical failure snapshot
+
+**Current local update:** PR #44 repaired the checked arithmetic; see [LOCAL_RECHECK.md](LOCAL_RECHECK.md) for 7/7 yearly matches, 71 passing Python tests and the separate exact-cutoff mirror follow-up. The failure report below describes its original reviewed revision, not the latest local code. Production re-review is deferred until tomorrow.
 
 **Owner:** Sergio. **Review date:** 2026-11-14. **Local source reviewed:** e4225ba (main at review start). **Production evidence began:** 18:36 UTC / 19:36 Europe/Madrid. **Decision:** do not tick the task 8 checkbox or the validity checkpoint.
 
