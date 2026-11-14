@@ -29,6 +29,12 @@ This packet supports the playbook's METHODS v1 review. `METHODS.md` is normative
 - [ ] Check Option B detection power before describing the years-needed formula as calibrated to even odds. Existing evidence supports an approximate threshold only, especially with persistence.
 - [ ] Give Ekaitz and Edur the implications for wording: the verdict does not always follow MK; Sen CI exclusion need not match the combined verdict; additional data do not guarantee confirmation. Verdict templates and limitations are separate follow-up tasks.
 
+## Latest task 8 gate review
+
+Review executed on 2026-11-14 against main e4225ba and the public production API. The gate is **not passed**. Expanded yearly comparisons match only 1/7 full cases; all seven aggregation/gate variants match; runtime BH/mirrors remain fixture-only. All 16 live Case requests succeed and reproduce their yearly aggregation and Sen slopes, but uncertainty differs in every case. Production Aral has the wrong combined tier; No case precipitation exposes 27 extra years. Production map requests return the exact single-Wisconsin fixture, including wrong requested context and a same-context disagreement with live analysis.
+
+The complete owner handoff, archived monthly data, independent comparisons, unknown remote-revision limitation and re-open criteria are in [review/README.md](review/README.md). The actual H13 user test has not been observed or supplied; no validity sign-off is issued. The findings supersede the old pending-comparison/environment notes below. Oier review and fixes remain outstanding.
+
 ## Acceptance record
 
 **Subsequent verification (2026-11-14):** the existing nine-case key reproduced successfully; the six numerical yearly cases passed scipy/pymannkendall 1.4.3/statsmodels cross-checks. `pytest tests/test_golden.py -q -p no:cacheprovider` confirms one skipped test. The separate engine comparison matches all checked fields in only 1/7 yearly cases (the minimum-length rejection); case 7 also differs in verdict. Actual results and differing fields are saved in `golden_cases/verification.json`. An isolated ignored science environment now supplies the dependencies; the earlier environment-limitation record below describes the original attempt, not the current verification.
@@ -39,8 +45,8 @@ The real-data dry-run also exposes a material disagreement: for `GWETROOT`, `NR-
 
 - Methods document: v1 written and reconciled to the existing key; missing-year inference is explicitly unresolved.
 - Oier review: pending.
-- Engine comparison: pending; harness mismatch identified by inspection, not a test run.
+- Engine comparison: performed and failed in task 8; the skipped CI harness is confirmed by execution. See the latest gate review above.
 - Document consistency checks: 60 comparisons passed across the six numerical trend cases (OLS slope/r1/n_eff/SE, combined p/tier, HR floor and interpolated Sen CI); all 17 method sections present and no starter Decision placeholders remain. `git diff --check` passed. These checks use the stored key and do not exercise or certify the engine.
 - Deployed-engine validity checkpoint: pending; not granted.
-- Local checks attempted: `npm run check` cannot start because npm is unavailable; `python -m pytest -q` cannot start because pytest is not installed. These are environment limitations, not passing results. No application code changed.
+- Current local checks: `python -X utf8 -m pytest -q -rs` reports 57 passed, 1 skipped (the obsolete golden-delivery message), one dependency deprecation warning. The earlier missing-pytest limitation was resolved using the ignored validation environment. `npm run check` still cannot start because npm is unavailable. No application code changed.
 - Upstream context: the main status board reports pre-existing failing web/API CI. This methods update does not resolve or certify those checks. The rebase preserves the team’s latest workstream updates.
