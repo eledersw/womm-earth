@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkNumbers, collectNumbers, extractNumbers } from "./number-check";
+import { checkNumbers, collectNumbers, extractNumbers, keepGroundedLines } from "./number-check";
 
 describe("number grounding", () => {
   it("extracts signed decimals and percents", () => {
@@ -28,6 +28,11 @@ describe("number grounding", () => {
   it("flags invented number", () => {
     expect(checkNumbers("0.9", [0.04])).toEqual({ ok: false, unmatched: ["0.9"] });
     expect(checkNumbers("−0.04", [0.04]).ok).toBe(false);
+  });
+  it("keeps supported chat lines and removes a separate invented numeric suggestion", () => {
+    const answer = "The measured slope is 0.04.\nTry a 30-year period.\nA longer record may help.";
+    expect(keepGroundedLines(answer, [{ slope: 0.0412 }])).toBe("The measured slope is 0.04.\nA longer record may help.");
+    expect(keepGroundedLines("Try a 30-year period.", [{ slope: 0.0412 }])).toBeNull();
   });
   it("compares percentages in their own precision", () => {
     expect(checkNumbers("4.1%", [{ fraction: 0.0412 }]).ok).toBe(true);
