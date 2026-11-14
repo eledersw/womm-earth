@@ -1,5 +1,7 @@
 # Earth Case Files (working name): Hackathon Plan
 
+> **Snapshot of the design as approved at H0.** At H0.5, paths and process were refined: the engine and data live in `api/_engine/` and `api/_data/`; ownership and merging are in `docs/process/`; the implementation plans are in `docs/superpowers/plans/`. Where this file differs from the living docs or the plans, those win.
+
 ## Context
 
 Team WOMM (5 people: 3 coders, 2 non-coders) is in NASA Space Apps 2026, challenge **"Be An Earth System Trend Detective!"**, with **about 30 hours left**. The repo holds only the challenge context in `public/docs/`. This plan sets the direction, scope, architecture, roles, schedule, plugin usage and progress-tracking docs so any new Claude chat can pick up the work cold.

@@ -32,10 +32,15 @@ Fill in the names at the H0 huddle.
 - **Freeze at H26.** Submit by H29.
 - The clock table (H → local time) is in `docs/STATUS.md`.
 
-## How to work with Claude
+## How to work with your AI agent
 
-- **Everyone:** open Claude Code in the repo. Start with `/resume <role>` and end with `/handoff <role>`.
+- **Who uses what:** Eleder, Sergio and Edur use Claude Code. Oier and Ekaitz use Codex.
+- **Start and end:** in Claude Code, start with `/resume <role>` and end with `/handoff <role>`. In Codex, type `resume <role>` and `handoff <role>`: Codex reads `AGENTS.md`, which points it to `docs/process/`.
 - **Non-coders:**
   - Work in the main checkout on `main` and commit only inside your own folder (`docs/science/` or `docs/pitch/`). Claude can do the git part for you: say *"commit and push my changes in docs/science"*.
-  - For research, ask Claude to use deep research. For anything that turns your writing into app data (e.g. `variables.json`, `process_cards.json`, tour JSON), ask Claude to convert it and tell the coder who owns that file.
-- **Coders:** feature branches in your own worktree (`superpowers:using-git-worktrees`), small PRs written with `mattpocock:pr`, and `code-review` before merge. The Lead merges.
+  - For research, ask Claude to use deep research.
+  - You never write app files. When a doc of yours is ready (DATA_CATALOG, PROCESS_CARDS, COPY, tour captions), tell its converter; the table in `docs/process/OWNERSHIP.md` says who that is.
+- **Coders:**
+  - Each coder works only in their own area (`docs/process/OWNERSHIP.md`) and follows `docs/process/MERGING.md`: `<name>/<topic>` branches, rebase before each PR, CI green.
+  - Self-merge PRs that touch only your own area; Eleder merges cross-area PRs.
+  - Integration checkpoints at H2, H8, H14, H22 and H26, merging in the order Oier → Eleder → Ekaitz.

@@ -48,7 +48,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 - [ ] Smoke deploy (Lead, H2):
   - [ ] nested route with a query string answers (`/api/py/health?x=1`)
   - [ ] numpy + `scipy.special` import
-  - [ ] reads one file from `api/data/`
+  - [ ] `/api/partner` stub answers alongside `/api/py/*`
   - [ ] cold start: ___ s
 - [ ] Validity checkpoint passed (Methods lead, by H14)
 - [ ] Accuracy eval score: ___ / 20 (Methods lead + Coder C, H22–H24)

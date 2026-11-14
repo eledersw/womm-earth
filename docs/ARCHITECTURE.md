@@ -2,40 +2,48 @@
 
 The living technical reference. Update it in the same PR as the change it describes.
 
-## Repo layout (target)
+## Repo layout (target; owners per `docs/process/OWNERSHIP.md`)
 
 ```
-CLAUDE.md
-app/                      Next.js App Router (TS)
-  layout.tsx              NuqsAdapter (nuqs/adapters/next/app), fonts, tokens.css
-  page.tsx                globe + left panel (case UI inside <Suspense>)
-  api/partner/route.ts    Claude: runtime 'nodejs', maxDuration set, server-only key
-components/globe|panel|charts|tour/
-lib/                      api client, api-types.ts (generated), url-state, store
-api/                      Vercel Python function (FastAPI); every route prefixed /api/py
-  index.py                endpoints below
-  engine/                 pure stats functions (unit-tested)
-  data/                   series_<VAR>.npz, regions.json, variables.json, process_cards.json,
-                          hero/*.json, demo_explanations.json
-  openapi.json            dumped from app.openapi(); input to gen:types
-pipeline/                 offline only, not deployed (own requirements.txt)
-  build_masks.py  extract_power.py  import_giovanni.py
-scripts/case_cli.py       run any case from the terminal (used by the Methods lead)
-public/geo/               simplified TopoJSON + self-hosted earth textures
-tests/                    pytest (fixtures/ = golden cases)
-e2e/                      Playwright
-docs/                     see CLAUDE.md "Read when"
+AGENTS.md  CLAUDE.md                      agent instructions (Codex reads AGENTS.md; CLAUDE.md imports it)
+app/                                      Next.js App Router (Eleder)
+  layout.tsx                              NuqsAdapter, fonts, tokens
+  page.tsx                                AppShell -> GlobeArea + <CasePanel/>
+  tokens.css  globals.css  about/
+  api/partner/route.ts                    Claude partner, SSE (Ekaitz)
+components/ui|shell|globe/                Eleder
+components/panel|charts|partner|tour/     Ekaitz
+lib/state/                                case-codec.ts, use-case.ts, ui-store.ts (Eleder; seams)
+lib/api/                                  client.ts, types.ts (Eleder; seams)
+lib/api-types.ts                          generated from api/openapi.json (Oier)
+lib/partner/  lib/tour/  lib/copy/        Ekaitz (lib/copy/globe.ts: Eleder)
+api/                                      Vercel Python function (Oier)
+  index.py                                the ONLY entrypoint; routes /api/py/*
+  _models.py                              Pydantic contract
+  _engine/                                pure stats functions
+  _data/                                  series_<VAR>.npz, regions.json, variables.json, hero/*.json
+  _fixtures/                              stub responses (H2)
+  openapi.json                            generated
+pipeline/                                 offline, run in Colab (Oier)
+public/geo/                               GeoJSON from the pipeline (Oier)
+public/textures/                          globe textures (Eleder)
+scripts/                                  per-file owners (see OWNERSHIP)
+tests/                                    pytest; fixtures/golden/ = Sergio's golden cases (Oier)
+e2e/                                      Playwright (infra: Eleder; specs per owner)
+docs/                                     see AGENTS.md "Read when"
 ```
+
+**Why `_` prefixes in `api/`:** Vercel turns every `.py` file under `api/` into its own function unless its name or folder starts with `_`. `api/index.py` adds its own folder to `sys.path` and imports `_engine`. Tests do the same via `pythonpath = api` in `pytest.ini`.
 
 ## Wiring: Next.js + FastAPI on one Vercel project
 
 - **Template.** Copy Vercel's Next.js + FastAPI template exactly, including the production rewrite destination. Create the app with `FastAPI(openapi_url="/api/py/openapi.json")`.
 - **Dev rewrite.** `/api/py/:path*` goes to `http://127.0.0.1:8000/api/py/:path*`. Use **127.0.0.1, not localhost**: on Windows, Node resolves localhost to `::1` and uvicorn won't answer.
-- **`vercel.json`.** Set `functions.includeFiles: "api/data/**"`, and set `excludeFiles` for `pipeline/`, `node_modules/` and `public/`. Pin the Python version.
+- **`vercel.json`.** Set `functions["api/index.py"].includeFiles: "api/_data/**"`, and set `excludeFiles` for `.next`, `node_modules`, `public`, `pipeline`, `tests`, `docs` and `e2e`. Pin Python 3.12.
 - **Python dependencies.** fastapi, numpy, scipy only. Use `scipy.special` (`ndtr`, `stdtr`) at runtime; importing `scipy.stats` costs about 1 s of cold start. pymannkendall is a test-only dependency.
 - **Types.** `npm run gen:types` dumps `app.openapi()` to `api/openapi.json`, then runs `openapi-typescript` to produce `lib/api-types.ts`. No running server is needed.
 
-## Endpoints (planned contract; the Pydantic models are the final word)
+## Endpoints (summary; the exact contract is Task 1 of `docs/superpowers/plans/2026-11-14-data-engine.md`, and `api/_models.py` is the final word)
 
 | Method | Path | Input | Output |
 |---|---|---|---|
@@ -54,14 +62,17 @@ docs/                     see CLAUDE.md "Read when"
 
 ## Data shapes
 
-- **`series_<VAR>.npz`:**
+- **`api/_data/series_<VAR>.npz`** (Oier):
   - `values`: float32 `[n_regions, n_months]`, with NaN for missing data.
   - `region_ids`: `[n_regions]`.
   - `t0`: `"1981-01"` (MERRA-2) or `"2001-01"` (CERES).
 - **`regions.json`:** id, name, type, centroid, bbox, `nearest_cell_fallback`, `valid_variables`, `contains`/`within` (needed for the mirror rule).
 - **`hero/<id>.json`:** `{variable, region, source, instrument, product, version, doi, t0, values[]}`.
-- **`process_cards.json`:** `{id, title, student, scientist, citations[], applies_to: {variables[], regions[]}}`.
-- **`demo_explanations.json`:** `{case_key: {student, scientist, generated_at}}`.
+- **`lib/partner/process-cards.json`** (Ekaitz): `{id, title, student, scientist, citations[], applies_to: {variables[], regions[]}}`.
+- **`lib/partner/demo-explanations.json`** (Ekaitz): `{caseKey: {student, scientist, generated_at}}`.
+- **`lib/tour/tours.json`** (Ekaitz): `Tour{id, title, steps: [{query, caption, focus?, highlight?, reveal?}]}`.
+- **`public/geo/*.geojson`** (Oier): features with `properties {id, name, type}`; the ids match `regions.json`.
+- **Region ids:** countries use `ADM0_A3` (`USA`), US states `US-<postal>` (`US-WI`), oceans `OCN-<CODE>`, named regions `NR-<CODE>` (`NR-GLOBE`, `NR-SAHEL`).
 
 ## Data pipeline (offline; run in Colab or a Codespace, not over venue wifi)
 
@@ -87,7 +98,7 @@ docs/                     see CLAUDE.md "Read when"
 - **Streaming:** stream our own SSE events to the browser: `text`, `tool_result`, `propose_case`, `error`.
 - **Explain mode:**
   - The client posts the stats JSON it already has, so there is no server-to-server hop.
-  - Demo cases read `demo_explanations.json`.
+  - Demo cases read `lib/partner/demo-explanations.json`.
   - The template verdict always renders, so the app works with Claude down.
 - **Partner mode:**
   - Tool Runner with `betaZodTool` tools: `list_variables`, `analyze_case`, `correlate`, `find_mirror`, `scan_region`, `get_process_card`, `propose_case`.

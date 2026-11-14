@@ -2,7 +2,7 @@
 
 **Owner:** Methods lead. **Due:** H10, starting with the cards the FINAL demo cases need.
 
-The Claude partner may make physical ("why is this happening") claims **only** from these cards. Anything beyond them it must label as general knowledge. When the cards are done, ask Claude to convert this file to `api/data/process_cards.json` (the shape is in `docs/ARCHITECTURE.md`), then tell Coder C.
+The Claude partner may make physical ("why is this happening") claims **only** from these cards. Anything beyond them it must label as general knowledge. When the cards are done, tell Ekaitz; he converts this file into `lib/partner/process-cards.json`.
 
 **Card template**
 

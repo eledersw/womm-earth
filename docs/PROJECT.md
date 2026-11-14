@@ -96,3 +96,6 @@ Use these words in code, UI and docs.
 | H0 | Case state lives in the URL (nuqs); no database | Share links for free; less to build |
 | H0 | 3D globe (`react-globe.gl`): countries zoomed out, states zoomed in, plus a search box | The team requires a globe; small regions need search |
 | H0 | Non-coder roles: Methods & Validity lead and Story & Submission lead, working as a pair | The statistician owns validity; the story lead owns presentation and submission |
+| H0.5 | Oier and Ekaitz use Codex; shared agent rules live in tool-neutral `AGENTS.md` (CLAUDE.md imports it) and `docs/process/` | Not everyone uses Claude Code |
+| H0.5 | Every file has one owner (`docs/process/OWNERSHIP.md`); seams frozen at H2; self-merge own-area PRs, Eleder merges cross-area ones; integration checkpoints at H2/H8/H14/H22/H26, merging Oier → Eleder → Ekaitz | Three coders working in parallel without stepping on each other |
+| H0.5 | Python engine and data under `api/_engine/` and `api/_data/` (underscore prefix) | Vercel turns every non-underscore `.py` file in `api/` into its own function |
