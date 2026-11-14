@@ -32,6 +32,12 @@ it("rejects invented numeric answers", async () => {
   setup("end_turn", "The slope is 0.9."); const events: PartnerEvent[] = []; await streamChat(input, py, (e) => events.push(e));
   expect(events.at(-1)?.type).toBe("error");
 });
+it("delivers verified chat text when another line contains an invented number", async () => {
+  setup("end_turn", "A longer record may help.\nTry 30 years.");
+  const events: PartnerEvent[] = [];
+  await streamChat(input, py, (e) => events.push(e));
+  expect(events).toEqual([{ type: "text", text: "A longer record may help." }]);
+});
 it("does not start after cancellation", async () => {
   const runner = setup(); const abort = new AbortController(); abort.abort();
   await streamChat(input, py, () => {}, abort.signal); expect(runner).not.toHaveBeenCalled();
