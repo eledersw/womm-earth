@@ -24,6 +24,62 @@ export const ZOOM_STATES_ALTITUDE = 1.4;
 const WHOLE_EARTH = new Set(["NR-GLOBE", "NR-LAND", "NR-OCEAN"]);
 
 const cache = new WeakMap<GeoLayers, Map<string, RegionFeature[]>>();
+const capCache = new WeakMap<RegionFeature, number | null>();
+
+function allPoints(f: RegionFeature): number[][] {
+  const coords = f.geometry.coordinates as number[][][] | number[][][][];
+  const polys = (f.geometry.type === "Polygon" ? [coords] : coords) as number[][][][];
+  return polys.flat(2) as unknown as number[][];
+}
+
+/**
+ * Ocean or named regions that wrap all 360° of longitude and reach a pole (the
+ * Southern Ocean, the Arctic). three-globe can't fill these: it paints the
+ * complement, so the "cap" covers the whole planet and swallows every click.
+ * Returns the cap's boundary latitude, or null for an ordinary region.
+ */
+export function polarCapLatitude(f: RegionFeature): number | null {
+  if (capCache.has(f)) return capCache.get(f)!;
+  let result: number | null = null;
+  const t = f.properties.type;
+  if (t !== "country" && t !== "state" && !WHOLE_EARTH.has(f.properties.id)) {
+    let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
+    for (const [lng, lat] of allPoints(f)) {
+      minLng = Math.min(minLng, lng);
+      maxLng = Math.max(maxLng, lng);
+      minLat = Math.min(minLat, lat);
+      maxLat = Math.max(maxLat, lat);
+    }
+    if (maxLng - minLng >= 359) {
+      if (minLat <= -89.9 && maxLat < 89.9) result = maxLat;
+      else if (maxLat >= 89.9 && minLat > -89.9) result = minLat;
+    }
+  }
+  capCache.set(f, result);
+  return result;
+}
+
+export interface CapRing {
+  id: string;
+  pen: number;
+  /** [lat, lng] points along the cap's boundary latitude, -180..180 every 2° */
+  points: [number, number][];
+}
+
+/** Selected polar caps, drawn as a latitude ring in their pen instead of a fill. */
+export function capRings(geo: GeoLayers, regions: readonly string[]): CapRing[] {
+  const rings: CapRing[] = [];
+  for (const f of [...geo.oceans, ...geo.named]) {
+    const pen = penIndex(f.properties.id, regions);
+    if (pen === null) continue;
+    const lat = polarCapLatitude(f);
+    if (lat === null) continue;
+    const points: [number, number][] = [];
+    for (let lng = -180; lng <= 180; lng += 2) points.push([lat, lng]);
+    rings.push({ id: f.properties.id, pen, points });
+  }
+  return rings;
+}
 
 export function visibleFeatures(
   geo: GeoLayers,
@@ -45,10 +101,10 @@ export function visibleFeatures(
 
   const namedSet = new Set(named);
   const features = [
-    ...geo.oceans,
+    ...geo.oceans.filter((o) => polarCapLatitude(o) === null),
     ...(showStates ? geo.countries.filter((c) => c.properties.id !== "USA") : geo.countries),
     ...(showStates ? geo.states : []),
-    ...geo.named.filter((n) => namedSet.has(n.properties.id)),
+    ...geo.named.filter((n) => namedSet.has(n.properties.id) && polarCapLatitude(n) === null),
   ];
   byKey.set(key, features);
   return features;
