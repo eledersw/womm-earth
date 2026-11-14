@@ -36,6 +36,8 @@ python docs/science/catalog/verify_power_catalog.py --output docs/science/catalo
 
 ## Handoff to Oier and Edur
 
+**Update:** the team subsequently fixed the alphanumeric user parameter upstream. All five selected demo cases now succeed through the unmodified CLI (`../demo/cli_checks.json`). Item 1 below records the original reproduction and is resolved locally; metadata integration and statistical acceptance remain separate.
+
 1. **Oier: fix the regional request user.** With valid two-degree bounds, the current app's `user=womm_earth` produces HTTP 422 with the sole message “Please supply a an alphanumeric user.” The same provider request with `user=wommearth` succeeds. `regional_request_rejection.json` records the exact failing URL and response. `api/_engine/power.py` is Oier's file and was not edited here.
 2. **Oier: respect regional-size constraints.** The initial one-degree probe was also rejected because NASA requires at least a two-degree span in each coordinate. Check small/large region behaviour and communicate any sampling fallback accurately. Do not expand a bbox silently or claim exact polygon means.
 3. **Oier: overlay approved metadata on the dynamic catalog by exact ID.** Preserve NASA request-community units, while adding the reviewed definitions, source, DOI semantics, land restrictions and safe reporting behaviour. The current `_variable` mapping marks all parameters unsigned, uses names as student definitions, sets land_only and ratio_scale false and defaults missing start dates to 1981. AOD's finite record starts in 2001, demonstrating why that date default is insufficient. Other parameters remain unreviewed. Do not alter the frozen contract without the required heads-up.
