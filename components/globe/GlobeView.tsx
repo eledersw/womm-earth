@@ -13,20 +13,24 @@ import {
   type CapRing,
   type RegionFeature,
 } from "./layers";
+import { THEME_EVENT } from "@/components/shell/theme";
+import { povStore } from "./povStore";
 import { useGeo } from "./useGeo";
 import { useRegionToggle } from "./useRegionToggle";
 
-// Token values for three.js, which can't read CSS variables. Read once at mount.
+// Token values for three.js, which can't read CSS variables. Read at mount and
+// again whenever the colour scheme changes (header switch).
 function readTokens() {
   const css = getComputedStyle(document.documentElement);
   const v = (name: string) => css.getPropertyValue(name).trim();
   return {
-    ocean: v("--window-2"),
-    land: "#26353b",
-    landHover: "#33464e",
-    seam: "rgba(167, 182, 187, 0.35)", // window-ink-2 at low alpha
-    oceanSeam: "rgba(167, 182, 187, 0.12)",
-    atmosphere: v("--window-ink-2"),
+    ocean: v("--globe-ocean"),
+    specular: v("--globe-specular"),
+    land: v("--globe-land"),
+    landHover: v("--globe-land-hover"),
+    seam: v("--globe-seam"),
+    oceanSeam: v("--globe-ocean-seam"),
+    atmosphere: v("--globe-atmosphere"),
     pens: [v("--series-1"), v("--series-2"), v("--series-3"), v("--series-4")],
   };
 }
@@ -50,7 +54,7 @@ export default function GlobeView() {
   const boxRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [zoomedIn, setZoomedIn] = useState(START_POV.altitude < ZOOM_STATES_ALTITUDE);
-  const [tokens] = useState(readTokens);
+  const [tokens, setTokens] = useState(readTokens);
   const reduced = useMemo(() => prefersReducedMotion(), []);
 
   // Fill the viewing window.
@@ -64,9 +68,17 @@ export default function GlobeView() {
     return () => ro.disconnect();
   }, []);
 
+  // Re-read colours when the scheme changes.
+  useEffect(() => {
+    const onTheme = () => setTokens(readTokens());
+    window.addEventListener(THEME_EVENT, onTheme);
+    return () => window.removeEventListener(THEME_EVENT, onTheme);
+  }, []);
+
+  // A dark, faintly metallic sphere: the chrome of Fragment's tiles, kept quiet.
   const material = useMemo(
-    () => new MeshPhongMaterial({ color: tokens.ocean, shininess: 4 }),
-    [tokens.ocean],
+    () => new MeshPhongMaterial({ color: tokens.ocean, specular: tokens.specular, shininess: 18 }),
+    [tokens.ocean, tokens.specular],
   );
 
   const polygons = useMemo(
@@ -101,8 +113,9 @@ export default function GlobeView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onZoom = useCallback(({ altitude }: { altitude: number }) => {
-    const next = altitude < ZOOM_STATES_ALTITUDE;
+  const onZoom = useCallback((pov: { lat: number; lng: number; altitude: number }) => {
+    povStore.set(pov);
+    const next = pov.altitude < ZOOM_STATES_ALTITUDE;
     setZoomedIn((prev) => (prev === next ? prev : next));
   }, []);
 
@@ -113,7 +126,7 @@ export default function GlobeView() {
     (f: object) => {
       const pen = penIndex(id(f), regions);
       if (pen !== null) return tokens.pens[pen];
-      if (isOcean(f)) return id(f) === hovered ? "rgba(167, 182, 187, 0.10)" : "rgba(0, 0, 0, 0)";
+      if (isOcean(f)) return id(f) === hovered ? tokens.oceanSeam : "rgba(0, 0, 0, 0)";
       return id(f) === hovered ? tokens.landHover : tokens.land;
     },
     [regions, hovered, tokens],
@@ -142,9 +155,9 @@ export default function GlobeView() {
       const p = (f as RegionFeature).properties;
       const pen = penIndex(p.id, regions);
       const action = pen !== null ? "Click to remove" : "Click to add to the case";
-      return `<div class="rounded-sm border border-rule bg-paper-leaf px-3 py-2 text-ink shadow-[0_2px_8px_rgb(0_0_0/0.35)]">
-        <div class="font-semibold">${p.name} <span class="font-mono text-sm text-ink-3">${p.id}</span></div>
-        <div class="scale-label text-ink-3">${action}</div></div>`;
+      return `<div class="glass-pill rounded-xl px-3 py-2 text-ink">
+        <div class="font-medium">${p.name} <span class="font-mono text-xs text-ink-3">${p.id}</span></div>
+        <div class="label-mono mt-1">${action}</div></div>`;
     },
     [regions],
   );
@@ -165,10 +178,10 @@ export default function GlobeView() {
           showGraticules
           showAtmosphere
           atmosphereColor={tokens.atmosphere}
-          atmosphereAltitude={0.12}
+          atmosphereAltitude={0.16}
           polygonsData={polygons}
           polygonCapColor={capColor}
-          polygonSideColor={() => "rgba(14, 26, 31, 0.6)"}
+          polygonSideColor={() => "rgba(0, 0, 0, 0.45)"}
           polygonStrokeColor={strokeColor}
           polygonAltitude={altitude}
           polygonLabel={label}

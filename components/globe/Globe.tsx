@@ -24,7 +24,7 @@ const noop = () => () => {};
 function GlobeStatus({ text }: { text: string }) {
   return (
     <div className="absolute inset-0 grid place-items-center p-8">
-      <p className="max-w-[32ch] text-center text-window-ink-2">{text}</p>
+      <p className="label-mono max-w-[32ch] text-center">{text}</p>
     </div>
   );
 }
