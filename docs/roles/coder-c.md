@@ -45,8 +45,8 @@ Need something added to a seam? Ask Eleder; additive changes take minutes.
 
 ## Timeline
 
-- [ ] **H0.5–H2: plan Task 1,** panel shell + PlotFigure. Branch from `main` after Eleder's scaffold. Merge **last** at the H2 checkpoint (after Oier, then Eleder).
-- [ ] **H2–H5: plan Task 2,** Lead/Scene/Timeline wired to the case state.
+- [x] **H0.5–H2: plan Task 1,** panel shell + PlotFigure. Branch from `main` after Eleder's scaffold. Merge **last** at the H2 checkpoint (after Oier, then Eleder).
+- [x] **H2–H5: plan Task 2,** Lead/Scene/Timeline wired to the case state.
 - [ ] **H5–H8: plan Task 3,** evidence charts + verdict card. Merge last at the **H8 checkpoint**.
 - [ ] **H8–H10: plan Task 4,** SSE helpers + number check.
 - [ ] **H10–H14: plan Task 5,** Explain mode. Merge last at the **H14 checkpoint**: Case #1 explains on production.

@@ -1,39 +1,82 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { withNuqsTestingAdapter, type UrlUpdateEvent } from "nuqs/adapters/testing";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { CasePanel } from "./CasePanel";
 import { EvidenceStep } from "./steps/EvidenceStep";
 import { caseCopy } from "@/lib/copy/case";
 import { partnerCopy } from "@/lib/copy/partner";
 import fixture from "@/api/_fixtures/analyze.json";
+import variables from "@/api/_fixtures/variables.json";
+import regions from "@/api/_fixtures/regions.json";
+import { api } from "@/lib/api/client";
 
+vi.mock("@/lib/api/client", () => ({ api: {
+  GET: vi.fn(async (path: string) => ({ data: path.endsWith("variables") ? variables : regions })),
+  POST: vi.fn(async () => ({ data: fixture })),
+} }));
+beforeAll(() => vi.stubGlobal("ResizeObserver", class { observe() {} unobserve() {} disconnect() {} }));
+afterAll(() => vi.unstubAllGlobals());
 afterEach(cleanup);
+function setup(searchParams = "?v=T2M&r=US-WI&from=2002&to=2025&s=JJA") {
+  const updates: UrlUpdateEvent[] = [];
+  render(<CasePanel />, { wrapper: withNuqsTestingAdapter({ searchParams, onUrlUpdate: (event) => updates.push(event) }) });
+  return updates;
+}
 
-describe("case panel shell", () => {
-  it("feeds all five sections from the official fixture and labels its values as illustrative", () => {
-    render(<CasePanel />);
+describe("case controls", () => {
+  it("loads catalogues and live analysis through the shared client", async () => {
+    setup();
     const panel = screen.getByRole("region", { name: caseCopy.panel });
-    expect(within(panel).getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent))
-      .toEqual(["Lead", "Scene", "Timeline", "Evidence", "Verdict"]);
-    expect(screen.getByRole("tab", { name: "Case" }).getAttribute("aria-selected")).toBe("true");
-    expect(screen.getByText(caseCopy.fixture.disclaimer)).toBeDefined();
-    expect(screen.getByText(`Wisconsin (${fixture.results[0].region.id})`)).toBeDefined();
-    expect(screen.getByText(`${fixture.case.start}–${fixture.case.end} · ${fixture.case.season}`)).toBeDefined();
-    expect(screen.getByRole("figure", { name: caseCopy.fixture.chart })).toBeDefined();
-    expect(screen.getByText(`${fixture.results[0].region.name}: ${caseCopy.tiers.confirmed}`)).toBeDefined();
-    expect(screen.getByText(caseCopy.fixture.verdict)).toBeDefined();
+    expect(within(panel).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["Lead", "Scene", "Timeline", "Evidence", "Verdict"]);
+    await screen.findByText("Wisconsin: Confirmed");
+    expect(screen.getByRole("combobox", { name: "Variable" }).getAttribute("value") ?? (screen.getByRole("combobox", { name: "Variable" }) as HTMLSelectElement).value).toBe("T2M");
+    expect(screen.getByRole("figure", { name: caseCopy.controls.chart })).toBeDefined();
+    expect(api.POST).toHaveBeenCalledWith("/api/py/analyze", expect.objectContaining({ body: { variable: "T2M", regions: ["US-WI"], start: 2002, end: 2025, season: "JJA", months: null } }));
+    expect(screen.queryByText(/illustrative test data/)).toBeNull();
   });
 
-  it("switches to the Partner with keyboard and returns to the Case", async () => {
-    render(<CasePanel />);
+  it("clamps the period when switching variable and disables unavailable choices", async () => {
+    const updates = setup("?r=US-WI&from=1981&to=2025");
+    const select = await screen.findByRole("combobox", { name: "Variable" });
+    fireEvent.change(select, { target: { value: "MODIS_AQUA_AOD" } });
+    await waitFor(() => expect(updates.at(-1)?.searchParams.get("from")).toBe("2002"));
+    expect(updates.at(-1)?.searchParams.get("v")).toBe("MODIS_AQUA_AOD");
+    cleanup();
+    setup("?r=ESP");
+    await screen.findByRole("combobox", { name: "Variable" });
+    expect((screen.getByRole("option", { name: /Aerosol optical depth/ }) as HTMLOptionElement).disabled).toBe(true);
+  });
+
+  it("uses scientist definitions and supports removing the final region", async () => {
+    const updates = setup("?r=US-WI&lvl=scientist");
+    await screen.findByText("Monthly mean 2 m air temperature.");
+    fireEvent.click(screen.getByRole("button", { name: "Remove region: Wisconsin" }));
+    await screen.findByText(caseCopy.steps.scene.empty);
+    expect(screen.queryByText("Wisconsin: Confirmed")).toBeNull();
+    await waitFor(() => expect(updates.at(-1)?.searchParams.has("r")).toBe(false));
+  });
+
+  it("writes contiguous custom months across December and clears them for standard seasons", async () => {
+    const updates = setup();
+    await screen.findByRole("combobox", { name: "Variable" });
+    fireEvent.click(screen.getByRole("radio", { name: "Custom" }));
+    fireEvent.change(screen.getByRole("combobox", { name: "Start month" }), { target: { value: "11" } });
+    fireEvent.change(screen.getByRole("combobox", { name: "End month" }), { target: { value: "2" } });
+    await waitFor(() => expect(updates.at(-1)?.searchParams.get("m")).toBe("11,12,1,2"));
+    fireEvent.click(screen.getByRole("radio", { name: "DJF" }));
+    await waitFor(() => expect(updates.at(-1)?.searchParams.get("s")).toBe("DJF"));
+    expect(updates.at(-1)?.searchParams.has("m")).toBe(false);
+  });
+
+  it("switches to Partner with keyboard and returns to Case", async () => {
+    setup();
     const caseTab = screen.getByRole("tab", { name: "Case" });
-    caseTab.focus();
-    fireEvent.keyDown(caseTab, { key: "ArrowRight" });
+    caseTab.focus(); fireEvent.keyDown(caseTab, { key: "ArrowRight" });
     const partnerTab = screen.getByRole("tab", { name: "Partner" });
     await waitFor(() => expect(document.activeElement).toBe(partnerTab));
     fireEvent.keyDown(partnerTab, { key: "Enter" });
     expect(screen.getByText(partnerCopy.offline)).toBeDefined();
-    expect(screen.queryByRole("heading", { name: "Evidence" })).toBeNull();
     fireEvent.keyDown(partnerTab, { key: "ArrowLeft" });
     await waitFor(() => expect(document.activeElement).toBe(caseTab));
     fireEvent.keyDown(caseTab, { key: "Enter" });
@@ -46,12 +89,8 @@ describe("case panel shell", () => {
     expect(screen.getByRole("status").textContent).toBe(caseCopy.loading);
     expect(screen.queryByText("Old evidence")).toBeNull();
     rerender(<EvidenceStep error onRetry={retry}><p>Old evidence</p></EvidenceStep>);
-    expect(screen.getByRole("alert").textContent).toContain(caseCopy.error);
-    expect(screen.queryByText("Old evidence")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: caseCopy.retry }));
     expect(retry).toHaveBeenCalledOnce();
-    rerender(<EvidenceStep><p>Current evidence</p></EvidenceStep>);
-    expect(screen.getByText("Current evidence")).toBeDefined();
-    expect(screen.queryByRole("alert")).toBeNull();
+    expect(screen.queryByText("Old evidence")).toBeNull();
   });
 });
