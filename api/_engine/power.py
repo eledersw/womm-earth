@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import math
+import re
 import threading
 import time
 from datetime import datetime, timezone
@@ -29,6 +30,11 @@ COMMUNITIES: tuple[PowerCommunity, ...] = ("AG",)
 HTTP_TIMEOUT_SECONDS = 25
 MAX_RESPONSE_BYTES = 8 * 1024 * 1024
 CATALOG_TTL_SECONDS = 6 * 60 * 60
+API_USER = "wommearth"
+_HOURLY_PARAMETER_NAME = re.compile(
+    r"(?:\bat\s+\d{2}\s+Hour\b|\bHour-Based Parameter Set\b)",
+    re.IGNORECASE,
+)
 
 
 class PowerUpstreamError(Exception):
@@ -73,7 +79,7 @@ def _manager_url(community: PowerCommunity) -> str:
         "community": community,
         "temporal": "monthly",
         "metadata": "true",
-        "user": "womm_earth",
+        "user": API_USER,
     })
     return f"{MANAGER_URL}?{query}"
 
@@ -129,6 +135,8 @@ def _load_monthly_parameters() -> tuple[Variable, ...]:
                     continue
                 if str(metadata.get("temporal", "")).upper() != "MONTHLY":
                     continue
+                if _HOURLY_PARAMETER_NAME.search(str(metadata.get("name") or "")):
+                    continue
                 by_code.setdefault(code, _variable(code, metadata, community))
 
         if not by_code:
@@ -160,7 +168,7 @@ def _regional_url(variable: Variable, region: Region, start: int, end: int) -> s
         "start": start,
         "end": end,
         "format": "JSON",
-        "user": "womm_earth",
+        "user": API_USER,
     })
     return f"{MONTHLY_REGIONAL_URL}?{query}"
 

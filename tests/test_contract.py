@@ -18,7 +18,9 @@ from _models import (
     TrendMapResponse,
     Variable,
 )
-from index import app
+import index as api_index
+
+app = api_index.app
 
 
 FIXTURES = Path(__file__).parents[1] / "api" / "_fixtures"
@@ -40,7 +42,16 @@ def test_contract_fixtures_validate(name, adapter):
     adapter.validate_json((FIXTURES / f"{name}.json").read_text())
 
 
-def test_live_and_remaining_stub_endpoints_match_contract():
+def test_live_and_remaining_stub_endpoints_match_contract(monkeypatch):
+    variables = [
+        Variable.model_validate(row)
+        for row in json.loads((FIXTURES / "variables.json").read_text())
+    ]
+
+    async def power_catalogue():
+        return variables
+
+    monkeypatch.setattr(api_index, "list_monthly_parameters", power_catalogue)
     checks = [
         ("GET", "/api/py/health", Health, None),
         ("GET", "/api/py/variables", list[Variable], None),
