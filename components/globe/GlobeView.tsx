@@ -15,7 +15,9 @@ import {
 } from "./layers";
 import { useVariables } from "@/components/panel/useVariables";
 import { UP_IS_WET, colorFor, domainFor, formatSlope, mixHex, type TrendRamp } from "./palette";
+import { highlightIds, mirrorArcs, mirrorView, type MirrorArc } from "./highlight";
 import { povStore } from "./povStore";
+import { useRegionIndex } from "./useRegionIndex";
 import { useTrendMap } from "./useTrendMap";
 import { useGeo } from "./useGeo";
 import { useRegionToggle } from "./useRegionToggle";
@@ -32,6 +34,7 @@ function readTokens() {
     seam: v("--globe-seam"),
     oceanSeam: v("--globe-ocean-seam"),
     atmosphere: v("--globe-atmosphere"),
+    silver: v("--silver"),
     pens: [v("--series-1"), v("--series-2"), v("--series-3"), v("--series-4")],
     ramp: {
       up: [v("--trend-up-1"), v("--trend-up-2"), v("--trend-up-3")],
@@ -98,10 +101,27 @@ export default function GlobeView() {
     [tokens.ocean, tokens.specular],
   );
 
+  // Highlights from the mirror finder or a tour step (Task 6).
+  const highlight = useUiStore((s) => s.highlight);
+  const { byId } = useRegionIndex();
+  const outlined = useMemo(() => highlightIds(highlight), [highlight]);
+  const arcs = useMemo(() => mirrorArcs(highlight, byId), [highlight, byId]);
+
+  // Highlighted regions must be drawn even when they are not in the case.
+  const drawn = useMemo(() => [...new Set([...regions, ...outlined])], [regions, outlined]);
   const polygons = useMemo(
-    () => (geo ? visibleFeatures(geo, zoomedIn ? 0 : Infinity, regions) : []),
-    [geo, zoomedIn, regions],
+    () => (geo ? visibleFeatures(geo, zoomedIn ? 0 : Infinity, drawn) : []),
+    [geo, zoomedIn, drawn],
   );
+
+  // Frame a newly shown mirror pair.
+  const firstArc = arcs[0]?.id;
+  useEffect(() => {
+    const view = mirrorView(arcs);
+    if (view) globeRef.current?.pointOfView(view, reduced ? 0 : 1400);
+    // Only when the pair changes, not on every arcs identity change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firstArc, reduced]);
 
   // Polar caps (Southern Ocean, Arctic) can't be filled; selected ones draw as a ring.
   const rings = useMemo(() => (geo ? capRings(geo, regions) : []), [geo, regions]);
@@ -155,18 +175,20 @@ export default function GlobeView() {
     (f: object) => {
       const pen = penIndex(id(f), regions);
       if (pen !== null) return tokens.pens[pen];
+      if (outlined.has(id(f))) return tokens.silver;
       return isOcean(f) ? tokens.oceanSeam : tokens.seam;
     },
-    [regions, tokens],
+    [regions, tokens, outlined],
   );
 
   const altitude = useCallback(
     (f: object) => {
       if (penIndex(id(f), regions) !== null) return 0.022;
+      if (outlined.has(id(f))) return 0.018;
       if (id(f) === hovered) return 0.012;
       return isOcean(f) ? 0.002 : 0.006;
     },
-    [regions, hovered],
+    [regions, hovered, outlined],
   );
 
   const label = useCallback(
@@ -217,6 +239,18 @@ export default function GlobeView() {
           pathColor={(r: object) => tokens.pens[(r as CapRing).pen]}
           pathStroke={3}
           pathTransitionDuration={0}
+          arcsData={arcs}
+          arcStartLat={(a: object) => (a as MirrorArc).startLat}
+          arcStartLng={(a: object) => (a as MirrorArc).startLng}
+          arcEndLat={(a: object) => (a as MirrorArc).endLat}
+          arcEndLng={(a: object) => (a as MirrorArc).endLng}
+          arcColor={() => [tokens.silver, "rgba(201, 208, 210, 0.35)"]}
+          arcStroke={0.7}
+          arcAltitudeAutoScale={0.45}
+          arcDashLength={0.45}
+          arcDashGap={0.18}
+          arcDashAnimateTime={reduced ? 0 : 2600}
+          arcsTransitionDuration={reduced ? 0 : 600}
           onPolygonClick={(f) => toggleRegion(id(f))}
           onPolygonHover={(f) => setHovered(f ? id(f) : null)}
           onZoom={onZoom}
