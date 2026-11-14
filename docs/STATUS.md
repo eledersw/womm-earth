@@ -1,6 +1,6 @@
 # STATUS: live board
 
-**Updated:** Sat 2026-11-14 17:00 (H5), by Eleder (globe live)
+**Updated:** Sat 2026-11-14 17:55 (H6), by Eleder (main CI red: blocker)
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
@@ -76,5 +76,7 @@ State legend: ✅ done · 🟡 in progress · ⛔ blocked · ⬜ not started
 - [Eleder] Protection Bypass for Automation and Anthropic spend cap · Eleder (dashboard); ANTHROPIC_API_KEY is configured in Vercel per user report · since H3.5
 
 - [coder-c] Confirm production rate limit for `/api/partner` before public Explain rollout · Eleder (Vercel firewall) · since H4.1
+
+- [Oier, Ekaitz] ⛔ **`main` CI is red since PR #16** (`oier/power-live-all-variables`). (1) api: `tests/test_api.py` calls NASA POWER live and fails in CI (422 "NASA POWER cannot serve this variable"), so mock the network or mark those tests live-only. (2) web: commit e5613bb edited **Ekaitz's** panel files (`useAnalysis.ts`, `LeadStep`, `TimelineStep`, `CasePanel`, `controls.ts`), giving 1 lint error (`react-hooks/set-state-in-effect` in `useAnalysis.ts:22`) and 5 failing panel tests. Ekaitz owns the fix in his files; Oier says what the API change needs. **Nobody merges until CI is green.** · Oier + Ekaitz · since H5.8
 
 Format: `- [owner] what is blocked · who can unblock it · since H?`
