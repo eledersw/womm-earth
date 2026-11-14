@@ -9,6 +9,17 @@ export const caseCopy = {
   loading: "Loading…",
   error: "This part of the Case could not be loaded.",
   retry: "Try again",
+  fixture: {
+    notice: "Example Case · illustrative test data",
+    disclaimer: "These values come from a test fixture. They are not observations or a validated scientific result.",
+    chart: "Example yearly series",
+    caption: "Illustrative test values only. The live Case will replace this example.",
+    year: "Year",
+    yearlyValues: "Yearly values",
+    verdict: "Example verdict from the test fixture",
+    source: "Source represented by the fixture",
+    kinds: { satellite: "Satellite", reanalysis: "Reanalysis (model)" },
+  },
   steps: {
     lead: {
       label: "Lead",

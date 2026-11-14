@@ -1,13 +1,16 @@
 import { expect, test } from "@playwright/test";
 
-test("case shell shows the five investigation steps without invented results", async ({ page }) => {
+test("case shell presents the official fixture with an explicit test-data label", async ({ page }) => {
   await page.goto("/");
   const panel = page.getByRole("region", { name: "Case panel", exact: true });
   await expect(panel.getByRole("heading", { level: 2 })).toHaveText([
     "Lead", "Scene", "Timeline", "Evidence", "Verdict",
   ]);
-  await expect(panel.getByText("The Verdict will appear with the Evidence.")).toBeVisible();
-  await expect(panel.getByText("Confirmed", { exact: true })).toHaveCount(0);
+  await expect(panel.getByText("These values come from a test fixture. They are not observations or a validated scientific result.")).toBeVisible();
+  await expect(panel.getByText("Wisconsin (US-WI)")).toBeVisible();
+  await expect(panel.getByText("2002–2025 · JJA")).toBeVisible();
+  await expect(panel.getByText("Wisconsin: Confirmed", { exact: true })).toBeVisible();
+  await expect(panel.getByRole("img", { name: "Example yearly series", exact: true })).toBeVisible();
 
   for (const width of [1280, 768, 390]) {
     await page.setViewportSize({ width, height: 1000 });
