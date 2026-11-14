@@ -5,7 +5,7 @@ import { useVariables } from "@/components/panel/useVariables";
 import { globeCopy } from "@/lib/copy/globe";
 import { useCase } from "@/lib/state/use-case";
 import { useUiStore } from "@/lib/state/ui-store";
-import { UP_IS_WET, colorFor, domainFor, formatSlope, MUTE, type TrendRamp } from "./palette";
+import { UP_IS_WET, colorFor, displayUnit, domainFor, formatSlope, MUTE, type TrendRamp } from "./palette";
 import { useTrendMap } from "./useTrendMap";
 
 // CSS can read the ramp directly; the same order the palette uses (weak → strong).
@@ -37,22 +37,23 @@ export function Legend() {
   if (loading) return <p className="label-mono glass-pill rounded-full px-3 py-2" role="status">{globeCopy.trendLoading}</p>;
   if (!entries || !Object.keys(entries).length) return null;
 
-  const unit = variable?.unit ? `${variable.unit} / decade` : globeCopy.perDecade;
+  const shown = displayUnit(variable?.unit);
+  const unit = shown ? `${shown} / decade` : globeCopy.perDecade;
   return (
     <figure aria-label={globeCopy.legendLabel} className="glass-pill m-0 flex w-60 flex-col gap-2 rounded-xl px-3.5 py-3">
       <figcaption className="flex items-baseline justify-between gap-2">
         <span className="label-mono">{globeCopy.legendTitle}</span>
-        <span className="font-mono text-[0.7rem] text-ink-3">{unit}</span>
+        <span className="font-mono text-[0.857rem] text-ink-3">{unit}</span>
       </figcaption>
       <div aria-hidden className="grid h-2.5 grid-cols-7 gap-0.5 overflow-hidden rounded-sm">
         {steps.map((c, i) => <span key={i} style={{ background: c }} />)}
       </div>
       <div className="flex items-baseline justify-between">
         <span className="figure text-base">{formatSlope(-domain)}</span>
-        <span className="font-mono text-[0.7rem] text-ink-3">0</span>
+        <span className="font-mono text-[0.857rem] text-ink-3">0</span>
         <span className="figure text-base">{formatSlope(domain)}</span>
       </div>
-      <ul className="m-0 flex list-none flex-wrap gap-x-3 gap-y-1 p-0 text-[0.72rem] text-ink-2">
+      <ul className="m-0 flex list-none flex-wrap gap-x-3 gap-y-1 p-0 text-[0.857rem] text-ink-2">
         <li className="flex items-center gap-1.5">
           <span aria-hidden className="size-2.5 rounded-sm" style={{ background: "var(--trend-up-3)" }} />
           {globeCopy.legendSignificant}

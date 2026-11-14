@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { TrendMapEntry } from "@/lib/api/types";
-import { colorFor, domainFor, mixHex, MUTE, type TrendRamp } from "./palette";
+import { colorFor, displayUnit, domainFor, mixHex, MUTE, type TrendRamp } from "./palette";
 
 const ramp: TrendRamp = {
   up: ["#9c3b2f", "#d55c3f", "#f59a73"],
@@ -63,5 +63,14 @@ describe("mixHex", () => {
   it("blends two colours", () => {
     expect(mixHex("#000000", "#ffffff", 0.5)).toBe("#808080");
     expect(mixHex("#123456", "#abcdef", 0)).toBe("#123456");
+  });
+});
+
+describe("displayUnit", () => {
+  it("shows Celsius with a degree sign and drops the dimensionless 1", () => {
+    expect(displayUnit("C")).toBe("°C");
+    expect(displayUnit("1")).toBe("");
+    expect(displayUnit("mm/day")).toBe("mm/day");
+    expect(displayUnit(undefined)).toBe("");
   });
 });
