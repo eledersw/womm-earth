@@ -14,7 +14,7 @@ import {
   type RegionFeature,
 } from "./layers";
 import { useVariables } from "@/components/panel/useVariables";
-import { UP_IS_WET, colorFor, domainFor, formatSlope, mixHex, type TrendRamp } from "./palette";
+import { UP_IS_WET, colorFor, displayUnit, domainFor, formatSlope, mixHex, type TrendRamp } from "./palette";
 import { highlightIds, mirrorArcs, mirrorView, type MirrorArc } from "./highlight";
 import { povStore } from "./povStore";
 import { useRegionIndex } from "./useRegionIndex";
@@ -71,7 +71,7 @@ export default function GlobeView() {
   // Trend map for the current variable, period and season (Task 5).
   const trend = useTrendMap(state);
   const variables = useVariables();
-  const unit = variables.byId[state.variable]?.unit ?? "";
+  const unit = displayUnit(variables.byId[state.variable]?.unit);
   const hidden = useUiStore((s) => s.predictMode && !s.reveal);
   const domain = useMemo(() => domainFor(trend.entries), [trend.entries]);
   const upIsWet = UP_IS_WET.has(state.variable);
@@ -198,7 +198,7 @@ export default function GlobeView() {
       const action = pen !== null ? "Click to remove" : "Click to add to the case";
       const entry = hidden ? undefined : trend.entries?.[p.id];
       const trendLine = entry
-        ? `<div class="mt-1 flex items-baseline gap-1.5"><span class="figure text-lg">${formatSlope(entry.slope_per_decade)}</span><span class="font-mono text-xs text-ink-2">${unit} / decade · ${TIER_WORD[entry.tier]}</span></div>`
+        ? `<div class="mt-1 flex items-baseline gap-1.5"><span class="figure text-lg">${formatSlope(entry.slope_per_decade)}</span><span class="font-mono text-xs text-ink-2">${unit ? `${unit} / ` : "per "}decade · ${TIER_WORD[entry.tier]}</span></div>`
         : "";
       return `<div class="glass-pill rounded-xl px-3 py-2 text-ink">
         <div class="font-medium">${p.name} <span class="font-mono text-xs text-ink-3">${p.id}</span></div>

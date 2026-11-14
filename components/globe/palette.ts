@@ -48,6 +48,12 @@ export function colorFor(
   return entry.q < SIGNIFICANT_Q ? color : mixHex(color, ramp.neutral, MUTE);
 }
 
+/** Provider unit codes made readable: POWER reports Celsius as "C". */
+export function displayUnit(unit: string | undefined): string {
+  if (!unit) return "";
+  return ({ C: "°C", K: "K", "1": "" } as Record<string, string>)[unit] ?? unit;
+}
+
 /** "+0.80" / "−0.012": signed, two significant figures, real minus sign. */
 export function formatSlope(v: number): string {
   if (!Number.isFinite(v)) return "n/a";
