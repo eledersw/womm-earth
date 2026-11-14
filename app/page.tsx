@@ -1,12 +1,22 @@
+import { Suspense } from "react";
+import { GlobeArea } from "@/components/globe/GlobeArea";
 import { CasePanel } from "@/components/panel/CasePanel";
+import { AppShell } from "@/components/shell/AppShell";
 
-// Scaffold placeholder. The real composition (AppShell + GlobeArea + CasePanel)
-// arrives in frontend-shell plan Task 3.
+// Both children read case state from the URL (nuqs), so both sit in Suspense.
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col gap-6 p-8">
-      <h1 className="text-2xl font-semibold tracking-tight">Earth Case Files</h1>
-      <CasePanel />
-    </main>
+    <AppShell
+      panel={
+        <Suspense>
+          <CasePanel />
+        </Suspense>
+      }
+      globe={
+        <Suspense>
+          <GlobeArea />
+        </Suspense>
+      }
+    />
   );
 }

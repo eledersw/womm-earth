@@ -16,7 +16,7 @@
 ```
 package.json  package-lock.json  next.config.ts  tsconfig.json  eslint.config.mjs  postcss.config.mjs
 components.json  vercel.json  .env.example  .gitignore  .gitattributes  .python-version  .github/**  playwright.config.ts  vitest.config.mts
-AGENTS.md  CLAUDE.md  .claude/**
+AGENTS.md  CLAUDE.md  PRODUCT.md  .claude/**  .impeccable/**
 app/layout.tsx  app/page.tsx  app/globals.css  app/tokens.css  app/about/**
 components/ui/**          (shadcn primitives)
 components/shell/**       (app frame, header, layout grid)
