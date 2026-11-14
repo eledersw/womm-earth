@@ -6,7 +6,7 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from _engine import store
-from _models import Variable
+from _models import Region, Variable
 from _engine.power import PowerUpstreamError
 import index as api_index
 
@@ -94,6 +94,18 @@ def test_analyze_too_short(data_dir, power_api):
     result = response.json()["results"][0]
     assert result["verdict"]["tier"] == "too_short"
     assert result["stats"] is None
+
+
+def test_point_fallback_is_disclosed(data_dir, power_api, monkeypatch):
+    small = Region(id="AND", name="Andorra", type="country", centroid=(1.57, 42.54),
+                   bbox=(1.41, 42.43, 1.74, 42.64), nearest_cell_fallback=False,
+                   valid_variables=[], parent=None)
+    monkeypatch.setattr(store, "regions", lambda: {"AND": small})
+
+    response = asyncio.run(request("POST", "/api/py/analyze", case(regions=["AND"])))
+
+    assert response.status_code == 200
+    assert "nearest_cell_fallback" in response.json()["results"][0]["warnings"]
 
 
 def test_unknown_ids_422(data_dir, power_api):
