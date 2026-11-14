@@ -154,7 +154,7 @@
   - A match is any tool number within `max(0.5·10^(−decimals), 0.01·|v|)`.
   - For values written with `%`, also compare `v/100`.
 
-- [ ] **Step 1: Write the tests.**
+- [x] **Step 1: Write the tests.**
   - `extracts signed decimals and percents`;
   - `skips years`;
   - `matches rounded numbers` ("about 0.04 per decade" vs `0.0412` → ok);
@@ -162,7 +162,7 @@
   - `sse roundtrip` (`sseStream` → `readSse` yields the same events, ending in `done`).
 
   Run `npx vitest run lib/partner` → FAIL.
-- [ ] **Step 2: Implement.** Run → PASS.
+- [x] **Step 2: Implement.** Run → PASS.
 - [ ] **Step 3: Commit and merge.** `feat(partner): sse + number check`, then self-merge.
 
 ### Task 5: Explain mode (H10–H14, M2)
