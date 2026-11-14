@@ -1,5 +1,7 @@
 # Data & Stats Engine Implementation Plan (Oier, Codex)
 
+> **Runtime decision superseded:** for Case Files `/api/py/analyze`, the user has now selected request-time NASA POWER Monthly Regional data. The offline Zarr/NPZ build described here remains useful for offline research and other precomputed features, but it is no longer the case-analysis runtime source. See `docs/superpowers/specs/2026-11-14-power-live-analysis-design.md` and its implementation plan.
+
 > **For agentic workers:** work this plan one task at a time and tick each checkbox as you go. Codex: just follow the steps. Claude Code: use superpowers:executing-plans. **Edit only files in Oier's area** (`docs/process/OWNERSHIP.md`). Merge as described in `docs/process/MERGING.md`.
 
 **Goal:** turn NASA POWER monthly grids (plus Giovanni hero series) into per-region series, and serve statistically rigorous trend, correlation, mirror and scan results over `/api/py/*`.

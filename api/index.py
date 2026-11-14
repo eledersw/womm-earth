@@ -38,6 +38,7 @@ from _models import (  # noqa: E402
     YearlyPoint,
 )
 from _engine import store  # noqa: E402
+from _engine.power import PowerUpstreamError, fetch_monthly_region, list_monthly_parameters  # noqa: E402
 from _engine.series import monthly_with_anomalies, yearly_series  # noqa: E402
 from _engine.verdict import analyze_yearly  # noqa: E402
 
@@ -64,7 +65,13 @@ async def health() -> Health:
 
 @app.get("/api/py/variables", response_model=list[Variable])
 async def variables() -> list[Variable]:
-    return list(store.variables().values())
+    try:
+        return await list_monthly_parameters()
+    except PowerUpstreamError as error:
+        raise HTTPException(
+            status_code=503,
+            detail="NASA POWER variable catalogue is temporarily unavailable.",
+        ) from error
 
 
 @app.get("/api/py/regions", response_model=list[Region])
@@ -74,7 +81,13 @@ async def regions() -> list[Region]:
 
 @app.post("/api/py/analyze", response_model=AnalyzeResponse)
 async def analyze(case: CaseRequest) -> AnalyzeResponse:
-    variables_by_id = store.variables()
+    try:
+        variables_by_id = {variable.id: variable for variable in await list_monthly_parameters()}
+    except PowerUpstreamError as error:
+        raise HTTPException(
+            status_code=503,
+            detail="NASA POWER variable catalogue is temporarily unavailable.",
+        ) from error
     regions_by_id = store.regions()
     if case.variable not in variables_by_id:
         raise HTTPException(status_code=422, detail=f"Unknown variable: {case.variable}")
@@ -86,29 +99,36 @@ async def analyze(case: CaseRequest) -> AnalyzeResponse:
     results = []
     for region_id in case.regions:
         region = regions_by_id[region_id]
-        stored = store.get_series(case.variable, region_id)
-        values, t0 = stored if stored is not None else (numpy.empty(0), f"{case.start}-01")
+        try:
+            values, t0 = await fetch_monthly_region(variable, region, case.start, case.end)
+        except PowerUpstreamError as error:
+            status_code = 422 if error.status_code in {400, 404, 422} else (
+                502 if error.status_code is not None else 503
+            )
+            detail = (
+                "NASA POWER cannot serve this variable for the selected request."
+                if status_code == 422
+                else "NASA POWER regional data is temporarily unavailable."
+            )
+            raise HTTPException(status_code=status_code, detail=detail) from error
         labels, raw, anomalies = monthly_with_anomalies(values, t0, case.start, case.end)
         years, annual = yearly_series(values, t0, case.start, case.end, case.season, case.months)
         stats, verdict, fit = analyze_yearly(years, annual, variable.ratio_scale)
-        hero = store.hero_metadata(case.variable, region_id) or {}
         monthly = [MonthlyPoint(t=label, value=float(value) if numpy.isfinite(value) else None,
                                 anomaly=float(anomaly) if numpy.isfinite(anomaly) else None)
                    for label, value, anomaly in zip(labels, raw, anomalies)]
         yearly = [YearlyPoint(year=int(year), value=float(value) if numpy.isfinite(value) else None)
                   for year, value in zip(years, annual)]
         warnings = []
-        if region.nearest_cell_fallback:
-            warnings.append("nearest_cell_fallback")
         if stats is not None and not stats.tests_agree:
             warnings.append("tests_disagree")
         results.append(RegionAnalysis(
             region=region, monthly=monthly, yearly=yearly, fit=fit, stats=stats,
             verdict=verdict,
             provenance=Provenance(
-                source=hero.get("source", variable.source),
-                instrument=hero.get("instrument", variable.instrument),
-                product=hero.get("product"), doi=hero.get("doi", variable.doi), kind=variable.kind,
+                source=variable.source,
+                instrument=variable.instrument,
+                product=None, doi=variable.doi, kind=variable.kind,
             ),
             warnings=warnings,
         ))

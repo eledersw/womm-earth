@@ -1251,6 +1251,28 @@
             "title": "Kind",
             "type": "string"
           },
+          "power_community": {
+            "default": "AG",
+            "enum": [
+              "AG",
+              "RE",
+              "SB"
+            ],
+            "title": "Power Community",
+            "type": "string"
+          },
+          "power_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Power Type"
+          },
           "land_only": {
             "title": "Land Only",
             "type": "boolean"
