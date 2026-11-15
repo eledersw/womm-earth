@@ -76,21 +76,10 @@ __pycache__/
 # python
 api/openapi.json.tmp
 
-# Graphify generated caches; keep the report, JSON graph, and HTML visualization
-/graphify-out/cache/
-/graphify-out/manifest.json
-/graphify-out/.graphify_labels.json
-/graphify-out/.graphify_labels.json.sig
-/graphify-out/.graphify_labels.pending.json
-/graphify-out/.graphify_root
-/graphify-out/.graphify_python
-/graphify-out/.graphify_detect.json
-/graphify-out/.graphify_extract.json
-/graphify-out/.graphify_ast.json
-/graphify-out/.graphify_semantic.json
-/graphify-out/.graphify_analysis.json
-/graphify-out/.graphify_partial.txt
-/graphify-out/.graphify_chunk_*.json
+# Only the presentation graph belongs in the repository.
+/graphify-out/*
+/graphify-out/.*
+!/graphify-out/graph.html
 
 # impeccable (decision-page server state; surfaces/ and config.json are committed)
 .impeccable/questions/
