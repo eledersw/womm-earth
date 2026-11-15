@@ -137,7 +137,6 @@ export const caseCopy = {
     tableNote: "Change per decade in each variable's unit. Each variable uses your period and season, trimmed to the years it covers.",
   },
   explorations: {
-    correlationUnavailable: "Correlation is not available yet. You can still investigate trends for each variable separately.",
     correlation: "Correlation", secondVariable: "Compare with another variable", chooseVariable: "Choose a second variable",
     firstRegion: "Uses the first selected region", raw: "Raw Pearson r", detrended: "Detrended Pearson r",
     pRaw: "Raw p-value", pDetrended: "Detrended p-value", effectiveN: "Effective sample size",

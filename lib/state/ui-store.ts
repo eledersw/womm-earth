@@ -30,12 +30,6 @@ export interface UiState {
   focus: Focus | null;
   flyTo: (f: Focus) => void;
 
-  /** Predict-before-reveal: while predictMode && !reveal the globe hides trend colours. */
-  predictMode: boolean;
-  setPredictMode: (on: boolean) => void;
-  reveal: boolean;
-  setReveal: (revealed: boolean) => void;
-
   /** How many Gaia requests (explanations, chat answers) are running; the mascot fidgets while > 0. */
   gaiaBusy: number;
   gaiaStart: () => void;
@@ -54,11 +48,6 @@ export const useUiStore = create<UiState>()((set) => ({
 
   focus: null,
   flyTo: (f) => set({ focus: f }),
-
-  predictMode: false,
-  setPredictMode: (on) => set({ predictMode: on }),
-  reveal: true,
-  setReveal: (revealed) => set({ reveal: revealed }),
 
   gaiaBusy: 0,
   gaiaStart: () => set((s) => ({ gaiaBusy: s.gaiaBusy + 1 })),

@@ -27,7 +27,7 @@ it("persists complete answers, rubric, Case and evidence without assigning a sci
   await evalMain(["--base", "http://localhost:3000", "--output", "review-test.json", "--revision", "caller-revision"]);
   expect(evaluateQuestion).toHaveBeenCalledTimes(20);
   const [path, raw, options] = vi.mocked(writeFile).mock.calls[0];
-  expect(path).toBe("lib/partner/eval-runs/review-test.json");
+  expect(String(path).replaceAll("\\", "/")).toBe("lib/partner/eval-runs/review-test.json");
   expect(options).toEqual({ flag: "wx", mode: 0o600 });
   const record = JSON.parse(raw as string);
   expect(record.scientific_score).toBeNull();

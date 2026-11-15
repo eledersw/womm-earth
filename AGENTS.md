@@ -31,7 +31,7 @@ Follow `docs/process/MERGING.md`:
 ## Read when
 
 - `docs/STATUS.md`: **first, every session.**
-- `docs/roles/<role>.md`: your playbook. It links your implementation plan in `docs/superpowers/plans/`.
+- `docs/roles/<role>.md`: your playbook.
 - `docs/ARCHITECTURE.md`: before writing or changing code (endpoints, data shapes, layout, gotchas).
 - `docs/science/METHODS.md`: before touching `api/_engine/` or any verdict wording. It is the source of truth for every statistical choice.
 - `docs/PROJECT.md`: scope (Must/Should/Could), judging map, **glossary** (use these words in code and UI), decisions log.

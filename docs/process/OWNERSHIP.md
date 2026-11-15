@@ -46,12 +46,9 @@ lib/api-types.ts          (generated from api/openapi.json; never hand-edited)
 components/panel/**       (CasePanel.tsx is the entry point)
 components/charts/**
 components/partner/**
-components/tour/**
 app/api/partner/**
-lib/partner/**            (prompts, tools, number check, SSE helpers, process-cards.json, demo-explanations.json)
-lib/tour/**               (tours.json + types)
+lib/partner/**            (prompts, tools, number check, SSE helpers, process-cards.json)
 lib/copy/case.ts  lib/copy/partner.ts  lib/copy/tour.ts
-scripts/gen-demo-explanations.ts
 e2e/case-flow.spec.ts  e2e/partner.spec.ts
 ```
 
@@ -101,7 +98,6 @@ These are frozen at **H2** in Eleder's first PR and Oier's stub-API PR. After H2
 | `docs/science/PROCESS_CARDS.md` (Sergio) | `lib/partner/process-cards.json` (Ekaitz) |
 | `docs/science/VERDICT_TEMPLATES.md` (Sergio) | `lib/partner/verdict-templates.ts` + system prompt (Ekaitz) |
 | `docs/pitch/COPY.md` (Edur) | `lib/copy/*` (Ekaitz; Eleder for `globe.ts`) |
-| `docs/pitch/DEMO_SCRIPT.md` tour captions (Edur) | `lib/tour/tours.json` (Ekaitz) |
 
 When the source doc changes, the writer tells the converter in STATUS or chat.
 

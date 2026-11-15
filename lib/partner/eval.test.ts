@@ -16,14 +16,11 @@ it("counts the real complete rubric rows and rejects an incomplete or duplicate 
   expect(() => requireCompleteEval([...complete.slice(1), complete[1]])).toThrow();
   expect(parseEvalQuestions('| 1 | A \\| B? | any | Required facts | Forbidden | | |')[0].question).toBe('A \\| B?');
 });
-it("resolves canonical queries and reviewed tours without silently inventing a Case", () => {
-  const tours = [{ id: "reviewed", title: "Reviewed", steps: [{ query, caption: "Reviewed" }] }];
-  expect(contextFor(row, [])).toEqual(state);
-  expect(contextFor({ ...row, context: "Case 1" }, tours)).toEqual(state);
-  expect(contextFor({ ...row, context: "reviewed" }, tours)).toEqual(state);
-  expect(contextFor({ ...row, context: "any" }, [], state)).toEqual(state);
-  expect(() => contextFor({ ...row, context: "Case 1" }, [])).toThrow("Unresolved");
-  expect(() => contextFor({ ...row, context: "v=T2M" }, [])).toThrow("Noncanonical");
+it("resolves canonical queries without silently inventing a Case", () => {
+  expect(contextFor(row)).toEqual(state);
+  expect(contextFor({ ...row, context: "any" }, state)).toEqual(state);
+  expect(() => contextFor({ ...row, context: "Case 1" })).toThrow("Unresolved");
+  expect(() => contextFor({ ...row, context: "v=T2M" })).toThrow("Noncanonical");
 });
 it("checks streamed answers against actual tool results and posts the selected context", async () => {
   const fetcher = vi.fn<typeof fetch>(async () => response({ type: "tool_result", name: "analyze_case", data: { p: 0.01 } }, { type: "text", text: "Mann-Kendall: p = 0.01." }, { type: "done" }));
@@ -51,7 +48,7 @@ it("escapes report cells, limits answer excerpts, and leaves the scientific scor
 it("resolves Sergio's complete explicit rubric without requiring any demo tours", () => {
   const rows = parseEvalQuestions(readFileSync("docs/science/EVAL.md", "utf8"));
   requireCompleteEval(rows);
-  const contexts = rows.map((question) => contextFor(question, []));
+  const contexts = rows.map((question) => contextFor(question));
   expect(contexts).toHaveLength(20);
   expect(new Set(contexts.map((c) => c.level))).toEqual(new Set(["student", "scientist"]));
   expect(contexts[0]).toMatchObject({ variable: "T2M", regions: ["US-CO"], season: "ANN" });

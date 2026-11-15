@@ -4,6 +4,14 @@
 
 **Production:** https://womm-earth.vercel.app (auto-deploys from `main`; every PR gets a preview URL. Previews require a Vercel login or the bypass header.)
 
+> 🧹 **Hardening and cleanup (Sun, Eleder, cross-area PR).**
+> - **Region picking:** zoomed out you pick whole countries (clicking a selected one deselects it). Zoomed in, every divided country (USA, Brazil, Russia…) shows its regions, and a click picks one, replacing the country if it was selected.
+> - **Oceans:** no longer selectable; `oceans.geojson` is gone.
+> - **Correlation is live:** `/api/py/correlate` now computes METHODS §12 from NASA POWER (`api/_engine/correlate.py`, 5 tests), and the panel and Gaia's `correlate` tool use it.
+> - **Removed:** tours, predict-before-reveal, the mirror list and the empty demo-explanation cache. The eval harness now takes explicit Case queries only.
+> - **Docs:** removed `docs/superpowers`, old handoffs, the Codex master prompt and `graphify-out`.
+> - **Windows-only test failures fixed:** `eval-cli` path, catalog encoding.
+> - **Branches:** all deleted except `main`. If you have local branches, delete them and branch fresh from `main`.
 > 💬 **Ask Gaia hardened (Sun, Eleder, cross-area PR).**
 > - **World rankings are declined:** questions like "What is the hottest country?" get a fixed reply from both the panel and `/api/partner`, with no Claude call and no data lookups (`lib/partner/scope.ts`, tested).
 > - **Lookup cap:** each question gets at most 3 data lookups (`analyze_case`, `find_mirror`, `scan_region`, `correlate`).

@@ -1,8 +1,6 @@
 "use client";
 import { displayUnit } from "@/components/globe/palette";
 import type { RegionAnalysis, TrendStats, Variable } from "@/lib/api/types";
-import { useUiStore } from "@/lib/state/ui-store";
-import { PredictPrompt } from "../PredictPrompt";
 import { YearsMeter } from "../YearsMeter";
 import { ExplainBox } from "@/components/partner/ExplainBox";
 import type { ReadingLevel } from "@/lib/state/case-codec";
@@ -13,12 +11,9 @@ import { StepSection, type StepProps } from "./StepSection";
 
 type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable; showExplanation?: boolean; compact?: boolean };
 export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, showExplanation = true, compact = false, children, ...status }: Props) {
-  const hidden = useUiStore((s) => s.predictMode && !s.reveal);
-  const predict = useUiStore((s) => s.predictMode);
   const c = caseCopy.verdict;
   return <StepSection step="verdict" {...status}>
-    {predict && !!results?.length && <PredictPrompt results={results} />}
-    {!hidden && results?.length && context ? <div className="space-y-4">{results.map((r) => {
+    {results?.length && context ? <div className="space-y-4">{results.map((r) => {
       const verdict = renderVerdict(r, { ...context, regionName: r.region.name }, level);
       const short = compact && verdict.magnitude && !verdict.evidence.tests_disagree && !verdict.evidence.persistent && !verdict.evidence.gapped_years && r.verdict.tier !== "not_proven";
       return <article key={r.region.id} aria-label={`${r.region.name}: ${verdict.badge}`} className="rounded-lg border p-3">
@@ -31,7 +26,7 @@ export function VerdictStep({ results, context, level = "student", ratioScale = 
         {level === "scientist" && r.stats && verdict.evidence.eligible && verdict.evidence.count_matches && verdict.evidence.status !== "unavailable" && <StatsTable stats={r.stats} olsAvailable={verdict.evidence.p_ols !== null} unit={context.unit === "1" ? caseCopy.controls.dimensionless : displayUnit(context.unit)} ratioScale={ratioScale} />}
         {showExplanation && variable && (verdict.evidence.status === "combined" || verdict.evidence.status === "mk_only") && <ExplainBox result={r} variable={variable} regionName={r.region.name} level={level} />}
       </article>;
-    })}</div> : !hidden ? children : null}
+    })}</div> : children}
   </StepSection>;
 }
 function StatsTable({ stats: s, unit, ratioScale, olsAvailable }: { stats: TrendStats; unit: string; ratioScale: boolean; olsAvailable: boolean }) {

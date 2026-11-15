@@ -6,6 +6,7 @@ underscore-prefixed folder (api/_engine/, api/_data/, ...) so Vercel doesn't
 turn it into its own function.
 """
 
+import asyncio
 import json
 import sys
 import time
@@ -23,6 +24,8 @@ from _models import (  # noqa: E402
     CaseRequest,
     CorrelateRequest,
     CorrelateResponse,
+    LagPoint,
+    ScatterPoint,
     Health,
     MirrorResponse,
     MirrorRequest,
@@ -46,6 +49,7 @@ from _engine.series import monthly_with_anomalies, yearly_series  # noqa: E402
 from _engine.verdict import analyze_yearly  # noqa: E402
 from _engine.map import family_for  # noqa: E402
 from _engine.scan import build_scan  # noqa: E402
+from _engine.correlate import correlate_anomalies  # noqa: E402
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 
@@ -173,7 +177,37 @@ async def trendmap(
 
 @app.post("/api/py/correlate", response_model=CorrelateResponse)
 async def correlate(request: CorrelateRequest) -> CorrelateResponse:
-    return json.loads(_fixture("correlate"))
+    try:
+        variables_by_id = {variable.id: variable for variable in await list_monthly_parameters()}
+    except PowerUpstreamError as error:
+        raise HTTPException(status_code=503, detail="NASA POWER variable catalogue is temporarily unavailable.") from error
+    for variable_id in (request.var_x, request.var_y):
+        if variable_id not in variables_by_id:
+            raise HTTPException(status_code=422, detail=f"Unknown variable: {variable_id}")
+    region = store.regions().get(request.region)
+    if region is None:
+        raise HTTPException(status_code=422, detail=f"Unknown region: {request.region}")
+    try:
+        (x_values, x_t0), (y_values, y_t0) = await asyncio.gather(
+            fetch_monthly_region(variables_by_id[request.var_x], region, request.start, request.end),
+            fetch_monthly_region(variables_by_id[request.var_y], region, request.start, request.end),
+        )
+    except PowerUpstreamError as error:
+        raise HTTPException(status_code=503, detail="NASA POWER regional data is temporarily unavailable.") from error
+    # Correlation uses de-seasoned monthly anomalies over the whole period (METHODS §12).
+    labels, _, x_anomalies = monthly_with_anomalies(x_values, x_t0, request.start, request.end)
+    _, _, y_anomalies = monthly_with_anomalies(y_values, y_t0, request.start, request.end)
+    result = correlate_anomalies(labels, x_anomalies, y_anomalies, request.max_lag)
+    return CorrelateResponse(
+        n=result.n, n_eff=result.n_eff,
+        pearson_raw=result.pearson_raw, pearson_detrended=result.pearson_detrended,
+        spearman_raw=result.spearman_raw, spearman_detrended=result.spearman_detrended,
+        p_raw=result.p_raw, p_detrended=result.p_detrended,
+        best_lag=result.best_lag, best_lag_r=result.best_lag_r,
+        lags=[LagPoint(lag=lag, r=r) for lag, r in result.lags],
+        scatter=[ScatterPoint(t=t, x=x, y=y) for t, x, y in result.scatter],
+        warning=result.warning,
+    )
 
 
 @app.post("/api/py/mirror", response_model=MirrorResponse)
