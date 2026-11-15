@@ -1,4 +1,5 @@
 "use client";
+import { useGaiaWorking } from "@/lib/state/ui-store";
 import { useEffect, useMemo, useState } from "react";
 import type { RegionAnalysis, Variable } from "@/lib/api/types";
 import type { ReadingLevel } from "@/lib/state/case-codec";
@@ -35,6 +36,7 @@ function StreamedExplanation({ input }: { input: ExplainInput }) {
   const [attempt, setAttempt] = useState(0);
   const [text, setText] = useState("");
   const [status, setStatus] = useState<"loading" | "done" | "error" | "stopped">("loading");
+  useGaiaWorking(status === "loading");
   const [message, setMessage] = useState("");
   const [controller, setController] = useState<AbortController | null>(null);
   useEffect(() => {

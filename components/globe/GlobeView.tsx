@@ -10,6 +10,7 @@ import {
   capRings,
   penIndex,
   visibleFeatures,
+  pickTarget,
   type CapRing,
   type RegionFeature,
 } from "./layers";
@@ -211,7 +212,10 @@ export default function GlobeView() {
 
   const label = useCallback(
     (f: object) => {
-      const p = (f as RegionFeature).properties;
+      const own = (f as RegionFeature).properties;
+      // A selected country's region outline speaks for the country it belongs to.
+      const target = pickTarget(own, regions);
+      const p = target === own.id ? own : { ...own, id: target, name: byId.get(target)?.name ?? target };
       const pen = penIndex(p.id, regions);
       const action = pen !== null ? "Click to remove" : "Click to add to the case";
       const entry = hidden || !TRENDMAP_LIVE ? undefined : trend.entries?.[p.id];
@@ -222,7 +226,7 @@ export default function GlobeView() {
         <div class="font-medium">${p.name} <span class="font-mono text-xs text-ink-3">${p.id}</span></div>
         ${trendLine}<div class="label-mono mt-1">${action}</div></div>`;
     },
-    [regions, hidden, trend.entries, unit],
+    [regions, hidden, trend.entries, unit, byId],
   );
 
   return (
@@ -270,8 +274,8 @@ export default function GlobeView() {
           arcDashGap={0.18}
           arcDashAnimateTime={reduced ? 0 : 2600}
           arcsTransitionDuration={reduced ? 0 : 600}
-          onPolygonClick={(f) => toggleRegion(id(f))}
-          onPolygonHover={(f) => setHovered(f ? id(f) : null)}
+          onPolygonClick={(f) => toggleRegion(pickTarget((f as RegionFeature).properties, regions))}
+          onPolygonHover={(f) => setHovered(f ? pickTarget((f as RegionFeature).properties, regions) : null)}
           onZoom={onZoom}
           onGlobeReady={onGlobeReady}
         />

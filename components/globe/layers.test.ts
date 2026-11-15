@@ -5,6 +5,7 @@ import {
   penColor,
   polarCapLatitude,
   penIndex,
+  pickTarget,
   visibleFeatures,
   type GeoLayers,
   type RegionFeature,
@@ -126,5 +127,17 @@ describe("pens", () => {
     expect(penColor("NR-SAHEL", regions)).toBe("var(--series-3)");
     expect(penIndex("FRA", regions)).toBeNull();
     expect(penColor("FRA", regions)).toBeNull();
+  });
+});
+
+describe("pickTarget", () => {
+  const north = { id: "ADM1-BRA-north", name: "Brazil North", type: "subregion" as const, parent: "BRA" };
+  it("a click on a selected country's region outline means the country", () => {
+    expect(pickTarget(north, ["BRA"])).toBe("BRA");
+  });
+  it("a region picked on its own stays itself", () => {
+    expect(pickTarget(north, ["ADM1-BRA-north"])).toBe("ADM1-BRA-north");
+    expect(pickTarget(north, ["BRA", "ADM1-BRA-north"])).toBe("ADM1-BRA-north");
+    expect(pickTarget({ id: "ESP", name: "Spain", type: "country" }, ["BRA"])).toBe("ESP");
   });
 });

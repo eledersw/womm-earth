@@ -58,9 +58,13 @@ test("Stop cancels an in-flight explanation and permits retry", async ({ page })
   await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect.poll(() => held.length).toBe(1);
+  // The Gaia mascot fidgets while an explanation is running, and settles when it stops.
+  const mascot = page.locator("svg.gaia-mascot");
+  await expect(mascot).toHaveAttribute("data-busy", "true");
   const box = page.getByRole("region", { name: "Explanation" });
   await box.getByRole("button", { name: "Stop", exact: true }).click();
   await expect(box.getByText("Explanation stopped.", { exact: true })).toBeVisible();
+  await expect(mascot).toHaveAttribute("data-busy", "false");
   await held[0].fulfill({ contentType: "text/event-stream", body: sse("Stale explanation") }).catch(() => {});
   await box.getByRole("button", { name: "Retry explanation" }).click();
   await expect.poll(() => held.length).toBe(2);

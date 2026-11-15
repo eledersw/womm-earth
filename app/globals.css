@@ -289,3 +289,21 @@
     opacity: 1;
   }
 }
+
+/* Gaia mascot (components/partner/GaiaMascot.tsx). Pixel steps, never smooth tweens.
+   It blinks when idle and fidgets while Gaia is explaining or answering. */
+.gaia-mascot * { transform-box: fill-box; }
+@media (prefers-reduced-motion: no-preference) {
+  .gaia-eyes { transform-origin: center; animation: gaia-blink 4.2s steps(1) infinite; }
+  .gaia-mascot[data-busy="true"] .gaia-whole { animation: gaia-shuffle 1.2s steps(1) infinite; }
+  .gaia-mascot[data-busy="true"] .gaia-body { animation: gaia-bob 0.5s steps(1) infinite; }
+  .gaia-mascot[data-busy="true"] .gaia-arm-l { animation: gaia-arm 0.5s steps(1) infinite; }
+  .gaia-mascot[data-busy="true"] .gaia-arm-r { animation: gaia-arm 0.5s steps(1) 0.25s infinite; }
+  .gaia-mascot[data-busy="true"] .gaia-leg-l { animation: gaia-step 0.5s steps(1) infinite; }
+  .gaia-mascot[data-busy="true"] .gaia-leg-r { animation: gaia-step 0.5s steps(1) 0.25s infinite; }
+}
+@keyframes gaia-blink { 0%, 94% { transform: scaleY(1); } 95%, 100% { transform: scaleY(0.4); } }
+@keyframes gaia-bob { 0% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
+@keyframes gaia-arm { 0% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+@keyframes gaia-step { 0% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
+@keyframes gaia-shuffle { 0% { transform: translateX(0); } 25% { transform: translateX(1px); } 50% { transform: translateX(0); } 75% { transform: translateX(-1px); } }
