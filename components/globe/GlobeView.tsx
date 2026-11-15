@@ -145,6 +145,11 @@ export default function GlobeView() {
     if (controls) {
       controls.autoRotate = !reduced && regions.length === 0;
       controls.autoRotateSpeed = 0.35;
+      // Keep the camera outside the atmosphere shell (altitude 0.16): inside it
+      // the whole view turns grey. 0.35 globe radii is still a close look.
+      const radius = globeRef.current?.getGlobeRadius() ?? 100;
+      controls.minDistance = radius * 1.35;
+      controls.maxDistance = radius * 6;
     }
     // react-globe.gl is created once; mount-time values are what we want here.
     // eslint-disable-next-line react-hooks/exhaustive-deps
