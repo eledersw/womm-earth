@@ -10,6 +10,7 @@ import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { CASE_EXPLAIN_SLOT, CASE_RESULTS_SLOT } from "@/components/shell/slots";
 import { caseCopy } from "@/lib/copy/case";
+import { variableLabel } from "@/lib/copy/variable-labels";
 import { caseKey } from "@/lib/state/case-codec";
 import { useUiStore } from "@/lib/state/ui-store";
 import { CorrelationView } from "./CorrelationView";
@@ -102,7 +103,7 @@ function CasePanelContent() {
         <Pane slotId={CASE_RESULTS_SLOT} label={caseCopy.results} onClose={() => setOpen(false)}>
           <EvidenceStep results={hidden ? undefined : analysis.data?.results} unit={displayUnit(variable?.unit)} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>{hidden && <p>{caseCopy.explorations.predictEvidence}</p>}</EvidenceStep>
           <VerdictStep key={caseKey(state)} variable={variable} results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale} showExplanation={false}
-            context={{ variableName: variable?.name ?? state.variable, unit: variable?.unit ?? "", period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `${caseCopy.controls.seasons.CUSTOM} (${state.months?.join(", ")})` : caseCopy.controls.seasons[state.season] }}
+            context={{ variableName: variable ? variableLabel(variable) : state.variable, unit: variable?.unit ?? "", period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `${caseCopy.controls.seasons.CUSTOM} (${state.months?.join(", ")})` : caseCopy.controls.seasons[state.season] }}
             loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} />
           {analysis.data && !hidden ? <>
             <CorrelationView state={state} variables={variables.variables} />

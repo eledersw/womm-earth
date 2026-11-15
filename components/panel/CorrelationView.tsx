@@ -4,6 +4,7 @@ import { api } from "@/lib/api/client";
 import type { Variable } from "@/lib/api/types";
 import { caseKey, caseFromQuery, type CaseState } from "@/lib/state/case-codec";
 import { caseCopy } from "@/lib/copy/case";
+import { variableLabel } from "@/lib/copy/variable-labels";
 import { fmtNumber, fmtP } from "@/lib/partner/format";
 import { CorrelationChart } from "@/components/charts/CorrelationChart";
 import { useCaseResource } from "./useCaseResource";
@@ -26,7 +27,7 @@ export function CorrelationView({ state, variables }: { state: CaseState; variab
     <label htmlFor={id} className="label-mono">{c.secondVariable}</label>
     <select id={id} value={second} onChange={(e) => setSecond(e.target.value)} className="w-full min-w-0 border border-hairline bg-well p-2">
       <option value="">{c.chooseVariable}</option>
-      {variables.filter((v) => v.id !== state.variable).map((v) => <option key={v.id} value={v.id}>{v.name} ({v.unit})</option>)}
+      {variables.filter((v) => v.id !== state.variable).map((v) => <option key={v.id} value={v.id}>{variableLabel(v)} ({v.unit})</option>)}
     </select>
     {result.loading && <p role="status">{caseCopy.loading}</p>}
     {result.error && <div role="alert"><p>{result.error}</p><Button variant="outline" onClick={result.retry}>{caseCopy.retry}</Button></div>}
@@ -34,7 +35,7 @@ export function CorrelationView({ state, variables }: { state: CaseState; variab
       {result.data.warning === "both_trending" && <p role="note">{c.bothTrending}</p>}
       <p>{c.causality}</p>
       <dl className="grid grid-cols-2 gap-3 text-scale">{[[c.raw, num(result.data.pearson_raw)], [c.detrended, num(result.data.pearson_detrended)], [c.effectiveN, num(result.data.n_eff)], [c.pRaw, num(result.data.p_raw, true)], [c.pDetrended, num(result.data.p_detrended, true)]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd className="figure">{value}</dd></div>)}</dl>
-      <CorrelationChart data={result.data} xLabel={`${first?.name ?? state.variable} (${first?.unit ?? ""})`} yLabel={`${other?.name ?? second} (${other?.unit ?? ""})`} />
+      <CorrelationChart data={result.data} xLabel={`${first ? variableLabel(first) : state.variable} (${first?.unit ?? ""})`} yLabel={`${other ? variableLabel(other) : second} (${other?.unit ?? ""})`} />
     </>}
   </section>;
 }
