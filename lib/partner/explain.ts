@@ -7,22 +7,33 @@ import type { ExplainInput } from "./input";
 import type { PartnerEvent } from "./events";
 import { partnerCopy } from "@/lib/copy/partner";
 
-const MAX_EXPLANATION_WORDS = 40;
-const MAX_EXPLANATION_SENTENCES = 2;
-const REPEATED_VERDICT_DETAIL = /\d|\b(?:p[\s-]?values?|slope|confidence intervals?|Mann[–-]?Kendall|adjusted OLS|OLS|AR\(1\)|yearly sample size|verdict|confirmed|not proven yet|no case|too short to judge|per decade|per year|threshold|significance)\b/i;
+// Matches EXPLAIN_SYSTEM (docs/science/VERDICT_TEMPLATES.md): a plain-language
+// translation of the verdict, at most 3 short sentences and 60 words.
+const MAX_EXPLANATION_WORDS = 60;
+const MAX_EXPLANATION_SENTENCES = 3;
+const MAX_SENTENCE_WORDS = 30;
+// Statistical jargon the plain-language explanation must not use. Numbers are allowed
+// (the change per decade) because checkNumbers verifies every one of them.
+const JARGON = /\b(?:p[\s-]?values?|slopes?|confidence intervals?|Mann[–-]?Kendall|Sen(?:'s)?|OLS|AR\(1\)|autocorrelat\w*|regression|statistically|significan\w*|effective sample size|threshold|null hypothesis)\b/i;
+// A sentence that followed a dropped one must not open mid-thought ("But …").
+const LEADING_CONNECTIVE = /^(?:but|and|so|however|still|yet|also)\b,?\s+/i;
 
-function conciseExplanation(text: string, fallback: string): string {
+export function conciseExplanation(text: string, fallback: string): string {
   const sentences = [...new Intl.Segmenter("en", { granularity: "sentence" }).segment(text)]
     .map(({ segment }) => segment.trim())
-    .filter((sentence) => sentence && !REPEATED_VERDICT_DETAIL.test(sentence));
+    .filter((sentence) => sentence && !JARGON.test(sentence));
   const selected: string[] = [];
   let wordCount = 0;
   for (const sentence of sentences) {
     const words = sentence.match(/[\p{L}\p{N}]+(?:[’'-][\p{L}\p{N}]+)*/gu) ?? [];
-    if (words.length > 28 || wordCount + words.length > MAX_EXPLANATION_WORDS) continue;
+    if (words.length > MAX_SENTENCE_WORDS || wordCount + words.length > MAX_EXPLANATION_WORDS) continue;
     selected.push(sentence);
     wordCount += words.length;
     if (selected.length === MAX_EXPLANATION_SENTENCES) break;
+  }
+  if (selected.length) {
+    const first = selected[0].replace(LEADING_CONNECTIVE, "");
+    selected[0] = first.charAt(0).toUpperCase() + first.slice(1);
   }
   return selected.join(" ") || fallback;
 }
