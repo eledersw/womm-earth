@@ -1,5 +1,5 @@
 "use client";
-// Gaia: a tiny pixel Earth that sits on the Gaia pane. Blue body, green pixel
+// Gaia: a tiny pixel Earth that sits on top of the Gaia pane. Blue body, green pixel
 // countries, two arms, two legs. It fidgets while Gaia is explaining or
 // answering and only blinks otherwise. Motion rules live in app/globals.css.
 import { useUiStore } from "@/lib/state/ui-store";
@@ -26,8 +26,8 @@ export function GaiaMascot() {
         <g className="gaia-leg gaia-leg-l" fill="#2d63b3">{px(10, 5, "a")}{px(11, 5, "b")}</g>
         <g className="gaia-leg gaia-leg-r" fill="#2d63b3">{px(10, 8, "a")}{px(11, 8, "b")}</g>
         <g className="gaia-body">
-          <g className="gaia-arm gaia-arm-l" fill="#3b7dd8">{px(5, 0, "a")}{px(5, 1, "b")}{px(6, 1, "c")}</g>
-          <g className="gaia-arm gaia-arm-r" fill="#3b7dd8">{px(5, 13, "a")}{px(5, 12, "b")}{px(6, 12, "c")}</g>
+          <g className="gaia-arm gaia-arm-l" fill="#3b7dd8">{px(5, 0, "a")}{px(5, 1, "b")}</g>
+          <g className="gaia-arm gaia-arm-r" fill="#3b7dd8">{px(5, 13, "a")}{px(5, 12, "b")}</g>
           <g fill="#3b7dd8">{BODY.map(([from, to], row) => <rect key={row} x={from} y={row} width={to - from + 1} height={1} />)}</g>
           <g fill="#4fbf5a">{LAND.map(([row, col]) => px(row, col, `${row}-${col}`))}</g>
           <g className="gaia-eyes" fill="#08111f">{EYES.map(([row, col]) => px(row, col, `${row}-${col}`))}</g>
