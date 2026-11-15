@@ -16,3 +16,13 @@ test("share links made before the move still open the case in the app", async ({
   await expect.poll(() => new URL(page.url()).pathname).toBe("/app");
   expect(new URL(page.url()).searchParams.get("r")).toBe("ESP");
 });
+
+test("the submission video page plays the video with sound", async ({ page }) => {
+  await page.goto("/video");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("WOMM Earth in thirty seconds.");
+  const video = page.locator("video");
+  await expect(video).toHaveAttribute("src", "/media/womm-earth-video.mp4");
+  expect(await video.evaluate((el: HTMLVideoElement) => el.muted)).toBe(false);
+  const res = await page.request.get("/media/womm-earth-video.mp4", { headers: { Range: "bytes=0-1023" } });
+  expect([200, 206]).toContain(res.status());
+});

@@ -104,6 +104,15 @@ export const landingCopy = {
     ],
   },
   final: { title: "Read the planet yourself." },
+  video: {
+    title: "WOMM Earth · Demo video",
+    heading: "WOMM Earth in thirty seconds.",
+    body: "A walkthrough of one investigation with NASA POWER data: Belgium and the Netherlands, air temperature, 2000 to 2020. Turn the sound on.",
+    src: "/media/womm-earth-video.mp4",
+    poster: "/media/womm-earth-video-poster.jpg",
+    download: "Download MP4",
+    back: "Back to WOMM Earth",
+  },
   footer: {
     event: "NASA Space Apps Challenge 2026",
     data: "Data: NASA POWER",
