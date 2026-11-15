@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-// Cross-component UI state (globe <-> panel). SEAM: frozen after H2 — see
-// docs/process/OWNERSHIP.md. Case state does NOT live here; it lives in the URL
+// Cross-component UI state (globe <-> panel). Case state lives in the URL
 // (lib/state/use-case.ts).
 import { create } from "zustand";
 

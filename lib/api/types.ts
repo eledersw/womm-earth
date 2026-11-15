@@ -1,5 +1,5 @@
-// Named aliases for the generated contract types (lib/api-types.ts, owned by Oier).
-// Import from here, not from lib/api-types.ts directly. SEAM: frozen after H2.
+// Named aliases for the generated contract types (lib/api-types.ts).
+// Import from here, not from lib/api-types.ts directly.
 import type { components } from "@/lib/api-types";
 
 type S = components["schemas"];

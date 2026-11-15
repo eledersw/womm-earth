@@ -1,7 +1,7 @@
 "use client";
 
-// The single source of case state: the URL (via nuqs). SEAM: frozen after H2 —
-// see docs/process/OWNERSHIP.md. Components that call useCase() must render inside
+// The single source of case state: the URL (via nuqs).
+// Components that call useCase() must render inside
 // a <Suspense> boundary (Next prerendering reads search params).
 import {
   parseAsArrayOf,

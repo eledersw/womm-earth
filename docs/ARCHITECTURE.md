@@ -2,33 +2,33 @@
 
 The living technical reference. Update it in the same PR as the change it describes.
 
-## Repo layout (target; owners per `docs/process/OWNERSHIP.md`)
+## Repo layout
 
 ```
-app/                                      Next.js App Router (Eleder)
+app/                                      Next.js App Router
   layout.tsx                              NuqsAdapter, fonts, tokens
   page.tsx                                AppShell -> GlobeArea + <CasePanel/>
   tokens.css  globals.css  about/
-  api/partner/route.ts                    Claude partner, SSE (Ekaitz)
-components/ui|shell|globe/                Eleder
-components/panel|charts|partner|tour/     Ekaitz
-lib/state/                                case-codec.ts, use-case.ts, ui-store.ts (Eleder; seams)
-lib/api/                                  client.ts, types.ts (Eleder; seams)
-lib/api-types.ts                          generated from api/openapi.json (Oier)
-lib/partner/  lib/copy/        Ekaitz (lib/copy/globe.ts: Eleder)
-api/                                      Vercel Python function (Oier)
+  api/partner/route.ts                    Partner, SSE
+components/ui|shell|globe/                interface and globe
+components/panel|charts|partner|tour/     analysis panels and partner
+lib/state/                                case-codec.ts, use-case.ts, ui-store.ts
+lib/api/                                  client.ts, types.ts
+lib/api-types.ts                          generated from api/openapi.json
+lib/partner/  lib/copy/                    partner logic and interface copy
+api/                                      Vercel Python function
   index.py                                the ONLY entrypoint; routes /api/py/*
   _models.py                              Pydantic contract
   _engine/                                pure stats functions
   _data/                                  series_<VAR>.npz, regions.json, variables.json, hero/*.json
   _fixtures/                              stub responses (H2)
   openapi.json                            generated
-pipeline/                                 offline, run in Colab (Oier)
-public/geo/                               GeoJSON from the pipeline (Oier)
-public/textures/                          globe textures (Eleder)
-scripts/                                  per-file owners (see OWNERSHIP)
-tests/                                    pytest; fixtures/golden/ = Sergio's golden cases (Oier)
-e2e/                                      Playwright (infra: Eleder; specs per owner)
+pipeline/                                 offline, run in Colab
+public/geo/                               GeoJSON from the pipeline
+public/textures/                          globe textures
+scripts/                                  project utilities
+tests/                                    pytest; fixtures/golden/ = reference cases
+e2e/                                      Playwright browser tests
 docs/                                     product, architecture and science references
 ```
 

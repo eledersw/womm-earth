@@ -4,7 +4,7 @@ Run with the science validation environment from the repository root:
   docs/science/.venv-validation/Scripts/python.exe docs/science/golden_cases/verify_existing.py
 
 Outputs reference verification and a separate engine comparison in this folder.
-Engine mismatches are reported, not silently accepted or fixed outside ownership.
+Engine mismatches are reported without changing the reference cases.
 """
 
 import csv

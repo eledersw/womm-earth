@@ -1,5 +1,4 @@
 // Typed client for the Python API (/api/py/*), generated from Oier's contract.
-// SEAM: frozen after H2 — see docs/process/OWNERSHIP.md.
 import createClient from "openapi-fetch";
 import type { paths } from "@/lib/api-types";
 

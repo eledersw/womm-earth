@@ -1,6 +1,5 @@
 // Case state <-> URL codec. Pure and safe to import server-side (the partner route
-// uses caseToQuery/normalizeCase for propose_case). SEAM: frozen after H2 —
-// see docs/process/OWNERSHIP.md before changing any exported name or shape.
+// uses caseToQuery/normalizeCase for propose_case).
 
 export const SEASONS = ["ANN", "DJF", "MAM", "JJA", "SON", "CUSTOM"] as const;
 export type Season = (typeof SEASONS)[number];

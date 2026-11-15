@@ -14,16 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # the ownership check diffs against origin/main
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Ownership check (warning only)
-        if: github.event_name == 'pull_request'
-        run: node scripts/check-ownership.mjs
       - run: npm run check
       - run: npm test
 

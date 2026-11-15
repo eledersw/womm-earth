@@ -1,7 +1,6 @@
 """FastAPI entrypoint — the ONLY Vercel Python function in api/.
 
-Stub created by Eleder in the scaffold; owned by Oier from the first merge on
-(docs/process/OWNERSHIP.md). Keep every other Python module in an
+Keep every other Python module in an
 underscore-prefixed folder (api/_engine/, api/_data/, ...) so Vercel doesn't
 turn it into its own function.
 """

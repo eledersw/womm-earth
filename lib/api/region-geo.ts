@@ -1,6 +1,6 @@
 // Region centroids from /api/py/regions arrive as [lng, lat] (GeoJSON order, which
 // is what the pipeline writes). Always go through this helper instead of indexing
-// the tuple, so nobody mixes the order up. (Owner: Eleder; consumers: globe, tours.)
+// the tuple, so nobody mixes the order up.
 export function regionLatLng(region: { centroid: [number, number] | number[] }): {
   lat: number;
   lng: number;

@@ -5,7 +5,7 @@ import fixture from "../api/_fixtures/analyze.json";
 import correlation from "../api/_fixtures/correlate.json";
 import regionCatalog from "../api/_data/regions.json";
 // Legacy HTTP fixtures predate the [lng, lat] seam. Use the actual catalogue's
-// centroid for camera checks without modifying Oier's fixture files.
+// centroid for camera checks without modifying the HTTP fixtures.
 const regionFixtures = regions.map((region) => ({ ...region, centroid: regionCatalog.find((item) => item.id === region.id)?.centroid ?? region.centroid }));
 
 // Browser checks exercise the real URL adapter and controls against the official
@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
     const query = new URL(route.request().url()).searchParams;
     return route.fulfill({ json: { variable: query.get("variable"), start: Number(query.get("start")), end: Number(query.get("end")), season: query.get("season"), entries: {} } });
   });
-  // These tests exercise the panel. Globe geometry is covered by its owner.
+  // These tests exercise the panel; globe geometry is covered separately.
   await page.route("**/geo/*.geojson", (route) => route.fulfill({ json: { type: "FeatureCollection", features: [] } }));
   await page.route("**/api/py/mirror", (route) => route.fulfill({ json: { base: { region: route.request().postDataJSON().regions[0], slope_per_decade: 0.8, p: 0.01, z: 2.5, tier: "confirmed" }, mirrors: [], none_found: true } }));
   await page.route("**/api/py/variables", (route) => route.fulfill({ json: variables }));
