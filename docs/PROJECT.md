@@ -34,7 +34,7 @@ NASA Space Apps 2026, *Be An Earth System Trend Detective!* The app must let use
 ## Scope
 
 **Must** (end to end on production by H14):
-- **Globe.** Countries when zoomed out, US states when zoomed in, plus ocean basins and about 15 named regions. Select by click or by search, up to 4 regions at once. The trend map is coloured by the current case.
+- **Globe.** Smaller countries and broad regions of large countries at every zoom level, plus named regions. Select by click or by search, up to 4 regions at once. The trend map is coloured by the current case.
 - **Left panel.** The 5-step flow, a period slider and a season filter (Annual / DJF / MAM / JJA / SON / custom).
 - **Chart.** Raw monthly values and anomalies, the yearly series, an OLS line with its CI band, a Sen's slope line, and an overlay when several regions are selected.
 - **Statistics engine and verdicts** as defined in `docs/science/METHODS.md`, plus a template verdict that works without Claude.

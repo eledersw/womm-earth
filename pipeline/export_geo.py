@@ -234,8 +234,11 @@ def _large_country_ids(country_rows: Iterable[tuple[dict, dict]]) -> set[str]:
     result = set()
     for properties, raw_geometry in country_rows:
         region_id = properties.get("ADM0_A3")
-        if not region_id or region_id == "USA":
-            continue  # The US already has its own selectable state layer.
+        if not region_id:
+            continue
+        if region_id == "USA":
+            result.add(region_id)
+            continue
         geometry = shape(raw_geometry)
         polygons = list(geometry.geoms) if geometry.geom_type == "MultiPolygon" else [geometry]
         keys: set[tuple[int, int]] = set()
@@ -265,6 +268,8 @@ def admin1_region_features(country_rows, admin1_rows, simplify: bool = False,
         if parent not in eligible or not unit_name or unit_name.casefold() == country_names.get(parent, "").casefold():
             continue
         macro_name = str(properties.get("region") or "").strip()
+        if parent == "USA" and unit_name in {"Alaska", "Hawaii"}:
+            macro_name = unit_name
         if not macro_name:
             macro_name = MANUAL_MACROREGIONS.get(parent, {}).get(unit_name, "")
         if not macro_name:

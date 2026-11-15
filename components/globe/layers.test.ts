@@ -1,77 +1,48 @@
 import { describe, expect, it } from "vitest";
 import {
-  ZOOM_STATES_ALTITUDE,
   capRings,
   penColor,
   polarCapLatitude,
   penIndex,
-  parentOf,
   visibleFeatures,
   type GeoLayers,
   type RegionFeature,
 } from "./layers";
 
-const f = (id: string, type: RegionFeature["properties"]["type"], parent?: string): RegionFeature => ({
+const f = (id: string, type: RegionFeature["properties"]["type"]): RegionFeature => ({
   type: "Feature",
-  properties: { id, name: id, type, ...(parent ? { parent } : {}) },
+  properties: { id, name: id, type },
   geometry: { type: "Polygon", coordinates: [] },
 });
 
 const geo: GeoLayers = {
-  countries: [f("USA", "country"), f("ESP", "country"), f("FRA", "country"), f("BRA", "country")],
-  states: [f("US-WI", "state"), f("US-MN", "state")],
-  subregions: [f("ADM1-BRA-north", "subregion", "BRA"), f("ADM1-BRA-south", "subregion", "BRA")],
+  countries: [f("USA", "country"), f("ESP", "country"), f("FRA", "country")],
+  subregions: [
+    { ...f("ADM1-RUS-1", "subregion"), properties: { id: "ADM1-RUS-1", name: "Russia West", type: "subregion", parent: "RUS" } },
+    { ...f("ADM1-USA-west", "subregion"), properties: { id: "ADM1-USA-west", name: "USA West", type: "subregion", parent: "USA" } },
+  ],
   named: [f("NR-GLOBE", "named"), f("NR-SAHEL", "named")],
 };
 
 const ids = (fs: RegionFeature[]) => fs.map((x) => x.properties.id);
-const FAR = ZOOM_STATES_ALTITUDE + 1;
-const NEAR = ZOOM_STATES_ALTITUDE - 0.5;
-
 describe("visibleFeatures", () => {
-  it("zoomed out shows whole countries, not their regions", () => {
-    const v = ids(visibleFeatures(geo, FAR));
-    expect(v).toEqual(expect.arrayContaining(["USA", "ESP", "BRA"]));
-    expect(v).not.toContain("US-WI");
-    expect(v).not.toContain("ADM1-BRA-north");
-  });
-
-  it("zoomed in swaps every divided country for its regions", () => {
-    const v = ids(visibleFeatures(geo, NEAR));
-    expect(v).toEqual(expect.arrayContaining(["US-WI", "US-MN", "ADM1-BRA-north", "ADM1-BRA-south", "ESP"]));
-    expect(v).not.toContain("USA");
-    expect(v).not.toContain("BRA");
-  });
-
-  it("zoomed in keeps a selected divided country with its regions on top, so a region can be picked", () => {
-    const v = ids(visibleFeatures(geo, NEAR, ["BRA"]));
-    expect(v).toEqual(expect.arrayContaining(["BRA", "ADM1-BRA-north", "ADM1-BRA-south"]));
-  });
-
-  it("zoomed out draws selected regions over their country, and no other regions", () => {
-    const v = ids(visibleFeatures(geo, FAR, ["US-WI", "ADM1-BRA-north"]));
-    expect(v).toEqual(expect.arrayContaining(["USA", "US-WI", "BRA", "ADM1-BRA-north"]));
-    expect(v).not.toContain("US-MN");
-    expect(v).not.toContain("ADM1-BRA-south");
+  it("shows large-country macroregions and never renders every US state", () => {
+    const shown = ids(visibleFeatures(geo));
+    expect(shown).toEqual(expect.arrayContaining(["ADM1-USA-west", "ADM1-RUS-1", "ESP"]));
+    expect(shown).not.toContain("USA");
+    expect(shown).not.toContain("US-WI");
   });
 
   it("draws a named region only while selected, and never the whole-globe ones", () => {
-    expect(ids(visibleFeatures(geo, FAR))).not.toContain("NR-SAHEL");
-    const v = ids(visibleFeatures(geo, FAR, ["NR-SAHEL", "NR-GLOBE"]));
+    expect(ids(visibleFeatures(geo))).not.toContain("NR-SAHEL");
+    const v = ids(visibleFeatures(geo, ["NR-SAHEL", "NR-GLOBE"]));
     expect(v).toContain("NR-SAHEL");
     expect(v).not.toContain("NR-GLOBE");
   });
 
   it("same key returns the same array reference", () => {
-    expect(visibleFeatures(geo, FAR, ["ESP"])).toBe(visibleFeatures(geo, FAR + 0.3, ["ESP"]));
-    expect(visibleFeatures(geo, NEAR)).toBe(visibleFeatures(geo, NEAR - 0.1));
-    expect(visibleFeatures(geo, FAR)).not.toBe(visibleFeatures(geo, NEAR));
-  });
-
-  it("US states belong to the USA", () => {
-    expect(parentOf({ id: "US-WI", name: "Wisconsin", type: "state" })).toBe("USA");
-    expect(parentOf({ id: "ADM1-BRA-north", name: "North", type: "subregion", parent: "BRA" })).toBe("BRA");
-    expect(parentOf({ id: "ESP", name: "Spain", type: "country" })).toBeUndefined();
+    expect(visibleFeatures(geo, ["ESP"])).toBe(visibleFeatures(geo, ["ADM1-USA-west"]));
+    expect(visibleFeatures(geo)).toBe(visibleFeatures(geo, ["US-WI"]));
   });
 });
 
@@ -87,13 +58,12 @@ describe("polar caps (regions wrapping 360° around a pole)", () => {
   });
   const capGeo: GeoLayers = {
     countries: [f("ESP", "country")],
-    states: [],
     subregions: [],
     named: [cap("NR-ARCTIC", "named", 66.5, 90), f("NR-SAHEL", "named")],
   };
 
   it("are never drawn as clickable polygons", () => {
-    const v = ids(visibleFeatures(capGeo, FAR, ["NR-ARCTIC", "NR-SAHEL"]));
+    const v = ids(visibleFeatures(capGeo, ["NR-ARCTIC", "NR-SAHEL"]));
     expect(v).not.toContain("NR-ARCTIC");
     expect(v).toContain("NR-SAHEL");
   });

@@ -6030,6 +6030,114 @@
     "parent": "RUS"
   },
   {
+    "id": "ADM1-USA-alaska",
+    "name": "United States of America \u2014 Alaska",
+    "type": "subregion",
+    "centroid": [
+      -152.27609,
+      64.26198
+    ],
+    "bbox": [
+      -179.1435,
+      51.2154,
+      179.78094,
+      71.4125
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "ADM1-USA-hawaii",
+    "name": "United States of America \u2014 Hawaii",
+    "type": "subregion",
+    "centroid": [
+      -156.35275,
+      20.2529
+    ],
+    "bbox": [
+      -178.30437,
+      18.90612,
+      -154.81406,
+      28.40168
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "ADM1-USA-midwest",
+    "name": "United States of America \u2014 Midwest",
+    "type": "subregion",
+    "centroid": [
+      -93.4151,
+      42.8388
+    ],
+    "bbox": [
+      -104.05666,
+      35.98619,
+      -80.52023,
+      49.36949
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "ADM1-USA-northeast",
+    "name": "United States of America \u2014 Northeast",
+    "type": "subregion",
+    "centroid": [
+      -74.24337,
+      42.82014
+    ],
+    "bbox": [
+      -80.52023,
+      38.92438,
+      -66.97732,
+      47.45969
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "ADM1-USA-south",
+    "name": "United States of America \u2014 South",
+    "type": "subregion",
+    "centroid": [
+      -90.17855,
+      33.47476
+    ],
+    "bbox": [
+      -106.66218,
+      24.54255,
+      -75.04398,
+      40.64678
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
+    "id": "ADM1-USA-west",
+    "name": "United States of America \u2014 West",
+    "type": "subregion",
+    "centroid": [
+      -112.99479,
+      40.7799
+    ],
+    "bbox": [
+      -124.73461,
+      31.32718,
+      -102.03957,
+      48.99262
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "USA"
+  },
+  {
     "id": "NR-GLOBE",
     "name": "Globe",
     "type": "named",
