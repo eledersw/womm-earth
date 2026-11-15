@@ -77,7 +77,7 @@ Do not claim complete test coverage, causal validation, a universal error rate, 
 | Do opposite trends prove the same mechanism? | No. A qualified mirror supplies a comparison under matching settings and the defined selection rule, not a causal explanation. Each mechanism still needs relevant evidence. | Qualified, implemented mirror only |
 | Can the slope predict a future temperature? | A fitted historical rate is not a validated forecast. Extending it assumes behavior that the trend test has not established. | Historical interval and limits |
 | What does an additional-years estimate mean? | It is a conditional single-test threshold approximation under unchanged slope/noise. It is neither a deadline nor calibrated combined-rule detection power. | Eligible estimate and assumptions |
-| Did outsiders test the product? | The team reports its own user testing and chose to omit the planned outsider session. We do not present that as independent usability evidence or as statistical validation. | Team decision in WORK_PLAN.md |
+| Did outsiders test the product? | The team reports its own user testing and chose to omit the planned outsider session. We do not present that as independent usability evidence or as statistical validation. | Team decision |
 
 ## NASA data and attribution copy
 
