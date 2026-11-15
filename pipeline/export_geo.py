@@ -21,10 +21,73 @@ COUNTRIES_50M_ZIP = "https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin
 STATES_50M_ZIP = "https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin_1_states_provinces.zip"
 ADMIN1_10M_ZIP = "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip"
 ADMIN1_TILE_THRESHOLD = 15
+MAX_MACRO_TILES = 12
 ADMIN1_10M_SHA256 = "efc59726337323058f9446210adc96673179cd344e053666ee3d28cb58ba2b05"
 DEFAULT_OUTPUT = Path(__file__).resolve().parents[1] / "public" / "geo" / "countries.geojson"
 GEO_DIR = DEFAULT_OUTPUT.parent
 SIMPLIFY_TOLERANCE = 0.05
+
+# Natural Earth first-level units are dissolved into broader regions before they
+# reach the globe or the analysis catalog. Countries with a populated Natural
+# Earth `region` field use it; these explicit mappings fill gaps for the others.
+MANUAL_MACROREGIONS = {
+    "IND": {
+        "Ladakh": "North",
+        "Andaman and Nicobar Islands": "South",
+    },
+    "CHN": {
+        "Fujian": "East China",
+        "Paracel Islands": "South Central China",
+    },
+    "BRA": {
+        **dict.fromkeys(("Acre", "Amapá", "Amazonas", "Pará", "Rondônia", "Roraima", "Tocantins"), "North"),
+        **dict.fromkeys(("Alagoas", "Bahia", "Ceará", "Maranhão", "Paraíba", "Pernambuco", "Piauí", "Rio Grande do Norte", "Sergipe"), "Northeast"),
+        **dict.fromkeys(("Federal", "Goiás", "Mato Grosso", "Mato Grosso do Sul"), "Central-West"),
+        **dict.fromkeys(("Espírito Santo", "Minas Gerais", "Rio de Janeiro", "São Paulo"), "Southeast"),
+        **dict.fromkeys(("Paraná", "Rio Grande do Sul", "Santa Catarina"), "South"),
+    },
+    "NOR": {
+        **dict.fromkeys(("Finnmark", "Nordland", "Troms", "Svalbard"), "Northern Norway"),
+        **dict.fromkeys(("Nord-Trøndelag", "Sør-Trøndelag"), "Trøndelag"),
+        **dict.fromkeys(("Hordaland", "Møre og Romsdal", "Rogaland", "Sogn og Fjordane"), "Western Norway"),
+        **dict.fromkeys(("Aust-Agder", "Vest-Agder", "Telemark"), "Southern Norway"),
+        **dict.fromkeys(("Akershus", "Buskerud", "Hedmark", "Oppland", "Oslo", "Vestfold", "Østfold"), "Eastern Norway"),
+        "Bouvet Island": "Bouvet Island",
+    },
+    "AUS": {
+        **dict.fromkeys(("New South Wales", "Australian Capital Territory", "Jervis Bay Territory", "Lord Howe Island"), "Eastern Australia"),
+        "Queensland": "Queensland",
+        "Northern Territory": "Northern Territory",
+        **dict.fromkeys(("Victoria", "South Australia", "Tasmania", "Macquarie Island"), "Southern Australia"),
+        "Western Australia": "Western Australia",
+    },
+    "GRL": {
+        "Qaasuitsup": "Northwest Greenland",
+        "Pituffik": "Northwest Greenland",
+        "Northeast Greenland National Park": "Northeast Greenland",
+        "Sermersooq": "Sermersooq",
+        "Qeqqata": "Qeqqata",
+        "Kujalleq": "Kujalleq",
+    },
+}
+
+REGION_NAME_OVERRIDES = {
+    ("RUS", "Siberian"): "Siberia",
+    ("RUS", "Northwestern"): "Northwest",
+    ("RUS", "Far Eastern"): "Far East",
+    ("RUS", "Central"): "Central Russia",
+    ("RUS", "Volga"): "Volga Russia",
+    ("RUS", "Urals"): "Urals",
+    ("CHN", "Northwest China"): "Northwest",
+    ("CHN", "Southwest China"): "Southwest",
+    ("CHN", "North China"): "North",
+    ("CHN", "Northeast China"): "Northeast",
+    ("CHN", "South Central China"): "South Central",
+    ("CHN", "East China"): "East",
+    ("CAN", "Western Canada"): "West",
+    ("CAN", "Eastern Canada"): "East",
+    ("CAN", "Northern Canada"): "North",
+}
 
 
 def _point_segment_distance(point: list[float], start: list[float], end: list[float]) -> float:
@@ -187,36 +250,85 @@ def _large_country_ids(country_rows: Iterable[tuple[dict, dict]]) -> set[str]:
     return result
 
 
+def _power_tile_count(geometry) -> int:
+    """Count 10-degree request tiles intersecting the geometry's polygon bounds."""
+    polygons = list(geometry.geoms) if geometry.geom_type == "MultiPolygon" else [geometry]
+    keys: set[tuple[int, int]] = set()
+    for polygon in polygons:
+        west, south, east, north = polygon.bounds
+        for x in range(max(0, int((west + 180) // 10)), min(35, int((east + 180) // 10)) + 1):
+            for y in range(max(0, int((south + 90) // 10)), min(17, int((north + 90) // 10)) + 1):
+                keys.add((x, y))
+    return len(keys)
+
+
+def _split_large_macroregion(units: list, max_tiles: int = MAX_MACRO_TILES):
+    """Keep macroregions compact enough for POWER while dissolving most admin-1 borders."""
+    from shapely.ops import unary_union
+
+    combined = unary_union(units)
+    if _power_tile_count(combined) <= max_tiles or len(units) <= 1:
+        return [combined]
+
+    centers = [(geometry.centroid.x, geometry.centroid.y, geometry) for geometry in units]
+    xs = [item[0] for item in centers]
+    ys = [item[1] for item in centers]
+    longitude_split = max(xs) - min(xs) >= max(ys) - min(ys)
+    ordered = sorted(centers, key=lambda item: item[0] if longitude_split else item[1])
+    middle = len(ordered) // 2
+    low_units = [item[2] for item in ordered[:middle]]
+    high_units = [item[2] for item in ordered[middle:]]
+    return (
+        _split_large_macroregion(low_units, max_tiles)
+        + _split_large_macroregion(high_units, max_tiles)
+    )
+
+
 def admin1_region_features(country_rows, admin1_rows, simplify: bool = False,
                            simplify_tolerance: float = 0.02) -> list[dict]:
-    """Export named Admin-1 polygons only for large countries with usable divisions."""
+    """Dissolve Admin-1 polygons into a small set of named macroregions."""
     from shapely.geometry import mapping, shape
+    from shapely.ops import unary_union
 
     eligible = _large_country_ids(country_rows)
     country_names = {str(properties.get("ADM0_A3")): str(properties.get("NAME", ""))
                      for properties, _ in country_rows}
-    features = []
-    seen: set[str] = set()
+    grouped: dict[tuple[str, str], list] = {}
     for properties, raw_geometry in admin1_rows:
         parent = str(properties.get("adm0_a3") or "")
-        code = str(properties.get("adm1_code") or "")
-        name = str(properties.get("name_en") or properties.get("name") or "").strip()
-        if parent not in eligible or not code or not name or name.casefold() == country_names.get(parent, "").casefold():
+        unit_name = str(properties.get("name_en") or properties.get("name") or "").strip()
+        if parent not in eligible or not unit_name or unit_name.casefold() == country_names.get(parent, "").casefold():
             continue
-        region_id = f"ADM1-{code}"
-        if region_id in seen:
+        macro_name = str(properties.get("region") or "").strip()
+        if not macro_name:
+            macro_name = MANUAL_MACROREGIONS.get(parent, {}).get(unit_name, "")
+        if not macro_name:
             continue
         geometry = shape(raw_geometry)
         if geometry.is_empty or geometry.geom_type not in {"Polygon", "MultiPolygon"}:
             continue
         if not geometry.is_valid:
             geometry = geometry.buffer(0)
-        if simplify:
-            geometry = geometry.simplify(simplify_tolerance, preserve_topology=True)
-        seen.add(region_id)
-        features.append({"type": "Feature", "properties": {
-            "id": region_id, "name": name, "type": "subregion", "parent": parent,
-        }, "geometry": mapping(geometry)})
+        grouped.setdefault((parent, macro_name), []).append(geometry)
+
+    features = []
+    for (parent, macro_name), geometries in sorted(grouped.items()):
+        country_name = country_names.get(parent, parent)
+        display_region = REGION_NAME_OVERRIDES.get((parent, macro_name), macro_name)
+        parts = _split_large_macroregion(geometries)
+        for index, geometry in enumerate(parts, start=1):
+            if not geometry.is_valid:
+                geometry = geometry.buffer(0)
+            if simplify:
+                geometry = geometry.simplify(simplify_tolerance, preserve_topology=True)
+            part_name = f"{display_region} area {index}" if len(parts) > 1 else display_region
+            slug = "-".join(part for part in "".join(
+                ch.lower() if ch.isalnum() else " " for ch in part_name
+            ).split())
+            name = f"{country_name} — {part_name}"
+            features.append({"type": "Feature", "properties": {
+                "id": f"ADM1-{parent}-{slug}", "name": name, "type": "subregion", "parent": parent,
+            }, "geometry": mapping(geometry)})
     return features
 
 

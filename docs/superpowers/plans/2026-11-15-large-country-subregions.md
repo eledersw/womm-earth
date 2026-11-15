@@ -4,7 +4,7 @@
 
 **Goal:** Make first-level administrative areas in large countries selectable on the globe and analyzable with NASA POWER.
 
-**Architecture:** Generate a compact Admin-1 catalog and geometry layer from pinned Natural Earth data for supported countries. The frontend reveals those polygons when zoomed in; the Python API resolves their exact geometry and masks POWER grid cells before computing the regional series.
+**Architecture:** Generate a compact catalog of dissolved Admin-1 macroregions from pinned Natural Earth data for supported countries. The frontend draws the smaller macroregion set at every zoom; the Python API resolves each exact geometry and masks POWER grid cells before computing the regional series.
 
 **Tech Stack:** Next.js, React Globe, GeoJSON, Python/FastAPI, NASA POWER.
 
@@ -13,7 +13,7 @@
 ## Global constraints
 
 - Preserve the four-region case limit and existing region ID contract.
-- Keep country polygons selectable when zoomed out and US states selectable when zoomed in.
+- Keep country polygons selectable at any zoom and US states selectable when zoomed in.
 - Apply exact polygon masking and existing cosine-latitude area weights to subregion series.
 - Include countries requiring at least 15 current POWER tiles and having usable Natural Earth Admin-1 matches; avoid duplicate US states.
 
@@ -49,7 +49,7 @@
 **Files:** `components/globe/useGeo.ts`, `components/globe/layers.ts`, `components/globe/GlobeView.tsx`, relevant globe tests.
 
 - [ ] Add the generated Admin-1 layer to the zoomed-in globe features.
-- [ ] Keep country features at the zoomed-out level and show subregions only when zoomed in.
+- [ ] Keep country features selectable and draw the grouped macroregions at every zoom.
 - [ ] Replace a selected parent country with its chosen child region; retain four-region cap and duplicate prevention.
 - [ ] Verify hover labels, selection pens, highlighting, and country/state interactions.
 
