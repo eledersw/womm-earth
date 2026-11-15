@@ -1,6 +1,8 @@
 import asyncio
+from io import BytesIO
 import json
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.parse import parse_qs, urlparse
 
 import pytest
@@ -8,6 +10,40 @@ import pytest
 import _engine.power as power
 from _engine.power import _manager_url, _regional_url
 from _models import Region, Variable
+
+
+def test_power_request_recovers_from_transient_502(monkeypatch):
+    attempts = 0
+
+    def request(_url, timeout):
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            raise HTTPError(_url.full_url, 502, "Bad Gateway", {}, None)
+        response = BytesIO(b'{"ok": true}')
+        response.status = 200
+        return response
+
+    monkeypatch.setattr(power, "urlopen", request)
+    monkeypatch.setattr(power.time, "sleep", lambda _seconds: None)
+
+    assert power._request_json("https://power.larc.nasa.gov/example") == {"ok": True}
+    assert attempts == 2
+
+
+def test_power_request_does_not_retry_invalid_selection(monkeypatch):
+    attempts = 0
+
+    def request(url, timeout):
+        nonlocal attempts
+        attempts += 1
+        raise HTTPError(url.full_url, 422, "Unprocessable Entity", {}, None)
+
+    monkeypatch.setattr(power, "urlopen", request)
+    with pytest.raises(power.PowerUpstreamError) as error:
+        power._request_json("https://power.larc.nasa.gov/example")
+    assert error.value.status_code == 422
+    assert attempts == 1
 
 
 def test_power_request_urls_use_alphanumeric_user():

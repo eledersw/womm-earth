@@ -30,6 +30,7 @@ MONTHLY_REGIONAL_URL = "https://power.larc.nasa.gov/api/temporal/monthly/regiona
 # with different display units (for example, solar irradiance).
 COMMUNITIES: tuple[PowerCommunity, ...] = ("AG",)
 HTTP_TIMEOUT_SECONDS = 25
+RETRYABLE_HTTP_STATUSES = {429, 500, 502, 503, 504}
 MAX_RESPONSE_BYTES = 8 * 1024 * 1024
 CATALOG_TTL_SECONDS = 6 * 60 * 60
 CATALOG_FALLBACK_TTL_SECONDS = 15 * 60
@@ -93,13 +94,18 @@ def _inside_country(longitude: float, latitude: float, geometry: dict[str, Any])
 def _request_json(url: str) -> dict[str, Any]:
     request = Request(url, headers={"User-Agent": "womm-earth/1.0"})
     try:
-        with urlopen(request, timeout=HTTP_TIMEOUT_SECONDS) as response:
-            if response.status < 200 or response.status >= 300:
-                raise PowerUpstreamError("NASA POWER returned an error.", status_code=response.status)
-            body = response.read(MAX_RESPONSE_BYTES + 1)
-    except HTTPError as error:
-        status = error.code
-        raise PowerUpstreamError("NASA POWER returned an error.", status_code=status) from error
+        for attempt in range(3):
+            try:
+                with urlopen(request, timeout=HTTP_TIMEOUT_SECONDS) as response:
+                    if response.status < 200 or response.status >= 300:
+                        raise PowerUpstreamError("NASA POWER returned an error.", status_code=response.status)
+                    body = response.read(MAX_RESPONSE_BYTES + 1)
+                break
+            except HTTPError as error:
+                if error.code in RETRYABLE_HTTP_STATUSES and attempt < 2:
+                    time.sleep(0.5 * (attempt + 1))
+                    continue
+                raise PowerUpstreamError("NASA POWER returned an error.", status_code=error.code) from error
     except (TimeoutError, URLError, OSError) as error:
         raise PowerUpstreamError("NASA POWER could not be reached.") from error
 
