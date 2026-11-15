@@ -149,7 +149,7 @@ export const caseCopy = {
     noScatter: "No paired observations are available for a scatter plot.", noLags: "No lag estimates are available.",
     mirror: "Mirror regions", showOnGlobe: "Show on globe", compare: "Compare", highlighted: "Mirror highlight requested on the globe.",
     slope: "Slope per decade", mirrorHint: "Opposite trends for the same variable, period and season; uses the first selected region.",
-    years: "Estimated additional years", moreYears: "more years at this rate",
+    years: "Estimated additional years", moreYears: "more years at this rate", yearsMeasured: "years measured", yearsToGo: "to go",
     assumptions: "Approximate estimate assuming the slope and noise stay the same. It does not promise future significance; detection power for the combined test remains under review.",
     predict: "Predict before reveal", predictQuestion: "What do you expect the yearly evidence to show?",
     up: "Up", down: "Down", unclear: "No clear trend", guessed: "You guessed", dataSays: "the data says",

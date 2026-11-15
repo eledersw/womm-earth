@@ -321,3 +321,35 @@
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 ::selection { background: var(--silver); color: var(--space); }
+
+/* "Not proven yet" years meter (components/panel/YearsMeter.tsx): a hairline track
+   with the chrome fill of the Investigate button, instead of the browser's green bar. */
+.years-meter {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--hairline);
+  overflow: hidden;
+}
+.years-meter::-webkit-meter-inner-element { display: block; }
+.years-meter::-webkit-meter-bar {
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--hairline);
+}
+.years-meter::-webkit-meter-optimum-value,
+.years-meter::-webkit-meter-suboptimum-value,
+.years-meter::-webkit-meter-even-less-good-value {
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--action-bottom), var(--action-top));
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06) inset;
+}
+.years-meter::-moz-meter-bar {
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--action-bottom), var(--action-top));
+}
