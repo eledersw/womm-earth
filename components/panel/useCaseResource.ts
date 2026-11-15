@@ -8,7 +8,7 @@ export function useCaseResource<T>(key: string, load: (signal: AbortSignal) => P
   useEffect(() => {
     if (!enabled) return;
     const controller = new AbortController();
-    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(20_000)]);
+    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(60_000)]);
     void Promise.resolve().then(() => { if (controller.signal.aborted) return; return load(signal).then(
       (data) => { if (!controller.signal.aborted) setSnapshot({ key: identity, data, error: false }); },
       () => { if (!controller.signal.aborted) setSnapshot({ key: identity, data: null, error: true }); },
