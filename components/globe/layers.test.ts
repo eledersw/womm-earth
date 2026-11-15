@@ -4,33 +4,40 @@ import {
   penColor,
   polarCapLatitude,
   penIndex,
+  parentOf,
   visibleFeatures,
   type GeoLayers,
   type RegionFeature,
 } from "./layers";
 
-const f = (id: string, type: RegionFeature["properties"]["type"]): RegionFeature => ({
+const f = (id: string, type: RegionFeature["properties"]["type"], parent?: string): RegionFeature => ({
   type: "Feature",
-  properties: { id, name: id, type },
+  properties: { id, name: id, type, ...(parent ? { parent } : {}) },
   geometry: { type: "Polygon", coordinates: [] },
 });
 
 const geo: GeoLayers = {
-  countries: [f("USA", "country"), f("ESP", "country"), f("FRA", "country")],
-  subregions: [
-    { ...f("ADM1-RUS-1", "subregion"), properties: { id: "ADM1-RUS-1", name: "Russia West", type: "subregion", parent: "RUS" } },
-    { ...f("ADM1-USA-west", "subregion"), properties: { id: "ADM1-USA-west", name: "USA West", type: "subregion", parent: "USA" } },
-  ],
+  countries: [f("USA", "country"), f("ESP", "country"), f("FRA", "country"), f("BRA", "country")],
+  states: [f("US-WI", "state"), f("US-MN", "state")],
+  subregions: [f("ADM1-BRA-north", "subregion", "BRA"), f("ADM1-BRA-south", "subregion", "BRA")],
   named: [f("NR-GLOBE", "named"), f("NR-SAHEL", "named")],
 };
 
 const ids = (fs: RegionFeature[]) => fs.map((x) => x.properties.id);
+
 describe("visibleFeatures", () => {
-  it("shows large-country macroregions and never renders every US state", () => {
-    const shown = ids(visibleFeatures(geo));
-    expect(shown).toEqual(expect.arrayContaining(["ADM1-USA-west", "ADM1-RUS-1", "ESP"]));
-    expect(shown).not.toContain("USA");
-    expect(shown).not.toContain("US-WI");
+  it("draws whole countries and no regions by default", () => {
+    const v = ids(visibleFeatures(geo));
+    expect(v).toEqual(expect.arrayContaining(["USA", "ESP", "BRA"]));
+    expect(v).not.toContain("US-WI");
+    expect(v).not.toContain("ADM1-BRA-north");
+  });
+
+  it("draws picked regions on top of their whole country", () => {
+    const v = ids(visibleFeatures(geo, ["US-WI", "ADM1-BRA-north", "BRA"]));
+    expect(v).toEqual(expect.arrayContaining(["USA", "US-WI", "BRA", "ADM1-BRA-north"]));
+    expect(v).not.toContain("US-MN");
+    expect(v).not.toContain("ADM1-BRA-south");
   });
 
   it("draws a named region only while selected, and never the whole-globe ones", () => {
@@ -40,9 +47,14 @@ describe("visibleFeatures", () => {
     expect(v).not.toContain("NR-GLOBE");
   });
 
-  it("same key returns the same array reference", () => {
-    expect(visibleFeatures(geo, ["ESP"])).toBe(visibleFeatures(geo, ["ADM1-USA-west"]));
-    expect(visibleFeatures(geo)).toBe(visibleFeatures(geo, ["US-WI"]));
+  it("same picks return the same array reference", () => {
+    expect(visibleFeatures(geo, ["ESP"])).toBe(visibleFeatures(geo, ["FRA"]));
+    expect(visibleFeatures(geo, ["US-WI"])).not.toBe(visibleFeatures(geo));
+  });
+
+  it("US states belong to the USA", () => {
+    expect(parentOf({ id: "US-WI", name: "Wisconsin", type: "state" })).toBe("USA");
+    expect(parentOf({ id: "ADM1-BRA-north", name: "North", type: "subregion", parent: "BRA" })).toBe("BRA");
   });
 });
 
@@ -58,6 +70,7 @@ describe("polar caps (regions wrapping 360° around a pole)", () => {
   });
   const capGeo: GeoLayers = {
     countries: [f("ESP", "country")],
+    states: [],
     subregions: [],
     named: [cap("NR-ARCTIC", "named", 66.5, 90), f("NR-SAHEL", "named")],
   };

@@ -6,6 +6,7 @@ import type { GeoLayers, RegionFeature } from "./layers";
 // Region geometry from the pipeline (public/geo, owned by Oier), fetched once per page.
 const FILES = {
   countries: "/geo/countries.geojson",
+  states: "/geo/us-states.geojson",
   subregions: "/geo/admin1.geojson",
   named: "/geo/named.geojson",
 } as const;
@@ -22,10 +23,11 @@ async function fetchLayer(url: string): Promise<RegionFeature[]> {
 function loadGeo(): Promise<GeoLayers> {
   cached ??= Promise.all([
     fetchLayer(FILES.countries),
+    fetchLayer(FILES.states),
     fetchLayer(FILES.subregions),
     fetchLayer(FILES.named),
   ])
-    .then(([countries, subregions, named]) => ({ countries, subregions, named }))
+    .then(([countries, states, subregions, named]) => ({ countries, states, subregions, named }))
     .catch((e) => {
       cached = null;
       throw e;

@@ -12,9 +12,11 @@ export interface RegionFeature {
 
 export interface GeoLayers {
   countries: RegionFeature[];
+  states: RegionFeature[];
   subregions: RegionFeature[];
   named: RegionFeature[];
 }
+
 
 /** Named regions whose outline would cover the whole planet; selectable, never drawn. */
 const WHOLE_EARTH = new Set(["NR-GLOBE", "NR-LAND", "NR-OCEAN"]);
@@ -77,24 +79,19 @@ export function capRings(geo: GeoLayers, regions: readonly string[]): CapRing[] 
   return rings;
 }
 
-/** The country a broad region belongs to. */
+/** The country a region belongs to (US states carry no parent in their GeoJSON). */
 export function parentOf(props: RegionFeature["properties"]): string | undefined {
-  return props.parent;
+  return props.parent ?? (props.type === "state" ? "USA" : undefined);
 }
 
 /**
- * Large countries are always drawn as their broad regions (at every zoom), so a
- * click picks a region; smaller countries are drawn whole. Selected named regions
- * draw too. Oceans and US states are not selectable on the globe.
+ * One view at every zoom: whole countries, plus the states, broad regions and
+ * named regions the case has picked (chosen in search), drawn on top of their
+ * country. Nothing switches when you zoom, so the globe stays light.
  */
-export function visibleFeatures(
-  geo: GeoLayers,
-  selected: readonly string[] = [],
-): RegionFeature[] {
-  const dividedParents = new Set(geo.subregions.map((feature) => feature.properties.parent));
-  const named = selected.filter((id) => id.startsWith("NR-") && !WHOLE_EARTH.has(id)).sort();
-  const key = named.join(",");
-
+export function visibleFeatures(geo: GeoLayers, selected: readonly string[] = []): RegionFeature[] {
+  const picked = selected.filter((id) => (id.startsWith("US-") || id.startsWith("ADM1-") || id.startsWith("NR-")) && !WHOLE_EARTH.has(id)).sort();
+  const key = picked.join(",");
   let byKey = cache.get(geo);
   if (!byKey) {
     byKey = new Map();
@@ -102,12 +99,11 @@ export function visibleFeatures(
   }
   const hit = byKey.get(key);
   if (hit) return hit;
-
-  const namedSet = new Set(named);
+  const keep = new Set(picked);
   const features = [
-    ...geo.countries.filter((c) => !dividedParents.has(c.properties.id)),
-    ...geo.subregions,
-    ...geo.named.filter((n) => namedSet.has(n.properties.id) && polarCapLatitude(n) === null),
+    ...geo.countries,
+    ...[...geo.states, ...geo.subregions].filter((f) => keep.has(f.properties.id)),
+    ...geo.named.filter((n) => keep.has(n.properties.id) && polarCapLatitude(n) === null),
   ];
   byKey.set(key, features);
   return features;
