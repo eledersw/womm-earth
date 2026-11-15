@@ -122,6 +122,16 @@ export function visibleFeatures(
   return features;
 }
 
+/**
+ * The region a click or hover on this polygon means. A selected country draws its
+ * regions as outlines on top of itself; those outlines belong to the country, so a
+ * click there removes the country instead of swapping it for one of its regions.
+ */
+export function pickTarget(props: RegionFeature["properties"], selected: readonly string[]): string {
+  const outlineOfSelectedCountry = !!props.parent && selected.includes(props.parent) && !selected.includes(props.id);
+  return outlineOfSelectedCountry ? props.parent! : props.id;
+}
+
 /** The pen (0-3) a region draws with: its position in the case, never its rank. */
 export function penIndex(id: string, regions: readonly string[]): number | null {
   const i = regions.indexOf(id);

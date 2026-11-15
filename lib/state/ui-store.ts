@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 // Cross-component UI state (globe <-> panel). SEAM: frozen after H2 — see
 // docs/process/OWNERSHIP.md. Case state does NOT live here; it lives in the URL
 // (lib/state/use-case.ts).
@@ -34,6 +35,11 @@ export interface UiState {
   setPredictMode: (on: boolean) => void;
   reveal: boolean;
   setReveal: (revealed: boolean) => void;
+
+  /** How many Gaia requests (explanations, chat answers) are running; the mascot fidgets while > 0. */
+  gaiaBusy: number;
+  gaiaStart: () => void;
+  gaiaEnd: () => void;
 }
 
 const NO_HIGHLIGHT: Highlight = { kind: null, regions: [], arcFrom: null };
@@ -53,4 +59,17 @@ export const useUiStore = create<UiState>()((set) => ({
   setPredictMode: (on) => set({ predictMode: on }),
   reveal: true,
   setReveal: (revealed) => set({ reveal: revealed }),
+
+  gaiaBusy: 0,
+  gaiaStart: () => set((s) => ({ gaiaBusy: s.gaiaBusy + 1 })),
+  gaiaEnd: () => set((s) => ({ gaiaBusy: Math.max(0, s.gaiaBusy - 1) })),
 }));
+
+/** Marks Gaia as working while `active` is true (for the mascot). */
+export function useGaiaWorking(active: boolean) {
+  useEffect(() => {
+    if (!active) return;
+    useUiStore.getState().gaiaStart();
+    return () => useUiStore.getState().gaiaEnd();
+  }, [active]);
+}

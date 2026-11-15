@@ -1,4 +1,5 @@
 "use client";
+import { useGaiaWorking } from "@/lib/state/ui-store";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { partnerCopy as c } from "@/lib/copy/partner";
@@ -16,6 +17,7 @@ export function PartnerChat() {
   const [draft, setDraft] = useState("");
   const [proposals, setProposals] = useState<Proposal[]>([]);
   const [busy, setBusy] = useState(false);
+  useGaiaWorking(busy);
   const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
   const [warning, setWarning] = useState(false);

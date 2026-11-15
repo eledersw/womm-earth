@@ -9,7 +9,7 @@ import { CASE_EXPLAIN_SLOT, CASE_RESULTS_SLOT } from "@/components/shell/slots";
 import { caseCopy, variableLabel } from "@/lib/copy/case";
 import { caseKey } from "@/lib/state/case-codec";
 import { CorrelationView } from "./CorrelationView";
-import { MirrorList } from "./MirrorList";
+import { MultivariableComparison } from "./MultivariableComparison";
 import { useCase } from "@/lib/state/use-case";
 import { LeadStep } from "./steps/LeadStep";
 import { SceneStep } from "./steps/SceneStep";
@@ -21,6 +21,7 @@ import { useVariables } from "./useVariables";
 import { useRegions } from "./useRegions";
 import { ExplainBox } from "@/components/partner/ExplainBox";
 import { PartnerChat } from "@/components/partner/PartnerChat";
+import { GaiaMascot } from "@/components/partner/GaiaMascot";
 import { useAnalysis } from "./useAnalysis";
 
 // No props: the page owns the slot. Search params stay inside this boundary.
@@ -86,12 +87,12 @@ function CasePanelContent() {
           <EvidenceStep results={analysis.data?.results} unit={displayUnit(variable?.unit)} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} />
           {analysis.data ? <>
             <CorrelationView state={state} variables={variables.variables} />
-            <MirrorList key={caseKey(state)} state={state} setCase={setCase} regions={regions.byId} unit={displayUnit(variable?.unit)} />
+            <MultivariableComparison key={caseKey(state)} state={state} variables={variables.variables} regions={regions.byId} caseResults={analysis.data?.results} />
           </> : null}
         </Pane>
       ) : null}
 
-      <Pane slotId={CASE_EXPLAIN_SLOT} label={caseCopy.explainPane}>
+      <Pane slotId={CASE_EXPLAIN_SLOT} label={caseCopy.explainPane} badge={<GaiaMascot />}>
         {variable && explained.length ? (
           explained.map((r) => (
             <div key={r.region.id} className="rounded-xl border bg-card px-3.5 pt-2.5 pb-3">
@@ -112,12 +113,13 @@ const noSubscribe = () => () => {};
 
 // A glass pane portalled into one of the shell's right-hand slots when it
 // exists, otherwise rendered in place (tests, or a page without the shell).
-function Pane({ slotId, label, onClose, children }: { slotId: string; label: string; onClose?: () => void; children: ReactNode }) {
+function Pane({ slotId, label, onClose, badge, children }: { slotId: string; label: string; onClose?: () => void; badge?: ReactNode; children: ReactNode }) {
   const slot = useSyncExternalStore(noSubscribe, () => document.getElementById(slotId), () => null);
   const pane = (
     <section aria-label={label} className="glass pointer-events-auto relative flex h-full max-h-full min-h-0 flex-col">
       <div className="flex min-h-10 items-center justify-between gap-3 px-3.5 pt-2.5 pb-1.5">
         <h2 className="label-mono text-silver">{label}</h2>
+        {badge}
         {onClose ? (
           <button type="button" onClick={onClose} aria-label={caseCopy.hideResults}
             className="grid size-7 place-items-center rounded-full text-ink-2 transition-colors hover:bg-well-2 hover:text-ink">
