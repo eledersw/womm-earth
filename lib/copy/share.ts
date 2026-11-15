@@ -1,0 +1,26 @@
+// UI strings for sharing a Case: the share dialog and the share card image.
+export const shareCopy = {
+  dialogTitle: "Share these results",
+  dialogBody: "The link opens this Case with its results already loaded. The card is a picture of them, for posts and slides.",
+  cardAlt: "Share card with the Case's verdicts",
+  cardLoading: "Drawing the card…",
+  cardFailed: "The card could not be drawn. The link still works.",
+  copyLink: "Copy link",
+  downloadCard: "Download card",
+  shareNative: "Share…",
+  linkCopied: "Link copied. It opens these results.",
+  caseLinkCopied: "Link copied. Anyone with it opens this exact case.",
+  linkFailed: "Couldn't copy the link. Copy it from the address bar instead.",
+  downloadFailed: "Couldn't download the card. Try again in a moment.",
+  openInPanel: "Share results",
+  card: {
+    pending: "Open the case to see the verdict",
+    perDecade: "per decade",
+    mk: "MK p",
+    years: "years",
+    eyebrow: "Case file · NASA data",
+    footer: "Read the planet. See beyond the data.",
+    site: "womm-earth.vercel.app",
+    noRegions: "Pick regions on the globe to open a Case.",
+  },
+} as const;

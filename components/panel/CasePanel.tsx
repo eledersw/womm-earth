@@ -1,12 +1,16 @@
 "use client";
 
 import { displayUnit } from "@/components/globe/palette";
-import { X } from "lucide-react";
-import { Suspense, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Share2, X } from "lucide-react";
+import { parseAsStringLiteral, useQueryState } from "nuqs";
+import { Suspense, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { CASE_EXPLAIN_SLOT, CASE_RESULTS_SLOT } from "@/components/shell/slots";
 import { caseCopy, variableLabel } from "@/lib/copy/case";
+import { shareCopy } from "@/lib/copy/share";
+import { useUiStore } from "@/lib/state/ui-store";
+import { caseToQuery } from "@/lib/state/case-codec";
 import { caseKey } from "@/lib/state/case-codec";
 import { CorrelationView } from "./CorrelationView";
 import { MultivariableComparison } from "./MultivariableComparison";
@@ -54,9 +58,36 @@ function CasePanelContent() {
     }
   }, [variable, state.from, state.to, setCase]);
 
+  // ?run=1 marks the results as open, so a copied link reopens them. A link
+  // that arrives with it investigates once the catalogues allow; after that it
+  // only follows the results pane (choosing still never runs anything).
+  const [run, setRun] = useQueryState("run", parseAsStringLiteral(["1"] as const).withOptions({ history: "replace" }));
+  const arrivedWithRun = useRef(run === "1");
+  const showing = open && submitted;
+
   function investigate() {
     setOpen(true);
     analysis.calculate();
+    void setRun("1");
+  }
+
+  // Declared first on purpose: in the commit where the arrival runs, this must
+  // still see the pending arrival and leave ?run=1 alone.
+  useEffect(() => {
+    if (run && !arrivedWithRun.current && !showing) void setRun(null);
+  }, [run, showing, setRun]);
+
+  const { calculate } = analysis;
+  useEffect(() => {
+    if (!arrivedWithRun.current || !valid) return;
+    arrivedWithRun.current = false;
+    setOpen(true);
+    calculate();
+  }, [valid, calculate]);
+
+  function share() {
+    const href = `${window.location.origin}${window.location.pathname}?${caseToQuery(state)}&run=1`;
+    useUiStore.getState().openShare({ href, state });
   }
 
   const controls = { state, setCase };
@@ -79,8 +110,14 @@ function CasePanelContent() {
         </div>
       </section>
 
-      {open && submitted ? (
-        <Pane slotId={CASE_RESULTS_SLOT} label={caseCopy.results} onClose={() => setOpen(false)}>
+      {showing ? (
+        <Pane slotId={CASE_RESULTS_SLOT} label={caseCopy.results} onClose={() => setOpen(false)}
+          action={analysis.data ? (
+            <button type="button" onClick={share}
+              className="label-mono inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-ink-2 transition-colors hover:bg-well-2 hover:text-ink">
+              <Share2 aria-hidden className="size-3.5" strokeWidth={1.75} /> {shareCopy.openInPanel}
+            </button>
+          ) : null}>
           <VerdictStep key={caseKey(state)} variable={variable} results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale} showExplanation={false} compact
             context={{ variableName: variable ? variableLabel(variable) : state.variable, unit: variable?.unit ?? "", period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `${caseCopy.controls.seasons.CUSTOM} (${state.months?.join(", ")})` : caseCopy.controls.seasons[state.season] }}
             loading={analysis.loading} error={!!analysis.error} errorMessage={analysis.error ?? undefined} onRetry={analysis.retry} />
@@ -113,7 +150,7 @@ const noSubscribe = () => () => {};
 
 // A glass pane portalled into one of the shell's right-hand slots when it
 // exists, otherwise rendered in place (tests, or a page without the shell).
-function Pane({ slotId, label, onClose, badge, children }: { slotId: string; label: string; onClose?: () => void; badge?: ReactNode; children: ReactNode }) {
+function Pane({ slotId, label, onClose, badge, action, children }: { slotId: string; label: string; onClose?: () => void; badge?: ReactNode; action?: ReactNode; children: ReactNode }) {
   const slot = useSyncExternalStore(noSubscribe, () => document.getElementById(slotId), () => null);
   const pane = (
     <section aria-label={label} className="glass pointer-events-auto relative flex h-full max-h-full min-h-0 flex-col">
@@ -121,6 +158,7 @@ function Pane({ slotId, label, onClose, badge, children }: { slotId: string; lab
       {badge ? <div className="pointer-events-none absolute -top-[35px] right-6 z-10">{badge}</div> : null}
       <div className="flex min-h-10 items-center justify-between gap-3 px-3.5 pt-2.5 pb-1.5">
         <h2 className="label-mono text-silver">{label}</h2>
+        <div className="ml-auto flex items-center gap-1">{action}</div>
         {onClose ? (
           <button type="button" onClick={onClose} aria-label={caseCopy.hideResults}
             className="grid size-7 place-items-center rounded-full text-ink-2 transition-colors hover:bg-well-2 hover:text-ink">

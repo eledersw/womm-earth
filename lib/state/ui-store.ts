@@ -2,6 +2,7 @@ import { useEffect } from "react";
 // Cross-component UI state (globe <-> panel). Case state lives in the URL
 // (lib/state/use-case.ts).
 import { create } from "zustand";
+import type { CaseState } from "./case-codec";
 
 export type HighlightKind = "mirror" | "tour" | null;
 
@@ -33,6 +34,10 @@ export interface UiState {
   gaiaBusy: number;
   gaiaStart: () => void;
   gaiaEnd: () => void;
+
+  /** The Case being shared (the share dialog is open while set). */
+  share: { href: string; state: CaseState } | null;
+  openShare: (share: { href: string; state: CaseState } | null) => void;
 }
 
 const NO_HIGHLIGHT: Highlight = { kind: null, regions: [], arcFrom: null };
@@ -51,6 +56,9 @@ export const useUiStore = create<UiState>()((set) => ({
   gaiaBusy: 0,
   gaiaStart: () => set((s) => ({ gaiaBusy: s.gaiaBusy + 1 })),
   gaiaEnd: () => set((s) => ({ gaiaBusy: Math.max(0, s.gaiaBusy - 1) })),
+
+  share: null,
+  openShare: (share) => set({ share: share ? { href: share.href, state: share.state } : null }),
 }));
 
 /** Marks Gaia as working while `active` is true (for the mascot). */
