@@ -160,39 +160,44 @@ export default function GlobeView() {
 
   const id = (f: object) => (f as RegionFeature).properties.id;
   const isOcean = (f: object) => (f as RegionFeature).properties.type === "ocean";
+  const featurePenIndex = useCallback((f: object) => {
+    const feature = f as RegionFeature;
+    return penIndex(feature.properties.id, regions)
+      ?? (feature.properties.parent ? penIndex(feature.properties.parent, regions) : null);
+  }, [regions]);
 
   const capColor = useCallback(
     (f: object) => {
-      const pen = penIndex(id(f), regions);
+      const pen = featurePenIndex(f);
       if (pen !== null) return tokens.pens[pen];
       const trendFill = trendColor(id(f));
       if (trendFill) return id(f) === hovered ? mixHex(trendFill, "#ffffff", 0.18) : trendFill;
       if (isOcean(f)) return id(f) === hovered ? tokens.oceanSeam : "rgba(0, 0, 0, 0)";
       return id(f) === hovered ? tokens.landHover : tokens.land;
     },
-    [regions, hovered, tokens, trendColor],
+    [hovered, tokens, trendColor, featurePenIndex],
   );
 
   const strokeColor = useCallback(
     (f: object) => {
-      const pen = penIndex(id(f), regions);
+      const pen = featurePenIndex(f);
       if (pen !== null) return tokens.pens[pen];
       if (outlined.has(id(f))) return tokens.silver;
       return isOcean(f) ? tokens.oceanSeam : tokens.seam;
     },
-    [regions, tokens, outlined],
+    [tokens, outlined, featurePenIndex],
   );
 
   const altitude = useCallback(
     (f: object) => {
-      if (penIndex(id(f), regions) !== null) return 0.022;
+      if (featurePenIndex(f) !== null) return 0.022;
       if (outlined.has(id(f))) return 0.018;
       // Oceans only change colour on hover: lifting their large meshes is costly.
       if (isOcean(f)) return 0.002;
       if (id(f) === hovered) return 0.012;
       return 0.006;
     },
-    [regions, hovered, outlined],
+    [hovered, outlined, featurePenIndex],
   );
 
   const label = useCallback(
