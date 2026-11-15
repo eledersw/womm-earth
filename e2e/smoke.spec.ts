@@ -5,7 +5,7 @@ test("home loads with the WOMM Earth shell", async ({ page }) => {
   await openCase(page);
   await expect(page.getByRole("link", { name: "WOMM Earth" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Share case" })).toBeVisible();
-  await expect(page.getByRole("region", { name: "Explain & ask" })).toBeVisible();
+  await expect(page.getByRole("region", { name: "Gaia · explain & ask" })).toBeVisible();
 });
 
 test("the API answers its health check", async ({ request }) => {

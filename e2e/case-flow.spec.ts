@@ -97,7 +97,7 @@ test("Investigate opens the results pane; the explain-and-ask pane stays open", 
   const results = page.getByRole("region", { name: "Results", exact: true });
   await expect(results.getByRole("heading", { name: "Evidence", exact: true })).toBeVisible();
   await expect(results.getByText("Wisconsin: Confirmed", { exact: true })).toBeVisible();
-  const explain = page.getByRole("region", { name: "Explain & ask", exact: true });
+  const explain = page.getByRole("region", { name: "Gaia · explain & ask", exact: true });
   await expect(explain.getByRole("textbox", { name: "Your question" })).toBeVisible();
   await results.getByRole("button", { name: "Hide results" }).click();
   await expect(results).toHaveCount(0);
@@ -145,8 +145,7 @@ test("four-region Scientist comparison fits narrow windows and shows warnings", 
   await page.screenshot({ path: test.info().outputPath("four-regions-dark.png"), fullPage: true });
 });
 
-test("predict gates evidence; unavailable correlation makes no request; mirrors use the active Case", async ({ page }) => {
-  let explains = 0;
+test("unavailable correlation makes no request; mirrors use the active Case", async ({ page }) => {
   const mirror = { base: { region: "US-WI", slope_per_decade: 0.8, p: 0.01, z: 2.5, tier: "confirmed" }, mirrors: [{ region: "NR-SAHEL", slope_per_decade: -0.4, p: 0.02, z: -2.4 }], none_found: false };
   await page.route("**/api/py/mirror", (route) => {
     expect(route.request().postDataJSON().regions).toEqual(["US-WI"]);
@@ -154,17 +153,10 @@ test("predict gates evidence; unavailable correlation makes no request; mirrors 
   });
   let correlations = 0;
   await page.route("**/api/py/correlate", (route) => { correlations++; return route.fulfill({ status: 503 }); });
-  await page.route("**/api/partner", (route) => { explains++; return route.fulfill({ contentType: "text/event-stream", body: 'data: {"type":"error","message":"Unavailable"}\n\ndata: {"type":"done"}\n\n' }); });
+  await page.route("**/api/partner", (route) => route.fulfill({ contentType: "text/event-stream", body: 'data: {"type":"error","message":"Unavailable"}\n\ndata: {"type":"done"}\n\n' }));
   await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
-  await page.getByRole("checkbox", { name: "Predict before reveal" }).check();
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Up", exact: true })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toHaveCount(0);
-  await expect(page.getByRole("figure", { name: "Yearly series" })).toHaveCount(0);
-  expect(explains).toBe(0);
-  await page.getByRole("button", { name: "Up", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
-  await expect(page.getByText(/You guessed Up; the data says Up/)).toBeVisible();
   await expect(page.getByText("Correlation is not available yet. You can still investigate trends for each variable separately.")).toBeVisible();
   await expect(page.getByRole("combobox", { name: "Compare with another variable" })).toHaveCount(0);
   expect(correlations).toBe(0);
@@ -175,30 +167,15 @@ test("predict gates evidence; unavailable correlation makes no request; mirrors 
   await expect.poll(() => new URL(page.url()).searchParams.get("r")).toBe("US-WI,NR-SAHEL");
 });
 
-test("current-Case guide navigates without analyzing and stays mounted across Investigate", async ({ page }) => {
-  let analyses = 0;
-  await page.route("**/api/py/analyze", (route) => { analyses++; return route.fulfill({ json: fixture }); });
+test("the panel has no predict or guide controls", async ({ page }) => {
+  await page.route("**/api/py/analyze", (route) => route.fulfill({ json: fixture }));
   await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
-  const initial = new URL(page.url()).searchParams;
-  await page.getByRole("button", { name: "Guide me through this Case", exact: true }).click();
-  const guide = page.getByRole("region", { name: "Guided cases", exact: true });
-  await expect(guide.getByText("Step 1 of 5", { exact: true })).toBeVisible();
-  expect(analyses).toBe(0);
-  await guide.getByRole("button", { name: "Next", exact: true }).click();
-  await expect(guide.getByText("Step 2 of 5", { exact: true })).toBeVisible();
-  await guide.getByRole("button", { name: "Previous", exact: true }).click();
-  await expect(guide.getByText("Step 1 of 5", { exact: true })).toBeVisible();
-  await guide.getByRole("button", { name: "Play", exact: true }).click();
-  await guide.getByRole("button", { name: "Pause", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Investigate", exact: true })).toBeVisible();
+  await expect(page.getByRole("checkbox", { name: "Predict before reveal" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Guide me through this Case" })).toHaveCount(0);
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
-  await expect(guide.getByText("Step 1 of 5", { exact: true })).toBeVisible();
-  await page.screenshot({ path: test.info().outputPath("current-case-guide.png"), fullPage: true });
-  await guide.getByRole("button", { name: "Exit guide", exact: true }).click();
-  await expect(guide.getByText("Step 1 of 5", { exact: true })).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Guide me through this Case", exact: true })).toBeVisible();
-  expect(new URL(page.url()).searchParams.get("r")).toBe(initial.get("r"));
-  expect(analyses).toBe(1);
+  await expect(page.getByRole("button", { name: "Guide me through this Case" })).toHaveCount(0);
 });
 
 test("case from URL shows verdict within ten seconds after Investigate", async ({ page }) => {
@@ -211,7 +188,7 @@ test("case from URL shows verdict within ten seconds after Investigate", async (
 
 test("season change updates URL", async ({ page }) => {
   await page.goto("/?v=T2M&r=US-WI&from=1981&to=2024&s=ANN");
-  await page.getByRole("radio", { name: "JJA", exact: true }).click();
+  await page.getByRole("radio", { name: "Jun–Aug", exact: true }).click();
   await expect.poll(() => new URL(page.url()).searchParams.get("s")).toBe("JJA");
 });
 

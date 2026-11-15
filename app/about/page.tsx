@@ -97,7 +97,7 @@ export default function About() {
 
         <Section title="Explanations">
           <p>
-            Plain-language explanations and follow-up answers come from Claude (Anthropic). It may only quote numbers our
+            Plain-language explanations and follow-up answers come from Gaia, our AI helper, which runs on Claude (Anthropic). It may only quote numbers our
             statistics engine computed, and physical explanations come from short, cited notes our methods lead wrote.
             The verdict itself never depends on it.
           </p>
