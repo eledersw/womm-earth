@@ -94,6 +94,13 @@ describe("case controls", () => {
     expect(screen.getByRole("region", { name: caseCopy.explainPane })).toBeDefined();
   });
 
+  it("a shared results link (?run=1) opens with the results; closing them drops the flag", async () => {
+    const updates = setup("?v=T2M&r=US-WI&from=2002&to=2025&s=JJA&run=1");
+    await screen.findByText("Wisconsin: Confirmed");
+    fireEvent.click(screen.getByRole("button", { name: caseCopy.hideResults }));
+    await waitFor(() => expect(updates.at(-1)?.searchParams.has("run")).toBe(false));
+  });
+
   it("hides stale content while loading or in error and supports retry", () => {
     const retry = vi.fn();
     const { rerender } = render(<EvidenceStep loading><p>Old evidence</p></EvidenceStep>);

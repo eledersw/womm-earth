@@ -6,8 +6,6 @@ export const shellCopy = {
   share: "Share case",
   shareShort: "Share",
   shareRest: "case",
-  shareCopied: "Link copied. Anyone with it opens this exact case.",
-  shareFailed: "Couldn't copy the link. Copy it from the address bar instead.",
   skipToPanel: "Skip to the case panel",
   backToCase: "Back to the case",
 } as const;
