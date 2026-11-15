@@ -22,6 +22,7 @@ import { useRegionToggle } from "./useRegionToggle";
 
 const GROUPS: { type: Region["type"]; heading: string }[] = [
   { type: "country", heading: globeCopy.groupCountry },
+  { type: "state", heading: globeCopy.groupState },
   { type: "subregion", heading: globeCopy.groupSubregion },
   { type: "named", heading: globeCopy.groupNamed },
 ];
@@ -31,14 +32,13 @@ const GROUPS: { type: Region["type"]; heading: string }[] = [
 export function RegionSearch() {
   const [open, setOpen] = useState(false);
   const { regions, ready } = useRegionIndex();
-  const dividedParents = new Set(regions.filter((r) => r.type === "subregion").map((r) => r.parent));
   const { state } = useCase();
   const toggleRegion = useRegionToggle();
   const flyTo = useUiStore((s) => s.flyTo);
 
   function choose(r: Region) {
     toggleRegion(r.id, { onlyAdd: true });
-    if (r.id !== "NR-GLOBE") flyTo({ ...regionLatLng(r), altitude: r.type === "subregion" ? 0.9 : 1.6 });
+    if (r.id !== "NR-GLOBE") flyTo({ ...regionLatLng(r), altitude: r.type === "state" || r.type === "subregion" ? 0.9 : 1.6 });
     setOpen(false);
   }
 
@@ -63,7 +63,7 @@ export function RegionSearch() {
           <CommandList className="max-h-[min(22rem,50dvh)]">
             <CommandEmpty>{ready ? globeCopy.searchEmpty : globeCopy.searchUnavailable}</CommandEmpty>
             {GROUPS.map(({ type, heading }) => {
-              const items = regions.filter((r) => r.type === type && r.id !== "NR-OCEAN" && !dividedParents.has(r.id));
+              const items = regions.filter((r) => r.type === type && r.id !== "NR-OCEAN");
               if (!items.length) return null;
               return (
                 <CommandGroup key={type} heading={heading}>

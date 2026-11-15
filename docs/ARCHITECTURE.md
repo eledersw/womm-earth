@@ -67,7 +67,7 @@ docs/                                     see AGENTS.md "Read when"
   - `region_ids`: `[n_regions]`.
   - `t0`: `"1981-01"` (MERRA-2) or `"2001-01"` (CERES).
 - **`regions.json`:** id, name, type, centroid, bbox, `nearest_cell_fallback`, `valid_variables`, and optional parent country ID.
-- **`api/_data/admin1.geojson` / `public/geo/admin1.geojson`:** simplified Natural Earth Admin-1 geometries dissolved into 48 broad regions for large countries, including six for the USA. These regions replace the whole-country polygon at every zoom level; US states and whole large countries remain in the API for old shared links but are not offered by the globe or search. The API uses each matching polygon to mask POWER grid cells.
+- **`api/_data/admin1.geojson` / `public/geo/admin1.geojson`:** simplified Natural Earth Admin-1 geometries dissolved into 42 broader regions for large countries. A country’s regions are drawn when that country is selected, at any zoom level; the API uses each matching polygon to mask POWER grid cells.
 - **`hero/<id>.json`:** `{variable, region, source, instrument, product, version, doi, t0, values[]}`.
 - **`lib/partner/process-cards.json`** (Ekaitz): `{id, title, student, scientist, citations[], applies_to: {variables[], regions[]}}`.
 - **`public/geo/*.geojson`** (Oier): features with `properties {id, name, type}`; the ids match `regions.json`.

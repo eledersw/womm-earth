@@ -6,6 +6,7 @@ import { MeshPhongMaterial } from "three";
 import { useCase } from "@/lib/state/use-case";
 import { useUiStore } from "@/lib/state/ui-store";
 import {
+  ZOOM_STATES_ALTITUDE,
   capRings,
   penIndex,
   visibleFeatures,
@@ -64,6 +65,7 @@ export default function GlobeView() {
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
   const boxRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
+  const [zoomedIn, setZoomedIn] = useState(START_POV.altitude < ZOOM_STATES_ALTITUDE);
   const [tokens] = useState(readTokens);
   const reduced = useMemo(() => prefersReducedMotion(), []);
 
@@ -108,8 +110,8 @@ export default function GlobeView() {
   // Highlighted regions must be drawn even when they are not in the case.
   const drawn = useMemo(() => [...new Set([...regions, ...outlined])], [regions, outlined]);
   const polygons = useMemo(
-    () => (geo ? visibleFeatures(geo, drawn) : []),
-    [geo, drawn],
+    () => (geo ? visibleFeatures(geo, zoomedIn ? 0 : Infinity, drawn) : []),
+    [geo, zoomedIn, drawn],
   );
 
   // Frame a newly shown mirror pair.
@@ -152,6 +154,8 @@ export default function GlobeView() {
 
   const onZoom = useCallback((pov: { lat: number; lng: number; altitude: number }) => {
     povStore.set(pov);
+    const next = pov.altitude < ZOOM_STATES_ALTITUDE;
+    setZoomedIn((prev) => (prev === next ? prev : next));
   }, []);
 
   const id = (f: object) => (f as RegionFeature).properties.id;
@@ -160,36 +164,44 @@ export default function GlobeView() {
     return penIndex(feature.properties.id, regions)
       ?? (parentOf(feature.properties) ? penIndex(parentOf(feature.properties)!, regions) : null);
   }, [regions]);
+  const isUnselectedChildOfSelectedCountry = useCallback((f: object) => {
+    const feature = f as RegionFeature;
+    const parent = parentOf(feature.properties);
+    return Boolean(parent && regions.includes(parent)) && !regions.includes(feature.properties.id);
+  }, [regions]);
 
   const capColor = useCallback(
     (f: object) => {
+      if (isUnselectedChildOfSelectedCountry(f)) return "rgba(0, 0, 0, 0)";
       const pen = featurePenIndex(f);
       if (pen !== null) return tokens.pens[pen];
       const trendFill = trendColor(id(f));
       if (trendFill) return id(f) === hovered ? mixHex(trendFill, "#ffffff", 0.18) : trendFill;
       return id(f) === hovered ? tokens.landHover : tokens.land;
     },
-    [hovered, tokens, trendColor, featurePenIndex],
+    [hovered, tokens, trendColor, featurePenIndex, isUnselectedChildOfSelectedCountry],
   );
 
   const strokeColor = useCallback(
     (f: object) => {
+      if (isUnselectedChildOfSelectedCountry(f)) return tokens.silver;
       const pen = featurePenIndex(f);
       if (pen !== null) return tokens.pens[pen];
       if (outlined.has(id(f))) return tokens.silver;
       return tokens.seam;
     },
-    [tokens, outlined, featurePenIndex],
+    [tokens, outlined, featurePenIndex, isUnselectedChildOfSelectedCountry],
   );
 
   const altitude = useCallback(
     (f: object) => {
+      if (isUnselectedChildOfSelectedCountry(f)) return 0.024;
       if (featurePenIndex(f) !== null) return 0.022;
       if (outlined.has(id(f))) return 0.018;
       if (id(f) === hovered) return 0.012;
       return 0.006;
     },
-    [hovered, outlined, featurePenIndex],
+    [hovered, outlined, featurePenIndex, isUnselectedChildOfSelectedCountry],
   );
 
   const label = useCallback(
@@ -228,7 +240,7 @@ export default function GlobeView() {
           atmosphereAltitude={0.16}
           polygonsData={polygons}
           polygonCapColor={capColor}
-          polygonSideColor={() => "rgba(0, 0, 0, 0.45)"}
+          polygonSideColor={(f) => isUnselectedChildOfSelectedCountry(f) ? "rgba(0, 0, 0, 0)" : "rgba(0, 0, 0, 0.45)"}
           polygonStrokeColor={strokeColor}
           polygonAltitude={altitude}
           polygonLabel={label}

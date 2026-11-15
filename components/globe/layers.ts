@@ -12,9 +12,13 @@ export interface RegionFeature {
 
 export interface GeoLayers {
   countries: RegionFeature[];
+  states: RegionFeature[];
   subregions: RegionFeature[];
   named: RegionFeature[];
 }
+
+/** Below this camera altitude (globe radii) divided countries show their regions. */
+export const ZOOM_STATES_ALTITUDE = 1.4;
 
 /** Named regions whose outline would cover the whole planet; selectable, never drawn. */
 const WHOLE_EARTH = new Set(["NR-GLOBE", "NR-LAND", "NR-OCEAN"]);
@@ -77,23 +81,27 @@ export function capRings(geo: GeoLayers, regions: readonly string[]): CapRing[] 
   return rings;
 }
 
-/** The country a broad region belongs to. */
+/** The country a region belongs to (US states carry no parent in their GeoJSON). */
 export function parentOf(props: RegionFeature["properties"]): string | undefined {
-  return props.parent;
+  return props.parent ?? (props.type === "state" ? "USA" : undefined);
 }
 
 /**
- * Large countries are always drawn as their broad regions (at every zoom), so a
- * click picks a region; smaller countries are drawn whole. Selected named regions
- * draw too. Oceans and US states are not selectable on the globe.
+ * Zoomed out you pick whole countries. Zoomed in, divided countries (the USA,
+ * Brazil, Russia...) show their regions instead, so a click picks a region; a
+ * selected divided country keeps its fill with its regions outlined on top.
+ * Selected regions always draw. Oceans are not selectable.
  */
 export function visibleFeatures(
   geo: GeoLayers,
+  altitude: number,
   selected: readonly string[] = [],
 ): RegionFeature[] {
-  const dividedParents = new Set(geo.subregions.map((feature) => feature.properties.parent));
+  const zoomedIn = altitude < ZOOM_STATES_ALTITUDE;
   const named = selected.filter((id) => id.startsWith("NR-") && !WHOLE_EARTH.has(id)).sort();
-  const key = named.join(",");
+  const picked = zoomedIn ? [] : selected.filter((id) => id.startsWith("US-") || id.startsWith("ADM1-")).sort();
+  const dividedSelected = zoomedIn ? selected.filter((id) => dividedCountries(geo).has(id)).sort() : [];
+  const key = `${zoomedIn ? "in" : "out"}|${named.join(",")}|${picked.join(",")}|${dividedSelected.join(",")}`;
 
   let byKey = cache.get(geo);
   if (!byKey) {
@@ -103,14 +111,26 @@ export function visibleFeatures(
   const hit = byKey.get(key);
   if (hit) return hit;
 
-  const namedSet = new Set(named);
+  const divided = dividedCountries(geo);
+  const keep = new Set([...picked, ...dividedSelected, ...named]);
+  const children = [...geo.states, ...geo.subregions];
   const features = [
-    ...geo.countries.filter((c) => !dividedParents.has(c.properties.id)),
-    ...geo.subregions,
-    ...geo.named.filter((n) => namedSet.has(n.properties.id) && polarCapLatitude(n) === null),
+    ...geo.countries.filter((c) => !zoomedIn || !divided.has(c.properties.id) || keep.has(c.properties.id)),
+    ...children.filter((f) => zoomedIn || keep.has(f.properties.id)),
+    ...geo.named.filter((n) => keep.has(n.properties.id) && polarCapLatitude(n) === null),
   ];
   byKey.set(key, features);
   return features;
+}
+
+const dividedCache = new WeakMap<GeoLayers, Set<string>>();
+function dividedCountries(geo: GeoLayers): Set<string> {
+  let set = dividedCache.get(geo);
+  if (!set) {
+    set = new Set([...geo.states, ...geo.subregions].map((f) => parentOf(f.properties)).filter((p): p is string => !!p));
+    dividedCache.set(geo, set);
+  }
+  return set;
 }
 
 /** The pen (0-3) a region draws with: its position in the case, never its rank. */
