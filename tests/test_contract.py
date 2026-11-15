@@ -60,6 +60,11 @@ def test_live_and_remaining_stub_endpoints_match_contract(monkeypatch):
     async def scan_family(*_args, **_kwargs):
         return []
     monkeypatch.setattr(api_index, "build_scan", scan_family)
+    async def monthly(*_args, **_kwargs):
+        import numpy as np
+        rng = np.random.default_rng(0)
+        return rng.normal(size=12 * 30), "2000-01"
+    monkeypatch.setattr(api_index, "fetch_monthly_region", monthly)
     checks = [
         ("GET", "/api/py/health", Health, None),
         ("GET", "/api/py/variables", list[Variable], None),

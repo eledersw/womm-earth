@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import variables from "../api/_fixtures/variables.json";
 import regions from "../api/_fixtures/regions.json";
 import fixture from "../api/_fixtures/analyze.json";
+import correlation from "../api/_fixtures/correlate.json";
 import regionCatalog from "../api/_data/regions.json";
 // Legacy HTTP fixtures predate the [lng, lat] seam. Use the actual catalogue's
 // centroid for camera checks without modifying Oier's fixture files.
@@ -145,9 +146,9 @@ test("four-region Scientist comparison fits narrow windows and shows warnings", 
   await page.screenshot({ path: test.info().outputPath("four-regions-dark.png"), fullPage: true });
 });
 
-test("unavailable correlation makes no request; multivariable comparison needs two regions and three variables", async ({ page }) => {
-  let correlations = 0;
-  await page.route("**/api/py/correlate", (route) => { correlations++; return route.fulfill({ status: 503 }); });
+test("correlation runs for a chosen second variable; multivariable comparison needs two regions and three variables", async ({ page }) => {
+  const correlations: { var_x: string; var_y: string; region: string }[] = [];
+  await page.route("**/api/py/correlate", (route) => { correlations.push(route.request().postDataJSON()); return route.fulfill({ json: correlation }); });
   await page.route("**/api/partner", (route) => route.fulfill({ contentType: "text/event-stream", body: `data: {"type":"error","message":"Unavailable"}\n\ndata: {"type":"done"}\n\n` }));
   // Each variable and region gets its own trend so the radar shapes differ.
   const trend: Record<string, number> = { T2M: 0.8, PRECTOTCORR: -0.3, GWETROOT: -0.12, MODIS_AQUA_AOD: 0.05 };
@@ -164,8 +165,10 @@ test("unavailable correlation makes no request; multivariable comparison needs t
   await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
-  await expect(page.getByText("Correlation is not available yet. You can still investigate trends for each variable separately.")).toBeVisible();
-  expect(correlations).toBe(0);
+  expect(correlations).toHaveLength(0);
+  await page.getByRole("combobox", { name: "Compare with another variable" }).selectOption("PRECTOTCORR");
+  await expect(page.getByText("Both are trending, but that alone doesn't mean they're connected.")).toBeVisible();
+  expect(correlations[0]).toMatchObject({ var_x: "T2M", var_y: "PRECTOTCORR", region: "US-WI" });
   const comparison = page.getByRole("region", { name: "Multivariable comparison", exact: true });
   await expect(comparison.getByText("Select at least two regions to compare them across several variables.")).toBeVisible();
 

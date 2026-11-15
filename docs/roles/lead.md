@@ -3,7 +3,6 @@
 **Mission:** one working app on the production URL that can always be demoed. You own the shell, the globe, the look, the infra and the seams; you unblock everyone, merge cross-area PRs and run the integration checkpoints.
 **Carries:** Presentation, Relevance.
 **Your area:** config files, `app/` (except `app/api/partner/`), `components/{ui,shell,globe}/**`, `lib/state/**`, `lib/api/client.ts` + `types.ts`, `public/` (except `public/geo/`), E2E infra. The full list is in `docs/process/OWNERSHIP.md`.
-**Your plan:** [`docs/superpowers/plans/2026-11-14-frontend-shell.md`](../superpowers/plans/2026-11-14-frontend-shell.md). Execute it with `superpowers:executing-plans` (subagent-driven for Tasks 4–6 if you like).
 
 **Inputs you need:**
 

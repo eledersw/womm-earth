@@ -3,24 +3,18 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-libra
 import { afterEach, expect, it, vi } from "vitest";
 import { useUiStore } from "@/lib/state/ui-store";
 import { DEFAULT_CASE } from "@/lib/state/case-codec";
-import type { RegionAnalysis, Region, Variable } from "@/lib/api/types";
+import type { RegionAnalysis, Variable } from "@/lib/api/types";
 import fixture from "@/api/_fixtures/analyze.json";
 import correlation from "@/api/_fixtures/correlate.json";
 import vars from "@/api/_fixtures/variables.json";
-import regions from "@/api/_fixtures/regions.json";
 import { api } from "@/lib/api/client";
 import { YearsMeter } from "./YearsMeter";
-import { PredictPrompt } from "./PredictPrompt";
-import { MirrorList } from "./MirrorList";
 import { CorrelationView } from "./CorrelationView";
 import { VerdictStep } from "./steps/VerdictStep";
-// Preserve future live-component tests while production correlation stays gated.
-vi.mock("@/lib/partner/capabilities", () => ({ LIVE_CORRELATION_AVAILABLE: true }));
 vi.mock("@/lib/api/client", () => ({ api: { POST: vi.fn() } }));
-afterEach(() => { cleanup(); vi.resetAllMocks(); useUiStore.setState({ predictMode: false, reveal: true, highlight: { kind: null, regions: [], arcFrom: null } }); });
+afterEach(() => { cleanup(); vi.resetAllMocks(); useUiStore.setState({ highlight: { kind: null, regions: [], arcFrom: null } }); });
 const state = { ...DEFAULT_CASE, regions: ["US-WI"], from: 2002 };
 const result = fixture.results[0] as unknown as RegionAnalysis;
-const byId = Object.fromEntries(regions.map((r) => [r.id, r])) as Record<string, Region>;
 it("years meter shows conditional estimates including zero, and hides unavailable estimates", () => {
   const { rerender } = render(<YearsMeter nYears={24} yearsNeeded={12} />);
   expect(screen.getByRole("meter").getAttribute("max")).toBe("36");
@@ -28,31 +22,6 @@ it("years meter shows conditional estimates including zero, and hides unavailabl
   rerender(<YearsMeter nYears={24} yearsNeeded={0} />);
   expect(screen.getByText(/≈0 more years/)).toBeDefined();
   for (const years of [null, -1, 51, NaN]) { rerender(<YearsMeter nYears={24} yearsNeeded={years} />); expect(screen.queryByRole("meter")).toBeNull(); }
-});
-it("prediction hides verdict content and reveals only on a guess or explicit skip", () => {
-  useUiStore.setState({ predictMode: true, reveal: false });
-  render(<VerdictStep results={[result]} context={{ variableName: "Temperature", unit: "°C", period: "2002–2025", seasonLabel: "JJA" }} />);
-  expect(screen.queryByRole("article")).toBeNull();
-  fireEvent.click(screen.getByRole("button", { name: "Up" }));
-  expect(useUiStore.getState().reveal).toBe(true);
-  expect(screen.getByRole("article")).toBeDefined();
-  expect(screen.getByText(/You guessed Up; the data says Up/)).toBeDefined();
-});
-it("prediction allows revealing without guessing", () => {
-  useUiStore.setState({ predictMode: true, reveal: false });
-  render(<PredictPrompt results={[result]} />);
-  fireEvent.click(screen.getByRole("button", { name: "Reveal without guessing" }));
-  expect(useUiStore.getState().reveal).toBe(true);
-});
-it("mirror highlights use the existing store, Compare patches only the regions, and cleanup clears its own highlight", async () => {
-  vi.mocked(api.POST).mockResolvedValue({ data: { base: { region: "US-WI" }, mirrors: [{ region: "ESP", slope_per_decade: -0.3, p: 0.02, z: -2.5 }], none_found: false } } as never);
-  const setCase = vi.fn();
-  const { unmount } = render(<MirrorList state={state} setCase={setCase} regions={byId} unit="°C" />);
-  fireEvent.click(await screen.findByRole("button", { name: "Show on globe" }));
-  expect(useUiStore.getState().highlight).toEqual({ kind: "mirror", regions: ["ESP"], arcFrom: "US-WI" });
-  fireEvent.click(screen.getByRole("button", { name: "Compare Spain" }));
-  expect(setCase).toHaveBeenCalledWith({ regions: ["US-WI", "ESP"] });
-  unmount(); expect(useUiStore.getState().highlight.kind).toBeNull();
 });
 it("correlation uses first region/custom months, surfaces co-trending warning and separates raw/detrended results", async () => {
   vi.mocked(api.POST).mockResolvedValue({ data: correlation } as never);

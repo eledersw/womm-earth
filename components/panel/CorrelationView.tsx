@@ -6,17 +6,12 @@ import { caseKey, caseFromQuery, type CaseState } from "@/lib/state/case-codec";
 import { caseCopy, variableLabel } from "@/lib/copy/case";
 import { fmtNumber, fmtP } from "@/lib/partner/format";
 import dynamic from "next/dynamic";
-import { LIVE_CORRELATION_AVAILABLE } from "@/lib/partner/capabilities";
 import { useCaseResource } from "./useCaseResource";
 import { Button } from "@/components/ui/button";
 const CorrelationChart = dynamic(() => import("@/components/charts/CorrelationChart").then((m) => m.CorrelationChart), { ssr: false });
 
 type Props = { state: CaseState; variables: Variable[] };
 export function CorrelationView(props: Props) {
-  if (!LIVE_CORRELATION_AVAILABLE) return <section aria-label={caseCopy.explorations.correlation} className="space-y-3 border-t border-hairline pt-4 text-panel">
-    <h3 className="label-mono">{caseCopy.explorations.correlation}</h3>
-    <p>{caseCopy.explorations.correlationUnavailable}</p>
-  </section>;
   return <LiveCorrelationView {...props} />;
 }
 function LiveCorrelationView({ state, variables }: Props) {

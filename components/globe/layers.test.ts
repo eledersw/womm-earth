@@ -5,23 +5,22 @@ import {
   penColor,
   polarCapLatitude,
   penIndex,
-  pickTarget,
+  parentOf,
   visibleFeatures,
   type GeoLayers,
   type RegionFeature,
 } from "./layers";
 
-const f = (id: string, type: RegionFeature["properties"]["type"]): RegionFeature => ({
+const f = (id: string, type: RegionFeature["properties"]["type"], parent?: string): RegionFeature => ({
   type: "Feature",
-  properties: { id, name: id, type },
+  properties: { id, name: id, type, ...(parent ? { parent } : {}) },
   geometry: { type: "Polygon", coordinates: [] },
 });
 
 const geo: GeoLayers = {
-  countries: [f("USA", "country"), f("ESP", "country"), f("FRA", "country")],
+  countries: [f("USA", "country"), f("ESP", "country"), f("FRA", "country"), f("BRA", "country")],
   states: [f("US-WI", "state"), f("US-MN", "state")],
-  subregions: [f("ADM1-RUS-1", "subregion")],
-  oceans: [f("OCN-NATL", "ocean")],
+  subregions: [f("ADM1-BRA-north", "subregion", "BRA"), f("ADM1-BRA-south", "subregion", "BRA")],
   named: [f("NR-GLOBE", "named"), f("NR-SAHEL", "named")],
 };
 
@@ -30,28 +29,30 @@ const FAR = ZOOM_STATES_ALTITUDE + 1;
 const NEAR = ZOOM_STATES_ALTITUDE - 0.5;
 
 describe("visibleFeatures", () => {
-  it("zoomed out shows countries and oceans, not states", () => {
+  it("zoomed out shows whole countries, not their regions", () => {
     const v = ids(visibleFeatures(geo, FAR));
-    expect(v).toEqual(expect.arrayContaining(["USA", "ESP", "FRA", "OCN-NATL"]));
+    expect(v).toEqual(expect.arrayContaining(["USA", "ESP", "BRA"]));
     expect(v).not.toContain("US-WI");
+    expect(v).not.toContain("ADM1-BRA-north");
   });
 
-  it("zoomed in swaps USA for its states", () => {
+  it("zoomed in swaps every divided country for its regions", () => {
     const v = ids(visibleFeatures(geo, NEAR));
-    expect(v).toEqual(expect.arrayContaining(["US-WI", "US-MN", "ESP"]));
+    expect(v).toEqual(expect.arrayContaining(["US-WI", "US-MN", "ADM1-BRA-north", "ADM1-BRA-south", "ESP"]));
     expect(v).not.toContain("USA");
+    expect(v).not.toContain("BRA");
   });
 
-  it("zoomed out still draws the selected states over the USA outline", () => {
-    const v = ids(visibleFeatures(geo, FAR, ["US-WI", "ESP"]));
-    expect(v).toEqual(expect.arrayContaining(["USA", "US-WI"]));
+  it("zoomed in keeps a selected divided country with its regions on top, so a region can be picked", () => {
+    const v = ids(visibleFeatures(geo, NEAR, ["BRA"]));
+    expect(v).toEqual(expect.arrayContaining(["BRA", "ADM1-BRA-north", "ADM1-BRA-south"]));
+  });
+
+  it("zoomed out draws selected regions over their country, and no other regions", () => {
+    const v = ids(visibleFeatures(geo, FAR, ["US-WI", "ADM1-BRA-north"]));
+    expect(v).toEqual(expect.arrayContaining(["USA", "US-WI", "BRA", "ADM1-BRA-north"]));
     expect(v).not.toContain("US-MN");
-  });
-
-  it("zoomed in keeps USA when the whole country is selected", () => {
-    const v = ids(visibleFeatures(geo, NEAR, ["USA"]));
-    expect(v).toContain("USA");
-    expect(v).not.toContain("US-WI");
+    expect(v).not.toContain("ADM1-BRA-south");
   });
 
   it("draws a named region only while selected, and never the whole-globe ones", () => {
@@ -65,6 +66,12 @@ describe("visibleFeatures", () => {
     expect(visibleFeatures(geo, FAR, ["ESP"])).toBe(visibleFeatures(geo, FAR + 0.3, ["ESP"]));
     expect(visibleFeatures(geo, NEAR)).toBe(visibleFeatures(geo, NEAR - 0.1));
     expect(visibleFeatures(geo, FAR)).not.toBe(visibleFeatures(geo, NEAR));
+  });
+
+  it("US states belong to the USA", () => {
+    expect(parentOf({ id: "US-WI", name: "Wisconsin", type: "state" })).toBe("USA");
+    expect(parentOf({ id: "ADM1-BRA-north", name: "North", type: "subregion", parent: "BRA" })).toBe("BRA");
+    expect(parentOf({ id: "ESP", name: "Spain", type: "country" })).toBeUndefined();
   });
 });
 
@@ -82,29 +89,26 @@ describe("polar caps (regions wrapping 360° around a pole)", () => {
     countries: [f("ESP", "country")],
     states: [],
     subregions: [],
-    oceans: [cap("OCN-SO", "ocean", -90, -50), f("OCN-NATL", "ocean")],
-    named: [cap("NR-ARCTIC", "named", 66.5, 90)],
+    named: [cap("NR-ARCTIC", "named", 66.5, 90), f("NR-SAHEL", "named")],
   };
 
   it("are never drawn as clickable polygons", () => {
-    const v = ids(visibleFeatures(capGeo, FAR, ["OCN-SO", "NR-ARCTIC"]));
-    expect(v).not.toContain("OCN-SO");
+    const v = ids(visibleFeatures(capGeo, FAR, ["NR-ARCTIC", "NR-SAHEL"]));
     expect(v).not.toContain("NR-ARCTIC");
-    expect(v).toContain("OCN-NATL");
+    expect(v).toContain("NR-SAHEL");
   });
 
   it("detects the boundary latitude", () => {
-    expect(polarCapLatitude(capGeo.oceans[0])).toBe(-50);
     expect(polarCapLatitude(capGeo.named[0])).toBe(66.5);
-    expect(polarCapLatitude(capGeo.oceans[1])).toBeNull();
+    expect(polarCapLatitude(capGeo.named[1])).toBeNull();
   });
 
   it("selected caps become a latitude ring in their pen", () => {
-    const rings = capRings(capGeo, ["ESP", "OCN-SO"]);
+    const rings = capRings(capGeo, ["ESP", "NR-ARCTIC"]);
     expect(rings).toHaveLength(1);
-    expect(rings[0].id).toBe("OCN-SO");
+    expect(rings[0].id).toBe("NR-ARCTIC");
     expect(rings[0].pen).toBe(1);
-    expect(rings[0].points.every(([lat]) => lat === -50)).toBe(true);
+    expect(rings[0].points.every(([lat]) => lat === 66.5)).toBe(true);
     const lngs = rings[0].points.map(([, lng]) => lng);
     expect(Math.min(...lngs)).toBe(-180);
     expect(Math.max(...lngs)).toBe(180);
@@ -127,17 +131,5 @@ describe("pens", () => {
     expect(penColor("NR-SAHEL", regions)).toBe("var(--series-3)");
     expect(penIndex("FRA", regions)).toBeNull();
     expect(penColor("FRA", regions)).toBeNull();
-  });
-});
-
-describe("pickTarget", () => {
-  const north = { id: "ADM1-BRA-north", name: "Brazil North", type: "subregion" as const, parent: "BRA" };
-  it("a click on a selected country's region outline means the country", () => {
-    expect(pickTarget(north, ["BRA"])).toBe("BRA");
-  });
-  it("a region picked on its own stays itself", () => {
-    expect(pickTarget(north, ["ADM1-BRA-north"])).toBe("ADM1-BRA-north");
-    expect(pickTarget(north, ["BRA", "ADM1-BRA-north"])).toBe("ADM1-BRA-north");
-    expect(pickTarget({ id: "ESP", name: "Spain", type: "country" }, ["BRA"])).toBe("ESP");
   });
 });

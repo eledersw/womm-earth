@@ -1,6 +1,7 @@
 import { expect, it, vi } from "vitest";
 import type { serverApi } from "@/lib/api/client";
 import fixture from "@/api/_fixtures/analyze.json";
+import correlation from "@/api/_fixtures/correlate.json";
 import variables from "@/api/_fixtures/variables.json";
 import regions from "@/api/_fixtures/regions.json";
 import { makeTools } from "./tools";
@@ -8,7 +9,7 @@ import type { PartnerEvent } from "./events";
 import { caseFromQuery } from "@/lib/state/case-codec";
 function setup() {
   const extra = [...regions, { ...regions[0], id: "R5" }, { ...regions[0], id: "R6" }];
-  const py = { GET: vi.fn(async (path: string) => ({ data: path.endsWith("regions") ? extra : variables })), POST: vi.fn(async (path: string) => { void path; return { data: fixture }; }) };
+  const py = { GET: vi.fn(async (path: string) => ({ data: path.endsWith("regions") ? extra : variables })), POST: vi.fn(async (path: string) => ({ data: path.endsWith("correlate") ? { ...correlation, scatter: [{ t: "2002-01", x: 1, y: 2 }] } : fixture })) };
   const events: PartnerEvent[] = [];
   const tools = makeTools(py as unknown as ReturnType<typeof serverApi>, (e) => events.push(e));
   const run = async (name: string, value: unknown) => { const tool = tools.find((t) => t.name === name)!; return JSON.parse(await tool.run(tool.parse(value)) as string); };
@@ -48,14 +49,12 @@ it("rejects URL-like unexpected tool inputs at the schema boundary", () => {
   const tool = tools.find((t) => t.name === "list_variables")!;
   expect(() => tool.parse({ url: "http://localhost/private" })).toThrow();
 });
-it("correlate discloses unavailability without fetching or exposing fixture statistics", async () => {
-  const { run, py, events } = setup();
+it("correlate runs the live endpoint and leaves out the scatter points", async () => {
+  const { run, py } = setup();
   const result = await run("correlate", { var_x: "T2M", var_y: "PRECTOTCORR", region: "US-WI", from: 2002, to: 2025 });
-  expect(result).toMatchObject({ available: false, reason: expect.stringContaining("No correlation was calculated") });
-  expect(result).not.toHaveProperty("pearson_raw");
-  expect(py.POST).not.toHaveBeenCalled();
-  expect(py.GET).not.toHaveBeenCalled();
-  expect(events.map((e) => e.type)).toEqual(["tool_call", "tool_result"]);
+  expect(result).toMatchObject({ pearson_raw: correlation.pearson_raw, warning: "both_trending" });
+  expect(result).not.toHaveProperty("scatter");
+  expect(py.POST).toHaveBeenCalledWith("/api/py/correlate", expect.objectContaining({ body: expect.objectContaining({ var_x: "T2M", var_y: "PRECTOTCORR", region: "US-WI" }) }));
 });
 
 it("mirror and scan call only the fixed backend paths", async () => {

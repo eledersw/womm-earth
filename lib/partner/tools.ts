@@ -9,7 +9,6 @@ import type { RegionAnalysis } from "@/lib/api/types";
 import { caseToQuery, normalizeCase, SEASONS, type ReadingLevel } from "@/lib/state/case-codec";
 import { summarizeAnalysis } from "./summarize";
 import type { PartnerEvent } from "./events";
-import { LIVE_CORRELATION_AVAILABLE, correlationUnavailable } from "./capabilities";
 import cards from "./process-cards.json";
 const id = z.string().min(1).max(100);
 const year = z.number().int().min(1000).max(2200);
@@ -63,8 +62,7 @@ export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEve
       if (error || !data) throw new Error("analysis");
       return { results: data.results.map((r) => summarizeAnalysis(r as RegionAnalysis, checked.variable, r.region.name, `${c.from}–${c.to}`, c.season === "CUSTOM" ? `CUSTOM (${c.months?.join(",")})` : c.season)) };
     }),
-    define("correlate", z.object({ var_x: id, var_y: id, region: id, ...period }).strict(), LIVE_CORRELATION_AVAILABLE ? "Correlate two variables using annual anomalies; seasonal filters are not supported. Correlation does not establish causation." : "Correlation is currently unavailable from the live backend. Returns availability only; never use demonstration data as Case evidence.", async (input) => {
-      if (!LIVE_CORRELATION_AVAILABLE) return correlationUnavailable;
+    define("correlate", z.object({ var_x: id, var_y: id, region: id, ...period }).strict(), "Correlate two variables in one region using de-seasoned monthly anomalies over the period: raw and detrended Pearson and Spearman r, p-values on the Bretherton effective sample size, and a lag search of -6..+6 months (positive lag: var_x leads). Correlation does not establish causation.", async (input) => {
       for (const v of [input.var_x, input.var_y]) { const checked = await validate(v, [input.region], input.from, input.to); if ("error" in checked) return checked; }
       const { data, error } = await py.POST("/api/py/correlate", { body: { var_x: input.var_x, var_y: input.var_y, region: input.region, start: input.from, end: input.to, season: "ANN", max_lag: 6 }, signal: requestSignal() });
       if (error || !data) throw new Error("correlation");

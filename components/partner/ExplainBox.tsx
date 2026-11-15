@@ -10,8 +10,6 @@ import { variableLabel } from "@/lib/copy/case";
 import { readSse } from "@/lib/partner/sse-client";
 import { inspectEvidence } from "@/lib/partner/evidence";
 import { renderVerdict } from "@/lib/partner/verdict-templates";
-import { approvedDemo } from "@/lib/partner/demo-cache";
-import demos from "@/lib/partner/demo-explanations.json";
 import type { ExplainInput } from "@/lib/partner/input";
 import { Button } from "@/components/ui/button";
 
@@ -19,7 +17,6 @@ type Props = { result: RegionAnalysis; variable: Variable; regionName: string; l
 export function ExplainBox(props: Props) {
   const { state } = useCase();
   const key = caseKey(state);
-  const demo = approvedDemo(demos, state, props.result.region.id, props.level);
   const input = useMemo<ExplainInput>(() => ({ mode: "explain", level: props.level, analysis: props.result, variable: props.variable, regionName: props.regionName,
     period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `CUSTOM (${state.months?.join(",")})` : state.season,
   }), [props.level, props.result, props.variable, props.regionName, state.from, state.to, state.season, state.months]);
@@ -29,7 +26,6 @@ export function ExplainBox(props: Props) {
     const verdict = renderVerdict(props.result, { variableName: variableLabel(props.variable), unit: props.variable.unit, regionName: props.regionName, period: input.period, seasonLabel: input.seasonLabel }, props.level);
     return <section aria-label={partnerCopy.explain} className="mt-3 border-t pt-3 text-sm"><p role="alert">{verdict.body}</p></section>;
   }
-  if (demo) return <section aria-label={partnerCopy.explain} className="mt-3 border-t pt-3 text-sm"><p>{demo}</p></section>;
   return <StreamedExplanation key={`${key}:${props.level}:${props.result.region.id}`} input={input} />;
 }
 function StreamedExplanation({ input }: { input: ExplainInput }) {
