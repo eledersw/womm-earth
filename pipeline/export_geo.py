@@ -364,7 +364,7 @@ def export_remaining(countries_zip: Path | None = None, states_zip: Path | None 
     countries, states = load_50m_sources(countries_zip, states_zip)
     admin1 = load_admin1_sources(admin1_zip) if "subregions" in targets else None
     features = all_region_features(countries, states, simplify=True)
-    admin1_features = admin1_region_features(countries, admin1, simplify=True, simplify_tolerance=0.05) if admin1 is not None else []
+    admin1_features = admin1_region_features(countries, admin1, simplify=True, simplify_tolerance=0.1) if admin1 is not None else []
     names = {"states": "us-states.geojson", "oceans": "oceans.geojson", "named": "named.geojson", "subregions": "admin1.geojson"}
     kinds = {"states": "state", "oceans": "ocean", "named": "named", "subregions": "subregion"}
     out_dir.mkdir(parents=True, exist_ok=True)

@@ -165,9 +165,16 @@ export default function GlobeView() {
     return penIndex(feature.properties.id, regions)
       ?? (feature.properties.parent ? penIndex(feature.properties.parent, regions) : null);
   }, [regions]);
+  const isUnselectedChildOfSelectedCountry = useCallback((f: object) => {
+    const feature = f as RegionFeature;
+    return feature.properties.type === "subregion"
+      && Boolean(feature.properties.parent && regions.includes(feature.properties.parent))
+      && !regions.includes(feature.properties.id);
+  }, [regions]);
 
   const capColor = useCallback(
     (f: object) => {
+      if (isUnselectedChildOfSelectedCountry(f)) return "rgba(0, 0, 0, 0)";
       const pen = featurePenIndex(f);
       if (pen !== null) return tokens.pens[pen];
       const trendFill = trendColor(id(f));
@@ -175,21 +182,23 @@ export default function GlobeView() {
       if (isOcean(f)) return id(f) === hovered ? tokens.oceanSeam : "rgba(0, 0, 0, 0)";
       return id(f) === hovered ? tokens.landHover : tokens.land;
     },
-    [hovered, tokens, trendColor, featurePenIndex],
+    [hovered, tokens, trendColor, featurePenIndex, isUnselectedChildOfSelectedCountry],
   );
 
   const strokeColor = useCallback(
     (f: object) => {
+      if (isUnselectedChildOfSelectedCountry(f)) return tokens.silver;
       const pen = featurePenIndex(f);
       if (pen !== null) return tokens.pens[pen];
       if (outlined.has(id(f))) return tokens.silver;
       return isOcean(f) ? tokens.oceanSeam : tokens.seam;
     },
-    [tokens, outlined, featurePenIndex],
+    [tokens, outlined, featurePenIndex, isUnselectedChildOfSelectedCountry],
   );
 
   const altitude = useCallback(
     (f: object) => {
+      if (isUnselectedChildOfSelectedCountry(f)) return 0.024;
       if (featurePenIndex(f) !== null) return 0.022;
       if (outlined.has(id(f))) return 0.018;
       // Oceans only change colour on hover: lifting their large meshes is costly.
@@ -197,7 +206,7 @@ export default function GlobeView() {
       if (id(f) === hovered) return 0.012;
       return 0.006;
     },
-    [hovered, outlined, featurePenIndex],
+    [hovered, outlined, featurePenIndex, isUnselectedChildOfSelectedCountry],
   );
 
   const label = useCallback(
@@ -236,7 +245,7 @@ export default function GlobeView() {
           atmosphereAltitude={0.16}
           polygonsData={polygons}
           polygonCapColor={capColor}
-          polygonSideColor={() => "rgba(0, 0, 0, 0.45)"}
+          polygonSideColor={(f) => isUnselectedChildOfSelectedCountry(f) ? "rgba(0, 0, 0, 0)" : "rgba(0, 0, 0, 0.45)"}
           polygonStrokeColor={strokeColor}
           polygonAltitude={altitude}
           polygonLabel={label}
