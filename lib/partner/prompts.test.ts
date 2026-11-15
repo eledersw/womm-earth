@@ -10,12 +10,14 @@ it("SYSTEM is deterministic", async () => {
   expect((await import("./prompts")).SYSTEM).toBe(SYSTEM);
   expect(SYSTEM).not.toMatch(/Date|2026/);
 });
-it("asks for a brief explanation that complements the visible verdict", () => {
+it("asks for a short plain-language explanation of the visible verdict", () => {
   const input = explainInputSchema.parse({ mode: "explain", level: "student", analysis: fixture.results[0], variable: variables[0], regionName: "Wisconsin", period: "2002–2025", seasonLabel: "JJA" });
   const message = explainUserMessage(input);
-  expect(message).toMatch(/at most 2 short sentences/i);
+  expect(message).toMatch(/at most 3 short sentences/i);
+  expect(message).toMatch(/plain everyday words/i);
+  expect(message).toMatch(/no statistical jargon/i);
   expect(message).toMatch(/verdict card already/i);
-  expect(message).toMatch(/specific to this Case/i);
+  expect(message).toMatch(/exact meaning/i);
 });
 it("summarizeAnalysis drops arrays", () => {
   const input = explainInputSchema.parse({ mode: "explain", level: "student", analysis: fixture.results[0], variable: variables[0], regionName: "Wisconsin", period: "2002–2025", seasonLabel: "JJA" });

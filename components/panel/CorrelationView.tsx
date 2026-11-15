@@ -2,6 +2,7 @@
 import { useCallback, useId, useState } from "react";
 import { api } from "@/lib/api/client";
 import type { Variable } from "@/lib/api/types";
+import { displayUnit } from "@/components/globe/palette";
 import { caseKey, caseFromQuery, type CaseState } from "@/lib/state/case-codec";
 import { caseCopy, variableLabel } from "@/lib/copy/case";
 import { fmtNumber, fmtP } from "@/lib/partner/format";
@@ -30,9 +31,9 @@ function LiveCorrelationView({ state, variables }: Props) {
     <h3 className="label-mono">{c.correlation}</h3>
     <p className="text-scale">{c.firstRegion}: {state.regions[0]}</p>
     <label htmlFor={id} className="label-mono">{c.secondVariable}</label>
-    <select id={id} value={second} onChange={(e) => setSecond(e.target.value)} className="w-full min-w-0 border border-hairline bg-well p-2">
+    <select id={id} value={second} onChange={(e) => setSecond(e.target.value)} className="field field-select">
       <option value="">{c.chooseVariable}</option>
-      {variables.filter((v) => v.id !== state.variable).map((v) => <option key={v.id} value={v.id}>{variableLabel(v)} ({v.unit})</option>)}
+      {variables.filter((v) => v.id !== state.variable).map((v) => <option key={v.id} value={v.id}>{variableLabel(v)} ({v.unit === "1" ? caseCopy.controls.dimensionless : displayUnit(v.unit)})</option>)}
     </select>
     {result.loading && <p role="status">{caseCopy.loading}</p>}
     {result.error && <div role="alert"><p>{result.error}</p><Button variant="outline" onClick={result.retry}>{caseCopy.retry}</Button></div>}

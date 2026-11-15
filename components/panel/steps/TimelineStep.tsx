@@ -37,7 +37,7 @@ function TimelineControls({ state, setCase, variable }: CaseControls & { variabl
   const startMonth = state.months?.[0] ?? 6;
   const endMonth = state.months?.at(-1) ?? 8;
   const monthSelect = (label: string, value: number, change: (value: number) => void) => <label className="text-sm">
-    {label}<select className="mt-1 block rounded-md border bg-background p-2" value={value} onChange={(e) => change(Number(e.target.value))}>
+    {label}<select className="field field-select mt-1 block" value={value} onChange={(e) => change(Number(e.target.value))}>
       {caseCopy.controls.months.map((month, index) => <option key={month} value={index + 1}>{month}</option>)}
     </select>
   </label>;
