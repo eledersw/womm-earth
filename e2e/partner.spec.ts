@@ -22,7 +22,7 @@ test("Explain failure keeps the template verdict and supports retry", async ({ p
     requests++;
     return route.fulfill({ contentType: "text/event-stream", body: requests === 1 ? 'data: {"type":"error","message":"Unavailable"}\n\ndata: {"type":"done"}\n\n' : sse("Mann-Kendall detects a trend, p = 0.01.") });
   });
-  await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
+  await page.goto("/app?r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
   const box = page.getByRole("region", { name: "Explanation" });
@@ -37,7 +37,7 @@ test("a scientist link explains at that level and shows the methods table", asyn
     const level = route.request().postDataJSON().level;
     return route.fulfill({ contentType: "text/event-stream", body: sse(level === "scientist" ? "Scientist explanation." : "Student explanation.") });
   });
-  await page.goto("/?r=US-WI&from=2002&to=2025&lvl=scientist");
+  await page.goto("/app?r=US-WI&from=2002&to=2025&lvl=scientist");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByText("Scientist explanation.", { exact: true })).toBeVisible();
   await expect(page.getByRole("table")).toBeVisible();
@@ -46,7 +46,7 @@ test("too-short verdicts do not request explanations", async ({ page }) => {
   let requests = 0;
   await page.route("**/api/py/analyze", (route) => route.fulfill({ json: { ...fixture, results: [{ ...fixture.results[0], stats: null, verdict: { tier: "too_short", years_needed: null, reason: null } }] } }));
   await page.route("**/api/partner", (route) => { requests++; return route.fulfill({ contentType: "text/event-stream", body: sse("Unexpected") }); });
-  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
+  await page.goto("/app?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Too short to judge" })).toBeVisible();
   await expect(page.getByRole("region", { name: "Explanation" })).toHaveCount(0);
@@ -55,7 +55,7 @@ test("too-short verdicts do not request explanations", async ({ page }) => {
 test("Stop cancels an in-flight explanation and permits retry", async ({ page }) => {
   const held: Route[] = [];
   await page.route("**/api/partner", (route) => { held.push(route); });
-  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
+  await page.goto("/app?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect.poll(() => held.length).toBe(1);
   // The Gaia mascot fidgets while an explanation is running, and settles when it stops.
@@ -89,7 +89,7 @@ test("Partner proposes a Case without changing the URL until Open this case", as
     ];
     return route.fulfill({ contentType: "text/event-stream", body: events.map((e) => `data: ${JSON.stringify(e)}\n\n`).join("") });
   });
-  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
+  await page.goto("/app?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await page.getByRole("textbox", { name: "Your question" }).fill("Is Wisconsin getting smokier in summer?");
   await page.getByRole("button", { name: "Send", exact: true }).click();
@@ -108,7 +108,7 @@ test("Partner cancellation discards late text and allows a fresh question", asyn
     if (route.request().postDataJSON().mode === "chat") { held.push(route); return; }
     return route.fulfill({ contentType: "text/event-stream", body: sse("Template explanation.") });
   });
-  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
+  await page.goto("/app?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await page.getByRole("textbox", { name: "Your question" }).fill("Check this Case");
   await page.getByRole("button", { name: "Send", exact: true }).click();
@@ -126,7 +126,7 @@ test("live partner proposes a case", async ({ page }) => {
   test.skip(process.env.E2E_PARTNER !== "1", "Requires E2E_PARTNER=1 and a deployment with Anthropic configured.");
   test.setTimeout(120000);
   await page.unrouteAll();
-  await page.goto("/?v=T2M&r=US-CO&from=1981&to=2025&s=ANN&lvl=student");
+  await page.goto("/app?v=T2M&r=US-CO&from=1981&to=2025&s=ANN&lvl=student");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await page.getByRole("textbox", { name: "Ask the Partner" }).fill("Analyze annual T2M in US-CO from 1981 to 2025 with analyze_case. Explain the returned verdict, then use propose_case to offer this Case for me to open.");
   await page.getByRole("button", { name: "Send", exact: true }).click();
@@ -141,7 +141,7 @@ test("Ask Gaia: starters send at once, answers are formatted, world rankings are
     asked.push(input.messages.at(-1).content);
     return route.fulfill({ contentType: "text/event-stream", body: sse("**Short answer:** no clear trend yet.\n\n- Wisconsin: No case") });
   });
-  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
+  await page.goto("/app?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   const chat = page.getByRole("region", { name: "Ask Gaia", exact: true });
   await chat.getByRole("button", { name: "Is this a real trend, or just natural ups and downs?" }).click();

@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..500&family=Stack+Sans+Text:wght@400..600&family=Fragment+Mono&display=block" rel="stylesheet">
+<style>
+  :root { --space:#030405; --silver:#c9d0d2; --ink:#e4e9eb; --ink2:#a5aeb1; --edge:rgb(255 255 255 / .14); }
+  html, body { margin:0; background:var(--space); }
+  #stage { position:relative; width:1920px; height:1080px; overflow:hidden; background:var(--space); }
+  #cam { position:absolute; left:0; top:0; width:1920px; height:1080px; transform-origin:0 0; will-change:transform; }
+  #cam img { position:absolute; inset:0; width:1920px; height:1080px; opacity:0; }
+  #vignette { position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse at 50% 50%, rgb(3 4 5 / 0) 40%, rgb(3 4 5 / .55) 100%); }
+  #dim { position:absolute; inset:0; background:var(--space); opacity:0; }
+  #hook { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:120px; box-sizing:border-box; opacity:0; }
+  #hook h1 { margin:0; font:200 90px/1.02 "Stack Sans Headline", system-ui; letter-spacing:-.02em; color:var(--ink); text-shadow:0 4px 40px rgb(0 0 0 / .8); }
+  #hook p { margin:28px 0 0; font:400 24px "Fragment Mono", monospace; letter-spacing:.18em; text-transform:uppercase; color:var(--silver); }
+  #cap { position:absolute; left:64px; bottom:64px; right:auto; max-width:860px; padding:26px 34px 28px; border-radius:22px;
+    background:rgb(6 8 10 / .8); border:1px solid var(--edge); box-shadow:0 20px 60px rgb(0 0 0 / .5); opacity:0; }
+  #cap .k { font:400 19px "Fragment Mono", monospace; letter-spacing:.18em; text-transform:uppercase; color:var(--ink2); }
+  #cap .t { margin-top:10px; font:300 50px/1.08 "Stack Sans Headline", system-ui; letter-spacing:-.015em; color:var(--ink); }
+  #cap .s { margin-top:14px; font:500 24px/1.3 "Stack Sans Text", system-ui; color:var(--silver); }
+  #cursor { position:absolute; left:0; top:0; width:38px; height:38px; opacity:0; filter:drop-shadow(0 3px 8px rgb(0 0 0 / .7)); }
+  #ring { position:absolute; width:20px; height:20px; margin:-10px 0 0 -10px; border-radius:50%; border:3px solid #f1f4f5; opacity:0; }
+  #outro { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; }
+  #outro img { width:760px; }
+  #outro .u { margin-top:48px; font:400 34px "Fragment Mono", monospace; letter-spacing:.06em; color:var(--ink); }
+  #outro .m { margin-top:18px; font:400 20px "Fragment Mono", monospace; letter-spacing:.18em; text-transform:uppercase; color:var(--ink2); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="cam">
+    <img data-k="01" src="../shots/01-case.png">
+    <img data-k="02" src="../shots/02-results.png">
+    <img data-k="02b" src="../shots/02b-evidence.png">
+    <img data-k="03a" src="../shots/03a-corr-before.png">
+    <img data-k="03b" src="../shots/03b-corr.png">
+    <img data-k="04a" src="../shots/04a-mv-pick.png">
+    <img data-k="04b" src="../shots/04b-mv-picked.png">
+    <img data-k="04c" src="../shots/04c-radar.png">
+    <img data-k="05a" src="../shots/05a-gaia-typed.png">
+    <img data-k="05b" src="../shots/05b-gaia-answer.png">
+  </div>
+  <div id="vignette"></div>
+  <div id="hook"><h1>Is Belgium really warming?</h1><p>WOMM Earth · NASA data, honest trends</p></div>
+  <div id="cap"><div class="k"></div><div class="t"></div><div class="s"></div></div>
+  <div id="ring"></div>
+  <svg id="cursor" viewBox="0 0 24 24"><path d="M4 2 L4 19 L8.6 14.8 L11.6 21.6 L14.6 20.3 L11.7 13.6 L18 13.4 Z" fill="#f4f6f7" stroke="#050607" stroke-width="1.3" stroke-linejoin="round"/></svg>
+  <div id="dim"></div>
+  <div id="outro"><img src="logo.svg"><div class="u">womm-earth.vercel.app</div><div class="m">NASA Space Apps 2026 · Team WOMM</div></div>
+</div>
+<script>
+// Every frame is a pure function of t (seconds). 30 s, 30 fps.
+const W = 1920, H = 1080;
+const ease = (x) => x < 0 ? 0 : x > 1 ? 1 : x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2;
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+// Fade helper: 0 before a, ramps to 1 over [a, a+d], holds, ramps to 0 over [b-d, b].
+const window_ = (t, a, b, d = .3) => clamp01((t - a) / d) * clamp01((b - t) / d);
+
+// Camera keyframes: [time, x, y, width] of the page region framed (16:9).
+const FULL = [0, 0, 1920], GLOBE = [470, 230, 1300], PTOP = [0, 50, 1200], PBOT = [0, 405, 1200];
+const R1 = [960, 40, 960], CORR0 = [960, 250, 960], CORR1 = [960, 70, 960], MV = [960, 280, 960], RADAR = [960, 150, 960], GAIA = [960, 540, 960];
+const camKeys = [
+  [0.0, ...FULL], [2.6, ...GLOBE], [3.3, ...PTOP], [5.5, ...PTOP], [6.2, ...PBOT], [7.0, ...PBOT],
+  [7.8, ...R1], [12.2, ...R1], [12.6, ...CORR0], [13.4, ...CORR0], [14.1, ...CORR1], [17.2, ...CORR1],
+  [17.6, ...MV], [19.6, ...MV], [20.2, ...RADAR], [22.6, ...RADAR], [23.0, ...GAIA], [30, ...GAIA],
+];
+function camera(t) {
+  let i = camKeys.findIndex((k) => k[0] > t); if (i === -1) i = camKeys.length - 1; if (i === 0) i = 1;
+  const [t0, x0, y0, w0] = camKeys[i - 1], [t1, x1, y1, w1] = camKeys[i];
+  const k = ease((t - t0) / (t1 - t0 || 1));
+  return { x: lerp(x0, x1, k), y: lerp(y0, y1, k), w: lerp(w0, w1, k) };
+}
+// Screens: [start, key]; each crossfades in over 0.25 s.
+const screens = [[0, "01"], [7.0, "02"], [9.6, "02b"], [12.2, "03a"], [13.5, "03b"], [17.2, "04a"], [18.7, "04b"], [19.6, "04c"], [22.6, "05a"], [23.9, "05b"]];
+// Cursor path in page coordinates: [time, x, y]; clicks at listed times.
+const cursorKeys = [
+  [3.2, 520, 640], [3.9, 175, 203], [4.5, 110, 412], [5.1, 214, 592], [5.6, 78, 648], [6.5, 175, 992], [7.1, 175, 992],
+  [12.4, 1330, 760], [13.1, 1702, 420], [13.6, 1702, 420],
+  [17.4, 1380, 820], [18.2, 1580, 373], [18.5, 1716, 433], [19.2, 1702, 616], [19.7, 1702, 616],
+  [22.8, 1300, 980], [23.5, 1563, 1018], [24.0, 1563, 1018],
+];
+const cursorOn = [[3.2, 7.2], [12.4, 13.7], [17.4, 19.8], [22.8, 24.1]];
+const clicks = [6.7, 13.3, 18.3, 18.6, 19.4, 23.65];
+function cursorAt(t) {
+  let i = cursorKeys.findIndex((k) => k[0] > t); if (i === -1) i = cursorKeys.length - 1; if (i === 0) i = 1;
+  const [t0, x0, y0] = cursorKeys[i - 1], [t1, x1, y1] = cursorKeys[i];
+  const k = ease((t - t0) / (t1 - t0 || 1));
+  return { x: lerp(x0, x1, k), y: lerp(y0, y1, k) };
+}
+const captions = [
+  { side: "right", a: 3.0, b: 6.5, k: "01 · Set up the case", t: "Pick a variable, places and years", s: "Air temperature · Belgium + Netherlands · 2000–2020 · Annual" },
+  { a: 7.6, b: 12.1, k: "02 · Investigate", t: "Two trend tests. One honest verdict.", s: "Belgium +0.44 °C per decade · Not proven yet" },
+  { a: 12.6, b: 17.1, k: "03 · Correlate", t: "Check it against another variable", s: "Belgium · temperature vs sunlight · r = 0.36" },
+  { a: 17.6, b: 22.5, k: "04 · Compare", t: "Three variables, one radar chart", s: "Air temperature · rain and snow · sunlight at ground" },
+  { a: 23.0, b: 27.5, k: "05 · Ask Gaia", t: "Ask what the verdict means", s: "Gaia only quotes numbers the engine computed" },
+];
+const $ = (s) => document.querySelector(s);
+const imgs = [...document.querySelectorAll("#cam img")];
+window.render = (t) => {
+  const c = camera(t), s = W / c.w;
+  $("#cam").style.transform = `scale(${s}) translate(${-c.x}px, ${-c.y}px)`;
+  // Screens: the latest started one is opaque; it fades in over the previous one.
+  let cur = 0; screens.forEach(([st], i) => { if (t >= st) cur = i; });
+  imgs.forEach((im) => (im.style.opacity = 0));
+  const curImg = imgs.find((im) => im.dataset.k === screens[cur][1]);
+  const k = clamp01((t - screens[cur][0]) / .25);
+  if (cur > 0 && k < 1) imgs.find((im) => im.dataset.k === screens[cur - 1][1]).style.opacity = 1;
+  curImg.style.opacity = cur > 0 ? k : 1;
+  // Hook and outro.
+  $("#hook").style.opacity = window_(t, 0.15, 2.55, .35);
+  $("#hook").style.transform = `translateY(${lerp(14, 0, ease(clamp01((t - .15) / .6)))}px)`;
+  $("#vignette").style.opacity = t < 2.6 ? 1 : .55;
+  const dim = Math.max(t < 2.6 ? .35 * window_(t, -1, 2.6, .5) : 0, clamp01((t - 27.4) / .45));
+  $("#dim").style.opacity = dim;
+  $("#outro").style.opacity = clamp01((t - 27.85) / .45);
+  $("#outro").style.transform = `scale(${lerp(.97, 1, ease(clamp01((t - 27.85) / .9)))})`;
+  // Caption.
+  const cap = captions.find((x) => t >= x.a - .05 && t <= x.b + .05);
+  if (cap) {
+    $("#cap").style.left = cap.side === "right" ? "auto" : "64px"; $("#cap").style.right = cap.side === "right" ? "64px" : "auto";
+    $("#cap .k").textContent = cap.k; $("#cap .t").textContent = cap.t; $("#cap .s").textContent = cap.s;
+    const o = window_(t, cap.a, cap.b, .3);
+    $("#cap").style.opacity = o; $("#cap").style.transform = `translateY(${lerp(16, 0, ease(clamp01((t - cap.a) / .45)))}px)`;
+  } else $("#cap").style.opacity = 0;
+  // Cursor in screen space (it does not scale with the camera).
+  const on = cursorOn.find(([a, b]) => t >= a && t <= b);
+  if (on) {
+    const p = cursorAt(t), sx = (p.x - c.x) * s, sy = (p.y - c.y) * s;
+    const fade = window_(t, on[0], on[1], .2);
+    const press = clicks.some((ct) => t >= ct && t < ct + .12) ? .86 : 1;
+    $("#cursor").style.opacity = fade;
+    $("#cursor").style.transform = `translate(${sx - 6}px, ${sy - 3}px) scale(${press})`;
+    const ct = clicks.find((x) => t >= x && t < x + .45);
+    if (ct !== undefined) {
+      const r = (t - ct) / .45;
+      $("#ring").style.opacity = (1 - r) * fade; $("#ring").style.left = `${sx}px`; $("#ring").style.top = `${sy}px`;
+      $("#ring").style.transform = `scale(${1 + r * 2.6})`;
+    } else $("#ring").style.opacity = 0;
+  } else { $("#cursor").style.opacity = 0; $("#ring").style.opacity = 0; }
+};
+window.ready = (async () => {
+  await document.fonts.ready;
+  await Promise.all([...document.images].map((im) => im.decode().catch(() => {})));
+  window.render(0);
+  return true;
+})();
+</script>
+</body>
+</html>
