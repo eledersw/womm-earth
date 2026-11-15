@@ -15,6 +15,15 @@ const mono = Fragment_Mono({ variable: "--font-fragment-mono", subsets: ["latin"
 export const metadata: Metadata = {
   title: shellCopy.productName,
   description: "Become an Earth system trend detective with NASA data.",
+  // Files and tags from public/README.txt. favicon.svg follows the browser's light/dark setting.
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
