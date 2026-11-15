@@ -79,3 +79,11 @@ it("allows at most three data lookups per question", async () => {
   // Catalogue and process-card tools are not data lookups.
   expect(Array.isArray(await run("list_variables", {}))).toBe(true);
 });
+it("find_regions resolves place names to ids from the catalogue without data lookups", async () => {
+  const { run, py } = setup();
+  const result = await run("find_regions", { query: "sahel" });
+  expect(result.matches[0]).toMatchObject({ id: "NR-SAHEL" });
+  expect((await run("find_regions", { query: "wisconsin" })).matches[0].id).toBe("US-WI");
+  expect((await run("find_regions", { query: "zzzz" })).matches).toEqual([]);
+  expect(py.POST).not.toHaveBeenCalled();
+});
