@@ -84,30 +84,30 @@ Development used Codex and Claude Code assistance alongside human review of scie
 
 ## Run locally
 
-Requirements: **Node.js 22 or later** and **Python 3.12**. Create and activate a Python virtual environment, then run:
+Install **Node.js 22 or later** and **Python 3.12**. From the repository root, start both the web app and the Python API with the provided script:
 
 ```sh
-npm ci
-python -m pip install -r requirements-dev.txt
+./scripts/dev-local.sh
+```
+
+On first run, the script creates `.venv/` and installs the Python runtime dependencies and npm packages if needed. It then starts Next.js and FastAPI together. Open the local address printed by Next.js (normally [localhost:3000](http://localhost:3000)); FastAPI listens on `127.0.0.1:8000`. Press Ctrl+C to stop both servers. The script runs the app on your computer; the public deployment uses Vercel.
+
+The NASA POWER analysis works without an AI key. To enable Gaia's explanations, create `.env.local` from `.env.example`, then set `ANTHROPIC_API_KEY` in that file. Keep the key server-side and out of Git.
+
+```sh
 cp .env.example .env.local
 ```
 
-Set `ANTHROPIC_API_KEY` in `.env.local` to enable Gaia. Keep the key server-side.
+For verification, install the additional Python test dependencies and run:
 
 ```sh
-npm run dev
-```
-
-Open [localhost:3000](http://localhost:3000). The development command starts Next.js and FastAPI together; FastAPI listens on `127.0.0.1:8000`.
-
-Available checks:
-
-```sh
-npm run check
-python -m pytest -q
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python -m pytest -q
 npm test
-npm run test:e2e
+npm run check
 ```
+
+Browser tests also need Chromium (`npx playwright install chromium`). Start the app in another terminal with `./scripts/dev-local.sh`, then run `npm run test:e2e`.
 
 ## Screenshots and project-page assets
 
