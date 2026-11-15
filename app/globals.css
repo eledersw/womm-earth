@@ -307,3 +307,17 @@
 @keyframes gaia-arm { 0% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
 @keyframes gaia-step { 0% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
 @keyframes gaia-shuffle { 0% { transform: translateX(0); } 25% { transform: translateX(1px); } 50% { transform: translateX(0); } 75% { transform: translateX(-1px); } }
+
+/* Landing page (app/page.tsx): one authored entrance, the hero rising out of the
+   dark. Visible by default; only animates when motion is welcome. */
+@media (prefers-reduced-motion: no-preference) {
+  .landing-rise { animation: landing-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .landing-rise-late { animation: landing-rise 1.1s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both; }
+}
+@keyframes landing-rise {
+  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+::selection { background: var(--silver); color: var(--space); }

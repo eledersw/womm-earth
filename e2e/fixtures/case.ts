@@ -15,7 +15,7 @@ export async function mockApi(page: Page) {
 /** Open a case from its URL query and wait until the app is interactive. */
 export async function openCase(page: Page, query = "") {
   await mockApi(page);
-  await page.goto(query ? `/?${query}` : "/");
+  await page.goto(query ? `/app?${query}` : "/app");
   await expect(page.getByRole("button", { name: "Investigate", exact: true })).toBeVisible({ timeout: 20_000 });
 }
 

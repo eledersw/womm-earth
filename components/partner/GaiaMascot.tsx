@@ -17,10 +17,10 @@ const EYES: [number, number][] = [[4, 5], [5, 5], [4, 8], [5, 8]];
 
 const px = (row: number, col: number, key: string) => <rect key={key} x={col} y={row} width={1} height={1} />;
 
-export function GaiaMascot() {
+export function GaiaMascot({ scale = 1 }: { scale?: number }) {
   const busy = useUiStore((s) => s.gaiaBusy > 0);
   return (
-    <svg viewBox="0 0 14 12" width={42} height={36} shapeRendering="crispEdges" aria-hidden
+    <svg viewBox="0 0 14 12" width={42 * scale} height={36 * scale} shapeRendering="crispEdges" aria-hidden
       className="gaia-mascot shrink-0 overflow-visible" data-busy={busy}>
       <g className="gaia-whole">
         <g className="gaia-leg gaia-leg-l" fill="#2d63b3">{px(10, 5, "a")}{px(11, 5, "b")}</g>

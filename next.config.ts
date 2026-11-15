@@ -26,6 +26,11 @@ const nextConfig: NextConfig = {
       { source: "/stars-bright.svg", headers: cache },
     ];
   },
+  // The landing page lives at "/" and the app at "/app". Share links made before the
+  // move ("/?v=…&r=…") still open the case.
+  async redirects() {
+    return ["v", "r"].map((key) => ({ source: "/", has: [{ type: "query" as const, key }], destination: "/app", permanent: false }));
+  },
   async rewrites() {
     return [
       {

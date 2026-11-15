@@ -59,7 +59,7 @@ export default function About() {
       <div aria-hidden className="starfield pointer-events-none fixed inset-0" />
       <div aria-hidden className="starfield-bright pointer-events-none fixed inset-0" />
       <article className="glass relative mx-auto max-w-[68ch] px-7 py-9 sm:px-10">
-        <Link href="/" className="label-nav text-ink-2 no-underline hover:text-ink">
+        <Link href="/app" className="label-nav text-ink-2 no-underline hover:text-ink">
           ← {shellCopy.backToCase}
         </Link>
         <h1 className="mt-6 text-[clamp(2.25rem,5vw,3.25rem)] leading-[1.05] font-extralight text-silver">
