@@ -1,5 +1,6 @@
 import type { RegionAnalysis } from "@/lib/api/types";
 import { normalizeCase, type CaseState } from "@/lib/state/case-codec";
+import { caseCopy } from "@/lib/copy/case";
 
 export type EvidencePeriod = Pick<CaseState, "from" | "to" | "season" | "months">;
 export const METHOD = { alpha: 0.05, confidence: 0.95, min_years: 10, min_coverage: 0.8, max_extra_years: 50, ols_ar_order: 1 } as const;
@@ -11,7 +12,9 @@ export function evidencePeriod(period: string, seasonLabel: string): EvidencePer
   const years = /^(\d{4})[–-](\d{4})$/.exec(period);
   const label = seasonLabel.toUpperCase();
   const custom = /^CUSTOM \(([\d, ]+)\)$/.exec(label);
-  const season = label === "ANNUAL" ? "ANN" : custom ? "CUSTOM" : label;
+  // Accepts the codes (DJF) and the panel's display labels (Dec–Feb).
+  const byLabel = Object.entries(caseCopy.controls.seasons).find(([, text]) => text.toUpperCase() === label)?.[0];
+  const season = label === "ANNUAL" ? "ANN" : custom ? "CUSTOM" : byLabel ?? label;
   if (!years || !["ANN", "DJF", "MAM", "JJA", "SON", "CUSTOM"].includes(season) || (season === "CUSTOM" && !custom)) return;
   const from = Number(years[1]); const to = Number(years[2]);
   const normalized = normalizeCase({ from, to, season: season as CaseState["season"], months: custom ? custom[1].split(",").map(Number) : null });

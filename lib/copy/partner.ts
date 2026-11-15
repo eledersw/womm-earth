@@ -1,13 +1,13 @@
 // Provisional empty/error wording pending Story's COPY.md completion.
 export const partnerCopy = {
-  title: "Ask a question",
-  chatLabel: "Your question", send: "Send", checking: "Checking the data…", openCase: "Open this case",
-  chatHistory: "Conversation", you: "You", assistant: "Answer", chatRetry: "No answer this time. Please try again.",
+  title: "Ask Gaia",
+  chatLabel: "Your question", send: "Send", checking: "Gaia is checking the data…", openCase: "Open this case",
+  chatHistory: "Conversation", you: "You", assistant: "Gaia", chatRetry: "No answer this time. Please try again.",
   tooLong: "That answer hit its length limit. Please ask a shorter question.",
-  chatIntro: "Ask about the evidence, or where to look next. You choose which suggested cases to open.",
+  chatIntro: "Gaia is the AI helper. Ask about your results, or where to look next. You choose which suggested cases to open.",
   numberWarning: "Some numbers could not be matched to tool results.",
 
-  explain: "Explanation", loading: "Preparing explanation…", draft: "Draft explanation · being checked",
+  explain: "Explanation", loading: "Gaia is preparing an explanation…", draft: "Draft explanation · being checked",
   stop: "Stop", retry: "Retry explanation", cancelled: "Explanation stopped.",
   refused: "This case could not be explained. The verdict still stands.",
   busy: "Too many questions right now. Please try again shortly.",
@@ -19,8 +19,8 @@ export const partnerCopy = {
   streamError: "The explanation could not be completed. Please try again.",
   timeout: "The answer took too long. Please try again.",
   starters: [
-    "What place are you curious about?",
-    "What have you noticed, or heard about, there?",
-    "How far back should we look?",
+    "Is this a real trend, or just natural ups and downs?",
+    "What could be causing this change?",
+    "Where is the opposite trend happening?",
   ],
 } as const;

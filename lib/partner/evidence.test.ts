@@ -45,3 +45,10 @@ it("supports the nullable OLS inference contract without fabricating agreement o
   expect(inspectEvidence(r, period)).toMatchObject({ status: "mk_only", p_ols: null, tests_disagree: false, years_needed: null });
   expect(inspectEvidence({ ...r, stats: { ...r.stats, ols: { ...r.stats.ols, n_eff: 20 } } }, period)).toMatchObject({ status: "unavailable", p_used: null });
 });
+
+it("reads the panel's month-range season labels as well as the codes", () => {
+  expect(evidencePeriod("2002–2025", "Jun–Aug")).toEqual(evidencePeriod("2002–2025", "JJA"));
+  expect(evidencePeriod("2002–2025", "Dec–Feb")?.season).toBe("DJF");
+  expect(evidencePeriod("2002–2025", "Annual")?.season).toBe("ANN");
+  expect(evidencePeriod("2002–2025", "Custom (11, 12, 1)")?.season).toBe("CUSTOM");
+});

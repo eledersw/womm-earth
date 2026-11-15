@@ -1,17 +1,13 @@
 "use client";
 
-import type { Tour } from "@/lib/tour/types";
-import { TourPlayer } from "@/components/tour/TourPlayer";
-import { TourLauncher } from "@/components/tour/TourLauncher";
 import { displayUnit } from "@/components/globe/palette";
 import { X } from "lucide-react";
-import { Suspense, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Suspense, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { CASE_EXPLAIN_SLOT, CASE_RESULTS_SLOT } from "@/components/shell/slots";
 import { caseCopy, variableLabel } from "@/lib/copy/case";
 import { caseKey } from "@/lib/state/case-codec";
-import { useUiStore } from "@/lib/state/ui-store";
 import { CorrelationView } from "./CorrelationView";
 import { MirrorList } from "./MirrorList";
 import { useCase } from "@/lib/state/use-case";
@@ -38,8 +34,6 @@ export function CasePanel() {
 // you are choosing.
 function CasePanelContent() {
   const { state, setCase } = useCase();
-  const predict = useUiStore((s) => s.predictMode);
-  const hidden = useUiStore((s) => s.predictMode && !s.reveal);
   const variables = useVariables();
   const regions = useRegions();
   const variable = variables.byId[state.variable];
@@ -47,13 +41,9 @@ function CasePanelContent() {
   const inPeriod = period?.from === state.from && period?.to === state.to;
   const valid = !!variable && inPeriod && !regions.loading && !regions.error && availableHere(state.variable, state.regions, regions.byId);
   const analysis = useAnalysis(state, valid);
-  const [tour, setTour] = useState<Tour | null>(null);
-  const tourTrigger = useRef<HTMLButtonElement | null>(null);
-  function startTour(next: Tour, button: HTMLButtonElement) { tourTrigger.current = button; setTour(next); }
-  function exitTour() { setTour(null); requestAnimationFrame(() => { if (tourTrigger.current?.isConnected) tourTrigger.current.focus({ preventScroll: true }); else document.querySelector<HTMLButtonElement>("[data-tour-current]")?.focus({ preventScroll: true }); }); }
   const [open, setOpen] = useState(false);
   const submitted = analysis.loading || !!analysis.data || !!analysis.error;
-  const explained = (hidden ? [] : analysis.data?.results ?? []).filter((r) => r.verdict.tier !== "too_short");
+  const explained = (analysis.data?.results ?? []).filter((r) => r.verdict.tier !== "too_short");
 
   // Shared links may predate the catalogue or exceed the selected variable's
   // coverage. Correct the URL before issuing an analysis request.
@@ -64,7 +54,6 @@ function CasePanelContent() {
   }, [variable, state.from, state.to, setCase]);
 
   function investigate() {
-    if (predict) useUiStore.getState().setReveal(false);
     setOpen(true);
     analysis.calculate();
   }
@@ -81,16 +70,7 @@ function CasePanelContent() {
           <li><TimelineStep {...controls} variable={variable} loading={variables.loading} error={!!variables.error} onRetry={variables.retry} /></li>
         </ol>
 
-        <div className="px-3.5 pb-2">
-          {tour ? <TourPlayer key={tour.id} tour={tour} regions={regions.byId} onExit={exitTour} /> : !submitted && !regions.loading ? <TourLauncher regions={regions.byId} onStart={startTour} /> : null}
-        </div>
         <div className="sticky bottom-0 space-y-2 border-t border-hairline bg-space-2 px-3.5 pt-3 pb-3.5">
-          <label className="flex items-center gap-2 text-scale">
-            <input type="checkbox" checked={predict} onChange={(e) => {
-              useUiStore.getState().setPredictMode(e.target.checked);
-              useUiStore.getState().setReveal(!e.target.checked);
-            }} />{caseCopy.explorations.predict}
-          </label>
           <Button size="lg" className="w-full" onClick={investigate} disabled={!valid || analysis.loading}>
             {analysis.loading ? caseCopy.controls.calculating : caseCopy.controls.calculate}
           </Button>
@@ -103,8 +83,8 @@ function CasePanelContent() {
           <VerdictStep key={caseKey(state)} variable={variable} results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale} showExplanation={false} compact
             context={{ variableName: variable ? variableLabel(variable) : state.variable, unit: variable?.unit ?? "", period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `${caseCopy.controls.seasons.CUSTOM} (${state.months?.join(", ")})` : caseCopy.controls.seasons[state.season] }}
             loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} />
-          <EvidenceStep results={hidden ? undefined : analysis.data?.results} unit={displayUnit(variable?.unit)} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>{hidden && <p>{caseCopy.explorations.predictEvidence}</p>}</EvidenceStep>
-          {analysis.data && !hidden ? <>
+          <EvidenceStep results={analysis.data?.results} unit={displayUnit(variable?.unit)} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} />
+          {analysis.data ? <>
             <CorrelationView state={state} variables={variables.variables} />
             <MirrorList key={caseKey(state)} state={state} setCase={setCase} regions={regions.byId} unit={displayUnit(variable?.unit)} />
           </> : null}
@@ -122,7 +102,7 @@ function CasePanelContent() {
         ) : (
           <p className="text-sm text-ink-2">{caseCopy.explainEmpty}</p>
         )}
-        <div className="rounded-xl border bg-card p-3.5"><PartnerChat />{!tour && submitted ? <TourLauncher regions={regions.byId} onStart={startTour} /> : null}</div>
+        <div className="rounded-xl border bg-card p-3.5"><PartnerChat /></div>
       </Pane>
     </>
   );
