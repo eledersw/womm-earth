@@ -27,7 +27,7 @@ A guided "data detective" tool for the challenge *Be An Earth System Trend Detec
 - **The 3D globe:** users select countries, US states, ocean basins or named regions (Sahel, Arctic and others) on it.
 - **The left panel:** it carries the case flow.
 - **Sharing:** every case lives in the URL, so it can be shared.
-- **Demo:** 3 guided demo cases with a watchable tour. Case #1 rebuilds NASA's own example: MODIS Aqua aerosol optical depth over Wisconsin, summers since 2002.
+- **Demo:** guided cases use reviewed NASA POWER variables, including aerosol optical depth over Wisconsin.
 - **Reading levels:** Student and Scientist.
 
 ## Capabilities and Constraints
@@ -35,7 +35,6 @@ A guided "data detective" tool for the challenge *Be An Earth System Trend Detec
 - **Stack:** Next.js 16 (App Router), Tailwind v4 and shadcn/ui (Radix) on Vercel, with a Python FastAPI statistics engine. The globe uses `react-globe.gl`, the charts Observable Plot.
 - **Data:**
   - NASA POWER monthly data (MERRA-2 reanalysis, CERES satellite-derived), averaged per region.
-  - One Giovanni hero series (MODIS Aqua AOD).
   - Every chart labels its source as satellite or reanalysis/model.
 - **Verdict tiers:** Confirmed / Not proven yet / No case / Too short to judge (thresholds in `docs/science/METHODS.md`).
 - **Terminology:** use the glossary in `docs/PROJECT.md`.
@@ -51,7 +50,7 @@ A guided "data detective" tool for the challenge *Be An Earth System Trend Detec
 
 ## Evidence on Hand
 
-- Real NASA data products: POWER (MERRA-2, CERES) and MODIS Aqua MYD08_M3 via Giovanni.
+- Real NASA data products: POWER (MERRA-2 and CERES-derived variables).
 - Region geometry from Natural Earth.
 - Test fixtures in `api/_fixtures/` are illustrative only and must be labelled as such.
 - Absent, and not to be fabricated: testimonials, user counts, endorsements, press, and published validation of our results.

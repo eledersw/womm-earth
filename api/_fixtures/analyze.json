@@ -30,7 +30,7 @@
           "T2M",
           "PRECTOTCORR",
           "GWETROOT",
-          "MODIS_AQUA_AOD"
+          "AOD_55"
         ],
         "parent": "USA"
       },

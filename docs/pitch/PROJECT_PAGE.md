@@ -20,7 +20,7 @@ _The 5 detective steps on a 3D globe, plus the mirror finder and years until sig
 _Data → regional series → statistics engine → verdict → Claude partner. One simple diagram or sentence per layer._ _fill_
 
 ## NASA data used
-_POWER (MERRA-2, CERES), MODIS Aqua via Giovanni, plus anything else. Use the attribution list from `docs/DATA_CATALOG.md`._ _fill_
+_POWER (MERRA-2 and CERES-derived variables), plus Natural Earth geometry. Use the attribution list from `docs/DATA_CATALOG.md`._ _fill_
 
 ## Statistical rigour (Methods lead)
 _Why yearly values, why two tests, the autocorrelation correction, FDR on the map, years until significant. Point to the simulation figure._ _fill_

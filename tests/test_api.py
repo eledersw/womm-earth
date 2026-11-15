@@ -124,13 +124,6 @@ def test_variables_from_power_catalog(data_dir, power_api):
 
 
 def test_power_error_does_not_fall_back_to_local_series(data_dir, power_api, monkeypatch):
-    hero_dir = data_dir / "hero"
-    hero_dir.mkdir()
-    (hero_dir / "T2M__US-WI.json").write_text(json.dumps({
-        "variable": "T2M", "region": "US-WI", "t0": "2000-01",
-        "values": [2.0] * 12 * 12, "source": "Giovanni", "instrument": "MODIS",
-        "product": "test", "doi": "doi:test",
-    }))
     np.savez(data_dir / "series_T2M.npz", values=np.full((1, 12 * 12), 2.0),
              region_ids=np.array(["US-WI"]), t0="2000-01")
 

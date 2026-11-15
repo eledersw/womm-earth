@@ -10,7 +10,7 @@ import {
 } from "./case-codec";
 
 const wisconsinSummer: CaseState = {
-  variable: "MODIS_AQUA_AOD",
+  variable: "AOD_55",
   regions: ["US-WI"],
   from: 2002,
   to: 2025,

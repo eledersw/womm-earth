@@ -51,13 +51,13 @@
     "power_community": "AG"
   },
   {
-    "id": "MODIS_AQUA_AOD",
+    "id": "AOD_55",
     "name": "Aerosol optical depth",
     "unit": "unitless",
-    "source": "NASA Giovanni",
-    "instrument": "MODIS Aqua",
+    "source": "NASA POWER / CERES SYN1deg",
+    "instrument": null,
     "kind": "satellite",
-    "start_year": 2002,
+    "start_year": 2001,
     "end_year": 2025,
     "land_only": false,
     "ratio_scale": true,

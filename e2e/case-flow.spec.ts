@@ -34,22 +34,22 @@ test("case controls update the URL and restore it on reload", async ({ page }) =
   await page.goto("/?v=T2M&r=US-WI&from=1981&to=2025&s=JJA&lvl=scientist");
   const variable = page.getByRole("combobox", { name: "Variable", exact: true });
   await expect(page.getByText("Monthly mean 2 m air temperature.")).toBeVisible();
-  await variable.selectOption("MODIS_AQUA_AOD");
-  await expect(page).toHaveURL(/from=2002/);
+  await variable.selectOption("AOD_55");
+  await expect(page).toHaveURL(/from=2001/);
   const start = page.getByRole("slider").nth(0);
   await start.focus();
   await page.keyboard.press("ArrowRight");
-  await expect(page).toHaveURL(/from=2003/);
+  await expect(page).toHaveURL(/from=2002/);
   await page.getByRole("radio", { name: "Custom", exact: true }).click();
   await page.getByRole("combobox", { name: "Start month", exact: true }).selectOption("11");
   await page.getByRole("combobox", { name: "End month", exact: true }).selectOption("2");
   await expect.poll(() => new URL(page.url()).searchParams.get("m")).toBe("11,12,1,2");
   await page.reload();
-  await expect(variable).toHaveValue("MODIS_AQUA_AOD");
+  await expect(variable).toHaveValue("AOD_55");
   await expect(page.getByRole("radio", { name: "Custom", exact: true })).toHaveAttribute("aria-checked", "true");
   await expect(page.getByRole("combobox", { name: "Start month", exact: true })).toHaveValue("11");
   await expect(page.getByRole("combobox", { name: "End month", exact: true })).toHaveValue("2");
-  await expect(page.getByRole("slider").nth(0)).toHaveAttribute("aria-valuenow", "2003");
+  await expect(page.getByRole("slider").nth(0)).toHaveAttribute("aria-valuenow", "2002");
   await expect(page.locator('[data-case-step="scene"]').getByText("Wisconsin (US-WI)", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Remove region: Wisconsin" }).click();
   await expect.poll(() => new URL(page.url()).searchParams.has("r")).toBe(false);
@@ -151,7 +151,7 @@ test("correlation runs for a chosen second variable; multivariable comparison ne
   await page.route("**/api/py/correlate", (route) => { correlations.push(route.request().postDataJSON()); return route.fulfill({ json: correlation }); });
   await page.route("**/api/partner", (route) => route.fulfill({ contentType: "text/event-stream", body: `data: {"type":"error","message":"Unavailable"}\n\ndata: {"type":"done"}\n\n` }));
   // Each variable and region gets its own trend so the radar shapes differ.
-  const trend: Record<string, number> = { T2M: 0.8, PRECTOTCORR: -0.3, GWETROOT: -0.12, MODIS_AQUA_AOD: 0.05 };
+  const trend: Record<string, number> = { T2M: 0.8, PRECTOTCORR: -0.3, GWETROOT: -0.12, AOD_55: 0.05 };
   const analyzed: string[] = [];
   await page.route("**/api/py/analyze", (route) => {
     const body = route.request().postDataJSON();
@@ -180,13 +180,13 @@ test("correlation runs for a chosen second variable; multivariable comparison ne
   await expect(comparison.getByText("Pick at least three variables (up to six).")).toBeVisible();
   await comparison.getByRole("button", { name: "Rain and snow", exact: true }).click();
   await comparison.getByRole("button", { name: "Soil moisture at roots", exact: true }).click();
-  await comparison.getByRole("button", { name: "Aerosol optical depth", exact: true }).click();
+  await comparison.getByRole("button", { name: "Atmospheric haze", exact: true }).click();
   analyzed.length = 0;
   await compare.click();
   const radar = comparison.getByRole("img", { name: /Radar chart/ });
   await expect(radar).toBeVisible();
   // The Case's own variable is reused, not fetched again.
-  expect(analyzed.sort()).toEqual(["GWETROOT", "MODIS_AQUA_AOD", "PRECTOTCORR"]);
+  expect(analyzed.sort()).toEqual(["AOD_55", "GWETROOT", "PRECTOTCORR"]);
   await expect(radar.locator("polygon[stroke^='var(--series']")).toHaveCount(2);
   await comparison.getByText("Show as a table").click();
   await expect(comparison.getByRole("table")).toContainText("Rain and snow");

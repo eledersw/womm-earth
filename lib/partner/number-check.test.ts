@@ -15,7 +15,7 @@ describe("number grounding", () => {
     expect(extractNumbers("1.2e-3")[0].decimals).toBe(4);
   });
   it("skips years and embedded identifiers", () => {
-    expect(extractNumbers("T2M 2002–2025; 1899; 2101; MODIS_AQUA_AOD; 2002.5").map((n) => n.value))
+    expect(extractNumbers("T2M 2002–2025; 1899; 2101; AOD_55; 2002.5").map((n) => n.value))
       .toEqual([1899, 2101, 2002.5]);
   });
   it("does not skip measured values solely because their magnitude is a year", () => {

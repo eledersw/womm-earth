@@ -47,13 +47,13 @@ describe("case controls", () => {
   it("clamps the period when switching variable and leaves live provider availability to calculation", async () => {
     const updates = setup("?r=US-WI&from=1981&to=2025");
     const select = await screen.findByRole("combobox", { name: "Variable" });
-    fireEvent.change(select, { target: { value: "MODIS_AQUA_AOD" } });
-    await waitFor(() => expect(updates.at(-1)?.searchParams.get("from")).toBe("2002"));
-    expect(updates.at(-1)?.searchParams.get("v")).toBe("MODIS_AQUA_AOD");
+    fireEvent.change(select, { target: { value: "AOD_55" } });
+    await waitFor(() => expect(updates.at(-1)?.searchParams.get("from")).toBe("2001"));
+    expect(updates.at(-1)?.searchParams.get("v")).toBe("AOD_55");
     cleanup();
     setup("?r=ESP");
     await screen.findByRole("combobox", { name: "Variable" });
-    expect((screen.getByRole("option", { name: /Aerosol optical depth/ }) as HTMLOptionElement).disabled).toBe(false);
+    expect((screen.getByRole("option", { name: /Atmospheric haze/ }) as HTMLOptionElement).disabled).toBe(false);
   });
 
   it("uses scientist definitions and supports removing the final region", async () => {

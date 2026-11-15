@@ -37,14 +37,6 @@ const SOURCES: { name: string; text: ReactNode }[] = [
     ),
   },
   {
-    name: "MODIS Aqua",
-    text: (
-      <>Platnick et al., MODIS Atmosphere L3 Monthly Product (MYD08_M3), Collection 6.1,{" "}
-        <A href="https://doi.org/10.5067/MODIS/MYD08_M3.061">doi:10.5067/MODIS/MYD08_M3.061</A>, via{" "}
-        <A href="https://giovanni.gsfc.nasa.gov/">NASA Giovanni</A>.</>
-    ),
-  },
-  {
     name: "Natural Earth",
     text: (
       <>Country and region boundaries from <A href="https://www.naturalearthdata.com/about/terms-of-use/">Natural Earth</A>,

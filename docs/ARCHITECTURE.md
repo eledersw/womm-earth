@@ -20,7 +20,7 @@ api/                                      Vercel Python function
   index.py                                the ONLY entrypoint; routes /api/py/*
   _models.py                              Pydantic contract
   _engine/                                pure stats functions
-  _data/                                  series_<VAR>.npz, regions.json, variables.json, hero/*.json
+  _data/                                  regions, geometries and approved POWER metadata
   _fixtures/                              stub responses (H2)
   openapi.json                            generated
 pipeline/                                 offline, run in Colab
@@ -67,14 +67,13 @@ docs/                                     product, architecture and science refe
   - `t0`: `"1981-01"` (MERRA-2) or `"2001-01"` (CERES).
 - **`regions.json`:** id, name, type, centroid, bbox, `nearest_cell_fallback`, `valid_variables`, and optional parent country ID.
 - **`api/_data/admin1.geojson` / `public/geo/admin1.geojson`:** simplified Natural Earth Admin-1 geometries dissolved into 42 broader regions for large countries. A country’s regions are drawn when that country is selected, at any zoom level; the API uses each matching polygon to mask POWER grid cells.
-- **`hero/<id>.json`:** `{variable, region, source, instrument, product, version, doi, t0, values[]}`.
 - **`lib/partner/process-cards.json`** (Ekaitz): `{id, title, student, scientist, citations[], applies_to: {variables[], regions[]}}`.
 - **`public/geo/*.geojson`** (Oier): features with `properties {id, name, type}`; the ids match `regions.json`.
 - **Region ids:** countries use `ADM0_A3` (`USA`), US states `US-<postal>` (`US-WI`), oceans `OCN-<CODE>`, named regions `NR-<CODE>` (`NR-GLOBE`, `NR-SAHEL`).
 
 ## Runtime climate data and offline pipeline
 
-**Case analysis uses live NASA POWER requests.** `GET /api/py/variables` reads the monthly POWER Manager catalogue and exposes only the 16 variables reviewed in `docs/DATA_CATALOG.md`; their approved names and definitions are packaged in `api/_data/approved_power_variables.json`. Units and the request community still come from POWER. Each `POST /api/py/analyze` fetches the selected parameter for every requested region and time range. POWER accepts regional rectangles of 2°–10° on each axis: larger bounding boxes are split into at most 12 valid tiles, and areas smaller than 2° on either axis use the point endpoint at the region centroid with a `nearest_cell_fallback` warning. Regions requiring more than 12 tiles return an error rather than an unrepresentative estimate. Python ignores annual `YYYY13` keys and calculates a per-month cos(latitude)-weighted mean across finite grid values, deduplicating cells on tile boundaries, before applying the existing seasonal and statistical engine. No `.npz` or hero series is used by `/api/py/analyze`.
+**Case analysis uses live NASA POWER requests.** `GET /api/py/variables` reads the monthly POWER Manager catalogue and exposes only the 16 variables reviewed in `docs/DATA_CATALOG.md`; their approved names and definitions are packaged in `api/_data/approved_power_variables.json`. Units and the request community still come from POWER. Each `POST /api/py/analyze` fetches the selected parameter for every requested region and time range. POWER accepts regional rectangles of 2°–10° on each axis: larger bounding boxes are split into at most 12 valid tiles, and areas smaller than 2° on either axis use the point endpoint at the region centroid with a `nearest_cell_fallback` warning. Regions requiring more than 12 tiles return an error rather than an unrepresentative estimate. Python ignores annual `YYYY13` keys and calculates a per-month cos(latitude)-weighted mean across finite grid values, deduplicating cells on tile boundaries, before applying the existing seasonal and statistical engine. `/api/py/analyze` does not read the offline `.npz` series.
 
 `api/_data/regions.json` remains local lookup metadata (ids, names, centroids and bounding boxes); `public/geo/*.geojson` remains local map geometry. They do not contain climate time series. Natural Earth 1:10m Admin-1 boundaries are dissolved into 42 regional macroareas. These broader areas can require more POWER requests than the previous smaller subdivisions. Russia, Canada, China, Brazil, Australia, India, Greenland and Norway expose these regions; the United States keeps its existing state layer. The map draws a large country’s regions when that country is selected, at any zoom level. A selected region uses its own polygon for POWER analysis. Country and subregion means mask POWER grid cells to the polygon and weight them by cos(latitude); point fallback still applies to very small areas. The map, mirror and scanner fetch POWER series at request time and compute their BH families in Python. The map and mirror share an in-process one-hour cache. `/api/py/correlate` still uses a fixture.
 
@@ -93,8 +92,7 @@ The offline pipeline below can still build regional `.npz` libraries for researc
    - Weight by cos(lat).
    - Regions too small to contain a cell centre fall back to the nearest cell. Flag them.
 4. **Write** a variable×region validity matrix, then the `.npz` files and `regions.json`.
-5. **Import the hero series:** `import_giovanni.py` converts the Methods lead's Giovanni CSVs into `hero/*.json`.
-6. **Fallback:** if a store or variable is missing, use the POWER REST monthly API for the demo regions only.
+5. **Offline fallback:** if a Zarr store or variable is missing, use the POWER REST monthly API for the demo regions only.
 
 ## Claude integration
 

@@ -80,7 +80,6 @@ Use these words in code, UI and docs.
 | Mirror | A region of the same type whose trend is significant with the opposite sign, for the same variable, period and season. |
 | Years until significant | The estimated extra years of data needed, at the current rate and noise level, before the trend would reach significance. |
 | Process card | A curated, cited physical explanation. The partner may make physical claims only from these. |
-| Hero series | A satellite series imported from Giovanni for a demo case (e.g. MODIS Aqua AOD over Wisconsin). |
 | Golden case | A test series with independently computed expected results; the engine's answer key. |
 | Explain / Partner | The two Claude modes: an automatic explanation of the verdict, and a chat with tools. |
 | Freeze | H26. After it, only P0 fixes. |

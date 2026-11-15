@@ -5,7 +5,6 @@ import numpy as np
 
 from pipeline.named_regions import NAMED, OCEANS
 from pipeline.build_library import mask_weights, preserve_existing_validity, weighted_means
-from pipeline.import_giovanni import parse_giovanni
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -49,17 +48,6 @@ def test_incremental_run_preserves_existing_variable_validity(tmp_path):
     preserve_existing_validity(regions, tmp_path, ["GWETROOT"])
     assert regions[0]["valid_variables"] == ["T2M"]
     assert regions[0]["nearest_cell_fallback"] is True
-
-
-def test_giovanni_header_provenance_and_monthly_values(tmp_path):
-    source = tmp_path / "aod.csv"
-    source.write_text("# Product: MYD08_M3\n# Version: 6.1\n# Instrument: MODIS Aqua\n# DOI: 10.5067/example\nTime,AOD\n2002-07-01,0.1\n2002-08-01,-9999\n2002-09-01,0.3\n")
-    result = parse_giovanni(source, "MODIS_AQUA_AOD", "US-WI")
-    assert result["t0"] == "2002-07"
-    assert result["values"] == [0.1, None, 0.3]
-    assert result["product"] == "MYD08_M3"
-    assert result["version"] == "6.1"
-    assert result["doi"] == "10.5067/example"
 
 
 def test_region_ids_consistent():
