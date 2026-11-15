@@ -20,7 +20,7 @@ export function useRegionToggle() {
       }
       const selected = byId.get(id);
       let next = state.regions;
-      if (selected?.type === "subregion" && selected.parent) {
+      if ((selected?.type === "subregion" || selected?.type === "state") && selected.parent) {
         next = next.filter((region) => region !== selected.parent);
       } else if (selected?.type === "country") {
         next = next.filter((region) => byId.get(region)?.parent !== id);

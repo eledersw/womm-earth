@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import variables from "../api/_fixtures/variables.json";
 import regions from "../api/_fixtures/regions.json";
 import fixture from "../api/_fixtures/analyze.json";
+import correlation from "../api/_fixtures/correlate.json";
 import regionCatalog from "../api/_data/regions.json";
 // Legacy HTTP fixtures predate the [lng, lat] seam. Use the actual catalogue's
 // centroid for camera checks without modifying Oier's fixture files.
@@ -145,26 +146,52 @@ test("four-region Scientist comparison fits narrow windows and shows warnings", 
   await page.screenshot({ path: test.info().outputPath("four-regions-dark.png"), fullPage: true });
 });
 
-test("unavailable correlation makes no request; mirrors use the active Case", async ({ page }) => {
-  const mirror = { base: { region: "US-WI", slope_per_decade: 0.8, p: 0.01, z: 2.5, tier: "confirmed" }, mirrors: [{ region: "NR-SAHEL", slope_per_decade: -0.4, p: 0.02, z: -2.4 }], none_found: false };
-  await page.route("**/api/py/mirror", (route) => {
-    expect(route.request().postDataJSON().regions).toEqual(["US-WI"]);
-    return route.fulfill({ json: mirror });
+test("correlation runs for a chosen second variable; multivariable comparison needs two regions and three variables", async ({ page }) => {
+  const correlations: { var_x: string; var_y: string; region: string }[] = [];
+  await page.route("**/api/py/correlate", (route) => { correlations.push(route.request().postDataJSON()); return route.fulfill({ json: correlation }); });
+  await page.route("**/api/partner", (route) => route.fulfill({ contentType: "text/event-stream", body: `data: {"type":"error","message":"Unavailable"}\n\ndata: {"type":"done"}\n\n` }));
+  // Each variable and region gets its own trend so the radar shapes differ.
+  const trend: Record<string, number> = { T2M: 0.8, PRECTOTCORR: -0.3, GWETROOT: -0.12, MODIS_AQUA_AOD: 0.05 };
+  const analyzed: string[] = [];
+  await page.route("**/api/py/analyze", (route) => {
+    const body = route.request().postDataJSON();
+    analyzed.push(body.variable);
+    return route.fulfill({ json: { ...fixture, case: body, results: body.regions.map((id: string, i: number) => {
+      const change = (trend[body.variable] ?? 0.2) * (i ? -0.6 : 1);
+      return { ...fixture.results[0], region: regions.find((region) => region.id === id), stats: { ...fixture.results[0].stats, change_per_decade: change },
+        verdict: { ...fixture.results[0].verdict, tier: Math.abs(change) > 0.3 ? "confirmed" : "no_case" } };
+    }) } });
   });
-  let correlations = 0;
-  await page.route("**/api/py/correlate", (route) => { correlations++; return route.fulfill({ status: 503 }); });
-  await page.route("**/api/partner", (route) => route.fulfill({ contentType: "text/event-stream", body: 'data: {"type":"error","message":"Unavailable"}\n\ndata: {"type":"done"}\n\n' }));
   await page.goto("/?r=US-WI&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Investigate", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
-  await expect(page.getByText("Correlation is not available yet. You can still investigate trends for each variable separately.")).toBeVisible();
-  await expect(page.getByRole("combobox", { name: "Compare with another variable" })).toHaveCount(0);
-  expect(correlations).toBe(0);
-  await page.getByRole("button", { name: "Show on globe", exact: true }).click();
-  await expect(page.getByText("Mirror highlight requested on the globe.")).toBeVisible();
-  await page.screenshot({ path: test.info().outputPath("case-explorations.png"), fullPage: true });
-  await page.getByRole("button", { name: "Compare Sahel", exact: true }).click();
-  await expect.poll(() => new URL(page.url()).searchParams.get("r")).toBe("US-WI,NR-SAHEL");
+  expect(correlations).toHaveLength(0);
+  await page.getByRole("combobox", { name: "Compare with another variable" }).selectOption("PRECTOTCORR");
+  await expect(page.getByText("Both are trending, but that alone doesn't mean they're connected.")).toBeVisible();
+  expect(correlations[0]).toMatchObject({ var_x: "T2M", var_y: "PRECTOTCORR", region: "US-WI" });
+  const comparison = page.getByRole("region", { name: "Multivariable comparison", exact: true });
+  await expect(comparison.getByText("Select at least two regions to compare them across several variables.")).toBeVisible();
+
+  await page.goto("/?r=US-WI,ESP&from=2002&to=2025&s=JJA");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Spain: Confirmed" })).toBeVisible();
+  const compare = comparison.getByRole("button", { name: "Compare", exact: true });
+  await expect(compare).toBeDisabled();
+  await expect(comparison.getByText("Pick at least three variables (up to six).")).toBeVisible();
+  await comparison.getByRole("button", { name: "Rain and snow", exact: true }).click();
+  await comparison.getByRole("button", { name: "Soil moisture at roots", exact: true }).click();
+  await comparison.getByRole("button", { name: "Aerosol optical depth", exact: true }).click();
+  analyzed.length = 0;
+  await compare.click();
+  const radar = comparison.getByRole("img", { name: /Radar chart/ });
+  await expect(radar).toBeVisible();
+  // The Case's own variable is reused, not fetched again.
+  expect(analyzed.sort()).toEqual(["GWETROOT", "MODIS_AQUA_AOD", "PRECTOTCORR"]);
+  await expect(radar.locator("polygon[stroke^='var(--series']")).toHaveCount(2);
+  await comparison.getByText("Show as a table").click();
+  await expect(comparison.getByRole("table")).toContainText("Rain and snow");
+  await comparison.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: test.info().outputPath("multivariable.png") });
 });
 
 test("the panel has no predict or guide controls", async ({ page }) => {

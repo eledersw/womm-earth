@@ -7,7 +7,7 @@ test.describe.configure({ timeout: 90_000 });
 test("search offers broad regions instead of whole large countries or US states", async ({ page }) => {
   await openCase(page, "v=T2M&from=2002&to=2025&s=JJA");
   await page.getByRole("button", { name: "Find a place", exact: true }).click();
-  const search = page.getByPlaceholder("Country, large-country region or ocean…");
+  const search = page.getByPlaceholder("Country, large-country region or named region…");
   await search.fill("Wisconsin");
   await expect(page.getByRole("option", { name: /Wisconsin/ })).toHaveCount(0);
   await search.fill("United States of America");

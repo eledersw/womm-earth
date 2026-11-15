@@ -21,7 +21,6 @@ const geo: GeoLayers = {
     { ...f("ADM1-RUS-1", "subregion"), properties: { id: "ADM1-RUS-1", name: "Russia West", type: "subregion", parent: "RUS" } },
     { ...f("ADM1-USA-west", "subregion"), properties: { id: "ADM1-USA-west", name: "USA West", type: "subregion", parent: "USA" } },
   ],
-  oceans: [f("OCN-NATL", "ocean")],
   named: [f("NR-GLOBE", "named"), f("NR-SAHEL", "named")],
 };
 
@@ -29,7 +28,7 @@ const ids = (fs: RegionFeature[]) => fs.map((x) => x.properties.id);
 describe("visibleFeatures", () => {
   it("shows large-country macroregions and never renders every US state", () => {
     const shown = ids(visibleFeatures(geo));
-    expect(shown).toEqual(expect.arrayContaining(["ADM1-USA-west", "ADM1-RUS-1", "ESP", "OCN-NATL"]));
+    expect(shown).toEqual(expect.arrayContaining(["ADM1-USA-west", "ADM1-RUS-1", "ESP"]));
     expect(shown).not.toContain("USA");
     expect(shown).not.toContain("US-WI");
   });
@@ -60,29 +59,26 @@ describe("polar caps (regions wrapping 360° around a pole)", () => {
   const capGeo: GeoLayers = {
     countries: [f("ESP", "country")],
     subregions: [],
-    oceans: [cap("OCN-SO", "ocean", -90, -50), f("OCN-NATL", "ocean")],
-    named: [cap("NR-ARCTIC", "named", 66.5, 90)],
+    named: [cap("NR-ARCTIC", "named", 66.5, 90), f("NR-SAHEL", "named")],
   };
 
   it("are never drawn as clickable polygons", () => {
-    const v = ids(visibleFeatures(capGeo, ["OCN-SO", "NR-ARCTIC"]));
-    expect(v).not.toContain("OCN-SO");
+    const v = ids(visibleFeatures(capGeo, ["NR-ARCTIC", "NR-SAHEL"]));
     expect(v).not.toContain("NR-ARCTIC");
-    expect(v).toContain("OCN-NATL");
+    expect(v).toContain("NR-SAHEL");
   });
 
   it("detects the boundary latitude", () => {
-    expect(polarCapLatitude(capGeo.oceans[0])).toBe(-50);
     expect(polarCapLatitude(capGeo.named[0])).toBe(66.5);
-    expect(polarCapLatitude(capGeo.oceans[1])).toBeNull();
+    expect(polarCapLatitude(capGeo.named[1])).toBeNull();
   });
 
   it("selected caps become a latitude ring in their pen", () => {
-    const rings = capRings(capGeo, ["ESP", "OCN-SO"]);
+    const rings = capRings(capGeo, ["ESP", "NR-ARCTIC"]);
     expect(rings).toHaveLength(1);
-    expect(rings[0].id).toBe("OCN-SO");
+    expect(rings[0].id).toBe("NR-ARCTIC");
     expect(rings[0].pen).toBe(1);
-    expect(rings[0].points.every(([lat]) => lat === -50)).toBe(true);
+    expect(rings[0].points.every(([lat]) => lat === 66.5)).toBe(true);
     const lngs = rings[0].points.map(([, lng]) => lng);
     expect(Math.min(...lngs)).toBe(-180);
     expect(Math.max(...lngs)).toBe(180);

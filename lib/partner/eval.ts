@@ -1,5 +1,4 @@
 import { caseFromQuery, caseToQuery, type CaseState } from "@/lib/state/case-codec";
-import type { Tour } from "@/lib/tour/types";
 import { readSse } from "./sse-client";
 import { checkNumbers } from "./number-check";
 export type EvalQuestion = { id: number; question: string; context: string; keyFacts: string; mustNotSay: string };
@@ -23,14 +22,11 @@ export function parseEvalQuestions(markdown: string): EvalQuestion[] {
 export function requireCompleteEval(rows: EvalQuestion[]) {
   if (rows.length !== 20 || new Set(rows.map((r) => r.id)).size !== 20 || rows.some((r) => r.id < 1 || r.id > 20 || r.question.length > 6000)) throw new Error(`EVAL.md has ${rows.length}/20 complete question rows. Sergio must finish the rubric before the official run.`);
 }
-export function contextFor(row: EvalQuestion, tours: Tour[], fallback?: CaseState): CaseState {
+export function contextFor(row: EvalQuestion, fallback?: CaseState): CaseState {
   const context = row.context.replace(/^`|`$/g, "").trim();
   if (context.startsWith("v=")) { const parsed = caseFromQuery(context); if (caseToQuery(parsed) !== context) throw new Error("Noncanonical eval Case context."); return parsed; }
   if (/^any$/i.test(context) && fallback) return fallback;
-  const numbered = /^case\s+(\d+)$/i.exec(context);
-  const tour = numbered ? tours[Number(numbered[1]) - 1] : tours.find((t) => t.id === context);
-  if (!tour) throw new Error(`Unresolved evaluation context for question ${row.id}; supply reviewed tours or an explicit Case query.`);
-  return caseFromQuery(tour.steps.at(-1)!.query);
+  throw new Error(`Unresolved evaluation context for question ${row.id}; supply an explicit Case query.`);
 }
 export async function evaluateQuestion(row: EvalQuestion, state: CaseState, base: string, fetcher: typeof fetch = fetch, headers: Record<string, string> = {}): Promise<EvalResult> {
   let answer = ""; let failed = false; let done = false; const results: unknown[] = []; const toolEvents: { name: string; data: unknown }[] = [];

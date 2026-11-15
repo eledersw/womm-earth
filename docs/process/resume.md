@@ -7,7 +7,7 @@ If no role is given, ask for it before continuing.
 1. Read `docs/STATUS.md`, `docs/PROJECT.md`, `docs/TEAM.md` and `docs/process/OWNERSHIP.md`.
 2. Read the playbook, `docs/roles/<role>.md`.
 3. For coder roles:
-   - Read the role's implementation plan in `docs/superpowers/plans/` (named in the playbook), `docs/process/MERGING.md` and `docs/ARCHITECTURE.md`.
+   - Read `docs/process/MERGING.md` and `docs/ARCHITECTURE.md`.
    - For `methods-lead`, read `docs/science/METHODS.md`.
    - For `story-lead`, read `docs/pitch/SUBMISSION_CHECKLIST.md`.
 4. Read the 3 newest notes in `docs/handoffs/` (filenames sort by time; skip README.md).

@@ -13,7 +13,6 @@ export interface RegionFeature {
 export interface GeoLayers {
   countries: RegionFeature[];
   subregions: RegionFeature[];
-  oceans: RegionFeature[];
   named: RegionFeature[];
 }
 
@@ -66,7 +65,7 @@ export interface CapRing {
 /** Selected polar caps, drawn as a latitude ring in their pen instead of a fill. */
 export function capRings(geo: GeoLayers, regions: readonly string[]): CapRing[] {
   const rings: CapRing[] = [];
-  for (const f of [...geo.oceans, ...geo.named]) {
+  for (const f of geo.named) {
     const pen = penIndex(f.properties.id, regions);
     if (pen === null) continue;
     const lat = polarCapLatitude(f);
@@ -78,6 +77,16 @@ export function capRings(geo: GeoLayers, regions: readonly string[]): CapRing[] 
   return rings;
 }
 
+/** The country a broad region belongs to. */
+export function parentOf(props: RegionFeature["properties"]): string | undefined {
+  return props.parent;
+}
+
+/**
+ * Large countries are always drawn as their broad regions (at every zoom), so a
+ * click picks a region; smaller countries are drawn whole. Selected named regions
+ * draw too. Oceans and US states are not selectable on the globe.
+ */
 export function visibleFeatures(
   geo: GeoLayers,
   selected: readonly string[] = [],
@@ -96,7 +105,6 @@ export function visibleFeatures(
 
   const namedSet = new Set(named);
   const features = [
-    ...geo.oceans.filter((o) => polarCapLatitude(o) === null),
     ...geo.countries.filter((c) => !dividedParents.has(c.properties.id)),
     ...geo.subregions,
     ...geo.named.filter((n) => namedSet.has(n.properties.id) && polarCapLatitude(n) === null),

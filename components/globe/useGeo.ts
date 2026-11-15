@@ -7,7 +7,6 @@ import type { GeoLayers, RegionFeature } from "./layers";
 const FILES = {
   countries: "/geo/countries.geojson",
   subregions: "/geo/admin1.geojson",
-  oceans: "/geo/oceans.geojson",
   named: "/geo/named.geojson",
 } as const;
 
@@ -24,10 +23,9 @@ function loadGeo(): Promise<GeoLayers> {
   cached ??= Promise.all([
     fetchLayer(FILES.countries),
     fetchLayer(FILES.subregions),
-    fetchLayer(FILES.oceans),
     fetchLayer(FILES.named),
   ])
-    .then(([countries, subregions, oceans, named]) => ({ countries, subregions, oceans, named }))
+    .then(([countries, subregions, named]) => ({ countries, subregions, named }))
     .catch((e) => {
       cached = null;
       throw e;

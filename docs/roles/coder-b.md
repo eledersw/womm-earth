@@ -3,7 +3,6 @@
 **Mission:** turn NASA data into reliable region series and implement `docs/science/METHODS.md` exactly. The spec is the source of truth: when something is unclear, ask Sergio rather than guess.
 **Carries:** Validity.
 **Your area:** `api/**`, `pipeline/**`, `tests/**`, `requirements*.txt`, `public/geo/**`, `lib/api-types.ts` (generated) and your scripts. The full list is in `docs/process/OWNERSHIP.md`. **Edit nothing outside it.**
-**Your plan:** [`docs/superpowers/plans/2026-11-14-data-engine.md`](../superpowers/plans/2026-11-14-data-engine.md). It has the exact files, interfaces, tests and commands. This playbook is the timeline.
 
 **How you work (Codex):**
 1. Open Codex in the repo; it reads `AGENTS.md` automatically. Type **`resume coder-b`**.

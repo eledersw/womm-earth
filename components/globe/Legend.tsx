@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { useVariables } from "@/components/panel/useVariables";
 import { globeCopy } from "@/lib/copy/globe";
 import { useCase } from "@/lib/state/use-case";
-import { useUiStore } from "@/lib/state/ui-store";
 import { UP_IS_WET, colorFor, displayUnit, domainFor, formatSlope, MUTE, type TrendRamp } from "./palette";
 import { useTrendMap } from "./useTrendMap";
 
@@ -22,7 +21,6 @@ export function Legend() {
   const { entries, loading, error } = useTrendMap(state);
   const variables = useVariables();
   const variable = variables.byId[state.variable];
-  const hidden = useUiStore((s) => s.predictMode && !s.reveal);
   const domain = useMemo(() => domainFor(entries), [entries]);
   const upIsWet = UP_IS_WET.has(state.variable);
 
@@ -32,7 +30,6 @@ export function Legend() {
     return [-1, -0.5, -0.17, 0, 0.17, 0.5, 1].map((f) => colorFor(at(f), domain, RAMP, { upIsWet }));
   }, [domain, upIsWet]);
 
-  if (hidden) return null;
   if (error) return <p className="label-mono glass-pill rounded-full px-3 py-2">{globeCopy.trendUnavailable}</p>;
   if (loading) return <p className="label-mono glass-pill rounded-full px-3 py-2" role="status">{globeCopy.trendLoading}</p>;
   if (!entries || !Object.keys(entries).length) return null;

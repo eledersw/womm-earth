@@ -23,7 +23,6 @@ import { useRegionToggle } from "./useRegionToggle";
 const GROUPS: { type: Region["type"]; heading: string }[] = [
   { type: "country", heading: globeCopy.groupCountry },
   { type: "subregion", heading: globeCopy.groupSubregion },
-  { type: "ocean", heading: globeCopy.groupOcean },
   { type: "named", heading: globeCopy.groupNamed },
 ];
 
@@ -64,7 +63,7 @@ export function RegionSearch() {
           <CommandList className="max-h-[min(22rem,50dvh)]">
             <CommandEmpty>{ready ? globeCopy.searchEmpty : globeCopy.searchUnavailable}</CommandEmpty>
             {GROUPS.map(({ type, heading }) => {
-              const items = regions.filter((r) => r.type === type && r.type !== "state" && !dividedParents.has(r.id));
+              const items = regions.filter((r) => r.type === type && r.id !== "NR-OCEAN" && !dividedParents.has(r.id));
               if (!items.length) return null;
               return (
                 <CommandGroup key={type} heading={heading}>

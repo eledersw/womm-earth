@@ -9,6 +9,7 @@ import {
   capRings,
   penIndex,
   visibleFeatures,
+  parentOf,
   type CapRing,
   type RegionFeature,
 } from "./layers";
@@ -70,16 +71,15 @@ export default function GlobeView() {
   const trend = useTrendMap(state);
   const variables = useVariables();
   const unit = displayUnit(variables.byId[state.variable]?.unit);
-  const hidden = useUiStore((s) => s.predictMode && !s.reveal);
   const domain = useMemo(() => domainFor(trend.entries), [trend.entries]);
   const upIsWet = UP_IS_WET.has(state.variable);
   const trendColor = useCallback(
     (regionId: string): string | null => {
       const entry = TRENDMAP_LIVE ? trend.entries?.[regionId] : undefined;
       if (!entry) return null;
-      return colorFor(entry, domain, tokens.ramp, { upIsWet, hidden });
+      return colorFor(entry, domain, tokens.ramp, { upIsWet });
     },
-    [trend.entries, domain, tokens.ramp, upIsWet, hidden],
+    [trend.entries, domain, tokens.ramp, upIsWet],
   );
 
   // Fill the viewing window.
@@ -155,54 +155,41 @@ export default function GlobeView() {
   }, []);
 
   const id = (f: object) => (f as RegionFeature).properties.id;
-  const isOcean = (f: object) => (f as RegionFeature).properties.type === "ocean";
   const featurePenIndex = useCallback((f: object) => {
     const feature = f as RegionFeature;
     return penIndex(feature.properties.id, regions)
-      ?? (feature.properties.parent ? penIndex(feature.properties.parent, regions) : null);
-  }, [regions]);
-  const isUnselectedChildOfSelectedCountry = useCallback((f: object) => {
-    const feature = f as RegionFeature;
-    return feature.properties.type === "subregion"
-      && Boolean(feature.properties.parent && regions.includes(feature.properties.parent))
-      && !regions.includes(feature.properties.id);
+      ?? (parentOf(feature.properties) ? penIndex(parentOf(feature.properties)!, regions) : null);
   }, [regions]);
 
   const capColor = useCallback(
     (f: object) => {
-      if (isUnselectedChildOfSelectedCountry(f)) return "rgba(0, 0, 0, 0)";
       const pen = featurePenIndex(f);
       if (pen !== null) return tokens.pens[pen];
       const trendFill = trendColor(id(f));
       if (trendFill) return id(f) === hovered ? mixHex(trendFill, "#ffffff", 0.18) : trendFill;
-      if (isOcean(f)) return id(f) === hovered ? tokens.oceanSeam : "rgba(0, 0, 0, 0)";
       return id(f) === hovered ? tokens.landHover : tokens.land;
     },
-    [hovered, tokens, trendColor, featurePenIndex, isUnselectedChildOfSelectedCountry],
+    [hovered, tokens, trendColor, featurePenIndex],
   );
 
   const strokeColor = useCallback(
     (f: object) => {
-      if (isUnselectedChildOfSelectedCountry(f)) return tokens.silver;
       const pen = featurePenIndex(f);
       if (pen !== null) return tokens.pens[pen];
       if (outlined.has(id(f))) return tokens.silver;
-      return isOcean(f) ? tokens.oceanSeam : tokens.seam;
+      return tokens.seam;
     },
-    [tokens, outlined, featurePenIndex, isUnselectedChildOfSelectedCountry],
+    [tokens, outlined, featurePenIndex],
   );
 
   const altitude = useCallback(
     (f: object) => {
-      if (isUnselectedChildOfSelectedCountry(f)) return 0.024;
       if (featurePenIndex(f) !== null) return 0.022;
       if (outlined.has(id(f))) return 0.018;
-      // Oceans only change colour on hover: lifting their large meshes is costly.
-      if (isOcean(f)) return 0.002;
       if (id(f) === hovered) return 0.012;
       return 0.006;
     },
-    [hovered, outlined, featurePenIndex, isUnselectedChildOfSelectedCountry],
+    [hovered, outlined, featurePenIndex],
   );
 
   const label = useCallback(
@@ -210,7 +197,7 @@ export default function GlobeView() {
       const p = (f as RegionFeature).properties;
       const pen = penIndex(p.id, regions);
       const action = pen !== null ? "Click to remove" : "Click to add to the case";
-      const entry = hidden || !TRENDMAP_LIVE ? undefined : trend.entries?.[p.id];
+      const entry = !TRENDMAP_LIVE ? undefined : trend.entries?.[p.id];
       const trendLine = entry
         ? `<div class="mt-1 flex items-baseline gap-1.5"><span class="figure text-lg">${formatSlope(entry.slope_per_decade)}</span><span class="font-mono text-xs text-ink-2">${unit ? `${unit} / ` : "per "}decade · ${TIER_WORD[entry.tier]}</span></div>`
         : "";
@@ -218,7 +205,7 @@ export default function GlobeView() {
         <div class="font-medium">${p.name} <span class="font-mono text-xs text-ink-3">${p.id}</span></div>
         ${trendLine}<div class="label-mono mt-1">${action}</div></div>`;
     },
-    [regions, hidden, trend.entries, unit],
+    [regions, trend.entries, unit],
   );
 
   return (
@@ -241,7 +228,7 @@ export default function GlobeView() {
           atmosphereAltitude={0.16}
           polygonsData={polygons}
           polygonCapColor={capColor}
-          polygonSideColor={(f) => isUnselectedChildOfSelectedCountry(f) ? "rgba(0, 0, 0, 0)" : "rgba(0, 0, 0, 0.45)"}
+          polygonSideColor={() => "rgba(0, 0, 0, 0.45)"}
           polygonStrokeColor={strokeColor}
           polygonAltitude={altitude}
           polygonLabel={label}

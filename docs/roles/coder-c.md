@@ -2,8 +2,7 @@
 
 **Mission:** the experience of working a case. A 5-step panel, charts that make the evidence obvious, and a Claude partner that is helpful and never makes up a number.
 **Carries:** Impact, Creativity.
-**Your area:** `components/{panel,charts,partner,tour}/**`, `app/api/partner/**`, `lib/partner/**`, `lib/tour/**`, `lib/copy/{case,partner,tour}.ts` and your scripts and E2E specs. The full list is in `docs/process/OWNERSHIP.md`. **Edit nothing outside it.**
-**Your plan:** [`docs/superpowers/plans/2026-11-14-partner-panel.md`](../superpowers/plans/2026-11-14-partner-panel.md). It has the exact files, interfaces, tests and **verified Anthropic SDK code**. This playbook is the timeline.
+**Your area:** `components/{panel,charts,partner}/**`, `app/api/partner/**`, `lib/partner/**`, `lib/copy/{case,partner}.ts` and your scripts and E2E specs. The full list is in `docs/process/OWNERSHIP.md`. **Edit nothing outside it.**
 
 **How you work (Codex):**
 1. Open Codex in the repo; it reads `AGENTS.md` automatically. Type **`resume coder-c`**.

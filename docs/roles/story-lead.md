@@ -79,7 +79,6 @@
     - a 3-minute live demo (who says what, what is clicked);
     - a 30–60 s video storyboard (shot list);
     - tour captions for each case (1–2 sentences per step).
-  - Tell Ekaitz when the captions are ready; he converts them into `lib/tour/tours.json`. App code is his area, so don't write it yourself.
   - **Done when:** the script is timed and Coder C has the captions.
 
 - [ ] **H10–H12: slides v1.**

@@ -4,7 +4,7 @@ import { MAX_EVENT_BYTES, partnerEventSchema, type PartnerEvent } from "./events
 export async function readSse(
   response: Response,
   onEvent: (event: PartnerEvent) => void,
-  { signal, timeoutMs = 60_000 }: { signal?: AbortSignal; timeoutMs?: number } = {},
+  { signal, timeoutMs = 120_000 }: { signal?: AbortSignal; timeoutMs?: number } = {},
 ): Promise<void> {
   if (!response.ok || !/^text\/event-stream(?:;|$)/i.test(response.headers.get("content-type") ?? "") || !response.body) {
     await response.body?.cancel();

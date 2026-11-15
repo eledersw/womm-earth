@@ -16,7 +16,7 @@ components/panel|charts|partner|tour/     Ekaitz
 lib/state/                                case-codec.ts, use-case.ts, ui-store.ts (Eleder; seams)
 lib/api/                                  client.ts, types.ts (Eleder; seams)
 lib/api-types.ts                          generated from api/openapi.json (Oier)
-lib/partner/  lib/tour/  lib/copy/        Ekaitz (lib/copy/globe.ts: Eleder)
+lib/partner/  lib/copy/        Ekaitz (lib/copy/globe.ts: Eleder)
 api/                                      Vercel Python function (Oier)
   index.py                                the ONLY entrypoint; routes /api/py/*
   _models.py                              Pydantic contract
@@ -43,7 +43,7 @@ docs/                                     see AGENTS.md "Read when"
 - **Python dependencies.** fastapi, numpy, scipy only. Use `scipy.special` (`ndtr`, `stdtr`) at runtime; importing `scipy.stats` costs about 1 s of cold start. pymannkendall is a test-only dependency.
 - **Types.** `npm run gen:types` dumps `app.openapi()` to `api/openapi.json`, then runs `openapi-typescript` to produce `lib/api-types.ts`. No running server is needed.
 
-## Endpoints (summary; the exact contract is Task 1 of `docs/superpowers/plans/2026-11-14-data-engine.md`, and `api/_models.py` is the final word)
+## Endpoints (summary; `api/_models.py` is the final word)
 
 | Method | Path | Input | Output |
 |---|---|---|---|
@@ -70,8 +70,6 @@ docs/                                     see AGENTS.md "Read when"
 - **`api/_data/admin1.geojson` / `public/geo/admin1.geojson`:** simplified Natural Earth Admin-1 geometries dissolved into 48 broad regions for large countries, including six for the USA. These regions replace the whole-country polygon at every zoom level; US states and whole large countries remain in the API for old shared links but are not offered by the globe or search. The API uses each matching polygon to mask POWER grid cells.
 - **`hero/<id>.json`:** `{variable, region, source, instrument, product, version, doi, t0, values[]}`.
 - **`lib/partner/process-cards.json`** (Ekaitz): `{id, title, student, scientist, citations[], applies_to: {variables[], regions[]}}`.
-- **`lib/partner/demo-explanations.json`** (Ekaitz): `{caseKey: {student, scientist, generated_at}}`.
-- **`lib/tour/tours.json`** (Ekaitz): `Tour{id, title, steps: [{query, caption, focus?, highlight?, reveal?}]}`.
 - **`public/geo/*.geojson`** (Oier): features with `properties {id, name, type}`; the ids match `regions.json`.
 - **Region ids:** countries use `ADM0_A3` (`USA`), US states `US-<postal>` (`US-WI`), oceans `OCN-<CODE>`, named regions `NR-<CODE>` (`NR-GLOBE`, `NR-SAHEL`).
 
@@ -107,7 +105,6 @@ The offline pipeline below can still build regional `.npz` libraries for researc
 - **Streaming:** stream our own SSE events to the browser: `text`, `tool_result`, `propose_case`, `error`.
 - **Explain mode:**
   - The client posts the stats JSON it already has, so there is no server-to-server hop.
-  - Demo cases read `lib/partner/demo-explanations.json` after the same evidence guard as streamed Explain. Inconsistent/unavailable evidence produces a deterministic provisional/unavailable fallback, including in the separate explanation pane; cached approval never overrides a newly detected mismatch.
   - `VerdictStep.showExplanation=false` keeps Explain in the explanation pane and prevents duplicate requests.
   - The template verdict always renders, so the app works with Claude down.
 - **Partner mode:**

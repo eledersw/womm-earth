@@ -22,7 +22,7 @@ export async function openCase(page: Page, query = "") {
 /** Search for a place and add it. Retries the open, since the first click can land before hydration. */
 export async function addBySearch(page: Page, name: string) {
   const trigger = page.getByRole("button", { name: "Find a place", exact: true });
-  const input = page.getByPlaceholder("Country, large-country region or ocean…");
+  const input = page.getByPlaceholder("Country, large-country region or named region…");
   await expect(async () => {
     if (!(await input.isVisible())) await trigger.click();
     await expect(input).toBeVisible({ timeout: 1000 });

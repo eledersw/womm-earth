@@ -43,7 +43,8 @@ export function AppShell({ panel, globe }: { panel: ReactNode; globe: ReactNode 
           Pointer events pass through the empty parts to the globe. */}
       <div className="pointer-events-none relative z-10 mx-3 mb-3 flex flex-col justify-end gap-3 min-[900px]:absolute min-[900px]:top-(--header-height) min-[900px]:right-5 min-[900px]:bottom-5 min-[900px]:m-0 min-[900px]:w-(--results-width)">
         <div id={CASE_RESULTS_SLOT} className="flex min-h-0 flex-1 flex-col empty:hidden" />
-        <div id={CASE_EXPLAIN_SLOT} className="flex min-h-0 flex-col min-[900px]:h-[40%] min-[900px]:shrink-0" />
+        {/* pt-7 leaves room for Gaia, who sits on top of this pane. */}
+        <div id={CASE_EXPLAIN_SLOT} className="flex min-h-0 flex-col pt-7 min-[900px]:h-[40%] min-[900px]:shrink-0" />
       </div>
     </div>
   );

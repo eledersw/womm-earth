@@ -6,10 +6,8 @@ const initial = useUiStore.getState();
 describe("ui-store", () => {
   beforeEach(() => useUiStore.setState(initial, true));
 
-  it("starts revealed, with nothing highlighted, hovered or focused", () => {
+  it("starts with nothing highlighted, hovered or focused", () => {
     const s = useUiStore.getState();
-    expect(s.reveal).toBe(true);
-    expect(s.predictMode).toBe(false);
     expect(s.hoveredRegion).toBeNull();
     expect(s.focus).toBeNull();
     expect(s.highlight).toEqual({ kind: null, regions: [], arcFrom: null });
@@ -20,12 +18,6 @@ describe("ui-store", () => {
     expect(useUiStore.getState().highlight.kind).toBe("mirror");
     useUiStore.getState().clearHighlight();
     expect(useUiStore.getState().highlight).toEqual({ kind: null, regions: [], arcFrom: null });
-  });
-
-  it("setPredictMode(true) leaves reveal unchanged", () => {
-    useUiStore.getState().setPredictMode(true);
-    expect(useUiStore.getState().predictMode).toBe(true);
-    expect(useUiStore.getState().reveal).toBe(true);
   });
 
   it("flyTo sets focus and setHoveredRegion sets hover", () => {

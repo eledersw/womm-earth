@@ -5,7 +5,8 @@ import { explainInputSchema } from "@/lib/partner/input";
 import { streamExplain } from "@/lib/partner/explain";
 import { sseStream } from "@/lib/partner/sse";
 import { partnerCopy } from "@/lib/copy/partner";
-export const maxDuration = 60;
+import { isWorldRanking } from "@/lib/partner/scope";
+export const maxDuration = 120; // big regions (the Arctic) take ~30 s per NASA POWER lookup
 const MAX_BYTES = 256 * 1024;
 export async function POST(request: Request) {
   try {
@@ -30,6 +31,8 @@ export async function POST(request: Request) {
     const payload: unknown = JSON.parse(body);
     if (payload && typeof payload === "object" && "mode" in payload && payload.mode === "chat") {
       const input = chatInputSchema.parse(payload);
+      // World rankings would need hundreds of analyses: answer without calling Claude or the data API.
+      if (isWorldRanking(input.messages.at(-1)!.content)) return sseStream(async (emit) => { emit({ type: "text", text: partnerCopy.rankingBlocked }); });
       const py = serverApi(new URL(request.url).origin, process.env.VERCEL_AUTOMATION_BYPASS_SECRET ? { "x-vercel-protection-bypass": process.env.VERCEL_AUTOMATION_BYPASS_SECRET } : {});
       return sseStream((emit, signal) => streamChat(input, py, emit, signal), { signal: request.signal });
     }

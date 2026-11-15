@@ -24,7 +24,7 @@ A guided "data detective" tool for the challenge *Be An Earth System Trend Detec
 
 ## Operating Context
 
-- **The 3D globe:** users select smaller countries, broad regions of large countries, ocean basins or named regions (Sahel, Arctic and others) on it.
+- **The 3D globe:** users select smaller countries, broad regions of large countries or named regions (Sahel, Arctic and others) on it.
 - **The left panel:** it carries the case flow.
 - **Sharing:** every case lives in the URL, so it can be shared.
 - **Demo:** 3 guided demo cases with a watchable tour. Case #1 rebuilds NASA's own example: MODIS Aqua aerosol optical depth over Wisconsin, summers since 2002.

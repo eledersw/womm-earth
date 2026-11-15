@@ -1,4 +1,7 @@
 import { betaZodTool } from "@anthropic-ai/sdk/helpers/beta/zod";
+import { MAX_LOOKUPS_PER_QUESTION } from "./scope";
+
+const DATA_TOOLS = new Set(["analyze_case", "correlate", "find_mirror", "scan_region"]);
 import type { BetaRunnableTool } from "@anthropic-ai/sdk/lib/tools/BetaRunnableTool";
 import { z } from "zod";
 import type { serverApi } from "@/lib/api/client";
@@ -6,7 +9,6 @@ import type { RegionAnalysis } from "@/lib/api/types";
 import { caseToQuery, normalizeCase, SEASONS, type ReadingLevel } from "@/lib/state/case-codec";
 import { summarizeAnalysis } from "./summarize";
 import type { PartnerEvent } from "./events";
-import { LIVE_CORRELATION_AVAILABLE, correlationUnavailable } from "./capabilities";
 import cards from "./process-cards.json";
 const id = z.string().min(1).max(100);
 const year = z.number().int().min(1000).max(2200);
@@ -16,7 +18,8 @@ const months = z.array(z.number().int().min(1).max(12)).min(1).max(12).optional(
 const caseFields = { variable: id, regions: z.array(id).min(1).max(4), ...period, season, months };
 export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEvent) => void, signal?: AbortSignal, level: ReadingLevel = "student"): BetaRunnableTool[] {
   let calls = 0;
-  const requestSignal = () => signal ? AbortSignal.any([signal, AbortSignal.timeout(20_000)]) : AbortSignal.timeout(20_000);
+  let lookups = 0;
+  const requestSignal = () => signal ? AbortSignal.any([signal, AbortSignal.timeout(45_000)]) : AbortSignal.timeout(45_000); // the Arctic takes ~30 s from NASA POWER
   const variables = async () => { const { data, error } = await py.GET("/api/py/variables", { signal: requestSignal() }); if (error || !data) throw new Error("catalogue"); return data; };
   const regions = async () => { const { data, error } = await py.GET("/api/py/regions", { signal: requestSignal() }); if (error || !data) throw new Error("catalogue"); return data; };
   async function validate(variable: string, ids: string[], from: number, to: number) {
@@ -32,7 +35,12 @@ export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEve
     return betaZodTool({ name, inputSchema, description, eager_input_streaming: true, run: async (input) => {
       signal?.throwIfAborted(); emit({ type: "tool_call", name });
       let result: unknown;
-      try { if (++calls > 20) throw new Error("tool limit"); result = await run(input); }
+      try {
+        if (++calls > 20) throw new Error("tool limit");
+        // Each data tool hits NASA POWER; one question gets a few, never a world scan.
+        if (DATA_TOOLS.has(name) && ++lookups > MAX_LOOKUPS_PER_QUESTION) result = { error: `Lookup limit reached: at most ${MAX_LOOKUPS_PER_QUESTION} data lookups per question. Answer with the results you already have, and suggest the user names up to four places to compare.` };
+        else result = await run(input);
+      }
       catch { result = { error: "Tool unavailable or invalid parameters. Try another Case." }; }
       signal?.throwIfAborted();
       let json = JSON.stringify(result);
@@ -47,6 +55,19 @@ export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEve
   }
   return [
     define("list_variables", z.object({}).strict(), "List available variable ids, names, units and source kinds.", async () => (await variables()).map(({ id, name, unit, kind }) => ({ id, name, unit, kind }))),
+    define("find_regions", z.object({ query: z.string().trim().min(2).max(80) }).strict(), "Look up region ids by place name (countries, US states, large-country regions such as Brazil North, and named regions such as Arctic, Sahel, Mediterranean, Amazon). Call this before analyze_case or propose_case whenever the user names a place. Returns up to 8 matches; no data is analysed.", async ({ query }) => {
+      const q = query.toLowerCase();
+      const score = (r: { id: string; name: string }) => {
+        const name = r.name.toLowerCase(); const id = r.id.toLowerCase();
+        return name === q || id === q ? 0 : name.startsWith(q) ? 1 : name.split(/[\s—–-]+/).some((w) => w.startsWith(q)) ? 2 : name.includes(q) || id.includes(q) ? 3 : 9;
+      };
+      const matches = (await regions())
+        .filter((r) => r.type !== "ocean" && r.id !== "NR-OCEAN" && score(r) < 9)
+        .sort((a, b) => score(a) - score(b) || a.name.length - b.name.length)
+        .slice(0, 8)
+        .map(({ id, name, type, parent }) => ({ id, name, type, parent }));
+      return matches.length ? { matches } : { matches: [], note: "No region with that name. Try a country, US state or a broader region." };
+    }),
     define("analyze_case", z.object(caseFields).strict(), "Run yearly trend analysis for 1-4 regions. Returns Sen slope per decade, Hamed-Rao Mann-Kendall and OLS AR(1) p-values, verdict and conditional years estimate.", async (input) => {
       const c = normalized(input); const checked = await validate(c.variable, c.regions, c.from, c.to);
       if ("error" in checked) return checked;
@@ -54,8 +75,7 @@ export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEve
       if (error || !data) throw new Error("analysis");
       return { results: data.results.map((r) => summarizeAnalysis(r as RegionAnalysis, checked.variable, r.region.name, `${c.from}–${c.to}`, c.season === "CUSTOM" ? `CUSTOM (${c.months?.join(",")})` : c.season)) };
     }),
-    define("correlate", z.object({ var_x: id, var_y: id, region: id, ...period }).strict(), LIVE_CORRELATION_AVAILABLE ? "Correlate two variables using annual anomalies; seasonal filters are not supported. Correlation does not establish causation." : "Correlation is currently unavailable from the live backend. Returns availability only; never use demonstration data as Case evidence.", async (input) => {
-      if (!LIVE_CORRELATION_AVAILABLE) return correlationUnavailable;
+    define("correlate", z.object({ var_x: id, var_y: id, region: id, ...period }).strict(), "Correlate two variables in one region using de-seasoned monthly anomalies over the period: raw and detrended Pearson and Spearman r, p-values on the Bretherton effective sample size, and a lag search of -6..+6 months (positive lag: var_x leads). Correlation does not establish causation.", async (input) => {
       for (const v of [input.var_x, input.var_y]) { const checked = await validate(v, [input.region], input.from, input.to); if ("error" in checked) return checked; }
       const { data, error } = await py.POST("/api/py/correlate", { body: { var_x: input.var_x, var_y: input.var_y, region: input.region, start: input.from, end: input.to, season: "ANN", max_lag: 6 }, signal: requestSignal() });
       if (error || !data) throw new Error("correlation");
