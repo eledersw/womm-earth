@@ -4,10 +4,19 @@ import { addBySearch, openCase, regionsInUrl } from "./fixtures/case";
 // The globe is WebGL; headless Chromium draws it in software, which is slow.
 test.describe.configure({ timeout: 90_000 });
 
-test("search adds a region to the URL", async ({ page }) => {
+test("search offers broad regions instead of whole large countries or US states", async ({ page }) => {
   await openCase(page, "v=T2M&from=2002&to=2025&s=JJA");
-  await addBySearch(page, "Wisconsin");
-  await expect.poll(() => regionsInUrl(page)).toEqual(["US-WI"]);
+  await page.getByRole("button", { name: "Find a place", exact: true }).click();
+  const search = page.getByPlaceholder("Country, large-country region or ocean…");
+  await search.fill("Wisconsin");
+  await expect(page.getByRole("option", { name: /Wisconsin/ })).toHaveCount(0);
+  await search.fill("United States of America");
+  await expect(page.getByRole("option", { name: /United States of America —/ })).toHaveCount(6);
+  await search.fill("Russia");
+  await expect(page.getByRole("option", { name: /Russia —/ })).toHaveCount(6);
+  await search.fill("United States of America — West");
+  await page.getByRole("option", { name: /United States of America — West/ }).click();
+  await expect.poll(() => regionsInUrl(page)).toEqual(["ADM1-USA-west"]);
 });
 
 test("a share link restores the same case after reload", async ({ page }) => {

@@ -6,7 +6,6 @@ import { MeshPhongMaterial } from "three";
 import { useCase } from "@/lib/state/use-case";
 import { useUiStore } from "@/lib/state/ui-store";
 import {
-  ZOOM_STATES_ALTITUDE,
   capRings,
   penIndex,
   visibleFeatures,
@@ -64,7 +63,6 @@ export default function GlobeView() {
   const globeRef = useRef<GlobeMethods | undefined>(undefined);
   const boxRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
-  const [zoomedIn, setZoomedIn] = useState(START_POV.altitude < ZOOM_STATES_ALTITUDE);
   const [tokens] = useState(readTokens);
   const reduced = useMemo(() => prefersReducedMotion(), []);
 
@@ -110,8 +108,8 @@ export default function GlobeView() {
   // Highlighted regions must be drawn even when they are not in the case.
   const drawn = useMemo(() => [...new Set([...regions, ...outlined])], [regions, outlined]);
   const polygons = useMemo(
-    () => (geo ? visibleFeatures(geo, zoomedIn ? 0 : Infinity, drawn) : []),
-    [geo, zoomedIn, drawn],
+    () => (geo ? visibleFeatures(geo, drawn) : []),
+    [geo, drawn],
   );
 
   // Frame a newly shown mirror pair.
@@ -154,8 +152,6 @@ export default function GlobeView() {
 
   const onZoom = useCallback((pov: { lat: number; lng: number; altitude: number }) => {
     povStore.set(pov);
-    const next = pov.altitude < ZOOM_STATES_ALTITUDE;
-    setZoomedIn((prev) => (prev === next ? prev : next));
   }, []);
 
   const id = (f: object) => (f as RegionFeature).properties.id;
