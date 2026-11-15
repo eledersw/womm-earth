@@ -32,4 +32,4 @@ Current offline evidence is review/local_recheck.json plus golden_cases/verifica
 
 Only the checked local arithmetic, gates and test coverage are accepted by this update. It does not approve every physical explanation, all optional features, the actual deployment or calibration on real Earth data. The task-8 role checkbox and overall validity checkpoint stay unticked.
 
-No engine/API/contract files were changed by this Methods review. Source ownership remains Oier for implementation, Ekaitz for partner/chart integration, Eleder for the globe and Edur for pitch copy. The final execution checklist is [FINAL_QA.md](FINAL_QA.md).
+No engine/API/contract files were changed by this Methods review. The local review evidence is recorded in [LOCAL_RECHECK.md](review/LOCAL_RECHECK.md).

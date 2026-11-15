@@ -16,7 +16,7 @@
 ```
 package.json  package-lock.json  next.config.ts  tsconfig.json  eslint.config.mjs  postcss.config.mjs
 components.json  vercel.json  .env.example  .gitignore  .gitattributes  .python-version  .github/**  playwright.config.ts  vitest.config.mts
-AGENTS.md  PRODUCT.md
+PRODUCT.md
 app/layout.tsx  app/page.tsx  app/globals.css  app/tokens.css  app/about/**
 components/ui/**          (shadcn primitives)
 components/shell/**       (app frame, header, layout grid)
@@ -55,9 +55,6 @@ e2e/case-flow.spec.ts  e2e/partner.spec.ts
 **Sergio:** `docs/science/**`, `docs/DATA_CATALOG.md`
 **Edur:** `docs/pitch/**`
 **Everyone, by section:**
-- `docs/STATUS.md`: your own workstream row, plus the blockers you add or resolve.
-- `docs/handoffs/`: new files only.
-- `docs/roles/<your-role>.md`: tick boxes only.
 - `docs/PROJECT.md` Decisions log: add rows only.
 - `docs/ARCHITECTURE.md`, by section:
   - Oier: Endpoints, Data shapes, Data pipeline.

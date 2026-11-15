@@ -17,7 +17,7 @@ The review is performed; the gate is not satisfied. No engine, endpoint, contrac
 | Deployed real-series comparison | production_review.json and production_monthly/ | All 16 Case requests return HTTP 200. Aggregation and Sen point estimates match independently; every case has uncertainty-field differences. Tiers match in 15/16. |
 | Ten genuine map regions | Two production map requests | Not passed. Both responses are the same single Wisconsin fixture and ignore the requested context. Ten separate analyses are supplementary, not a map check. |
 | H13 outside-user test | Sergio reports team self-testing and explicitly omits the outsider session. | Waived by user decision, 2026-11-14; no independent-session evidence claimed or required for this gate. |
-| Validity sign-off | docs/STATUS.md | Withheld. Passing routine tests does not override these discrepancies. |
+| Validity sign-off | Review decision | Withheld. Passing routine tests does not override these discrepancies. |
 
 The production endpoint exposes runtime versions but no deployment commit. Health returned HTTP 200 with Python 3.12.16, numpy 2.5.4 and scipy 1.18.1. Local source identity and remote artifact identity must not be conflated. Production comparisons below use the returned monthly observations, so the observed output discrepancies do not depend on proving that identity.
 

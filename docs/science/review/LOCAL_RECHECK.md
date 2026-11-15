@@ -28,7 +28,7 @@ The original failure evidence remains in local_engine_review.json and production
 
 The full validity checkpoint remains open for this cutoff follow-up and the actual identified production/map review. Missing-calendar-year inference, independent correlation validation and calibrated combined-rule detection power retain their stated limits. The user has deferred live work until tomorrow and omitted the outsider session.
 
-Use [FINAL_QA.md](../FINAL_QA.md) for tomorrow's checks and [PITCH_SCIENCE.md](../PITCH_SCIENCE.md) for offline rehearsal. Ekaitz's twenty-question capture tooling is ready; no live evaluation score or generated text approval is assigned here.
+Use [PITCH_SCIENCE.md](../PITCH_SCIENCE.md) for the scientific presentation context. Ekaitz's twenty-question capture tooling is ready; no live evaluation score or generated text approval is assigned here.
 
 ## Reproduce offline
 

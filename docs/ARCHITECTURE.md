@@ -5,7 +5,6 @@ The living technical reference. Update it in the same PR as the change it descri
 ## Repo layout (target; owners per `docs/process/OWNERSHIP.md`)
 
 ```
-AGENTS.md                                 agent instructions
 app/                                      Next.js App Router (Eleder)
   layout.tsx                              NuqsAdapter, fonts, tokens
   page.tsx                                AppShell -> GlobeArea + <CasePanel/>
@@ -30,7 +29,7 @@ public/textures/                          globe textures (Eleder)
 scripts/                                  per-file owners (see OWNERSHIP)
 tests/                                    pytest; fixtures/golden/ = Sergio's golden cases (Oier)
 e2e/                                      Playwright (infra: Eleder; specs per owner)
-docs/                                     see AGENTS.md "Read when"
+docs/                                     product, architecture and science references
 ```
 
 **Why `_` prefixes in `api/`:** Vercel turns every `.py` file under `api/` into its own function unless its name or folder starts with `_`. `api/index.py` adds its own folder to `sys.path` and imports `_engine`. Tests do the same via `pythonpath = api` in `pytest.ini`.

@@ -39,7 +39,7 @@ When both tests are usable, the verdict uses `p = max(p_MK, p_OLS)`. An explicit
 
 These are conditional statistical conclusions for the selected dataset, region, period, and season. Non-detection does not establish no change, and significance does not identify a physical cause. Eligible **Not proven yet** cases may receive an approximate additional-years estimate, assuming the slope and variability remain unchanged; it is not a promised confirmation date.
 
-Independent reference cases and simulations support numerical verification and document the limits of the approximate uncertainty corrections. See [Methods](docs/science/METHODS.md), [Limitations](docs/science/LIMITATIONS.md), and [Scientific QA](docs/science/FINAL_QA.md) for the detailed rules and review scope.
+Independent reference cases and simulations support numerical verification and document the limits of the approximate uncertainty corrections. See [Methods](docs/science/METHODS.md), [Limitations](docs/science/LIMITATIONS.md), and [Methods review](docs/science/METHODS_REVIEW.md) for the detailed rules and review scope.
 
 <details>
 <summary>Statistical workflow diagram</summary>
