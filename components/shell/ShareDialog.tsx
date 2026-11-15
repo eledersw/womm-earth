@@ -85,7 +85,13 @@ export function ShareDialog({ share, onClose }: { share: { href: string; state: 
             // eslint-disable-next-line @next/next/no-img-element -- a generated PNG, not a static asset
             <img key={src} src={src} alt={shareCopy.cardAlt} className="size-full object-cover transition-opacity duration-300 data-[status=loading]:opacity-0"
               data-status={status}
-              onLoad={() => setCard({ src, status: "ready" })} onError={() => setCard({ src, status: "failed" })} />
+              onLoad={() => {
+                setCard({ src, status: "ready" });
+                // Warm the link-preview URL (og:image, no wait) while the engine is warm, so
+                // crawlers that come after the link is pasted get the cached card, not the fallback.
+                if (share) void fetch(cardPath(share.state)).catch(() => {});
+              }}
+              onError={() => setCard({ src, status: "failed" })} />
           ) : null}
           {status !== "ready" ? (
             <p role="status" className="label-mono absolute inset-0 grid place-items-center px-6 text-center text-ink-3">
