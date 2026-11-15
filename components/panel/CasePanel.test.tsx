@@ -72,7 +72,7 @@ describe("case controls", () => {
     fireEvent.change(screen.getByRole("combobox", { name: "Start month" }), { target: { value: "11" } });
     fireEvent.change(screen.getByRole("combobox", { name: "End month" }), { target: { value: "2" } });
     await waitFor(() => expect(updates.at(-1)?.searchParams.get("m")).toBe("11,12,1,2"));
-    fireEvent.click(screen.getByRole("radio", { name: "DJF" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Dec–Feb" }));
     await waitFor(() => expect(updates.at(-1)?.searchParams.get("s")).toBe("DJF"));
     expect(updates.at(-1)?.searchParams.has("m")).toBe(false);
   });

@@ -23,7 +23,7 @@ export const caseCopy = {
     removeRegion: "Remove region", addOnGlobe: "Add regions on the globe or in its search box.",
     nearestCellFallback: "This small region uses the nearest grid cell.",
     kinds: { satellite: "Satellite", reanalysis: "Reanalysis (model)" },
-    seasons: { ANN: "Annual", DJF: "DJF", MAM: "MAM", JJA: "JJA", SON: "SON", CUSTOM: "Custom" },
+    seasons: { ANN: "Annual", DJF: "Dec–Feb", MAM: "Mar–May", JJA: "Jun–Aug", SON: "Sep–Nov", CUSTOM: "Custom" },
     months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
     chart: "Yearly series", year: "Year", yearlyValues: "Yearly values",
     catalogRequired: "Choose an available variable and region before requesting Evidence.",
