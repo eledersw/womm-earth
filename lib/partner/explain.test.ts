@@ -54,3 +54,10 @@ it("propagates cancellation during streaming to the SDK", async () => {
   expect(abort).toHaveBeenCalledOnce();
   expect(events.map((e) => e.type)).toEqual(["text"]);
 });
+it("keeps plain-language sentences, drops jargon ones and never opens mid-thought", async () => {
+  const { conciseExplanation } = await import("./explain");
+  const text = "The Mann-Kendall p-value is 0.04. But the year-to-year ups and downs are still too big to be sure. Air here has been getting warmer over these years. That does not tell us why.";
+  expect(conciseExplanation(text, "fallback")).toBe("The year-to-year ups and downs are still too big to be sure. Air here has been getting warmer over these years. That does not tell us why.");
+  expect(conciseExplanation("Not proven yet does not mean no change.", "fallback")).toBe("Not proven yet does not mean no change.");
+  expect(conciseExplanation("This is statistically significant.", "fallback")).toBe("fallback");
+});
