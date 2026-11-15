@@ -52,6 +52,7 @@ export const landingCopy = {
       { name: "Too short to judge", text: "Not enough usable years for a fair test." },
     ],
     correlation: { title: "Correlation", text: "Compare two variables in one region on de-seasoned monthly anomalies, raw and detrended.", alt: "Correlation between air temperature and sunlight in Belgium" },
+    radarLegend: [{ name: "Belgium", pen: "var(--series-1)" }, { name: "Netherlands", pen: "var(--series-2)" }],
     radar: { title: "Multivariable comparison", text: "See how regions compare across several variables at once, on one radar chart.", alt: "Radar chart comparing Belgium and the Netherlands across three variables" },
   },
   gaia: {

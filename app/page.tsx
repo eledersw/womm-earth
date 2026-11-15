@@ -163,6 +163,13 @@ function Shot({ src, alt }: { src: string; alt: string }) {
   return <Image src={src} alt={alt} width={1920} height={1080} sizes="(min-width: 1024px) 40vw, 100vw" className="block h-auto w-full rounded-[calc(var(--radius-panel)-8px)]" />;
 }
 
+// Soft edges so a cropped chart melts into the glass instead of showing its crop line.
+const FADE_EDGES = {
+  maskImage: "linear-gradient(to right, transparent, #000 5%, #000 95%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent)",
+  maskComposite: "intersect",
+  WebkitMaskComposite: "source-in",
+} as const;
+
 function Evidence() {
   const e = c.evidence;
   return (
@@ -184,12 +191,25 @@ function Evidence() {
             ))}
           </dl>
         </div>
-        {[e.correlation, e.radar].map((card, i) => (
-          <figure key={card.title} className={`glass relative m-0 flex flex-col p-1.5 ${i === 1 ? "lg:col-span-2" : ""}`}>
-            <Shot src={i === 0 ? "/landing/03b-corr.jpg" : "/landing/04c-radar.jpg"} alt={card.alt} />
+        {[
+          { card: e.correlation, src: "/landing/corr-chart.jpg", w: 780, h: 780, span: "" },
+          { card: e.radar, src: "/landing/radar-chart.jpg", w: 780, h: 470, span: "lg:col-span-2" },
+        ].map(({ card, src, w, h, span }) => (
+          <figure key={card.title} className={`glass relative m-0 flex flex-col p-1.5 ${span}`}>
+            {/* Just the chart, cropped from the real app at 2x. */}
+            <div className="grid flex-1 place-items-center px-4 py-5">
+              <Image src={src} alt={card.alt} width={w} height={h} sizes="(min-width: 1024px) 34vw, 100vw" className="block h-auto max-h-[420px] w-auto max-w-full" style={FADE_EDGES} />
+            </div>
             <figcaption className="px-5 pt-5 pb-5">
               <span className="text-[1.25rem] font-light text-ink">{card.title}</span>
               <span className="mt-1.5 block leading-[1.55] text-ink-2">{card.text}</span>
+              {card === e.radar ? (
+                <span className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[0.95rem] text-ink">
+                  {e.radarLegend.map((r) => (
+                    <span key={r.name} className="inline-flex items-center gap-2"><span aria-hidden className="size-2.5 rounded-full" style={{ background: r.pen }} />{r.name}</span>
+                  ))}
+                </span>
+              ) : null}
             </figcaption>
           </figure>
         ))}
