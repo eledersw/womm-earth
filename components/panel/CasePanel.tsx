@@ -9,8 +9,7 @@ import { Suspense, useEffect, useRef, useState, useSyncExternalStore, type React
 import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { CASE_EXPLAIN_SLOT, CASE_RESULTS_SLOT } from "@/components/shell/slots";
-import { caseCopy } from "@/lib/copy/case";
-import { variableLabel } from "@/lib/copy/variable-labels";
+import { caseCopy, variableLabel } from "@/lib/copy/case";
 import { caseKey } from "@/lib/state/case-codec";
 import { useUiStore } from "@/lib/state/ui-store";
 import { CorrelationView } from "./CorrelationView";

@@ -5,7 +5,7 @@ import type { ReadingLevel } from "@/lib/state/case-codec";
 import { caseKey } from "@/lib/state/case-codec";
 import { useCase } from "@/lib/state/use-case";
 import { partnerCopy } from "@/lib/copy/partner";
-import { variableLabel } from "@/lib/copy/variable-labels";
+import { variableLabel } from "@/lib/copy/case";
 import { readSse } from "@/lib/partner/sse-client";
 import { inspectEvidence } from "@/lib/partner/evidence";
 import { renderVerdict } from "@/lib/partner/verdict-templates";

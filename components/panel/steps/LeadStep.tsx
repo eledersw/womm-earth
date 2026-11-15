@@ -2,8 +2,7 @@
 import { displayUnit } from "@/components/globe/palette";
 import { useId, useState } from "react";
 import type { Variable } from "@/lib/api/types";
-import { caseCopy } from "@/lib/copy/case";
-import { variableLabel } from "@/lib/copy/variable-labels";
+import { caseCopy, variableLabel } from "@/lib/copy/case";
 import { clampPeriod, type CaseControls } from "../controls";
 import { StepSection, type StepProps } from "./StepSection";
 
