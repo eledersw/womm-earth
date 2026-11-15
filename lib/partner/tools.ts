@@ -55,6 +55,19 @@ export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEve
   }
   return [
     define("list_variables", z.object({}).strict(), "List available variable ids, names, units and source kinds.", async () => (await variables()).map(({ id, name, unit, kind }) => ({ id, name, unit, kind }))),
+    define("find_regions", z.object({ query: z.string().trim().min(2).max(80) }).strict(), "Look up region ids by place name (countries, US states, large-country regions such as Brazil North, and named regions such as Arctic, Sahel, Mediterranean, Amazon). Call this before analyze_case or propose_case whenever the user names a place. Returns up to 8 matches; no data is analysed.", async ({ query }) => {
+      const q = query.toLowerCase();
+      const score = (r: { id: string; name: string }) => {
+        const name = r.name.toLowerCase(); const id = r.id.toLowerCase();
+        return name === q || id === q ? 0 : name.startsWith(q) ? 1 : name.split(/[\s—–-]+/).some((w) => w.startsWith(q)) ? 2 : name.includes(q) || id.includes(q) ? 3 : 9;
+      };
+      const matches = (await regions())
+        .filter((r) => r.type !== "ocean" && r.id !== "NR-OCEAN" && score(r) < 9)
+        .sort((a, b) => score(a) - score(b) || a.name.length - b.name.length)
+        .slice(0, 8)
+        .map(({ id, name, type, parent }) => ({ id, name, type, parent }));
+      return matches.length ? { matches } : { matches: [], note: "No region with that name. Try a country, US state or a broader region." };
+    }),
     define("analyze_case", z.object(caseFields).strict(), "Run yearly trend analysis for 1-4 regions. Returns Sen slope per decade, Hamed-Rao Mann-Kendall and OLS AR(1) p-values, verdict and conditional years estimate.", async (input) => {
       const c = normalized(input); const checked = await validate(c.variable, c.regions, c.from, c.to);
       if ("error" in checked) return checked;
