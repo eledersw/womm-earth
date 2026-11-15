@@ -10,6 +10,8 @@ export interface StepProps {
   children?: ReactNode;
   loading?: boolean;
   error?: boolean;
+  /** Shown instead of the generic error, e.g. when NASA's service is busy. */
+  errorMessage?: string;
   onRetry?: () => void;
 }
 
@@ -18,6 +20,7 @@ export function StepSection({
   children,
   loading = false,
   error = false,
+  errorMessage,
   onRetry,
 }: StepProps & { step: CaseStep }) {
   const id = useId();
@@ -42,7 +45,7 @@ export function StepSection({
           </div>
         ) : error ? (
           <Alert variant="destructive">
-            <AlertDescription>{caseCopy.error}</AlertDescription>
+            <AlertDescription>{errorMessage ?? caseCopy.error}</AlertDescription>
             {onRetry ? (
               <Button variant="outline" size="sm" className="mt-2 w-fit" onClick={onRetry}>
                 {caseCopy.retry}

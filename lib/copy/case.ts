@@ -11,6 +11,7 @@ export const caseCopy = {
   stepsLabel: "Case steps",
   loading: "Loading…",
   error: "This part of the Case could not be loaded.",
+  nasaBusy: "NASA's data service is busy right now. Please try again in a minute.",
   retry: "Try again",
   controls: {
     dimensionless: "dimensionless",

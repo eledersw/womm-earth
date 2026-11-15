@@ -234,3 +234,23 @@ test("inconsistent engine verdict stays provisional and does not trigger Explain
   await expect(explanation.getByRole("alert")).toContainText("provisional");
   expect(explains).toBe(0);
 });
+
+test("the app never asks for the switched-off trend map", async ({ page }) => {
+  let trendmaps = 0;
+  await page.route("**/api/py/trendmap**", (route) => { trendmaps++; return route.fulfill({ status: 503 }); });
+  await page.goto("/app?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "Wisconsin: Confirmed" })).toBeVisible();
+  await page.getByRole("radio", { name: "Annual", exact: true }).click();
+  await page.waitForTimeout(500);
+  expect(trendmaps).toBe(0);
+});
+
+test("Investigate waits for a place, and says when NASA's service is busy", async ({ page }) => {
+  await page.goto("/app?v=T2M&from=2002&to=2025&s=JJA");
+  await expect(page.getByRole("button", { name: "Investigate", exact: true })).toBeDisabled();
+  await page.route("**/api/py/analyze", (route) => route.fulfill({ status: 502, json: { detail: "NASA POWER regional data is temporarily unavailable." } }));
+  await page.goto("/app?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  await expect(page.getByText("NASA's data service is busy right now. Please try again in a minute.").first()).toBeVisible();
+});

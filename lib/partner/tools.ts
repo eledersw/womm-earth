@@ -1,7 +1,8 @@
 import { betaZodTool } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { MAX_LOOKUPS_PER_QUESTION } from "./scope";
 
-const DATA_TOOLS = new Set(["analyze_case", "correlate", "find_mirror", "scan_region"]);
+// find_mirror and scan_region are off while the trend-map family is (api/index.py LIVE_FAMILY).
+const DATA_TOOLS = new Set(["analyze_case", "correlate"]);
 import type { BetaRunnableTool } from "@anthropic-ai/sdk/lib/tools/BetaRunnableTool";
 import { z } from "zod";
 import type { serverApi } from "@/lib/api/client";
@@ -62,7 +63,7 @@ export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEve
         return name === q || id === q ? 0 : name.startsWith(q) ? 1 : name.split(/[\s—–-]+/).some((w) => w.startsWith(q)) ? 2 : name.includes(q) || id.includes(q) ? 3 : 9;
       };
       const matches = (await regions())
-        .filter((r) => r.type !== "ocean" && r.id !== "NR-OCEAN" && score(r) < 9)
+        .filter((r) => r.type !== "ocean" && !["NR-GLOBE", "NR-LAND", "NR-OCEAN"].includes(r.id) && score(r) < 9)
         .sort((a, b) => score(a) - score(b) || a.name.length - b.name.length)
         .slice(0, 8)
         .map(({ id, name, type, parent }) => ({ id, name, type, parent }));
@@ -80,17 +81,6 @@ export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEve
       const { data, error } = await py.POST("/api/py/correlate", { body: { var_x: input.var_x, var_y: input.var_y, region: input.region, start: input.from, end: input.to, season: "ANN", max_lag: 6 }, signal: requestSignal() });
       if (error || !data) throw new Error("correlation");
       const { scatter: _scatter, ...summary } = data; void _scatter; return summary;
-    }),
-    define("find_mirror", z.object({ variable: id, region: id, ...period, season }).strict(), "Find opposite-trend regions for a standard season (CUSTOM requires explicit months and is not supported here).", async (input) => {
-      if (input.season === "CUSTOM") throw new Error("months required");
-      const checked = await validate(input.variable, [input.region], input.from, input.to); if ("error" in checked) return checked;
-      const { data, error } = await py.POST("/api/py/mirror", { body: { variable: input.variable, regions: [input.region], start: input.from, end: input.to, season: input.season }, signal: requestSignal() });
-      if (error || !data) throw new Error("mirror"); return data;
-    }),
-    define("scan_region", z.object({ region: id, ...period }).strict(), "Scan variables in a region; availability depends on the backend.", async (input) => {
-      if (input.from > input.to || !(await regions()).some((r) => r.id === input.region)) throw new Error("region/period");
-      const { data, error } = await py.POST("/api/py/scan", { body: { region: input.region, start: input.from, end: input.to }, signal: requestSignal() });
-      if (error || !data) throw new Error("scan"); return data;
     }),
     define("get_process_card", z.object({ id }).strict(), "Return a curated process card by id, or available ids. Empty means no curated physical explanation is available.", async ({ id }) => {
       const list = cards as { id: string; [key: string]: unknown }[];

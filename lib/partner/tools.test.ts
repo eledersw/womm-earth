@@ -13,7 +13,7 @@ function setup() {
   const events: PartnerEvent[] = [];
   const tools = makeTools(py as unknown as ReturnType<typeof serverApi>, (e) => events.push(e));
   const run = async (name: string, value: unknown) => { const tool = tools.find((t) => t.name === name)!; return JSON.parse(await tool.run(tool.parse(value)) as string); };
-  return { events, py, run };
+  return { events, py, run, tools };
 }
 it("propose_case clamps and validates", async () => {
   const { run, events } = setup();
@@ -57,11 +57,10 @@ it("correlate runs the live endpoint and leaves out the scatter points", async (
   expect(py.POST).toHaveBeenCalledWith("/api/py/correlate", expect.objectContaining({ body: expect.objectContaining({ var_x: "T2M", var_y: "PRECTOTCORR", region: "US-WI" }) }));
 });
 
-it("mirror and scan call only the fixed backend paths", async () => {
-  const { run, py } = setup();
-  await run("find_mirror", { variable: "T2M", region: "US-WI", from: 2002, to: 2025, season: "JJA" });
-  await run("scan_region", { region: "US-WI", from: 2002, to: 2025 });
-  expect(py.POST.mock.calls.map(([path]) => path)).toEqual(["/api/py/mirror", "/api/py/scan"]);
+it("whole-world mirror and scan tools are not offered", async () => {
+  const { tools } = setup();
+  expect(tools.map((t) => t.name)).not.toContain("find_mirror");
+  expect(tools.map((t) => t.name)).not.toContain("scan_region");
 });
 it("sanitizes backend failures and still emits the matching result event", async () => {
   const { run, py, events } = setup(); py.POST.mockRejectedValue(new Error("private backend detail"));

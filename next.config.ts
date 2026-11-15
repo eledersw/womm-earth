@@ -7,6 +7,9 @@ const isDev = process.env.NODE_ENV === "development";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
+  // Dev only: the local proxy to FastAPI gives up after 30 s by default, but a first
+  // analysis of a big region can take longer (production calls the function directly).
+  experimental: { proxyTimeout: 120_000 },
   partialPrefetching: true,
   turbopack: {
     rules: {

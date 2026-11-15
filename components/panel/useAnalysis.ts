@@ -29,7 +29,7 @@ export function useAnalysis(state: CaseState, enabled = true) {
     const current = caseFromQuery(key);
     void (async () => {
       try {
-        const { data, error } = await api.POST("/api/py/analyze", {
+        const { data, error, response } = await api.POST("/api/py/analyze", {
           body: {
             variable: current.variable, regions: current.regions,
             start: current.from, end: current.to, season: current.season, months: current.months,
@@ -37,11 +37,13 @@ export function useAnalysis(state: CaseState, enabled = true) {
           signal: controller.signal,
         });
         if (controller.signal.aborted) return;
-        if (error || !data) throw new Error("analysis unavailable");
+        if (error || !data) throw new Error(response?.status && response.status >= 502 ? "busy" : "analysis unavailable");
         const result = data as AnalyzeResponse; // Restore generated fixed-length geo tuples.
         setSnapshot({ key, data: result, error: null });
-      } catch {
-        if (!controller.signal.aborted) setSnapshot({ key, data: null, error: caseCopy.error });
+      } catch (failure) {
+        // 502-504 come from NASA POWER refusing or timing out, not from the Case itself.
+        const busy = failure instanceof Error && failure.message === "busy";
+        if (!controller.signal.aborted) setSnapshot({ key, data: null, error: busy ? caseCopy.nasaBusy : caseCopy.error });
       }
     })();
     return () => controller.abort();
