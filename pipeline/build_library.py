@@ -16,7 +16,7 @@ import numpy as np
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from pipeline.export_geo import all_region_features, load_50m_sources
+from pipeline.export_geo import all_region_features, admin1_region_features, load_50m_sources, load_admin1_sources
 from pipeline.named_regions import NAMED, OCEANS
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -53,7 +53,7 @@ def region_records(features: list[dict]) -> list[dict]:
             "centroid": [round(centroid.x, 5), round(centroid.y, 5)],
             "bbox": [round(value, 5) for value in geometry.bounds],
             "nearest_cell_fallback": False, "valid_variables": [],
-            "parent": "USA" if props["type"] == "state" else None,
+            "parent": props.get("parent") or ("USA" if props["type"] == "state" else None),
         })
     return records
 
@@ -64,10 +64,13 @@ def preserve_existing_validity(regions: list[dict], output: Path, rebuilding: li
     if not path.exists():
         return
     old = {region["id"]: region for region in json.loads(path.read_text(encoding="utf-8"))}
-    if set(old) != {region["id"] for region in regions}:
+    current_ids = {region["id"] for region in regions}
+    if not set(old).issubset(current_ids):
         raise ValueError("Existing regions.json has different region ids; rebuild all series together")
     for region in regions:
-        previous = old[region["id"]]
+        previous = old.get(region["id"])
+        if previous is None:
+            continue
         region["valid_variables"] = [
             variable for variable in previous["valid_variables"]
             if variable not in rebuilding and (output / f"series_{variable}.npz").exists()
@@ -87,7 +90,7 @@ def mask_weights(features: list[dict], lon: np.ndarray, lat: np.ndarray):
     xx, yy = np.meshgrid(lon, lat)
     cosine = np.maximum(np.cos(np.deg2rad(yy)).ravel(), 0)
     masks: dict[str, np.ndarray] = {}
-    for region_type in ("country", "state"):
+    for region_type in ("country", "state", "subregion"):
         selected = [f for f in features if f["properties"]["type"] == region_type]
         if not selected:
             continue
@@ -134,16 +137,23 @@ def mask_weights(features: list[dict], lon: np.ndarray, lat: np.ndarray):
     return csc_matrix((np.asarray(data, dtype=np.float32), (rows, cols)), shape=(len(cosine), len(features))), fallback
 
 
-def build(variables: list[str], countries_zip: Path | None, states_zip: Path | None, output: Path, end_year: int | None) -> None:
+def build(variables: list[str], countries_zip: Path | None, states_zip: Path | None,
+          output: Path, end_year: int | None, admin1_zip: Path | None = None) -> None:
     import fsspec
     import xarray as xr
 
     country_rows, state_rows = load_50m_sources(countries_zip, states_zip)
-    features = all_region_features(country_rows, state_rows)
+    admin1_rows = load_admin1_sources(admin1_zip)
+    features = all_region_features(country_rows, state_rows, admin1_rows=admin1_rows)
     regions = region_records(features)
     if len(regions) < 280:
         raise RuntimeError(f"Expected >=280 regions; got {len(regions)}")
     output.mkdir(parents=True, exist_ok=True)
+    admin1 = admin1_region_features(country_rows, admin1_rows, simplify=True)
+    (output / "admin1.geojson").write_text(
+        json.dumps({"type": "FeatureCollection", "features": admin1}, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
     preserve_existing_validity(regions, output, variables)
     region_ids = np.asarray([region["id"] for region in regions])
     open_stores = {}
@@ -198,12 +208,13 @@ def main() -> None:
     parser.add_argument("--geometry-only", action="store_true")
     parser.add_argument("--countries-zip", type=Path)
     parser.add_argument("--states-zip", type=Path)
+    parser.add_argument("--admin1-zip", type=Path, help="Natural Earth 10m Admin-1 ZIP")
     parser.add_argument("--out", type=Path, default=DATA_DIR)
     parser.add_argument("--end-year", type=int)
     args = parser.parse_args()
     if not args.vars and not args.geometry_only:
         parser.error("give --vars or --geometry-only")
-    build(args.vars, args.countries_zip, args.states_zip, args.out, args.end_year)
+    build(args.vars, args.countries_zip, args.states_zip, args.out, args.end_year, args.admin1_zip)
 
 
 if __name__ == "__main__":

@@ -49,8 +49,8 @@ docs/                                     see AGENTS.md "Read when"
 |---|---|---|---|
 | GET | `/api/py/health` | — | `{ok, numpy, scipy, cold_start_ms}` |
 | GET | `/api/py/variables` | — | The 16 reviewed POWER variables in `api/_data/approved_power_variables.json`, refreshed from the NASA POWER Manager monthly catalogue (canonical `AG` units and request community) |
-| GET | `/api/py/regions` | — | `Region[]`: id, name, type (`country` \| `state` \| `ocean` \| `named`), centroid, bbox, nearest_cell_fallback, valid_variables[] |
-| POST | `/api/py/analyze` | `Case` | Fetches POWER monthly regional grid cells at request time, computes a cos(latitude)-weighted bbox mean in Python, then returns per region: `monthly[]`, `yearly[]`, `stats`, `verdict`, `provenance` |
+| GET | `/api/py/regions` | — | `Region[]`: id, name, type (`country` \| `state` \| `subregion` \| `ocean` \| `named`), centroid, bbox, parent, nearest_cell_fallback, valid_variables[] |
+| POST | `/api/py/analyze` | `Case` | Fetches POWER monthly regional grid cells at request time, masks country and subregion cells by their polygon, computes a cos(latitude)-weighted mean, then returns per region: `monthly[]`, `yearly[]`, `stats`, `verdict`, `provenance` |
 | GET | `/api/py/trendmap` | `variable, start, end, season, months?` | Live eligible regions with `{slope_per_decade, p, q, tier}`; BH spans every eligible region type, with a one-hour cache |
 | POST | `/api/py/correlate` | `{var_x, var_y, region, start, end, season, max_lag}` | `{pearson, spearman, raw, detrended, n_eff, p, best_lag, scatter[], warning?}` |
 | POST | `/api/py/mirror` | `Case` (one region) | Opposite-trend regions selected from the same live map/BH family; `{mirrors: [{region, slope_per_decade, p, z}], none_found}` |
@@ -66,7 +66,8 @@ docs/                                     see AGENTS.md "Read when"
   - `values`: float32 `[n_regions, n_months]`, with NaN for missing data.
   - `region_ids`: `[n_regions]`.
   - `t0`: `"1981-01"` (MERRA-2) or `"2001-01"` (CERES).
-- **`regions.json`:** id, name, type, centroid, bbox, `nearest_cell_fallback`, `valid_variables`, `contains`/`within` (needed for the mirror rule).
+- **`regions.json`:** id, name, type, centroid, bbox, `nearest_cell_fallback`, `valid_variables`, and optional parent country ID.
+- **`api/_data/admin1.geojson` / `public/geo/admin1.geojson`:** simplified Natural Earth Admin-1 geometries for large countries; these are selectable only when zoomed in. The API uses the matching Admin-1 polygon to mask POWER grid cells.
 - **`hero/<id>.json`:** `{variable, region, source, instrument, product, version, doi, t0, values[]}`.
 - **`lib/partner/process-cards.json`** (Ekaitz): `{id, title, student, scientist, citations[], applies_to: {variables[], regions[]}}`.
 - **`lib/partner/demo-explanations.json`** (Ekaitz): `{caseKey: {student, scientist, generated_at}}`.
@@ -78,7 +79,7 @@ docs/                                     see AGENTS.md "Read when"
 
 **Case analysis uses live NASA POWER requests.** `GET /api/py/variables` reads the monthly POWER Manager catalogue and exposes only the 16 variables reviewed in `docs/DATA_CATALOG.md`; their approved names and definitions are packaged in `api/_data/approved_power_variables.json`. Units and the request community still come from POWER. Each `POST /api/py/analyze` fetches the selected parameter for every requested region and time range. POWER accepts regional rectangles of 2°–10° on each axis: larger bounding boxes are split into at most 12 valid tiles, and areas smaller than 2° on either axis use the point endpoint at the region centroid with a `nearest_cell_fallback` warning. Regions requiring more than 12 tiles return an error rather than an unrepresentative estimate. Python ignores annual `YYYY13` keys and calculates a per-month cos(latitude)-weighted mean across finite grid values, deduplicating cells on tile boundaries, before applying the existing seasonal and statistical engine. No `.npz` or hero series is used by `/api/py/analyze`.
 
-`api/_data/regions.json` remains local lookup metadata (ids, names, centroids and bounding boxes); `public/geo/*.geojson` remains local map geometry. They do not contain climate time series. The map, mirror and scanner fetch POWER series at request time and compute their BH families in Python. The map and mirror share an in-process one-hour cache. A cold map request examines 314 regions and can be slow or exceed a serverless request limit; production latency still needs measurement. `/api/py/correlate` still uses a fixture.
+`api/_data/regions.json` remains local lookup metadata (ids, names, centroids and bounding boxes); `public/geo/*.geojson` remains local map geometry. They do not contain climate time series. Admin-1 polygons use Natural Earth 1:10m boundaries. Russia, Canada, China, Brazil, Australia, India, Greenland and Norway are split into named first-level administrative areas; the United States keeps its existing state layer. Countries stay selectable when zoomed out, while administrative divisions appear when zoomed in. Country and subregion means mask POWER grid cells to the polygon and weight them by cos(latitude); point fallback still applies to very small areas. The map, mirror and scanner fetch POWER series at request time and compute their BH families in Python. The map and mirror share an in-process one-hour cache. `/api/py/correlate` still uses a fixture.
 
 Trend inference follows METHODS v1 Option B: the verdict uses the larger of capped Hamed–Rao MK and adjusted OLS p-values. If OLS effective sample size is at most two, its p-value, standard error and confidence bounds are null, the response warns `ols_unavailable`, and the verdict uses MK alone. Additional-years estimates appear only for eligible `not_proven` cases when the required OLS inputs exist. The nine golden cases are exercised by `tests/test_golden.py` in API CI.
 

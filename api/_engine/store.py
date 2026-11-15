@@ -42,6 +42,15 @@ def regions() -> dict[str, Region]:
     return {row["id"]: Region.model_validate(row) for row in rows}
 
 
+@lru_cache(maxsize=1)
+def admin1_geometries() -> dict[str, dict]:
+    path = DATA_DIR / "admin1.geojson"
+    if not path.is_file():
+        return {}
+    collection = _json_file(path)
+    return {feature["properties"]["id"]: feature["geometry"] for feature in collection["features"]}
+
+
 def hero_metadata(variable: str, region: str) -> dict | None:
     path = DATA_DIR / "hero" / f"{variable}__{region}.json"
     return _json_file(path) if path.is_file() else None

@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field, model_validator
 
 Season = Literal["ANN", "DJF", "MAM", "JJA", "SON", "CUSTOM"]
 Tier = Literal["confirmed", "not_proven", "no_case", "too_short"]
-RegionType = Literal["country", "state", "ocean", "named"]
+RegionType = Literal["country", "state", "subregion", "ocean", "named"]
 VariableKind = Literal["satellite", "reanalysis"]
 PowerCommunity = Literal["AG", "RE", "SB"]
 
