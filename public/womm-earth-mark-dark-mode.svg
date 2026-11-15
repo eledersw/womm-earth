@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="19.55 30.10 78.35 59.8" width="78.35" height="59.8" role="img" aria-labelledby="t">
+<title id="t">WOMM Earth</title>
+<defs><mask id="wm-da-back" maskUnits="userSpaceOnUse" x="-100" y="-100" width="200" height="200"><rect x="-100" y="-100" width="200" height="200" fill="#fff"/><circle r="30.875" fill="#000"/></mask><mask id="wm-da-planet" maskUnits="userSpaceOnUse" x="-100" y="-100" width="200" height="200"><rect x="-100" y="-100" width="200" height="200" fill="#fff"/><g fill="none" stroke="#000" stroke-width="9.75" stroke-linecap="round"><path d="M33.44 -10 C29.04 -2, -17.6 0, -26.4 -3"/><path d="M-35.2 7 C-36.08 11, -30.8 13, -26.4 14 C-19.8 16.25, 8.0872 15.69, 23.4696 11.89"/></g></mask></defs>
+<g transform="translate(0 0) scale(1) translate(60 60) rotate(-18)" fill="none" stroke="#C9D0D2" stroke-width="3.75" stroke-linecap="round" stroke-linejoin="round">
+<circle r="26" mask="url(#wm-da-planet)"/>
+<path d="M-35.2 -10 C-31.68 -20, 15.84 -24, 29.04 -16 C31.68 -14, 34.32 -12, 33.44 -10" mask="url(#wm-da-back)"/>
+<path d="M-35.2 7 C-31.68 -3, 15.84 -7, 29.04 1 C31.68 3, 34.32 5, 33.44 7" mask="url(#wm-da-back)"/>
+<path d="M33.44 -10 C29.04 -2, -17.6 0, -26.4 -3"/>
+<path d="M-35.2 7 C-36.08 11, -30.8 13, -26.4 14 C-19.8 16.25, 8.0872 15.69, 23.4696 11.89"/>
+</g>
+</svg>

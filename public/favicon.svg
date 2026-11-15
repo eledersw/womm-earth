@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="23.40 24.70 70.60 70.60" width="32" height="32" role="img" aria-labelledby="t">
+<title id="t">WOMM Earth</title>
+<style>.m{stroke:#0E2730}@media (prefers-color-scheme: dark){.m{stroke:#C9D0D2}}</style>
+<defs><mask id="fv-back" maskUnits="userSpaceOnUse" x="-100" y="-100" width="200" height="200"><rect x="-100" y="-100" width="200" height="200" fill="#fff"/><circle r="34.25" fill="#000"/></mask><mask id="fv-planet" maskUnits="userSpaceOnUse" x="-100" y="-100" width="200" height="200"><rect x="-100" y="-100" width="200" height="200" fill="#fff"/><g fill="none" stroke="#000" stroke-width="16.5" stroke-linecap="round"><path d="M33.44 -10 C29.04 -2, -17.6 0, -26.4 -3"/><path d="M-35.2 7 C-36.08 11, -30.8 13, -26.4 14 C-19.8 16.25, 8.0872 15.69, 23.4696 11.89"/></g></mask></defs>
+<g class="m" transform="translate(0 0) scale(1) translate(60 60) rotate(-18)" fill="none" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round">
+<circle r="26" mask="url(#fv-planet)"/>
+<path d="M33.44 -10 C29.04 -2, -17.6 0, -26.4 -3"/>
+<path d="M-35.2 7 C-36.08 11, -30.8 13, -26.4 14 C-19.8 16.25, 8.0872 15.69, 23.4696 11.89"/>
+</g>
+</svg>
