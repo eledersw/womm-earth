@@ -89,10 +89,15 @@ export function visibleFeatures(
 ): RegionFeature[] {
   const zoomedIn = altitude < ZOOM_STATES_ALTITUDE;
   const showStates = zoomedIn && !selected.includes("USA");
+  const selectedParents = new Set(selected);
   const named = selected.filter((id) => id.startsWith("NR-") && !WHOLE_EARTH.has(id)).sort();
   // Zoomed out, selected US states still draw (over the USA outline) so the case stays visible.
   const pickedStates = showStates ? [] : selected.filter((id) => id.startsWith("US-")).sort();
-  const key = `${showStates ? "states" : "countries"}|${named.join(",")}|${pickedStates.join(",")}`;
+  const pickedSubregions = selected.filter((id) => id.startsWith("ADM1-")).sort();
+  const selectedCountries = geo.subregions
+    .map((feature) => feature.properties.parent)
+    .filter((parent): parent is string => Boolean(parent && selectedParents.has(parent)));
+  const key = `${showStates ? "states" : "countries"}|${named.join(",")}|${pickedStates.join(",")}|${[...new Set(selectedCountries)].sort().join(",")}|${pickedSubregions.join(",")}`;
 
   let byKey = cache.get(geo);
   if (!byKey) {
@@ -104,11 +109,13 @@ export function visibleFeatures(
 
   const namedSet = new Set(named);
   const stateSet = new Set(pickedStates);
+  const subregionSet = new Set(pickedSubregions);
   const features = [
     ...geo.oceans.filter((o) => polarCapLatitude(o) === null),
     ...(showStates ? geo.countries.filter((c) => c.properties.id !== "USA") : geo.countries),
     ...(showStates ? geo.states : geo.states.filter((s) => stateSet.has(s.properties.id))),
-    ...geo.subregions,
+    ...geo.subregions.filter((feature) =>
+      selectedParents.has(feature.properties.parent ?? "") || subregionSet.has(feature.properties.id)),
     ...geo.named.filter((n) => namedSet.has(n.properties.id) && polarCapLatitude(n) === null),
   ];
   byKey.set(key, features);

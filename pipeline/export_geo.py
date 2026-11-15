@@ -21,7 +21,6 @@ COUNTRIES_50M_ZIP = "https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin
 STATES_50M_ZIP = "https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin_1_states_provinces.zip"
 ADMIN1_10M_ZIP = "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip"
 ADMIN1_TILE_THRESHOLD = 15
-MAX_MACRO_TILES = 12
 ADMIN1_10M_SHA256 = "efc59726337323058f9446210adc96673179cd344e053666ee3d28cb58ba2b05"
 DEFAULT_OUTPUT = Path(__file__).resolve().parents[1] / "public" / "geo" / "countries.geojson"
 GEO_DIR = DEFAULT_OUTPUT.parent
@@ -250,40 +249,6 @@ def _large_country_ids(country_rows: Iterable[tuple[dict, dict]]) -> set[str]:
     return result
 
 
-def _power_tile_count(geometry) -> int:
-    """Count 10-degree request tiles intersecting the geometry's polygon bounds."""
-    polygons = list(geometry.geoms) if geometry.geom_type == "MultiPolygon" else [geometry]
-    keys: set[tuple[int, int]] = set()
-    for polygon in polygons:
-        west, south, east, north = polygon.bounds
-        for x in range(max(0, int((west + 180) // 10)), min(35, int((east + 180) // 10)) + 1):
-            for y in range(max(0, int((south + 90) // 10)), min(17, int((north + 90) // 10)) + 1):
-                keys.add((x, y))
-    return len(keys)
-
-
-def _split_large_macroregion(units: list, max_tiles: int = MAX_MACRO_TILES):
-    """Keep macroregions compact enough for POWER while dissolving most admin-1 borders."""
-    from shapely.ops import unary_union
-
-    combined = unary_union(units)
-    if _power_tile_count(combined) <= max_tiles or len(units) <= 1:
-        return [combined]
-
-    centers = [(geometry.centroid.x, geometry.centroid.y, geometry) for geometry in units]
-    xs = [item[0] for item in centers]
-    ys = [item[1] for item in centers]
-    longitude_split = max(xs) - min(xs) >= max(ys) - min(ys)
-    ordered = sorted(centers, key=lambda item: item[0] if longitude_split else item[1])
-    middle = len(ordered) // 2
-    low_units = [item[2] for item in ordered[:middle]]
-    high_units = [item[2] for item in ordered[middle:]]
-    return (
-        _split_large_macroregion(low_units, max_tiles)
-        + _split_large_macroregion(high_units, max_tiles)
-    )
-
-
 def admin1_region_features(country_rows, admin1_rows, simplify: bool = False,
                            simplify_tolerance: float = 0.02) -> list[dict]:
     """Dissolve Admin-1 polygons into a small set of named macroregions."""
@@ -315,20 +280,18 @@ def admin1_region_features(country_rows, admin1_rows, simplify: bool = False,
     for (parent, macro_name), geometries in sorted(grouped.items()):
         country_name = country_names.get(parent, parent)
         display_region = REGION_NAME_OVERRIDES.get((parent, macro_name), macro_name)
-        parts = _split_large_macroregion(geometries)
-        for index, geometry in enumerate(parts, start=1):
-            if not geometry.is_valid:
-                geometry = geometry.buffer(0)
-            if simplify:
-                geometry = geometry.simplify(simplify_tolerance, preserve_topology=True)
-            part_name = f"{display_region} area {index}" if len(parts) > 1 else display_region
-            slug = "-".join(part for part in "".join(
-                ch.lower() if ch.isalnum() else " " for ch in part_name
-            ).split())
-            name = f"{country_name} — {part_name}"
-            features.append({"type": "Feature", "properties": {
-                "id": f"ADM1-{parent}-{slug}", "name": name, "type": "subregion", "parent": parent,
-            }, "geometry": mapping(geometry)})
+        geometry = unary_union(geometries)
+        if not geometry.is_valid:
+            geometry = geometry.buffer(0)
+        if simplify:
+            geometry = geometry.simplify(simplify_tolerance, preserve_topology=True)
+        slug = "-".join(part for part in "".join(
+            ch.lower() if ch.isalnum() else " " for ch in display_region
+        ).split())
+        features.append({"type": "Feature", "properties": {
+            "id": f"ADM1-{parent}-{slug}", "name": f"{country_name} — {display_region}",
+            "type": "subregion", "parent": parent,
+        }, "geometry": mapping(geometry)})
     return features
 
 
