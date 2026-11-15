@@ -51,5 +51,7 @@ export function renderVerdict(r: RegionAnalysis, ctx: VerdictContext, level: Rea
   };
   // Optional scientific sentences with unavailable inputs are omitted whole.
   body = body.split(/(?<=\.) /).filter((sentence) => [...sentence.matchAll(/\{(\w+)\}/g)].every(([, key]) => values[key] !== undefined && values[key] !== "")).join(" ");
-  return { badge: caseCopy.tiers[r.verdict.tier], title: `${ctx.regionName} · ${ctx.variableName} · ${ctx.period} · ${ctx.seasonLabel}`, body: body.replace(/\{(\w+)\}/g, (_, key: string) => values[key]), evidence: e };
+  const magnitude = e.status === "combined" && ["slope", "low", "high", "unit"].every((key) => values[key] !== "") && !!s && s.sen.ci_low <= s.sen.ci_high
+    ? c.magnitude.replace(/\{(\w+)\}/g, (_, key: string) => values[key]) : null;
+  return { magnitude, badge: caseCopy.tiers[r.verdict.tier], title: `${ctx.regionName} · ${ctx.variableName} · ${ctx.period} · ${ctx.seasonLabel}`, body: body.replace(/\{(\w+)\}/g, (_, key: string) => values[key]), evidence: e };
 }

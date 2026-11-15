@@ -26,7 +26,6 @@ export function StepSection({
   return (
     <section
       aria-labelledby={`${id}-title`}
-      aria-describedby={`${id}-helper`}
       aria-busy={loading}
       className="min-w-0 rounded-xl border bg-card p-4 text-card-foreground"
       data-case-step={step}
@@ -34,10 +33,7 @@ export function StepSection({
       <h2 id={`${id}-title`} className="label-mono text-[0.8rem] text-silver">
         {copy.label}
       </h2>
-      <p id={`${id}-helper`} className="mt-2 text-sm text-muted-foreground">
-        {copy.helper}
-      </p>
-      <div className="mt-4 min-w-0">
+      <div className="mt-3 min-w-0">
         {loading ? (
           <div role="status" className="space-y-2">
             <span className="text-sm text-muted-foreground">{caseCopy.loading}</span>

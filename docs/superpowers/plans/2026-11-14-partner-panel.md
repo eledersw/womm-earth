@@ -404,3 +404,5 @@ Methods/eval follow-up (H8.7): science pack #42 and METHODS engine/nullable infe
 - The 3 demo cases run end to end on production with instant cached explanations.
 - Partner chat answers with tool-grounded numbers, and the eval score is recorded in STATUS.
 - `npx vitest run` and `npm run test:e2e` are green.
+
+H22.7 panel/review follow-up completed: Verdict precedes Evidence, healthy cards show magnitude with reviewed methods retained in native details, critical notices remain expanded, footer is opaque, Scene chips use X/pen swatches, and charts load lazily with more label space. A controlled flat-OLS regression verifies band alignment; it does not certify historical production fits. Correlation is unavailable in UI and tools until the fixture endpoint is replaced and scientifically reviewed. Shared Checkbox awaits Eleder; analysis caching awaits reconciliation with PROJECT.md’s fresh-request requirement. Check + 219 unit tests + 22 Chromium E2E pass (one live Claude skip); Python 73 pass after rebasing onto afee5a2 (#53). EVAL dry-run resolves 20/20 at both levels. Source/live/demo acceptance checkboxes remain open; user handles push/PR/merge.

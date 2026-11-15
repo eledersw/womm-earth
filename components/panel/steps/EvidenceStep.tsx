@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { SeriesChart } from "@/components/charts/SeriesChart";
-import { MonthlyChart } from "@/components/charts/MonthlyChart";
+import dynamic from "next/dynamic";
 import type { RegionAnalysis } from "@/lib/api/types";
 import { caseCopy } from "@/lib/copy/case";
 import { StepSection, type StepProps } from "./StepSection";
+
+const SeriesChart = dynamic(() => import("@/components/charts/SeriesChart").then((m) => m.SeriesChart), { ssr: false, loading: () => <p role="status">{caseCopy.loading}</p> });
+const MonthlyChart = dynamic(() => import("@/components/charts/MonthlyChart").then((m) => m.MonthlyChart), { ssr: false, loading: () => <p role="status">{caseCopy.loading}</p> });
 
 type Props = StepProps & { results?: RegionAnalysis[]; unit?: string };
 export function EvidenceStep({ results, unit = "", children, ...status }: Props) {

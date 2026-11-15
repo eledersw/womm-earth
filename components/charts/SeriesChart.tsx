@@ -13,8 +13,8 @@ export function yearlyOptions(results: RegionAnalysis[], unit: string, width: nu
   const yearly = results.flatMap((r) => r.yearly.map((p) => ({ ...p, region: `${r.region.name} (${r.region.id})` })));
   const fit = results.flatMap((r) => r.fit.map((p) => ({ ...p, region: `${r.region.name} (${r.region.id})` })));
   return {
-    width, height: 300, ariaLabel: caseCopy.controls.chart,
-    x: { label: caseCopy.controls.year, tickFormat: "d" }, y: { label: displayUnit(unit) },
+    width, height: 260, marginBottom: 52, marginLeft: 58, ariaLabel: caseCopy.controls.chart,
+    x: { label: caseCopy.controls.year, tickFormat: "d", ticks: width < 420 ? 4 : 6 }, y: { label: displayUnit(unit) },
     color: { domain: results.map((r) => `${r.region.name} (${r.region.id})`), range: seriesColors, legend: true },
     marks: [
       Plot.areaY(fit, { x: "year", y1: "ols_low", y2: "ols_high", fill: "region", fillOpacity: 0.2 }),

@@ -34,3 +34,17 @@ it("never plots unavailable OLS interval bounds as zero", () => {
   expect(low).toBeGreaterThan(0);
   for (const path of chart.querySelectorAll('g[aria-label="area"] path')) expect(path.getAttribute("d") ?? "").not.toMatch(/[ML]/);
 });
+it("keeps a flat OLS confidence band aligned with the line on the same y scale", () => {
+  const years = [2002, 2010, 2025];
+  const result = { ...base, yearly: years.map((year) => ({ year, value: 20 })), fit: years.map((year) => ({ year, ols: 20, ols_low: 19, ols_high: 21, sen: 20 })) };
+  const config = yearlyOptions([result], "C", 390);
+  expect(config.marginBottom).toBeGreaterThanOrEqual(48);
+  const chart = Plot.plot(config);
+  const y = chart.scale("y")!;
+  const path = chart.querySelector('g[aria-label="area"] path')!.getAttribute("d")!;
+  const coordinates = [...path.matchAll(/[ML]([\d.-]+),([\d.-]+)/g)].map((m) => Number(m[2]));
+  expect(coordinates.length).toBeGreaterThan(0);
+  for (const point of coordinates) expect(Math.min(Math.abs(point - Number(y.apply!(19))), Math.abs(point - Number(y.apply!(21))))).toBeLessThan(0.01);
+  expect(Number(y.apply!(20))).toBeGreaterThan(Number(y.apply!(21)));
+  expect(Number(y.apply!(20))).toBeLessThan(Number(y.apply!(19)));
+});

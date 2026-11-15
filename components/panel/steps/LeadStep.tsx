@@ -17,7 +17,7 @@ export function LeadStep({ state, setCase, variables, ...status }: Props) {
   ].some((value) => value.toLocaleLowerCase().includes(normalizedQuery)));
   const variable = variables.find((item) => item.id === state.variable);
   return <StepSection step="lead" {...status}>
-    <label htmlFor={searchId} className="mb-2 block text-sm font-medium">{caseCopy.controls.searchVariables}</label>
+    <label htmlFor={searchId} className="sr-only">{caseCopy.controls.searchVariables}</label>
     <input id={searchId} type="search" className="mb-3 w-full rounded-md border bg-background p-2"
       placeholder={caseCopy.controls.searchVariables} value={query} onChange={(event) => setQuery(event.target.value)} />
     <label htmlFor={id} className="mb-2 block text-sm font-medium">{caseCopy.controls.variable}</label>

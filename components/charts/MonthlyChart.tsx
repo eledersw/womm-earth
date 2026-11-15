@@ -13,7 +13,7 @@ export function monthlyOptions(results: RegionAnalysis[], mode: "raw" | "anomaly
     region: `${r.region.name} (${r.region.id})`,
   })));
   return {
-    width, height: 300, ariaLabel: mode === "raw" ? caseCopy.evidence.monthlyChart : caseCopy.evidence.anomalyChart,
+    width, height: 260, marginBottom: 52, marginLeft: 58, ariaLabel: mode === "raw" ? caseCopy.evidence.monthlyChart : caseCopy.evidence.anomalyChart,
     x: { type: "utc", label: caseCopy.evidence.date }, y: { label: displayUnit(unit) },
     color: { domain: results.map((r) => `${r.region.name} (${r.region.id})`), range: seriesColors, legend: true },
     marks: [

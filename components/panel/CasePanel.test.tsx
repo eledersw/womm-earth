@@ -33,13 +33,13 @@ describe("case controls", () => {
     fireEvent.click(await screen.findByRole("button", { name: caseCopy.controls.calculate }));
     await screen.findByText("Wisconsin: Confirmed");
     const results = screen.getByRole("region", { name: caseCopy.results });
-    expect(within(results).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["Results", "Evidence", "Verdict"]);
+    expect(within(results).getAllByRole("heading", { level: 2 }).map((h) => h.textContent)).toEqual(["Results", "Verdict", "Evidence"]);
     const explain = screen.getByRole("region", { name: caseCopy.explainPane });
     expect(within(explain).getByText("Wisconsin")).toBeDefined();
     expect(within(explain).getByRole("heading", { level: 2, name: partnerCopy.title })).toBeDefined();
     expect(screen.queryByRole("group", { name: partnerCopy.readingLevel })).toBeNull();
     expect(screen.getByRole("combobox", { name: "Variable" }).getAttribute("value") ?? (screen.getByRole("combobox", { name: "Variable" }) as HTMLSelectElement).value).toBe("T2M");
-    expect(screen.getByRole("figure", { name: caseCopy.controls.chart })).toBeDefined();
+    expect(await screen.findByRole("figure", { name: caseCopy.controls.chart })).toBeDefined();
     expect(api.POST).toHaveBeenCalledWith("/api/py/analyze", expect.objectContaining({ body: { variable: "T2M", regions: ["US-WI"], start: 2002, end: 2025, season: "JJA", months: null } }));
     expect(screen.queryByText(/illustrative test data/)).toBeNull();
   });
