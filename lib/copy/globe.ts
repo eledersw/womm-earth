@@ -21,7 +21,7 @@ export const globeCopy = {
   searchUnavailable: "Region list unavailable. Click the globe instead.",
   groupCountry: "Countries",
   groupState: "US states",
-  groupSubregion: "Country subdivisions",
+  groupSubregion: "Large-country regions",
   groupOcean: "Ocean basins",
   groupNamed: "Named regions",
   selectedPen: "In the case",

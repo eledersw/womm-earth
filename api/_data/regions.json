@@ -5274,1898 +5274,26 @@
     "parent": "USA"
   },
   {
-    "id": "ADM1-IND-20012",
-    "name": "Ladakh",
+    "id": "ADM1-AUS-eastern-australia",
+    "name": "Australia \u2014 Eastern Australia",
     "type": "subregion",
     "centroid": [
-      77.63497,
-      33.88596
+      147.01828,
+      -32.17924
     ],
     "bbox": [
-      75.34413,
-      32.34637,
-      79.62067,
-      35.49541
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-CHN-1756",
-    "name": "Xinjiang",
-    "type": "subregion",
-    "centroid": [
-      85.18931,
-      41.09884
-    ],
-    "bbox": [
-      73.60226,
-      34.33996,
-      96.36634,
-      49.16584
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1662",
-    "name": "Tibet",
-    "type": "subregion",
-    "centroid": [
-      88.11847,
-      31.6864
-    ],
-    "bbox": [
-      78.38098,
-      27.31239,
-      99.10881,
-      36.45483
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-IND-3299",
-    "name": "Arunachal Pradesh",
-    "type": "subregion",
-    "centroid": [
-      94.66051,
-      28.0359
-    ],
-    "bbox": [
-      91.56435,
-      26.64763,
-      97.36225,
-      29.36929
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-BRA-612",
-    "name": "Rio Grande do Sul",
-    "type": "subregion",
-    "centroid": [
-      -53.31993,
-      -29.7357
-    ],
-    "bbox": [
-      -57.6117,
-      -33.74228,
-      -49.69967,
-      -27.07199
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-CHN-1838",
-    "name": "Inner Mongolia",
-    "type": "subregion",
-    "centroid": [
-      113.90776,
-      44.08186
-    ],
-    "bbox": [
-      97.19068,
-      37.39033,
-      126.05626,
-      53.32406
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1150",
-    "name": "Gansu",
-    "type": "subregion",
-    "centroid": [
-      100.92499,
-      37.82794
-    ],
-    "bbox": [
-      92.7645,
-      32.59434,
-      108.70533,
-      42.78706
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-RUS-2400",
-    "name": "Altai Republic",
-    "type": "subregion",
-    "centroid": [
-      87.02502,
-      50.72528
-    ],
-    "bbox": [
-      84.00493,
-      49.07101,
-      89.86917,
-      52.66779
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2335",
-    "name": "Pskov",
-    "type": "subregion",
-    "centroid": [
-      29.23654,
-      57.22486
-    ],
-    "bbox": [
-      27.32803,
-      55.57777,
-      31.51056,
-      59.01438
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-NOR-900",
-    "name": "Troms",
-    "type": "subregion",
-    "centroid": [
-      19.62341,
-      69.27602
-    ],
-    "bbox": [
-      15.63877,
-      68.3502,
-      22.93341,
-      70.29043
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-NOR-75",
-    "name": "Nordland",
-    "type": "subregion",
-    "centroid": [
-      14.46999,
-      66.97995
-    ],
-    "bbox": [
-      -9.11742,
-      64.94983,
-      18.18929,
-      71.18037
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-NOR-925",
-    "name": "Nord-Tr\u00f8ndelag",
-    "type": "subregion",
-    "centroid": [
-      12.2954,
-      64.28247
-    ],
-    "bbox": [
-      10.16334,
-      63.19687,
-      14.33207,
-      65.1322
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-NOR-911",
-    "name": "S\u00f8r-Tr\u00f8ndelag",
-    "type": "subregion",
-    "centroid": [
-      10.41535,
-      63.13131
-    ],
-    "bbox": [
-      8.27174,
-      62.27431,
-      12.27952,
-      64.43171
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-NOR-919",
-    "name": "Hedmark",
-    "type": "subregion",
-    "centroid": [
-      11.42166,
-      61.46872
-    ],
-    "bbox": [
-      9.65639,
-      59.88494,
-      12.88818,
-      62.7078
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-NOR-917",
-    "name": "Akershus",
-    "type": "subregion",
-    "centroid": [
-      11.21214,
-      60.03993
-    ],
-    "bbox": [
-      10.56023,
-      59.4836,
-      11.88374,
-      60.62264
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-NOR-924",
-    "name": "\u00d8stfold",
-    "type": "subregion",
-    "centroid": [
-      11.30337,
-      59.38034
-    ],
-    "bbox": [
-      10.59164,
-      58.88473,
-      11.90354,
-      59.80538
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-NOR-1062",
-    "name": "Finnmark",
-    "type": "subregion",
-    "centroid": [
-      25.88738,
-      69.93837
-    ],
-    "bbox": [
-      21.23388,
-      68.55483,
-      31.077,
-      71.16527
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-RUS-2371",
-    "name": "Krasnodar Krai",
-    "type": "subregion",
-    "centroid": [
-      39.46544,
-      45.26049
-    ],
-    "bbox": [
-      36.57732,
-      43.38899,
-      41.72937,
-      46.86295
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2280",
-    "name": "Karachay-Cherkess Republic",
-    "type": "subregion",
-    "centroid": [
-      41.73902,
-      43.75895
-    ],
-    "bbox": [
-      40.68997,
-      43.18057,
-      42.68321,
-      44.49475
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2304",
-    "name": "Kabardino-Balkaria",
-    "type": "subregion",
-    "centroid": [
-      43.39722,
-      43.48568
-    ],
-    "bbox": [
-      42.36256,
-      42.88688,
-      44.4337,
-      43.99855
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2305",
-    "name": "Republic of North Ossetia-Alania",
-    "type": "subregion",
-    "centroid": [
-      44.26293,
-      43.09645
-    ],
-    "bbox": [
-      43.38618,
-      42.55221,
-      44.94437,
-      43.83076
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2303",
-    "name": "Republic of Ingushetia",
-    "type": "subregion",
-    "centroid": [
-      44.87326,
-      43.17592
-    ],
-    "bbox": [
-      44.49747,
-      42.60965,
-      45.18022,
-      43.61984
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2416",
-    "name": "Chechen Republic",
-    "type": "subregion",
-    "centroid": [
-      45.74235,
-      43.30233
-    ],
-    "bbox": [
-      44.83853,
-      42.47065,
-      46.67553,
-      44.01519
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2417",
-    "name": "Republic of Dagestan",
-    "type": "subregion",
-    "centroid": [
-      46.87104,
-      43.0164
-    ],
-    "bbox": [
-      45.10498,
-      41.19268,
-      48.57895,
-      45.00051
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-CHN-1810",
-    "name": "Yunnan",
-    "type": "subregion",
-    "centroid": [
-      101.4718,
-      24.9748
-    ],
-    "bbox": [
-      97.51325,
-      21.13447,
-      106.19996,
-      29.22377
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-BRA-670",
-    "name": "Roraima",
-    "type": "subregion",
-    "centroid": [
-      -61.40544,
-      2.06541
-    ],
-    "bbox": [
-      -64.81555,
-      -1.41831,
-      -58.87051,
-      5.26722
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-594",
-    "name": "Par\u00e1",
-    "type": "subregion",
-    "centroid": [
-      -53.13326,
-      -4.04274
-    ],
-    "bbox": [
-      -58.97202,
-      -9.84398,
-      -46.06469,
-      2.60899
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-576",
-    "name": "Acre",
-    "type": "subregion",
-    "centroid": [
-      -70.47248,
-      -9.29858
-    ],
-    "bbox": [
-      -74.01847,
-      -11.14113,
-      -66.64892,
-      -7.11788
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-RUS-2333",
-    "name": "Murmansk",
-    "type": "subregion",
-    "centroid": [
-      34.60032,
-      67.81454
-    ],
-    "bbox": [
-      28.41023,
-      66.055,
-      41.39039,
-      80.17487
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2353",
-    "name": "Karelia",
-    "type": "subregion",
-    "centroid": [
-      33.12443,
-      63.54995
-    ],
-    "bbox": [
-      29.27706,
-      60.6457,
-      37.94242,
-      66.68415
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2336",
-    "name": "Leningrad",
-    "type": "subregion",
-    "centroid": [
-      31.70885,
-      60.00728
-    ],
-    "bbox": [
-      26.94451,
-      58.44031,
-      35.69181,
-      61.32101
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-BRA-681",
-    "name": "Amap\u00e1",
-    "type": "subregion",
-    "centroid": [
-      -51.96684,
-      1.45637
-    ],
-    "bbox": [
-      -54.79792,
-      -1.2192,
-      -49.87305,
-      4.44112
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-IND-3259",
-    "name": "Sikkim",
-    "type": "subregion",
-    "centroid": [
-      88.44817,
-      27.57202
-    ],
-    "bbox": [
-      88.00466,
-      27.08457,
-      88.89233,
-      28.10661
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3257",
-    "name": "West Bengal",
-    "type": "subregion",
-    "centroid": [
-      87.97256,
-      23.80525
-    ],
-    "bbox": [
-      85.82239,
-      21.52359,
-      89.8885,
-      27.24916
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2477",
-    "name": "Assam",
-    "type": "subregion",
-    "centroid": [
-      92.83129,
-      26.35694
-    ],
-    "bbox": [
-      89.6558,
-      24.12778,
-      96.01185,
-      27.9933
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3254",
-    "name": "Uttarakhand",
-    "type": "subregion",
-    "centroid": [
-      79.19612,
-      30.16372
-    ],
-    "bbox": [
-      77.56532,
-      28.73287,
-      81.0033,
-      31.46166
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-BRA-600",
-    "name": "Mato Grosso do Sul",
-    "type": "subregion",
-    "centroid": [
-      -54.84399,
-      -20.3325
-    ],
-    "bbox": [
-      -58.16267,
-      -24.05039,
-      -50.93709,
-      -17.18727
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-613",
-    "name": "Paran\u00e1",
-    "type": "subregion",
-    "centroid": [
-      -51.63008,
-      -24.63255
-    ],
-    "bbox": [
-      -54.61245,
-      -26.70478,
-      -48.03249,
-      -22.52173
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-614",
-    "name": "Santa Catarina",
-    "type": "subregion",
-    "centroid": [
-      -50.48612,
-      -27.24822
-    ],
-    "bbox": [
-      -53.84201,
-      -29.35537,
-      -48.37731,
-      -25.97154
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-RUS-2324",
-    "name": "Kaliningrad",
-    "type": "subregion",
-    "centroid": [
-      21.3863,
-      54.71924
-    ],
-    "bbox": [
-      19.60955,
-      54.34294,
-      22.84835,
-      55.28996
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2343",
-    "name": "Smolensk",
-    "type": "subregion",
-    "centroid": [
-      32.99322,
-      54.95086
-    ],
-    "bbox": [
-      30.76265,
-      53.41439,
-      35.39849,
-      56.07451
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2342",
-    "name": "Bryansk",
-    "type": "subregion",
-    "centroid": [
-      33.40487,
-      52.90692
-    ],
-    "bbox": [
-      31.24706,
-      51.82681,
-      35.31395,
-      54.03272
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2362",
-    "name": "Kursk",
-    "type": "subregion",
-    "centroid": [
-      36.07561,
-      51.67548
-    ],
-    "bbox": [
-      34.0795,
-      50.90573,
-      38.50507,
-      52.43298
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2370",
-    "name": "Belgorod",
-    "type": "subregion",
-    "centroid": [
-      37.47275,
-      50.66419
-    ],
-    "bbox": [
-      35.28222,
-      49.80347,
-      39.27236,
-      51.42156
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2377",
-    "name": "Voronezh",
-    "type": "subregion",
-    "centroid": [
-      40.21789,
-      50.97055
-    ],
-    "bbox": [
-      38.1392,
-      49.54147,
-      42.90542,
-      52.10501
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2367",
-    "name": "Rostov",
-    "type": "subregion",
-    "centroid": [
-      41.30889,
-      47.74613
-    ],
-    "bbox": [
-      38.18871,
-      45.94681,
-      44.33438,
-      50.22634
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2606",
-    "name": "Republic of Buryatia",
-    "type": "subregion",
-    "centroid": [
-      109.47814,
-      53.54644
-    ],
-    "bbox": [
-      98.62915,
-      49.96735,
-      116.92747,
-      57.24348
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2605",
-    "name": "Tuva Republic",
-    "type": "subregion",
-    "centroid": [
-      94.78718,
-      51.57744
-    ],
-    "bbox": [
-      88.7357,
-      49.72554,
-      99.24979,
-      53.72907
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2610",
-    "name": "Zabaykalsky Krai",
-    "type": "subregion",
-    "centroid": [
-      116.19722,
-      52.83832
-    ],
-    "bbox": [
-      107.7446,
-      49.13452,
-      122.13914,
-      58.4078
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-CHN-1839",
-    "name": "Heilongjiang",
-    "type": "subregion",
-    "centroid": [
-      127.7456,
-      47.87574
-    ],
-    "bbox": [
-      121.1669,
-      43.4327,
-      134.77258,
-      53.56944
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-RUS-2609",
-    "name": "Amur",
-    "type": "subregion",
-    "centroid": [
-      127.72988,
-      53.40035
-    ],
-    "bbox": [
-      119.66952,
-      48.85345,
-      134.95644,
-      57.04065
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2613",
-    "name": "Jewish",
-    "type": "subregion",
-    "centroid": [
-      132.26279,
-      48.5195
-    ],
-    "bbox": [
-      130.52974,
-      47.66154,
-      134.98662,
-      49.48551
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2614",
-    "name": "Khabarovsk Krai",
-    "type": "subregion",
-    "centroid": [
-      137.32153,
-      54.82425
-    ],
-    "bbox": [
-      130.39166,
-      46.62591,
-      147.1588,
-      62.57442
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2611",
-    "name": "Primorsky Krai",
-    "type": "subregion",
-    "centroid": [
-      134.70535,
-      45.16605
-    ],
-    "bbox": [
-      130.37967,
-      42.29511,
-      139.02638,
-      48.445
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-CHN-1828",
-    "name": "Jilin",
-    "type": "subregion",
-    "centroid": [
-      126.17402,
-      43.67756
-    ],
-    "bbox": [
-      121.64951,
-      40.85919,
-      131.28184,
-      46.29345
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1813",
-    "name": "Liaoning",
-    "type": "subregion",
-    "centroid": [
-      122.61269,
-      41.30002
-    ],
-    "bbox": [
-      118.84756,
-      38.72093,
-      125.76889,
-      43.47228
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-IND-2479",
-    "name": "Nagaland",
-    "type": "subregion",
-    "centroid": [
-      94.4484,
-      26.05982
-    ],
-    "bbox": [
-      93.33594,
-      25.2058,
-      95.24693,
-      27.03318
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2478",
-    "name": "Manipur",
-    "type": "subregion",
-    "centroid": [
-      93.86159,
-      24.73039
-    ],
-    "bbox": [
-      92.97792,
-      23.84165,
-      94.71384,
-      25.68763
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3300",
-    "name": "Mizoram",
-    "type": "subregion",
-    "centroid": [
-      92.81914,
-      23.29203
-    ],
-    "bbox": [
-      92.25001,
-      21.95701,
-      93.43236,
-      24.48298
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-CHN-1152",
-    "name": "Guangxi",
-    "type": "subregion",
-    "centroid": [
-      108.77685,
-      23.83133
-    ],
-    "bbox": [
-      104.48306,
-      21.02119,
-      112.05257,
-      26.38989
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-IND-3301",
-    "name": "Tripura",
-    "type": "subregion",
-    "centroid": [
-      91.72854,
-      23.75475
-    ],
-    "bbox": [
-      91.13235,
-      22.94447,
-      92.33197,
-      24.54218
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2489",
-    "name": "Meghalaya",
-    "type": "subregion",
-    "centroid": [
-      91.28704,
-      25.53612
-    ],
-    "bbox": [
-      89.79501,
-      25.00477,
-      92.81163,
-      26.08926
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-CAN-633",
-    "name": "British Columbia",
-    "type": "subregion",
-    "centroid": [
-      -124.75239,
-      54.76049
-    ],
-    "bbox": [
-      -139.06021,
-      48.3061,
-      -114.03745,
-      60.00006
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-632",
-    "name": "Alberta",
-    "type": "subregion",
-    "centroid": [
-      -114.50972,
-      55.16706
-    ],
-    "bbox": [
-      -120.00102,
-      48.99251,
-      -109.99932,
-      60.00006
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-631",
-    "name": "Saskatchewan",
-    "type": "subregion",
-    "centroid": [
-      -105.89915,
-      54.41853
-    ],
-    "bbox": [
-      -109.99997,
-      48.99262,
-      -101.36434,
-      60.00006
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-630",
-    "name": "Manitoba",
-    "type": "subregion",
-    "centroid": [
-      -97.43748,
-      54.9202
-    ],
-    "bbox": [
-      -102.0016,
-      48.99267,
-      -88.947,
-      60.00007
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-682",
-    "name": "Ontario",
-    "type": "subregion",
-    "centroid": [
-      -85.82888,
-      50.067
-    ],
-    "bbox": [
-      -95.16119,
-      41.66909,
-      -74.34618,
-      56.86127
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-683",
-    "name": "Quebec",
-    "type": "subregion",
-    "centroid": [
-      -71.78566,
-      53.38963
-    ],
-    "bbox": [
-      -79.76561,
-      44.99803,
-      -57.10033,
-      62.59382
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-684",
-    "name": "New Brunswick",
-    "type": "subregion",
-    "centroid": [
-      -66.37845,
-      46.62571
-    ],
-    "bbox": [
-      -69.06356,
-      44.60276,
-      -63.77111,
-      48.07514
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-BRA-592",
-    "name": "Amazonas",
-    "type": "subregion",
-    "centroid": [
-      -64.71826,
-      -4.18451
-    ],
-    "bbox": [
-      -73.81234,
-      -9.83795,
-      -56.31193,
-      2.23589
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-595",
-    "name": "Rond\u00f4nia",
-    "type": "subregion",
-    "centroid": [
-      -62.84344,
-      -10.91685
-    ],
-    "bbox": [
-      -66.83051,
-      -13.66284,
-      -59.82226,
-      -8.00049
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-602",
-    "name": "Mato Grosso",
-    "type": "subregion",
-    "centroid": [
-      -55.92568,
-      -12.961
-    ],
-    "bbox": [
-      -61.6113,
-      -18.03161,
-      -50.23572,
-      -7.33914
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-RUS-2398",
-    "name": "Tyumen",
-    "type": "subregion",
-    "centroid": [
-      69.13338,
-      57.68228
-    ],
-    "bbox": [
-      64.82739,
-      55.13198,
-      75.15947,
-      59.98918
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2380",
-    "name": "Kurgan",
-    "type": "subregion",
-    "centroid": [
-      64.804,
-      55.44656
-    ],
-    "bbox": [
-      61.96689,
-      54.16269,
-      68.73423,
-      56.8418
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2397",
-    "name": "Omsk",
-    "type": "subregion",
-    "centroid": [
-      73.34167,
-      56.1077
-    ],
-    "bbox": [
-      70.38395,
-      53.43002,
-      76.31899,
-      58.58102
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2403",
-    "name": "Novosibirsk",
-    "type": "subregion",
-    "centroid": [
-      79.75834,
-      55.28065
-    ],
-    "bbox": [
-      75.08692,
-      53.32744,
-      85.07939,
-      57.25025
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2379",
-    "name": "Chelyabinsk",
-    "type": "subregion",
-    "centroid": [
-      60.39013,
-      54.45041
-    ],
-    "bbox": [
-      57.13629,
-      51.99261,
-      63.34035,
-      56.37578
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2399",
-    "name": "Altai Republic",
-    "type": "subregion",
-    "centroid": [
-      82.60805,
-      52.60675
-    ],
-    "bbox": [
-      77.78466,
-      50.63461,
-      87.18747,
-      54.48804
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2391",
-    "name": "Orenburg",
-    "type": "subregion",
-    "centroid": [
-      55.62383,
-      51.99155
-    ],
-    "bbox": [
-      50.76701,
-      50.47465,
-      61.66366,
-      54.37725
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2393",
-    "name": "Saratov",
-    "type": "subregion",
-    "centroid": [
-      46.79351,
-      51.58344
-    ],
-    "bbox": [
-      42.47961,
-      49.80967,
-      50.7945,
-      52.81011
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2388",
-    "name": "Astrakhan",
-    "type": "subregion",
-    "centroid": [
-      47.27354,
-      47.15946
-    ],
-    "bbox": [
-      44.98416,
-      45.4479,
-      49.306,
-      48.8689
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2369",
-    "name": "Volgograd",
-    "type": "subregion",
-    "centroid": [
-      44.15021,
-      49.61658
-    ],
-    "bbox": [
-      41.16579,
-      47.44465,
-      47.43446,
-      51.24044
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-IND-3249",
-    "name": "Punjab",
-    "type": "subregion",
-    "centroid": [
-      75.40435,
-      30.84829
-    ],
-    "bbox": [
-      73.84235,
-      29.55982,
-      76.91038,
-      32.51675
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3250",
-    "name": "Rajasthan",
-    "type": "subregion",
-    "centroid": [
-      73.83425,
-      26.59271
-    ],
-    "bbox": [
-      69.46509,
-      23.03606,
-      78.24652,
-      30.20408
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3264",
-    "name": "Gujarat",
-    "type": "subregion",
-    "centroid": [
-      71.55817,
-      22.71283
-    ],
-    "bbox": [
-      68.1434,
-      20.07264,
-      74.45905,
-      24.70836
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-CAN-636",
-    "name": "Yukon",
-    "type": "subregion",
-    "centroid": [
-      -135.51018,
-      63.63439
-    ],
-    "bbox": [
-      -141.00556,
-      60.00006,
-      -123.8191,
-      69.6542
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CHN-1180",
-    "name": "Guangdong",
-    "type": "subregion",
-    "centroid": [
-      113.42031,
-      23.35581
-    ],
-    "bbox": [
-      109.66122,
-      20.23827,
-      117.17462,
-      25.51759
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-IND-2429",
-    "name": "Himachal Pradesh",
-    "type": "subregion",
-    "centroid": [
-      77.22085,
-      31.93631
-    ],
-    "bbox": [
-      75.57785,
-      30.38218,
-      78.99707,
-      33.23286
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2431",
-    "name": "Jammu and Kashmir",
-    "type": "subregion",
-    "centroid": [
-      75.0797,
-      33.55781
-    ],
-    "bbox": [
-      73.77486,
-      32.30059,
-      76.73984,
-      34.77343
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-RUS-283",
-    "name": "Autonomous Republic of Crimea",
-    "type": "subregion",
-    "centroid": [
-      34.36593,
-      45.3254
-    ],
-    "bbox": [
-      32.48162,
-      44.38105,
-      36.63836,
-      46.21811
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-IND-3258",
-    "name": "Bihar",
-    "type": "subregion",
-    "centroid": [
-      85.60423,
-      25.6621
-    ],
-    "bbox": [
-      83.32301,
-      24.3017,
-      88.30389,
-      27.51687
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3253",
-    "name": "Uttar Pradesh",
-    "type": "subregion",
-    "centroid": [
-      80.54192,
-      26.93473
-    ],
-    "bbox": [
-      77.05817,
-      23.91105,
-      84.61244,
-      30.40202
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-BRA-593",
-    "name": "Maranh\u00e3o",
-    "type": "subregion",
-    "centroid": [
-      -45.28912,
-      -5.09133
-    ],
-    "bbox": [
-      -48.74319,
-      -10.31772,
-      -41.81253,
-      -1.05508
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-622",
-    "name": "Piau\u00ed",
-    "type": "subregion",
-    "centroid": [
-      -42.98797,
-      -7.41083
-    ],
-    "bbox": [
-      -45.98143,
-      -10.89629,
-      -40.41329,
-      -2.74481
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-621",
-    "name": "Cear\u00e1",
-    "type": "subregion",
-    "centroid": [
-      -39.62583,
-      -5.09838
-    ],
-    "bbox": [
-      -41.44938,
-      -7.85399,
-      -37.23639,
-      -2.78631
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-628",
-    "name": "Rio Grande do Norte",
-    "type": "subregion",
-    "centroid": [
-      -36.67232,
-      -5.83397
-    ],
-    "bbox": [
-      -38.60911,
-      -6.97782,
-      -29.34533,
-      0.89134
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-626",
-    "name": "Para\u00edba",
-    "type": "subregion",
-    "centroid": [
-      -36.82492,
-      -7.1184
-    ],
-    "bbox": [
-      -38.74437,
-      -8.28353,
-      -34.79361,
-      -6.02242
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-1313",
-    "name": "Pernambuco",
-    "type": "subregion",
-    "centroid": [
-      -37.99315,
-      -8.33034
-    ],
-    "bbox": [
-      -41.3708,
-      -9.4879,
-      -34.8053,
-      -7.26984
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-623",
-    "name": "Alagoas",
-    "type": "subregion",
-    "centroid": [
-      -36.62561,
-      -9.51417
-    ],
-    "bbox": [
-      -38.2352,
-      -10.50213,
-      -35.14834,
-      -8.83259
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-629",
-    "name": "Sergipe",
-    "type": "subregion",
-    "centroid": [
-      -37.44281,
-      -10.57792
-    ],
-    "bbox": [
-      -38.24484,
-      -11.56891,
-      -36.40807,
-      -9.52681
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-624",
-    "name": "Bahia",
-    "type": "subregion",
-    "centroid": [
-      -41.70209,
-      -12.47498
-    ],
-    "bbox": [
-      -46.57185,
-      -18.32322,
-      -37.36083,
-      -8.52863
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-625",
-    "name": "Esp\u00edrito Santo",
-    "type": "subregion",
-    "centroid": [
-      -40.66524,
-      -19.56871
-    ],
-    "bbox": [
-      -41.88186,
-      -21.27403,
-      -28.87706,
-      -17.87426
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-627",
-    "name": "Rio de Janeiro",
-    "type": "subregion",
-    "centroid": [
-      -42.66272,
-      -22.1903
-    ],
-    "bbox": [
-      -44.86555,
-      -23.3532,
-      -40.95922,
-      -20.77687
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-1311",
-    "name": "S\u00e3o Paulo",
-    "type": "subregion",
-    "centroid": [
-      -48.72536,
-      -22.26283
-    ],
-    "bbox": [
-      -53.16796,
-      -25.30732,
-      -44.162,
-      -19.78076
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-AUS-2651",
-    "name": "Western Australia",
-    "type": "subregion",
-    "centroid": [
-      122.17708,
-      -25.4671
-    ],
-    "bbox": [
-      112.91944,
-      -35.13787,
-      129.00012,
-      -13.72357
+      141.00011,
+      -37.51029,
+      159.10646,
+      -28.14927
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "AUS"
   },
   {
-    "id": "ADM1-AUS-2650",
-    "name": "Northern Territory",
+    "id": "ADM1-AUS-northern-territory",
+    "name": "Australia \u2014 Northern Territory",
     "type": "subregion",
     "centroid": [
       133.36619,
@@ -7182,26 +5310,8 @@
     "parent": "AUS"
   },
   {
-    "id": "ADM1-AUS-2655",
-    "name": "South Australia",
-    "type": "subregion",
-    "centroid": [
-      135.8275,
-      -30.10655
-    ],
-    "bbox": [
-      129.00009,
-      -38.07057,
-      141.00011,
-      -25.99991
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "AUS"
-  },
-  {
-    "id": "ADM1-AUS-2657",
-    "name": "Queensland",
+    "id": "ADM1-AUS-queensland",
+    "name": "Australia \u2014 Queensland",
     "type": "subregion",
     "centroid": [
       144.55015,
@@ -7218,196 +5328,178 @@
     "parent": "AUS"
   },
   {
-    "id": "ADM1-AUS-2654",
-    "name": "New South Wales",
+    "id": "ADM1-AUS-southern-australia",
+    "name": "Australia \u2014 Southern Australia",
     "type": "subregion",
     "centroid": [
-      147.01166,
-      -32.16887
+      138.07332,
+      -32.09121
     ],
     "bbox": [
-      141.00011,
-      -37.51029,
-      153.63063,
-      -28.14927
+      129.00009,
+      -54.75042,
+      158.96323,
+      -25.99991
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "AUS"
   },
   {
-    "id": "ADM1-AUS-1932",
-    "name": "Jervis Bay Territory",
+    "id": "ADM1-AUS-western-australia",
+    "name": "Australia \u2014 Western Australia",
     "type": "subregion",
     "centroid": [
-      150.70073,
-      -35.15673
+      122.17708,
+      -25.4671
     ],
     "bbox": [
-      150.61305,
-      -35.1994,
-      150.77036,
-      -35.12044
+      112.91944,
+      -35.13787,
+      129.00012,
+      -13.72357
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "AUS"
   },
   {
-    "id": "ADM1-AUS-2656",
-    "name": "Victoria",
+    "id": "ADM1-BRA-central-west",
+    "name": "Brazil \u2014 Central-West",
     "type": "subregion",
     "centroid": [
-      144.30884,
-      -36.85676
+      -54.30492,
+      -15.3004
     ],
     "bbox": [
-      140.96709,
-      -39.14495,
-      149.97208,
-      -33.98645
+      -61.6113,
+      -24.05039,
+      -45.91246,
+      -7.33914
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "AUS"
+    "parent": "BRA"
   },
   {
-    "id": "ADM1-IND-2441",
-    "name": "Andhra Pradesh",
+    "id": "ADM1-BRA-north",
+    "name": "Brazil \u2014 North",
     "type": "subregion",
     "centroid": [
-      79.92421,
-      15.72167
+      -59.25833,
+      -4.6389
     ],
     "bbox": [
-      76.71948,
-      12.63192,
-      84.78004,
-      19.16167
+      -74.01847,
+      -13.66284,
+      -45.75769,
+      5.26722
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "IND"
+    "parent": "BRA"
   },
   {
-    "id": "ADM1-CHN-1775",
-    "name": "Hainan",
+    "id": "ADM1-BRA-northeast",
+    "name": "Brazil \u2014 Northeast",
     "type": "subregion",
     "centroid": [
-      109.74005,
-      19.19744
+      -41.72919,
+      -8.63452
     ],
     "bbox": [
-      108.61524,
-      18.16934,
-      111.03468,
-      20.16356
+      -48.74319,
+      -18.32322,
+      -29.34533,
+      0.89134
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "CHN"
+    "parent": "BRA"
   },
   {
-    "id": "ADM1-CHN-1178",
-    "name": "Fujian",
+    "id": "ADM1-BRA-south",
+    "name": "Brazil \u2014 South",
     "type": "subregion",
     "centroid": [
-      117.97019,
-      26.07775
+      -52.26747,
+      -27.57334
     ],
     "bbox": [
-      115.84128,
-      23.57265,
-      120.42921,
-      28.32597
+      -57.6117,
+      -33.74228,
+      -48.03249,
+      -22.52173
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "CHN"
+    "parent": "BRA"
   },
   {
-    "id": "ADM1-CHN-1820",
-    "name": "Zhejiang",
+    "id": "ADM1-BRA-southeast",
+    "name": "Brazil \u2014 Southeast",
     "type": "subregion",
     "centroid": [
-      120.07061,
-      29.17626
+      -45.48545,
+      -19.72773
     ],
     "bbox": [
-      117.99924,
-      27.1822,
-      122.5311,
-      31.17784
+      -53.16796,
+      -25.30732,
+      -28.87706,
+      -14.23892
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "CHN"
+    "parent": "BRA"
   },
   {
-    "id": "ADM1-CHN-1819",
-    "name": "Shanghai",
+    "id": "ADM1-CAN-east-area-1",
+    "name": "Canada \u2014 East area 1",
     "type": "subregion",
     "centroid": [
-      121.44874,
-      31.18706
+      -85.82888,
+      50.067
     ],
     "bbox": [
-      120.86077,
-      30.69124,
-      121.9866,
-      31.84108
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1818",
-    "name": "Jiangsu",
-    "type": "subregion",
-    "centroid": [
-      119.44161,
-      32.9782
-    ],
-    "bbox": [
-      116.37722,
-      30.7637,
-      121.93038,
-      35.11259
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CAN-634",
-    "name": "Nunavut",
-    "type": "subregion",
-    "centroid": [
-      -88.89487,
-      71.02826
-    ],
-    "bbox": [
-      -120.68082,
-      51.91865,
-      -61.08548,
-      83.11652
+      -95.16119,
+      41.66909,
+      -74.34618,
+      56.86127
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "CAN"
   },
   {
-    "id": "ADM1-CAN-686",
-    "name": "Newfoundland and Labrador",
+    "id": "ADM1-CAN-east-area-2",
+    "name": "Canada \u2014 East area 2",
     "type": "subregion",
     "centroid": [
-      -60.51539,
-      52.87307
+      -71.56808,
+      53.11746
+    ],
+    "bbox": [
+      -79.76561,
+      44.60276,
+      -57.10033,
+      62.59382
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "CAN"
+  },
+  {
+    "id": "ADM1-CAN-east-area-3",
+    "name": "Canada \u2014 East area 3",
+    "type": "subregion",
+    "centroid": [
+      -60.83511,
+      52.00208
     ],
     "bbox": [
       -67.80807,
-      46.61835,
+      43.42206,
       -52.61661,
       60.37275
     ],
@@ -7416,332 +5508,26 @@
     "parent": "CAN"
   },
   {
-    "id": "ADM1-CAN-685",
-    "name": "Nova Scotia",
+    "id": "ADM1-CAN-north-area-1",
+    "name": "Canada \u2014 North area 1",
     "type": "subregion",
     "centroid": [
-      -63.31082,
-      45.15383
+      -135.51018,
+      63.63439
     ],
     "bbox": [
-      -66.32775,
-      43.42206,
-      -59.68863,
-      47.03482
+      -141.00556,
+      60.00006,
+      -123.8191,
+      69.6542
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "CAN"
   },
   {
-    "id": "ADM1-IND-2444",
-    "name": "Odisha",
-    "type": "subregion",
-    "centroid": [
-      84.41454,
-      20.51711
-    ],
-    "bbox": [
-      81.39072,
-      17.78724,
-      87.47739,
-      22.55674
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-CHN-1814",
-    "name": "Shandong",
-    "type": "subregion",
-    "centroid": [
-      118.15138,
-      36.35343
-    ],
-    "bbox": [
-      114.83421,
-      34.39723,
-      122.68873,
-      38.39545
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1811",
-    "name": "Hebei",
-    "type": "subregion",
-    "centroid": [
-      116.12991,
-      39.55197
-    ],
-    "bbox": [
-      113.43838,
-      36.05656,
-      119.85019,
-      42.62146
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1816",
-    "name": "Tianjin",
-    "type": "subregion",
-    "centroid": [
-      117.31742,
-      39.29582
-    ],
-    "bbox": [
-      116.68061,
-      38.55925,
-      118.01309,
-      40.25703
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-RUS-2615",
-    "name": "Magadan",
-    "type": "subregion",
-    "centroid": [
-      153.98373,
-      62.70679
-    ],
-    "bbox": [
-      144.71864,
-      58.83256,
-      163.46085,
-      66.35939
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-IND-2445",
-    "name": "Dadra and Nagar Haveli and Daman and Diu",
-    "type": "subregion",
-    "centroid": [
-      72.99249,
-      20.19938
-    ],
-    "bbox": [
-      70.97156,
-      20.02661,
-      73.17004,
-      20.73957
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2447",
-    "name": "Maharashtra",
-    "type": "subregion",
-    "centroid": [
-      76.11135,
-      19.46046
-    ],
-    "bbox": [
-      72.64918,
-      15.61354,
-      80.89701,
-      22.02305
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3265",
-    "name": "Goa",
-    "type": "subregion",
-    "centroid": [
-      74.04583,
-      15.3522
-    ],
-    "bbox": [
-      73.68588,
-      14.8876,
-      74.30423,
-      15.78304
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2446",
-    "name": "Karnataka",
-    "type": "subregion",
-    "centroid": [
-      76.15517,
-      14.71983
-    ],
-    "bbox": [
-      74.09116,
-      11.6256,
-      78.56898,
-      18.46081
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2442",
-    "name": "Kerala",
-    "type": "subregion",
-    "centroid": [
-      76.42488,
-      10.42381
-    ],
-    "bbox": [
-      74.85426,
-      8.28517,
-      77.40451,
-      12.77994
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3262",
-    "name": "Puducherry",
-    "type": "subregion",
-    "centroid": [
-      78.88568,
-      11.96016
-    ],
-    "bbox": [
-      75.2218,
-      10.80911,
-      82.30136,
-      16.7503
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3263",
-    "name": "Tamil Nadu",
-    "type": "subregion",
-    "centroid": [
-      78.4023,
-      11.01471
-    ],
-    "bbox": [
-      76.23052,
-      8.076,
-      80.34783,
-      13.53587
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-RUS-2616",
-    "name": "Sakhalin",
-    "type": "subregion",
-    "centroid": [
-      143.63956,
-      49.94269
-    ],
-    "bbox": [
-      141.63901,
-      43.40225,
-      156.51099,
-      54.42683
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-5482",
-    "name": "Sevastopol",
-    "type": "subregion",
-    "centroid": [
-      33.62585,
-      44.58585
-    ],
-    "bbox": [
-      33.3711,
-      44.39797,
-      33.85207,
-      44.85246
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2321",
-    "name": "Chukotka Autonomous Okrug",
-    "type": "subregion",
-    "centroid": [
-      114.17518,
-      66.51998
-    ],
-    "bbox": [
-      -180.0,
-      61.81464,
-      180.0,
-      71.60004
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2382",
-    "name": "Yamalo-Nenets Autonomous Okrug",
-    "type": "subregion",
-    "centroid": [
-      74.51124,
-      67.14632
-    ],
-    "bbox": [
-      62.01847,
-      62.17796,
-      86.03054,
-      73.57905
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2381",
-    "name": "Nenets Autonomous Okrug",
-    "type": "subregion",
-    "centroid": [
-      54.93116,
-      67.88474
-    ],
-    "bbox": [
-      43.27367,
-      65.80808,
-      65.65442,
-      70.4798
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-CAN-635",
-    "name": "Northwest Territories",
+    "id": "ADM1-CAN-north-area-2",
+    "name": "Canada \u2014 North area 2",
     "type": "subregion",
     "centroid": [
       -119.01028,
@@ -7758,350 +5544,170 @@
     "parent": "CAN"
   },
   {
-    "id": "ADM1-RUS-2612",
-    "name": "Sakha Republic",
+    "id": "ADM1-CAN-north-area-3",
+    "name": "Canada \u2014 North area 3",
     "type": "subregion",
     "centroid": [
-      130.1098,
-      66.18219
+      -88.89487,
+      71.02826
     ],
     "bbox": [
-      105.54015,
-      55.46519,
-      162.84694,
-      77.1258
+      -120.68082,
+      51.91865,
+      -61.08548,
+      83.11652
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "RUS"
+    "parent": "CAN"
   },
   {
-    "id": "ADM1-RUS-2337",
-    "name": "Saint Petersburg",
+    "id": "ADM1-CAN-west-area-1",
+    "name": "Canada \u2014 West area 1",
     "type": "subregion",
     "centroid": [
-      30.18539,
-      59.89904
+      -120.50408,
+      54.92912
     ],
     "bbox": [
-      29.4179,
-      59.60386,
-      30.75619,
-      60.26601
+      -139.06021,
+      48.3061,
+      -109.99932,
+      60.00006
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "RUS"
+    "parent": "CAN"
   },
   {
-    "id": "ADM1-NOR-921",
-    "name": "Oslo",
+    "id": "ADM1-CAN-west-area-2",
+    "name": "Canada \u2014 West area 2",
     "type": "subregion",
     "centroid": [
-      10.65234,
-      59.96925
+      -101.63721,
+      54.67121
     ],
     "bbox": [
-      10.34912,
-      59.8024,
-      10.93471,
-      60.15473
+      -109.99997,
+      48.99262,
+      -88.947,
+      60.00007
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "NOR"
+    "parent": "CAN"
   },
   {
-    "id": "ADM1-NOR-918",
-    "name": "Buskerud",
+    "id": "ADM1-CHN-east",
+    "name": "China \u2014 East",
     "type": "subregion",
     "centroid": [
-      9.08922,
-      60.31851
+      117.89636,
+      30.88414
     ],
     "bbox": [
-      7.46784,
-      59.43219,
-      10.62362,
-      61.11767
+      113.55853,
+      23.57265,
+      122.68873,
+      38.39545
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "NOR"
+    "parent": "CHN"
   },
   {
-    "id": "ADM1-NOR-923",
-    "name": "Vestfold",
+    "id": "ADM1-CHN-north",
+    "name": "China \u2014 North",
     "type": "subregion",
     "centroid": [
-      10.11502,
-      59.33786
+      114.06617,
+      42.853
     ],
     "bbox": [
-      9.77013,
-      58.95563,
-      10.51417,
-      59.69584
+      97.19068,
+      34.58368,
+      126.05626,
+      53.32406
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "NOR"
+    "parent": "CHN"
   },
   {
-    "id": "ADM1-NOR-922",
-    "name": "Telemark",
+    "id": "ADM1-CHN-northeast",
+    "name": "China \u2014 Northeast",
     "type": "subregion",
     "centroid": [
-      8.52947,
-      59.53643
+      126.49563,
+      45.76523
     ],
     "bbox": [
-      7.09205,
-      58.78483,
-      9.88403,
-      60.19751
+      118.84756,
+      38.72093,
+      134.77258,
+      53.56944
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "NOR"
+    "parent": "CHN"
   },
   {
-    "id": "ADM1-NOR-912",
-    "name": "Aust-Agder",
+    "id": "ADM1-CHN-northwest",
+    "name": "China \u2014 Northwest",
     "type": "subregion",
     "centroid": [
-      7.97354,
-      58.89315
+      91.62476,
+      39.00043
     ],
     "bbox": [
-      6.81507,
-      58.15693,
-      9.38659,
-      59.69103
+      73.60226,
+      31.53474,
+      111.22673,
+      49.16584
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "NOR"
+    "parent": "CHN"
   },
   {
-    "id": "ADM1-NOR-916",
-    "name": "Vest-Agder",
+    "id": "ADM1-CHN-south-central",
+    "name": "China \u2014 South Central",
     "type": "subregion",
     "centroid": [
-      7.19964,
-      58.49845
+      111.70305,
+      27.50993
     ],
     "bbox": [
-      6.39763,
-      57.99315,
-      8.22883,
-      59.20858
+      104.48306,
+      15.77538,
+      117.17462,
+      36.3653
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "NOR"
+    "parent": "CHN"
   },
   {
-    "id": "ADM1-NOR-914",
-    "name": "Rogaland",
+    "id": "ADM1-CHN-southwest",
+    "name": "China \u2014 Southwest",
     "type": "subregion",
     "centroid": [
-      6.22278,
-      59.11269
+      95.57983,
+      29.93321
     ],
     "bbox": [
-      5.16443,
-      58.273,
-      7.24393,
-      59.85955
+      78.38098,
+      21.13447,
+      110.17548,
+      36.45483
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "NOR"
+    "parent": "CHN"
   },
   {
-    "id": "ADM1-NOR-913",
-    "name": "Hordaland",
-    "type": "subregion",
-    "centroid": [
-      6.30753,
-      60.34497
-    ],
-    "bbox": [
-      4.77947,
-      59.48016,
-      7.67889,
-      61.03317
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-NOR-915",
-    "name": "Sogn og Fjordane",
-    "type": "subregion",
-    "centroid": [
-      6.57623,
-      61.42492
-    ],
-    "bbox": [
-      4.64381,
-      60.70234,
-      8.30857,
-      62.2145
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-NOR-910",
-    "name": "M\u00f8re og Romsdal",
-    "type": "subregion",
-    "centroid": [
-      7.69552,
-      62.60278
-    ],
-    "bbox": [
-      5.39096,
-      61.96325,
-      9.58069,
-      63.47329
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-RUS-2354",
-    "name": "Arkhangelsk",
-    "type": "subregion",
-    "centroid": [
-      48.38577,
-      67.847
-    ],
-    "bbox": [
-      35.85738,
-      60.64596,
-      69.03395,
-      81.85871
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2603",
-    "name": "Krasnoyarsk Krai",
-    "type": "subregion",
-    "centroid": [
-      95.99879,
-      67.47138
-    ],
-    "bbox": [
-      76.05144,
-      51.78144,
-      113.89015,
-      81.2888
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-GRL-2739",
-    "name": "Sermersooq",
-    "type": "subregion",
-    "centroid": [
-      -38.57888,
-      67.4045
-    ],
-    "bbox": [
-      -52.19456,
-      60.96454,
-      -21.4768,
-      71.94284
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "GRL"
-  },
-  {
-    "id": "ADM1-GRL-2742",
-    "name": "Northeast Greenland National Park",
-    "type": "subregion",
-    "centroid": [
-      -34.86446,
-      77.84361
-    ],
-    "bbox": [
-      -61.85064,
-      70.99959,
-      -11.37682,
-      83.6341
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "GRL"
-  },
-  {
-    "id": "ADM1-GRL-2743",
-    "name": "Qaasuitsup",
-    "type": "subregion",
-    "centroid": [
-      -53.97021,
-      75.185
-    ],
-    "bbox": [
-      -73.05724,
-      67.49482,
-      -43.99997,
-      81.22834
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "GRL"
-  },
-  {
-    "id": "ADM1-GRL-2738",
-    "name": "Pituffik",
-    "type": "subregion",
-    "centroid": [
-      -68.41162,
-      76.47365
-    ],
-    "bbox": [
-      -69.0795,
-      76.30082,
-      -67.64282,
-      76.60075
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "GRL"
-  },
-  {
-    "id": "ADM1-GRL-2741",
-    "name": "Qeqqata",
-    "type": "subregion",
-    "centroid": [
-      -48.7635,
-      66.43425
-    ],
-    "bbox": [
-      -53.96491,
-      64.57183,
-      -43.99997,
-      67.76923
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "GRL"
-  },
-  {
-    "id": "ADM1-GRL-2740",
-    "name": "Kujalleq",
+    "id": "ADM1-GRL-kujalleq",
+    "name": "Greenland \u2014 Kujalleq",
     "type": "subregion",
     "centroid": [
       -44.42437,
@@ -8118,152 +5724,188 @@
     "parent": "GRL"
   },
   {
-    "id": "ADM1-IND-2443",
-    "name": "Lakshadweep",
+    "id": "ADM1-GRL-northeast-greenland",
+    "name": "Greenland \u2014 Northeast Greenland",
     "type": "subregion",
     "centroid": [
-      72.8276,
-      10.12094
+      -34.86446,
+      77.84361
+    ],
+    "bbox": [
+      -61.85064,
+      70.99959,
+      -11.37682,
+      83.6341
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "GRL"
+  },
+  {
+    "id": "ADM1-GRL-northwest-greenland",
+    "name": "Greenland \u2014 Northwest Greenland",
+    "type": "subregion",
+    "centroid": [
+      -53.98821,
+      75.1866
+    ],
+    "bbox": [
+      -73.05724,
+      67.49482,
+      -43.99997,
+      81.22834
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "GRL"
+  },
+  {
+    "id": "ADM1-GRL-qeqqata",
+    "name": "Greenland \u2014 Qeqqata",
+    "type": "subregion",
+    "centroid": [
+      -48.7635,
+      66.43425
+    ],
+    "bbox": [
+      -53.96491,
+      64.57183,
+      -43.99997,
+      67.76923
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "GRL"
+  },
+  {
+    "id": "ADM1-GRL-sermersooq",
+    "name": "Greenland \u2014 Sermersooq",
+    "type": "subregion",
+    "centroid": [
+      -38.57888,
+      67.4045
+    ],
+    "bbox": [
+      -52.19456,
+      60.96454,
+      -21.4768,
+      71.94284
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "GRL"
+  },
+  {
+    "id": "ADM1-IND-central",
+    "name": "India \u2014 Central",
+    "type": "subregion",
+    "centroid": [
+      77.80439,
+      25.50475
+    ],
+    "bbox": [
+      69.46509,
+      17.77607,
+      84.61244,
+      31.46166
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "IND"
+  },
+  {
+    "id": "ADM1-IND-east",
+    "name": "India \u2014 East",
+    "type": "subregion",
+    "centroid": [
+      85.6972,
+      23.07495
+    ],
+    "bbox": [
+      81.39072,
+      17.78724,
+      89.8885,
+      28.10661
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "IND"
+  },
+  {
+    "id": "ADM1-IND-north",
+    "name": "India \u2014 North",
+    "type": "subregion",
+    "centroid": [
+      76.49247,
+      32.60789
+    ],
+    "bbox": [
+      73.77486,
+      29.55982,
+      79.62067,
+      35.49541
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "IND"
+  },
+  {
+    "id": "ADM1-IND-northeast",
+    "name": "India \u2014 Northeast",
+    "type": "subregion",
+    "centroid": [
+      93.42605,
+      26.30928
+    ],
+    "bbox": [
+      89.6558,
+      21.95701,
+      97.36225,
+      29.36929
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "IND"
+  },
+  {
+    "id": "ADM1-IND-south",
+    "name": "India \u2014 South",
+    "type": "subregion",
+    "centroid": [
+      78.27612,
+      14.49733
     ],
     "bbox": [
       72.17262,
-      8.2495,
-      73.68442,
-      11.69416
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2474",
-    "name": "Andaman and Nicobar Islands",
-    "type": "subregion",
-    "centroid": [
-      92.97553,
-      11.13378
-    ],
-    "bbox": [
-      92.2173,
       6.74555,
       94.29078,
-      13.68024
+      19.89129
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "IND"
   },
   {
-    "id": "ADM1-RUS-2390",
-    "name": "Republic of Kalmykia",
+    "id": "ADM1-IND-west",
+    "name": "India \u2014 West",
     "type": "subregion",
     "centroid": [
-      45.31773,
-      46.44435
+      74.37447,
+      20.66196
     ],
     "bbox": [
-      41.6471,
-      44.75187,
-      47.53826,
-      48.25907
+      68.1434,
+      14.8876,
+      80.89701,
+      24.70836
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "RUS"
+    "parent": "IND"
   },
   {
-    "id": "ADM1-AUS-2660",
-    "name": "Tasmania",
-    "type": "subregion",
-    "centroid": [
-      146.59778,
-      -41.93532
-    ],
-    "bbox": [
-      143.83717,
-      -43.64129,
-      148.48455,
-      -39.57147
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "AUS"
-  },
-  {
-    "id": "ADM1-RUS-3468",
-    "name": "Kamchatka Krai",
-    "type": "subregion",
-    "centroid": [
-      163.00451,
-      58.93015
-    ],
-    "bbox": [
-      155.55118,
-      50.86392,
-      174.51238,
-      64.93425
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-NOR-901",
-    "name": "Svalbard",
-    "type": "subregion",
-    "centroid": [
-      18.47971,
-      78.86594
-    ],
-    "bbox": [
-      10.48439,
-      74.34736,
-      33.64039,
-      80.77009
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "NOR"
-  },
-  {
-    "id": "ADM1-AUS+00?",
-    "name": "Macquarie Island",
-    "type": "subregion",
-    "centroid": [
-      158.89544,
-      -54.61256
-    ],
-    "bbox": [
-      158.83204,
-      -54.75042,
-      158.96323,
-      -54.46933
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "AUS"
-  },
-  {
-    "id": "ADM1-AUS-2659",
-    "name": "Lord Howe Island",
-    "type": "subregion",
-    "centroid": [
-      159.08088,
-      -31.55739
-    ],
-    "bbox": [
-      159.04444,
-      -31.59336,
-      159.10646,
-      -31.51922
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "AUS"
-  },
-  {
-    "id": "ADM1-BVT+00?",
-    "name": "Bouvet Island",
+    "id": "ADM1-NOR-bouvet-island",
+    "name": "Norway \u2014 Bouvet Island",
     "type": "subregion",
     "centroid": [
       3.41314,
@@ -8280,557 +5922,305 @@
     "parent": "NOR"
   },
   {
-    "id": "ADM1-PFA+00?",
-    "name": "Paracel Islands",
+    "id": "ADM1-NOR-eastern-norway",
+    "name": "Norway \u2014 Eastern Norway",
     "type": "subregion",
     "centroid": [
-      111.87513,
-      16.36663
-    ],
-    "bbox": [
-      111.19288,
-      15.77538,
-      112.73683,
-      16.93325
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CAN-687",
-    "name": "Prince Edward Island",
-    "type": "subregion",
-    "centroid": [
-      -63.2497,
-      46.4006
-    ],
-    "bbox": [
-      -64.41682,
-      45.95075,
-      -61.97696,
-      47.06733
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-IND-3256",
-    "name": "Jharkhand",
-    "type": "subregion",
-    "centroid": [
-      85.53339,
-      23.64201
-    ],
-    "bbox": [
-      83.33706,
-      21.98613,
-      87.89999,
-      25.32378
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2428",
-    "name": "Delhi",
-    "type": "subregion",
-    "centroid": [
-      77.10795,
-      28.66086
-    ],
-    "bbox": [
-      76.83369,
-      28.43261,
-      77.33753,
-      28.88209
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2427",
-    "name": "Chandigarh",
-    "type": "subregion",
-    "centroid": [
-      76.76838,
-      30.74354
-    ],
-    "bbox": [
-      76.69375,
-      30.67229,
-      76.82728,
-      30.79902
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-3261",
-    "name": "Madhya Pradesh",
-    "type": "subregion",
-    "centroid": [
-      78.29278,
-      23.53909
-    ],
-    "bbox": [
-      74.02487,
-      21.07481,
-      82.81803,
-      26.85981
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-NOR-920",
-    "name": "Oppland",
-    "type": "subregion",
-    "centroid": [
-      9.34534,
-      61.43039
+      10.26423,
+      60.98631
     ],
     "bbox": [
       7.3279,
-      60.15338,
-      11.16397,
-      62.38945
+      58.88473,
+      12.88818,
+      62.7078
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "NOR"
   },
   {
-    "id": "ADM1-CHN-1155",
-    "name": "Beijing",
+    "id": "ADM1-NOR-northern-norway",
+    "name": "Norway \u2014 Northern Norway",
     "type": "subregion",
     "centroid": [
-      116.40616,
-      40.17444
+      19.66327,
+      73.96123
     ],
     "bbox": [
-      115.42182,
-      39.44044,
-      117.48857,
-      41.04773
+      -9.11742,
+      64.94983,
+      33.64039,
+      80.77009
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "CHN"
+    "parent": "NOR"
   },
   {
-    "id": "ADM1-CHN-1809",
-    "name": "Sichuan",
+    "id": "ADM1-NOR-southern-norway",
+    "name": "Norway \u2014 Southern Norway",
     "type": "subregion",
     "centroid": [
-      102.70285,
-      30.61412
+      8.06289,
+      59.11227
     ],
     "bbox": [
-      97.36096,
-      26.03485,
-      108.52348,
-      34.29972
+      6.39763,
+      57.99315,
+      9.88403,
+      60.19751
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "CHN"
+    "parent": "NOR"
   },
   {
-    "id": "ADM1-CHN-1154",
-    "name": "Chongqing",
+    "id": "ADM1-NOR-tr\u00f8ndelag",
+    "name": "Norway \u2014 Tr\u00f8ndelag",
     "type": "subregion",
     "centroid": [
-      107.85985,
-      30.05448
+      11.4439,
+      63.76109
     ],
     "bbox": [
-      105.28518,
-      28.19182,
-      110.17548,
-      32.19757
+      8.27174,
+      62.27431,
+      14.33207,
+      65.1322
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "CHN"
+    "parent": "NOR"
   },
   {
-    "id": "ADM1-CHN-1153",
-    "name": "Guizhou",
+    "id": "ADM1-NOR-western-norway",
+    "name": "Norway \u2014 Western Norway",
     "type": "subregion",
     "centroid": [
-      106.87178,
-      26.81457
+      6.75692,
+      61.1157
     ],
     "bbox": [
-      103.59629,
-      24.63139,
-      109.52141,
-      29.2461
+      4.64381,
+      58.273,
+      9.58069,
+      63.47329
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
-    "parent": "CHN"
+    "parent": "NOR"
   },
   {
-    "id": "ADM1-CHN-1808",
-    "name": "Hunan",
+    "id": "ADM1-RUS-central-russia",
+    "name": "Russia \u2014 Central Russia",
     "type": "subregion",
     "centroid": [
-      111.69877,
-      27.61439
+      38.06955,
+      54.87512
     ],
     "bbox": [
-      108.78791,
-      24.64266,
-      114.2343,
-      30.0984
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1803",
-    "name": "Ningxia",
-    "type": "subregion",
-    "centroid": [
-      106.16072,
-      37.26715
-    ],
-    "bbox": [
-      104.35852,
-      35.25532,
-      107.66168,
-      39.373
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1804",
-    "name": "Shaanxi",
-    "type": "subregion",
-    "centroid": [
-      108.86377,
-      35.18223
-    ],
-    "bbox": [
-      105.49855,
-      31.70525,
-      111.22673,
-      39.58079
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1151",
-    "name": "Qinghai",
-    "type": "subregion",
-    "centroid": [
-      96.00241,
-      35.74883
-    ],
-    "bbox": [
-      89.43514,
-      31.53474,
-      103.04036,
-      39.32427
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1805",
-    "name": "Shanxi",
-    "type": "subregion",
-    "centroid": [
-      112.28385,
-      37.57149
-    ],
-    "bbox": [
-      110.23744,
-      34.58368,
-      114.54095,
-      40.74258
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1817",
-    "name": "Jiangxi",
-    "type": "subregion",
-    "centroid": [
-      115.71441,
-      27.61622
-    ],
-    "bbox": [
-      113.55853,
-      24.49959,
-      118.47626,
-      30.05646
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1812",
-    "name": "Henan",
-    "type": "subregion",
-    "centroid": [
-      113.60759,
-      33.88236
-    ],
-    "bbox": [
-      110.32766,
-      31.39514,
-      116.64118,
-      36.3653
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1807",
-    "name": "Hubei",
-    "type": "subregion",
-    "centroid": [
-      112.26676,
-      30.97423
-    ],
-    "bbox": [
-      108.38039,
-      29.06634,
-      116.14726,
-      33.26647
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-CHN-1179",
-    "name": "Anhui",
-    "type": "subregion",
-    "centroid": [
-      117.22684,
-      31.82107
-    ],
-    "bbox": [
-      114.87591,
-      29.40787,
-      119.62978,
-      34.64285
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CHN"
-  },
-  {
-    "id": "ADM1-BRA-1294",
-    "name": "Goi\u00e1s",
-    "type": "subregion",
-    "centroid": [
-      -49.60513,
-      -16.02588
-    ],
-    "bbox": [
-      -53.24478,
-      -19.48594,
-      -45.91246,
-      -12.39986
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-599",
-    "name": "Federal",
-    "type": "subregion",
-    "centroid": [
-      -47.78774,
-      -15.77132
-    ],
-    "bbox": [
-      -48.2779,
-      -16.04207,
-      -47.30248,
-      -15.48986
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-601",
-    "name": "Minas Gerais",
-    "type": "subregion",
-    "centroid": [
-      -44.67412,
-      -18.45044
-    ],
-    "bbox": [
-      -51.0276,
-      -22.89292,
-      -39.86074,
-      -14.23892
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-BRA-596",
-    "name": "Tocantins",
-    "type": "subregion",
-    "centroid": [
-      -48.32728,
-      -10.14074
-    ],
-    "bbox": [
-      -50.74266,
-      -13.38518,
-      -45.75769,
-      -5.16377
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "BRA"
-  },
-  {
-    "id": "ADM1-AUS-2653",
-    "name": "Australian Capital Territory",
-    "type": "subregion",
-    "centroid": [
-      149.00695,
-      -35.49759
-    ],
-    "bbox": [
-      148.76945,
-      -35.91962,
-      149.4044,
-      -35.13951
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "AUS"
-  },
-  {
-    "id": "ADM1-RUS-2378",
-    "name": "Bashkortostan",
-    "type": "subregion",
-    "centroid": [
-      56.51359,
-      54.27342
-    ],
-    "bbox": [
-      53.14046,
-      51.5721,
-      59.97456,
-      56.53841
+      30.76265,
+      49.54147,
+      47.60436,
+      59.63254
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2386",
-    "name": "Sverdlovsk",
+    "id": "ADM1-RUS-far-east-area-1",
+    "name": "Russia \u2014 Far East area 1",
     "type": "subregion",
     "centroid": [
-      61.53036,
-      58.59433
+      114.17518,
+      66.51998
     ],
     "bbox": [
-      57.21866,
-      56.05399,
-      66.19702,
-      61.99327
+      -180.0,
+      61.81464,
+      180.0,
+      71.60004
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2396",
-    "name": "Khanty-Mansi Autonomous Okrug",
+    "id": "ADM1-RUS-far-east-area-2",
+    "name": "Russia \u2014 Far East area 2",
     "type": "subregion",
     "centroid": [
-      70.29224,
-      61.86711
+      127.72988,
+      53.40035
     ],
     "bbox": [
-      59.22319,
-      58.58909,
-      85.97391,
-      65.71713
+      119.66952,
+      48.85345,
+      134.95644,
+      57.04065
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2363",
-    "name": "Lipetsk",
+    "id": "ADM1-RUS-far-east-area-3",
+    "name": "Russia \u2014 Far East area 3",
     "type": "subregion",
     "centroid": [
-      39.13549,
-      52.64586
+      132.26279,
+      48.5195
     ],
     "bbox": [
-      37.71184,
-      51.87895,
-      40.70277,
-      53.59239
+      130.52974,
+      47.66154,
+      134.98662,
+      49.48551
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2375",
-    "name": "Tambov",
+    "id": "ADM1-RUS-far-east-area-4",
+    "name": "Russia \u2014 Far East area 4",
     "type": "subregion",
     "centroid": [
-      41.5821,
-      52.68581
+      130.1098,
+      66.18219
     ],
     "bbox": [
-      39.95108,
-      51.59411,
-      43.23791,
-      53.82349
+      105.54015,
+      55.46519,
+      162.84694,
+      77.1258
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2167",
-    "name": "Tomsk",
+    "id": "ADM1-RUS-far-east-area-5",
+    "name": "Russia \u2014 Far East area 5",
     "type": "subregion",
     "centroid": [
-      82.138,
-      58.49743
+      136.93847,
+      53.41013
     ],
     "bbox": [
-      75.06914,
-      55.68058,
-      89.39065,
+      130.37967,
+      42.29511,
+      147.1588,
+      62.57442
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "RUS"
+  },
+  {
+    "id": "ADM1-RUS-far-east-area-6",
+    "name": "Russia \u2014 Far East area 6",
+    "type": "subregion",
+    "centroid": [
+      157.27648,
+      60.20901
+    ],
+    "bbox": [
+      141.63901,
+      43.40225,
+      174.51238,
+      66.35939
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "RUS"
+  },
+  {
+    "id": "ADM1-RUS-northwest-area-1",
+    "name": "Russia \u2014 Northwest area 1",
+    "type": "subregion",
+    "centroid": [
+      30.66137,
+      58.5393
+    ],
+    "bbox": [
+      19.60955,
+      54.34294,
+      36.23741,
+      61.32101
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "RUS"
+  },
+  {
+    "id": "ADM1-RUS-northwest-area-2",
+    "name": "Russia \u2014 Northwest area 2",
+    "type": "subregion",
+    "centroid": [
+      35.67627,
+      64.09384
+    ],
+    "bbox": [
+      28.41023,
+      58.49023,
+      47.13669,
+      80.17487
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "RUS"
+  },
+  {
+    "id": "ADM1-RUS-northwest-area-3",
+    "name": "Russia \u2014 Northwest area 3",
+    "type": "subregion",
+    "centroid": [
+      48.38577,
+      67.847
+    ],
+    "bbox": [
+      35.85738,
+      60.64596,
+      69.03395,
+      81.85871
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "RUS"
+  },
+  {
+    "id": "ADM1-RUS-northwest-area-4",
+    "name": "Russia \u2014 Northwest area 4",
+    "type": "subregion",
+    "centroid": [
+      54.8322,
+      65.36878
+    ],
+    "bbox": [
+      43.27367,
+      59.20838,
+      66.20953,
+      70.4798
+    ],
+    "nearest_cell_fallback": false,
+    "valid_variables": [],
+    "parent": "RUS"
+  },
+  {
+    "id": "ADM1-RUS-siberia-area-1",
+    "name": "Russia \u2014 Siberia area 1",
+    "type": "subregion",
+    "centroid": [
+      81.40877,
+      55.64421
+    ],
+    "bbox": [
+      70.38395,
+      49.07101,
+      89.86917,
       61.04723
     ],
     "nearest_cell_fallback": false,
@@ -8838,116 +6228,26 @@
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2394",
-    "name": "Republic of Tatarstan",
+    "id": "ADM1-RUS-siberia-area-2",
+    "name": "Russia \u2014 Siberia area 2",
     "type": "subregion",
     "centroid": [
-      50.91162,
-      55.3594
+      94.78718,
+      51.57744
     ],
     "bbox": [
-      47.2419,
-      53.96916,
-      54.23093,
-      56.6761
+      88.7357,
+      49.72554,
+      99.24979,
+      53.72907
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2395",
-    "name": "Ulyanovsk",
-    "type": "subregion",
-    "centroid": [
-      47.9537,
-      53.8941
-    ],
-    "bbox": [
-      45.79155,
-      52.56708,
-      50.25712,
-      55.01628
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2373",
-    "name": "Penza",
-    "type": "subregion",
-    "centroid": [
-      44.63804,
-      53.19295
-    ],
-    "bbox": [
-      42.08749,
-      52.31614,
-      46.98321,
-      54.01701
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2401",
-    "name": "Kemerovo",
-    "type": "subregion",
-    "centroid": [
-      87.21539,
-      54.79492
-    ],
-    "bbox": [
-      84.41038,
-      52.168,
-      89.44904,
-      56.83297
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2366",
-    "name": "Oryol",
-    "type": "subregion",
-    "centroid": [
-      36.4675,
-      52.77991
-    ],
-    "bbox": [
-      34.7947,
-      51.9266,
-      38.03843,
-      53.64404
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2602",
-    "name": "Irkutsk",
-    "type": "subregion",
-    "centroid": [
-      106.36028,
-      57.09386
-    ],
-    "bbox": [
-      95.65311,
-      51.13187,
-      119.13281,
-      64.29972
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2402",
-    "name": "Republic of Khakassia",
+    "id": "ADM1-RUS-siberia-area-3",
+    "name": "Russia \u2014 Siberia area 3",
     "type": "subregion",
     "centroid": [
       89.85478,
@@ -8964,472 +6264,76 @@
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2372",
-    "name": "Republic of Mordovia",
+    "id": "ADM1-RUS-siberia-area-4",
+    "name": "Russia \u2014 Siberia area 4",
     "type": "subregion",
     "centroid": [
-      44.44557,
-      54.36955
+      95.99879,
+      67.47138
     ],
     "bbox": [
-      42.18361,
-      53.66135,
-      46.7425,
-      55.17676
+      76.05144,
+      51.78144,
+      113.89015,
+      81.2888
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2361",
-    "name": "Kaluga",
+    "id": "ADM1-RUS-siberia-area-5",
+    "name": "Russia \u2014 Siberia area 5",
     "type": "subregion",
     "centroid": [
-      35.43783,
-      54.36753
+      109.6145,
+      55.20839
     ],
     "bbox": [
-      33.42424,
-      53.27055,
-      37.25905,
-      55.31967
+      95.65311,
+      49.13452,
+      122.13914,
+      64.29972
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2356",
-    "name": "Kostroma",
+    "id": "ADM1-RUS-urals",
+    "name": "Russia \u2014 Urals",
     "type": "subregion",
     "centroid": [
-      43.78994,
-      58.46005
+      70.71433,
+      63.14071
     ],
     "bbox": [
-      40.38516,
-      57.27635,
-      47.60436,
-      59.63254
+      57.13629,
+      51.99261,
+      86.03054,
+      73.57905
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-2360",
-    "name": "Yaroslavl",
+    "id": "ADM1-RUS-volga-russia",
+    "name": "Russia \u2014 Volga Russia",
     "type": "subregion",
     "centroid": [
-      39.13495,
-      57.86924
+      48.77413,
+      52.51762
     ],
     "bbox": [
-      37.34556,
-      56.53831,
-      41.16393,
-      58.95377
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2376",
-    "name": "Vladimir",
-    "type": "subregion",
-    "centroid": [
-      40.6604,
-      56.01164
-    ],
-    "bbox": [
-      38.2934,
-      55.10891,
-      42.9479,
-      56.8247
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2374",
-    "name": "Ryazan",
-    "type": "subregion",
-    "centroid": [
-      40.62107,
-      54.32799
-    ],
-    "bbox": [
-      38.67188,
-      53.33468,
-      42.69954,
-      55.33998
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2355",
-    "name": "Ivanovo",
-    "type": "subregion",
-    "centroid": [
-      41.7095,
-      57.01616
-    ],
-    "bbox": [
-      39.38553,
-      56.36801,
-      43.8633,
-      57.74986
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2357",
-    "name": "Nizhny Novgorod",
-    "type": "subregion",
-    "centroid": [
-      44.63927,
-      56.2919
-    ],
-    "bbox": [
-      41.78167,
-      54.47104,
-      47.76849,
-      58.08922
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2368",
-    "name": "Tula",
-    "type": "subregion",
-    "centroid": [
-      37.55798,
-      53.89332
-    ],
-    "bbox": [
-      35.91029,
-      52.96168,
-      38.922,
-      54.83831
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2389",
-    "name": "Chuvash Republic",
-    "type": "subregion",
-    "centroid": [
-      47.08805,
-      55.49557
-    ],
-    "bbox": [
-      45.92012,
-      54.63026,
-      48.41237,
-      56.33517
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2359",
-    "name": "Vologda",
-    "type": "subregion",
-    "centroid": [
-      40.49964,
-      59.96776
-    ],
-    "bbox": [
-      34.7299,
-      58.49023,
-      47.13669,
-      61.59443
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2334",
-    "name": "Novgorod",
-    "type": "subregion",
-    "centroid": [
-      32.48279,
-      58.30571
-    ],
-    "bbox": [
-      29.65342,
-      56.93063,
-      36.23741,
-      59.43213
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2358",
-    "name": "Tver",
-    "type": "subregion",
-    "centroid": [
-      34.71426,
-      57.0912
-    ],
-    "bbox": [
-      30.78079,
-      55.6318,
-      38.30829,
-      58.86948
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2364",
-    "name": "Moscow",
-    "type": "subregion",
-    "centroid": [
-      37.66641,
-      55.66721
-    ],
-    "bbox": [
-      35.17132,
-      54.24467,
-      40.20647,
-      56.95358
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2365",
-    "name": "Moscow",
-    "type": "subregion",
-    "centroid": [
-      37.3626,
-      55.49923
-    ],
-    "bbox": [
-      36.90434,
-      54.99082,
-      37.88855,
-      56.05964
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2385",
-    "name": "Mari El Republic",
-    "type": "subregion",
-    "centroid": [
-      47.93949,
-      56.58141
-    ],
-    "bbox": [
-      45.62867,
-      55.82817,
-      50.19759,
-      57.33012
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2384",
-    "name": "Kirov",
-    "type": "subregion",
-    "centroid": [
-      49.8303,
-      58.68579
-    ],
-    "bbox": [
-      46.30046,
-      56.07301,
-      53.92201,
-      61.05912
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2387",
-    "name": "Udmurt Republic",
-    "type": "subregion",
-    "centroid": [
-      52.7872,
-      57.17526
-    ],
-    "bbox": [
-      51.11557,
-      55.85672,
-      54.39981,
-      58.54382
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2383",
-    "name": "Komi Republic",
-    "type": "subregion",
-    "centroid": [
-      54.78341,
-      64.12826
-    ],
-    "bbox": [
-      45.42713,
-      59.20838,
-      66.20953,
-      68.43128
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-3200",
-    "name": "Perm Krai",
-    "type": "subregion",
-    "centroid": [
-      56.22545,
-      59.11638
-    ],
-    "bbox": [
-      51.77424,
-      56.09957,
-      59.47237,
+      32.48162,
+      41.19268,
+      61.66366,
       61.68218
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
     "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2392",
-    "name": "Samara",
-    "type": "subregion",
-    "centroid": [
-      50.4686,
-      53.2801
-    ],
-    "bbox": [
-      47.94512,
-      51.7594,
-      52.53853,
-      54.67635
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2306",
-    "name": "Stavropol Krai",
-    "type": "subregion",
-    "centroid": [
-      43.35187,
-      44.95251
-    ],
-    "bbox": [
-      40.84085,
-      43.65212,
-      45.71734,
-      46.24142
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-2279",
-    "name": "Republic of Adygea",
-    "type": "subregion",
-    "centroid": [
-      39.97376,
-      44.56756
-    ],
-    "bbox": [
-      38.67188,
-      43.75123,
-      40.75413,
-      45.19352
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-IND-3260",
-    "name": "Chhattisgarh",
-    "type": "subregion",
-    "centroid": [
-      82.03337,
-      21.2559
-    ],
-    "bbox": [
-      80.26056,
-      17.77607,
-      84.35333,
-      24.14023
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-2430",
-    "name": "Haryana",
-    "type": "subregion",
-    "centroid": [
-      76.33647,
-      29.20837
-    ],
-    "bbox": [
-      74.45936,
-      27.6704,
-      77.58796,
-      30.93426
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
-  },
-  {
-    "id": "ADM1-IND-20011",
-    "name": "Telangana",
-    "type": "subregion",
-    "centroid": [
-      79.05076,
-      17.79665
-    ],
-    "bbox": [
-      77.25743,
-      15.82966,
-      81.78657,
-      19.89129
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "IND"
   },
   {
     "id": "NR-GLOBE",

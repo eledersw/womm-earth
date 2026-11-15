@@ -65,7 +65,11 @@ def preserve_existing_validity(regions: list[dict], output: Path, rebuilding: li
         return
     old = {region["id"]: region for region in json.loads(path.read_text(encoding="utf-8"))}
     current_ids = {region["id"] for region in regions}
-    if not set(old).issubset(current_ids):
+    removed_non_subregions = {
+        region_id for region_id, previous in old.items()
+        if region_id not in current_ids and previous.get("type") != "subregion"
+    }
+    if removed_non_subregions:
         raise ValueError("Existing regions.json has different region ids; rebuild all series together")
     for region in regions:
         previous = old.get(region["id"])
