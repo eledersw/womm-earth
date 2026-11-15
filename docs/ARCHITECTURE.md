@@ -112,6 +112,7 @@ The offline pipeline below can still build regional `.npz` libraries for researc
 - **Partner mode:**
   - Tool Runner with `betaZodTool` tools: `list_variables`, `analyze_case`, `correlate`, `find_mirror`, `scan_region`, `get_process_card`, `propose_case`.
   - Tools call `/api/py` by absolute URL. On protected previews, send the `x-vercel-protection-bypass` header.
+  - Correlation is gated off in the panel and Partner by `lib/partner/capabilities.ts`: the Python endpoint still serves a fixture. The tool returns availability only, with no request or numerical evidence. Enable only after Oier delivers requested-Case results and Methods reviews them; no HTTP contract changes.
 - **Grounding:**
   - Common scientific rules and separate mode prefixes come from `docs/science/VERDICT_TEMPLATES.md`; Explain has no tools, Partner retains its tool access.
   - Coder C’s internal display adapter checks actual valid yearly coverage (including DJF/custom boundaries), component availability and combined-p consistency. It preserves the API tier and flags discrepancies as provisional; it does not certify or replace Oier’s engine. Ineligible/unavailable inference is withheld and unsafe years estimates are suppressed.

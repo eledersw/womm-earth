@@ -11,8 +11,8 @@ import { fmtNumber, fmtP, fmtSlope } from "@/lib/partner/format";
 import { caseCopy } from "@/lib/copy/case";
 import { StepSection, type StepProps } from "./StepSection";
 
-type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable; showExplanation?: boolean };
-export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, showExplanation = true, children, ...status }: Props) {
+type Props = StepProps & { results?: RegionAnalysis[]; context?: Omit<VerdictContext, "regionName">; level?: ReadingLevel; ratioScale?: boolean; variable?: Variable; showExplanation?: boolean; compact?: boolean };
+export function VerdictStep({ results, context, level = "student", ratioScale = false, variable, showExplanation = true, compact = false, children, ...status }: Props) {
   const hidden = useUiStore((s) => s.predictMode && !s.reveal);
   const predict = useUiStore((s) => s.predictMode);
   const c = caseCopy.verdict;
@@ -20,11 +20,13 @@ export function VerdictStep({ results, context, level = "student", ratioScale = 
     {predict && !!results?.length && <PredictPrompt results={results} />}
     {!hidden && results?.length && context ? <div className="space-y-4">{results.map((r) => {
       const verdict = renderVerdict(r, { ...context, regionName: r.region.name }, level);
+      const short = compact && verdict.magnitude && !verdict.evidence.tests_disagree && !verdict.evidence.persistent && !verdict.evidence.gapped_years && r.verdict.tier !== "not_proven";
       return <article key={r.region.id} aria-label={`${r.region.name}: ${verdict.badge}`} className="rounded-lg border p-3">
         <h3 className="font-semibold">{r.region.name}: {verdict.badge}</h3>
         <p className="mt-1 text-sm text-muted-foreground">{verdict.title}</p>
         {verdict.evidence.eligible && verdict.evidence.tests_disagree && <p className="mt-2 text-sm font-semibold">{c.disagreeBadge}</p>}
-        <p className="mt-2 text-sm">{verdict.body}</p>
+        <p className="mt-2 text-sm">{short ? verdict.magnitude : verdict.body}</p>
+        {short && <details className="mt-2 text-sm"><summary className="cursor-pointer text-muted-foreground">{c.details}</summary><p className="mt-2">{verdict.body}</p></details>}
         {r.stats && verdict.evidence.years_eligible && <YearsMeter nYears={r.stats.n_years} yearsNeeded={r.verdict.years_needed} />}
         {level === "scientist" && r.stats && verdict.evidence.eligible && verdict.evidence.count_matches && verdict.evidence.status !== "unavailable" && <StatsTable stats={r.stats} olsAvailable={verdict.evidence.p_ols !== null} unit={context.unit === "1" ? caseCopy.controls.dimensionless : displayUnit(context.unit)} ratioScale={ratioScale} />}
         {showExplanation && variable && (verdict.evidence.status === "combined" || verdict.evidence.status === "mk_only") && <ExplainBox result={r} variable={variable} regionName={r.region.name} level={level} />}

@@ -34,3 +34,16 @@ it("never presents an unavailable adjusted OLS p-value as observed inference", (
   expect(screen.getByText(/disclosed capped-MK-only fallback/)).toBeDefined();
   expect(screen.getAllByText("Statistics are unavailable for this Case.")).toHaveLength(2);
 });
+it("compact cards keep magnitude visible and retain the reviewed interpretation in details", () => {
+  render(<VerdictStep compact results={[base]} context={context} />);
+  expect(screen.getByText(/Sen slope .*approximate 95% CI/)).toBeDefined();
+  expect(screen.getByText("Methods and limitations").closest("details")).toBeDefined();
+  expect(screen.getByText(/The estimated change is/).closest("details")).not.toBeNull();
+});
+it("compact mode never hides provisional evidence notices behind details", () => {
+  const r = { ...base, stats: { ...base.stats!, tests_agree: false, ols: { ...base.stats!.ols, p: 0.42 } } };
+  render(<VerdictStep compact results={[r]} context={context} />);
+  const notice = screen.getByText(/Treat this result as provisional/);
+  expect(notice.closest("details")).toBeNull();
+  expect(screen.queryByText("Methods and limitations")).toBeNull();
+});

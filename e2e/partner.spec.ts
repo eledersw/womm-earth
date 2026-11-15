@@ -4,6 +4,11 @@ import regions from "../api/_fixtures/regions.json";
 import fixture from "../api/_fixtures/analyze.json";
 const sse = (text: string) => `data: ${JSON.stringify({ type: "text", text })}\n\ndata: {"type":"done"}\n\n`;
 test.beforeEach(async ({ page }) => {
+  // Panel/partner checks must not start the globe's full live map calculation.
+  await page.route("**/api/py/trendmap**", (route) => {
+    const query = new URL(route.request().url()).searchParams;
+    return route.fulfill({ json: { variable: query.get("variable"), start: Number(query.get("start")), end: Number(query.get("end")), season: query.get("season"), entries: {} } });
+  });
   // These tests exercise the panel. Globe geometry is covered by its owner.
   await page.route("**/geo/*.geojson", (route) => route.fulfill({ json: { type: "FeatureCollection", features: [] } }));
   await page.route("**/api/py/mirror", (route) => route.fulfill({ json: { base: { region: route.request().postDataJSON().regions[0], slope_per_decade: 0.8, p: 0.01, z: 2.5, tier: "confirmed" }, mirrors: [], none_found: true } }));

@@ -48,13 +48,16 @@ it("rejects URL-like unexpected tool inputs at the schema boundary", () => {
   const tool = tools.find((t) => t.name === "list_variables")!;
   expect(() => tool.parse({ url: "http://localhost/private" })).toThrow();
 });
-it("correlate strips scatter and sends the contract's start/end fields", async () => {
-  const { run, py } = setup();
-  py.POST.mockResolvedValue({ data: { pearson: 0.5, scatter: [{ x: 1, y: 2 }] } } as never);
+it("correlate discloses unavailability without fetching or exposing fixture statistics", async () => {
+  const { run, py, events } = setup();
   const result = await run("correlate", { var_x: "T2M", var_y: "PRECTOTCORR", region: "US-WI", from: 2002, to: 2025 });
-  expect(result).toEqual({ pearson: 0.5 });
-  expect(py.POST).toHaveBeenCalledWith("/api/py/correlate", expect.objectContaining({ body: expect.objectContaining({ start: 2002, end: 2025, season: "ANN", max_lag: 6 }) }));
+  expect(result).toMatchObject({ available: false, reason: expect.stringContaining("No correlation was calculated") });
+  expect(result).not.toHaveProperty("pearson_raw");
+  expect(py.POST).not.toHaveBeenCalled();
+  expect(py.GET).not.toHaveBeenCalled();
+  expect(events.map((e) => e.type)).toEqual(["tool_call", "tool_result"]);
 });
+
 it("mirror and scan call only the fixed backend paths", async () => {
   const { run, py } = setup();
   await run("find_mirror", { variable: "T2M", region: "US-WI", from: 2002, to: 2025, season: "JJA" });

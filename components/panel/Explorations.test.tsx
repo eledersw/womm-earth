@@ -14,6 +14,8 @@ import { PredictPrompt } from "./PredictPrompt";
 import { MirrorList } from "./MirrorList";
 import { CorrelationView } from "./CorrelationView";
 import { VerdictStep } from "./steps/VerdictStep";
+// Preserve future live-component tests while production correlation stays gated.
+vi.mock("@/lib/partner/capabilities", () => ({ LIVE_CORRELATION_AVAILABLE: true }));
 vi.mock("@/lib/api/client", () => ({ api: { POST: vi.fn() } }));
 afterEach(() => { cleanup(); vi.resetAllMocks(); useUiStore.setState({ predictMode: false, reveal: true, highlight: { kind: null, regions: [], arcFrom: null } }); });
 const state = { ...DEFAULT_CASE, regions: ["US-WI"], from: 2002 };

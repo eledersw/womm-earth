@@ -86,6 +86,8 @@ export const caseCopy = {
     provenance: "Data source", warnings: "Data warnings",
   },
   verdict: {
+    magnitude: "Sen slope {slope} {unit}/decade; approximate {confidence} CI {low} to {high} {unit}/decade.",
+    details: "Methods and limitations",
     mismatch: "The engine returned {badge}, but its reported statistics do not match the current method rules. Treat this result as provisional until the implementation is checked.",
     unavailableStudent: "The statistical result is unavailable, so we cannot assess the trend's significance here.",
     unavailableScientist: "Usable inference is unavailable. No significance conclusion or detection-time estimate is reported.",
@@ -120,6 +122,7 @@ export const caseCopy = {
     total: "Total change", percent: "% of period mean per decade",
   },
   explorations: {
+    correlationUnavailable: "Correlation is not available yet. You can still investigate trends for each variable separately.",
     correlation: "Correlation", secondVariable: "Compare with another variable", chooseVariable: "Choose a second variable",
     firstRegion: "Uses the first selected region", raw: "Raw Pearson r", detrended: "Detrended Pearson r",
     pRaw: "Raw p-value", pDetrended: "Detrended p-value", effectiveN: "Effective sample size",

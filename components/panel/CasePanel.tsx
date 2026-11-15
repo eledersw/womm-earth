@@ -84,7 +84,7 @@ function CasePanelContent() {
         <div className="px-3.5 pb-2">
           {tour ? <TourPlayer key={tour.id} tour={tour} regions={regions.byId} onExit={exitTour} /> : !submitted && !regions.loading ? <TourLauncher regions={regions.byId} onStart={startTour} /> : null}
         </div>
-        <div className="sticky bottom-0 space-y-2 border-t border-hairline bg-space/55 px-3.5 pt-3 pb-3.5 backdrop-blur-md">
+        <div className="sticky bottom-0 space-y-2 border-t border-hairline bg-space-2 px-3.5 pt-3 pb-3.5">
           <label className="flex items-center gap-2 text-scale">
             <input type="checkbox" checked={predict} onChange={(e) => {
               useUiStore.getState().setPredictMode(e.target.checked);
@@ -100,10 +100,10 @@ function CasePanelContent() {
 
       {open && submitted ? (
         <Pane slotId={CASE_RESULTS_SLOT} label={caseCopy.results} onClose={() => setOpen(false)}>
-          <EvidenceStep results={hidden ? undefined : analysis.data?.results} unit={displayUnit(variable?.unit)} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>{hidden && <p>{caseCopy.explorations.predictEvidence}</p>}</EvidenceStep>
-          <VerdictStep key={caseKey(state)} variable={variable} results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale} showExplanation={false}
+          <VerdictStep key={caseKey(state)} variable={variable} results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale} showExplanation={false} compact
             context={{ variableName: variable ? variableLabel(variable) : state.variable, unit: variable?.unit ?? "", period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `${caseCopy.controls.seasons.CUSTOM} (${state.months?.join(", ")})` : caseCopy.controls.seasons[state.season] }}
             loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} />
+          <EvidenceStep results={hidden ? undefined : analysis.data?.results} unit={displayUnit(variable?.unit)} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry}>{hidden && <p>{caseCopy.explorations.predictEvidence}</p>}</EvidenceStep>
           {analysis.data && !hidden ? <>
             <CorrelationView state={state} variables={variables.variables} />
             <MirrorList key={caseKey(state)} state={state} setCase={setCase} regions={regions.byId} unit={displayUnit(variable?.unit)} />
