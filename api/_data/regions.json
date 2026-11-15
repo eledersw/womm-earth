@@ -5454,35 +5454,17 @@
     "parent": "BRA"
   },
   {
-    "id": "ADM1-CAN-east-area-1",
-    "name": "Canada \u2014 East area 1",
+    "id": "ADM1-CAN-east",
+    "name": "Canada \u2014 East",
     "type": "subregion",
     "centroid": [
-      -85.82888,
-      50.067
+      -74.69781,
+      51.94017
     ],
     "bbox": [
       -95.16119,
       41.66909,
-      -74.34618,
-      56.86127
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-east-area-2",
-    "name": "Canada \u2014 East area 2",
-    "type": "subregion",
-    "centroid": [
-      -71.56808,
-      53.11746
-    ],
-    "bbox": [
-      -79.76561,
-      44.60276,
-      -57.10033,
+      -52.61661,
       62.59382
     ],
     "nearest_cell_fallback": false,
@@ -5490,69 +5472,15 @@
     "parent": "CAN"
   },
   {
-    "id": "ADM1-CAN-east-area-3",
-    "name": "Canada \u2014 East area 3",
+    "id": "ADM1-CAN-north",
+    "name": "Canada \u2014 North",
     "type": "subregion",
     "centroid": [
-      -60.83511,
-      52.00208
-    ],
-    "bbox": [
-      -67.80807,
-      43.42206,
-      -52.61661,
-      60.37275
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-north-area-1",
-    "name": "Canada \u2014 North area 1",
-    "type": "subregion",
-    "centroid": [
-      -135.51018,
-      63.63439
+      -102.89117,
+      68.8407
     ],
     "bbox": [
       -141.00556,
-      60.00006,
-      -123.8191,
-      69.6542
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-north-area-2",
-    "name": "Canada \u2014 North area 2",
-    "type": "subregion",
-    "centroid": [
-      -119.01028,
-      66.35638
-    ],
-    "bbox": [
-      -136.44539,
-      60.00006,
-      -101.98659,
-      78.76634
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-north-area-3",
-    "name": "Canada \u2014 North area 3",
-    "type": "subregion",
-    "centroid": [
-      -88.89487,
-      71.02826
-    ],
-    "bbox": [
-      -120.68082,
       51.91865,
       -61.08548,
       83.11652
@@ -5562,34 +5490,16 @@
     "parent": "CAN"
   },
   {
-    "id": "ADM1-CAN-west-area-1",
-    "name": "Canada \u2014 West area 1",
+    "id": "ADM1-CAN-west",
+    "name": "Canada \u2014 West",
     "type": "subregion",
     "centroid": [
-      -120.50408,
-      54.92912
+      -112.09115,
+      54.81412
     ],
     "bbox": [
       -139.06021,
       48.3061,
-      -109.99932,
-      60.00006
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "CAN"
-  },
-  {
-    "id": "ADM1-CAN-west-area-2",
-    "name": "Canada \u2014 West area 2",
-    "type": "subregion",
-    "centroid": [
-      -101.63721,
-      54.67121
-    ],
-    "bbox": [
-      -109.99997,
-      48.99262,
       -88.947,
       60.00007
     ],
@@ -6030,71 +5940,17 @@
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-far-east-area-1",
-    "name": "Russia \u2014 Far East area 1",
+    "id": "ADM1-RUS-far-east",
+    "name": "Russia \u2014 Far East",
     "type": "subregion",
     "centroid": [
-      114.17518,
-      66.51998
+      132.77384,
+      63.20805
     ],
     "bbox": [
       -180.0,
-      61.81464,
+      42.29511,
       180.0,
-      71.60004
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-far-east-area-2",
-    "name": "Russia \u2014 Far East area 2",
-    "type": "subregion",
-    "centroid": [
-      127.72988,
-      53.40035
-    ],
-    "bbox": [
-      119.66952,
-      48.85345,
-      134.95644,
-      57.04065
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-far-east-area-3",
-    "name": "Russia \u2014 Far East area 3",
-    "type": "subregion",
-    "centroid": [
-      132.26279,
-      48.5195
-    ],
-    "bbox": [
-      130.52974,
-      47.66154,
-      134.98662,
-      49.48551
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-far-east-area-4",
-    "name": "Russia \u2014 Far East area 4",
-    "type": "subregion",
-    "centroid": [
-      130.1098,
-      66.18219
-    ],
-    "bbox": [
-      105.54015,
-      55.46519,
-      162.84694,
       77.1258
     ],
     "nearest_cell_fallback": false,
@@ -6102,88 +5958,16 @@
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-far-east-area-5",
-    "name": "Russia \u2014 Far East area 5",
+    "id": "ADM1-RUS-northwest",
+    "name": "Russia \u2014 Northwest",
     "type": "subregion",
     "centroid": [
-      136.93847,
-      53.41013
-    ],
-    "bbox": [
-      130.37967,
-      42.29511,
-      147.1588,
-      62.57442
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-far-east-area-6",
-    "name": "Russia \u2014 Far East area 6",
-    "type": "subregion",
-    "centroid": [
-      157.27648,
-      60.20901
-    ],
-    "bbox": [
-      141.63901,
-      43.40225,
-      174.51238,
-      66.35939
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-northwest-area-1",
-    "name": "Russia \u2014 Northwest area 1",
-    "type": "subregion",
-    "centroid": [
-      30.66137,
-      58.5393
+      45.5084,
+      65.00787
     ],
     "bbox": [
       19.60955,
       54.34294,
-      36.23741,
-      61.32101
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-northwest-area-2",
-    "name": "Russia \u2014 Northwest area 2",
-    "type": "subregion",
-    "centroid": [
-      35.67627,
-      64.09384
-    ],
-    "bbox": [
-      28.41023,
-      58.49023,
-      47.13669,
-      80.17487
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-northwest-area-3",
-    "name": "Russia \u2014 Northwest area 3",
-    "type": "subregion",
-    "centroid": [
-      48.38577,
-      67.847
-    ],
-    "bbox": [
-      35.85738,
-      60.64596,
       69.03395,
       81.85871
     ],
@@ -6192,108 +5976,18 @@
     "parent": "RUS"
   },
   {
-    "id": "ADM1-RUS-northwest-area-4",
-    "name": "Russia \u2014 Northwest area 4",
+    "id": "ADM1-RUS-siberia",
+    "name": "Russia \u2014 Siberia",
     "type": "subregion",
     "centroid": [
-      54.8322,
-      65.36878
-    ],
-    "bbox": [
-      43.27367,
-      59.20838,
-      66.20953,
-      70.4798
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-siberia-area-1",
-    "name": "Russia \u2014 Siberia area 1",
-    "type": "subregion",
-    "centroid": [
-      81.40877,
-      55.64421
+      96.96343,
+      61.99151
     ],
     "bbox": [
       70.38395,
       49.07101,
-      89.86917,
-      61.04723
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-siberia-area-2",
-    "name": "Russia \u2014 Siberia area 2",
-    "type": "subregion",
-    "centroid": [
-      94.78718,
-      51.57744
-    ],
-    "bbox": [
-      88.7357,
-      49.72554,
-      99.24979,
-      53.72907
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-siberia-area-3",
-    "name": "Russia \u2014 Siberia area 3",
-    "type": "subregion",
-    "centroid": [
-      89.85478,
-      53.36583
-    ],
-    "bbox": [
-      87.83457,
-      51.31635,
-      91.84641,
-      55.44559
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-siberia-area-4",
-    "name": "Russia \u2014 Siberia area 4",
-    "type": "subregion",
-    "centroid": [
-      95.99879,
-      67.47138
-    ],
-    "bbox": [
-      76.05144,
-      51.78144,
-      113.89015,
-      81.2888
-    ],
-    "nearest_cell_fallback": false,
-    "valid_variables": [],
-    "parent": "RUS"
-  },
-  {
-    "id": "ADM1-RUS-siberia-area-5",
-    "name": "Russia \u2014 Siberia area 5",
-    "type": "subregion",
-    "centroid": [
-      109.6145,
-      55.20839
-    ],
-    "bbox": [
-      95.65311,
-      49.13452,
       122.13914,
-      64.29972
+      81.2888
     ],
     "nearest_cell_fallback": false,
     "valid_variables": [],
