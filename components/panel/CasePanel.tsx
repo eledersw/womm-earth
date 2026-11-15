@@ -40,7 +40,7 @@ function CasePanelContent() {
   const variable = variables.byId[state.variable];
   const period = variable ? clampPeriod(state.from, state.to, variable) : null;
   const inPeriod = period?.from === state.from && period?.to === state.to;
-  const valid = !!variable && inPeriod && !regions.loading && !regions.error && availableHere(state.variable, state.regions, regions.byId);
+  const valid = state.regions.length > 0 && !!variable && inPeriod && !regions.loading && !regions.error && availableHere(state.variable, state.regions, regions.byId);
   const analysis = useAnalysis(state, valid);
   const [open, setOpen] = useState(false);
   const submitted = analysis.loading || !!analysis.data || !!analysis.error;
@@ -83,8 +83,8 @@ function CasePanelContent() {
         <Pane slotId={CASE_RESULTS_SLOT} label={caseCopy.results} onClose={() => setOpen(false)}>
           <VerdictStep key={caseKey(state)} variable={variable} results={analysis.data?.results} level={state.level} ratioScale={variable?.ratio_scale} showExplanation={false} compact
             context={{ variableName: variable ? variableLabel(variable) : state.variable, unit: variable?.unit ?? "", period: `${state.from}–${state.to}`, seasonLabel: state.season === "CUSTOM" ? `${caseCopy.controls.seasons.CUSTOM} (${state.months?.join(", ")})` : caseCopy.controls.seasons[state.season] }}
-            loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} />
-          <EvidenceStep results={analysis.data?.results} unit={displayUnit(variable?.unit)} loading={analysis.loading} error={!!analysis.error} onRetry={analysis.retry} />
+            loading={analysis.loading} error={!!analysis.error} errorMessage={analysis.error ?? undefined} onRetry={analysis.retry} />
+          <EvidenceStep results={analysis.data?.results} unit={displayUnit(variable?.unit)} loading={analysis.loading} error={!!analysis.error} errorMessage={analysis.error ?? undefined} onRetry={analysis.retry} />
           {analysis.data ? <>
             <CorrelationView state={state} variables={variables.variables} />
             <MultivariableComparison key={caseKey(state)} state={state} variables={variables.variables} regions={regions.byId} caseResults={analysis.data?.results} />

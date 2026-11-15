@@ -7,6 +7,7 @@ turn it into its own function.
 
 import asyncio
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -49,6 +50,18 @@ from _engine.verdict import analyze_yearly  # noqa: E402
 from _engine.map import family_for  # noqa: E402
 from _engine.scan import build_scan  # noqa: E402
 from _engine.correlate import correlate_anomalies  # noqa: E402
+
+# The trend map, mirror finder and scan analyse every region (about 2,000 NASA POWER
+# requests per call). Live, they exhausted memory and got the server throttled, so they
+# stay off until a pre-built regional library replaces the live requests.
+LIVE_FAMILY = os.environ.get("WOMM_LIVE_FAMILY") == "1"
+FAMILY_OFF = "This whole-world analysis is switched off while it is moved to a pre-built data library."
+
+
+def _require_live_family() -> None:
+    if not LIVE_FAMILY:
+        raise HTTPException(status_code=503, detail=FAMILY_OFF)
+
 
 app = FastAPI(docs_url="/api/py/docs", openapi_url="/api/py/openapi.json")
 
@@ -104,8 +117,8 @@ async def analyze(case: CaseRequest) -> AnalyzeResponse:
         raise HTTPException(status_code=422, detail=f"Unknown region: {unknown[0]}")
 
     variable = variables_by_id[case.variable]
-    results = []
-    for region_id in case.regions:
+
+    async def analyze_region(region_id: str) -> RegionAnalysis:
         region = regions_by_id[region_id]
         try:
             values, t0 = await fetch_monthly_region(variable, region, case.start, case.end)
@@ -134,7 +147,7 @@ async def analyze(case: CaseRequest) -> AnalyzeResponse:
             warnings.append("tests_disagree")
         if stats is not None and stats.tests_agree is None:
             warnings.append("ols_unavailable")
-        results.append(RegionAnalysis(
+        return RegionAnalysis(
             region=region, monthly=monthly, yearly=yearly, fit=fit, stats=stats,
             verdict=verdict,
             provenance=Provenance(
@@ -143,7 +156,10 @@ async def analyze(case: CaseRequest) -> AnalyzeResponse:
                 product=None, doi=variable.doi, kind=variable.kind,
             ),
             warnings=warnings,
-        ))
+        )
+
+    # Regions run together; NASA requests are limited and shared inside the POWER client.
+    results = list(await asyncio.gather(*(analyze_region(region_id) for region_id in case.regions)))
     return AnalyzeResponse(case=case, results=results)
 
 
@@ -156,6 +172,7 @@ async def trendmap(
     season: str = "ANN",
     months: list[int] | None = Query(default=None),
 ) -> TrendMapResponse:
+    _require_live_family()
     try:
         TrendMapRequest(variable=variable, start=start, end=end, season=season, months=months)
     except ValidationError as error:
@@ -211,6 +228,7 @@ async def correlate(request: CorrelateRequest) -> CorrelateResponse:
 
 @app.post("/api/py/mirror", response_model=MirrorResponse)
 async def mirror(case: MirrorRequest) -> MirrorResponse:
+    _require_live_family()
     from _engine.map import select_mirrors
     regions_by_id = store.regions()
     if case.regions[0] not in regions_by_id:
@@ -234,6 +252,7 @@ async def mirror(case: MirrorRequest) -> MirrorResponse:
 
 @app.post("/api/py/scan", response_model=ScanResponse)
 async def scan(request: ScanRequest) -> ScanResponse:
+    _require_live_family()
     region = store.regions().get(request.region)
     if region is None:
         raise HTTPException(status_code=422, detail="Unknown region")

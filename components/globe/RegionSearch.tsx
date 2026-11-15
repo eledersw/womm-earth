@@ -20,6 +20,9 @@ import { penColor } from "./layers";
 import { useRegionIndex } from "./useRegionIndex";
 import { useRegionToggle } from "./useRegionToggle";
 
+// Whole-earth regions are too large to analyse live (more than 128 NASA boxes).
+const WHOLE_EARTH_IDS = new Set(["NR-GLOBE", "NR-LAND", "NR-OCEAN"]);
+
 const GROUPS: { type: Region["type"]; heading: string }[] = [
   { type: "country", heading: globeCopy.groupCountry },
   { type: "state", heading: globeCopy.groupState },
@@ -63,7 +66,7 @@ export function RegionSearch() {
           <CommandList className="max-h-[min(22rem,50dvh)]">
             <CommandEmpty>{ready ? globeCopy.searchEmpty : globeCopy.searchUnavailable}</CommandEmpty>
             {GROUPS.map(({ type, heading }) => {
-              const items = regions.filter((r) => r.type === type && r.id !== "NR-OCEAN");
+              const items = regions.filter((r) => r.type === type && !WHOLE_EARTH_IDS.has(r.id));
               if (!items.length) return null;
               return (
                 <CommandGroup key={type} heading={heading}>

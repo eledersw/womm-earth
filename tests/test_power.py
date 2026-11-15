@@ -170,3 +170,74 @@ def test_tiled_region_counts_shared_boundary_cell_once():
     )
 
     assert values[0] == pytest.approx(2.0)
+
+
+def _spain_like(region_id="ESP"):
+    return Region(id=region_id, name="Spain", type="country", centroid=(-3.5, 40),
+                  bbox=(-18, 28, 4, 44), nearest_cell_fallback=False, valid_variables=[], parent=None)
+
+
+def _counting_request(urls):
+    def request(url):
+        urls.append(url)
+        return {"features": [{"geometry": {"coordinates": [-3, 40]},
+                              "properties": {"parameter": {"T2M": {"200001": 1.0, "201001": 2.0}}}}]}
+    return request
+
+
+def test_boxes_are_fetched_once_for_the_whole_record_and_reused_for_any_period(monkeypatch):
+    variable = power._variable("T2M", {"type": "METEOROLOGY", "units": "C"}, "AG")
+    urls = []
+    monkeypatch.setattr(power, "_request_json", _counting_request(urls))
+    first, _ = asyncio.run(power.fetch_monthly_region(variable, _spain_like(), 2010, 2010))
+    requests_for_first = len(urls)
+    assert requests_for_first > 0
+    query = parse_qs(urlparse(urls[0]).query)
+    assert query["start"] == [str(variable.start_year)] and query["end"] == [str(variable.end_year)]
+    # A different period reuses the cached boxes: no new NASA request.
+    second, _ = asyncio.run(power.fetch_monthly_region(variable, _spain_like(), 2000, 2000))
+    assert len(urls) == requests_for_first
+    assert first[0] == pytest.approx(2.0) and second[0] == pytest.approx(1.0)
+
+
+def test_identical_requests_in_flight_share_one_nasa_call(monkeypatch):
+    variable = power._variable("T2M", {"type": "METEOROLOGY", "units": "C"}, "AG")
+    urls = []
+    monkeypatch.setattr(power, "_request_json", _counting_request(urls))
+
+    async def both():
+        return await asyncio.gather(power.fetch_monthly_region(variable, _spain_like("ESP"), 2010, 2010),
+                                    power.fetch_monthly_region(variable, _spain_like("ESP"), 2010, 2010))
+
+    asyncio.run(both())
+    tiles = len(power._region_tiles(_spain_like()))
+    assert len(urls) == tiles
+
+
+def test_retry_waits_for_nasa_retry_after(monkeypatch):
+    waits = []
+    attempts = 0
+
+    def request(url, timeout):
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            raise HTTPError(url.full_url, 429, "Too Many Requests", {"Retry-After": "7"}, None)
+        response = BytesIO(b'{"ok": true}')
+        response.status = 200
+        return response
+
+    monkeypatch.setattr(power, "urlopen", request)
+    monkeypatch.setattr(power.time, "sleep", waits.append)
+    assert power._request_json("https://power.larc.nasa.gov/example") == {"ok": True}
+    assert waits == [7.0]
+
+
+def test_compact_block_is_far_smaller_than_the_json():
+    variable = power._variable("T2M", {"type": "METEOROLOGY", "units": "C"}, "AG")
+    monthly = {f"{y}{m:02d}": 1.5 for y in range(1981, 2026) for m in range(1, 14)}
+    response = {"features": [{"geometry": {"coordinates": [x, y]}, "properties": {"parameter": {"T2M": monthly}}}
+                             for x in range(17) for y in range(21)]}
+    block = power._compact(response, variable, 1981, 2025)
+    assert block.values.shape == (357, 540)
+    assert block.nbytes < 1_000_000 < len(json.dumps(response))

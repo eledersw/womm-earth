@@ -44,6 +44,7 @@ def test_contract_fixtures_validate(name, adapter):
 
 def test_live_and_remaining_stub_endpoints_match_contract(monkeypatch):
     from _engine.map import MapRecord
+    monkeypatch.setattr(api_index, "LIVE_FAMILY", True)
     variables = [
         Variable.model_validate(row)
         for row in json.loads((FIXTURES / "variables.json").read_text())
@@ -115,7 +116,8 @@ def test_health_preserves_python_version():
     assert "python" in Health.model_fields
 
 
-def test_invalid_trendmap_and_mirror_requests_return_422():
+def test_invalid_trendmap_and_mirror_requests_return_422(monkeypatch):
+    monkeypatch.setattr(api_index, "LIVE_FAMILY", True)
     async def check_invalid_requests():
         async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
             invalid_trendmaps = [
@@ -138,3 +140,14 @@ def test_invalid_trendmap_and_mirror_requests_return_422():
             assert health.json()["python"]
 
     asyncio.run(check_invalid_requests())
+
+
+def test_whole_world_analyses_are_off_by_default():
+    async def check():
+        async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+            trend = await client.get("/api/py/trendmap", params={"variable": "T2M", "start": 2002, "end": 2025})
+            mirror = await client.post("/api/py/mirror", json={"variable": "T2M", "regions": ["US-WI"], "start": 2002, "end": 2025})
+            scan = await client.post("/api/py/scan", json={"region": "US-WI", "start": 2002, "end": 2025})
+            return [r.status_code for r in (trend, mirror, scan)]
+
+    assert asyncio.run(check()) == [503, 503, 503]

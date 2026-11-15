@@ -6,9 +6,13 @@ import asyncio
 import json
 import math
 import re
+import sys
 import threading
 import time
+from collections import OrderedDict
+from dataclasses import dataclass
 from functools import lru_cache
+from weakref import WeakKeyDictionary
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Literal
@@ -32,6 +36,12 @@ MONTHLY_REGIONAL_URL = "https://power.larc.nasa.gov/api/temporal/monthly/regiona
 COMMUNITIES: tuple[PowerCommunity, ...] = ("AG",)
 HTTP_TIMEOUT_SECONDS = 25
 RETRYABLE_HTTP_STATUSES = {429, 500, 502, 503, 504}
+MAX_ATTEMPTS = 4
+MAX_RETRY_WAIT_SECONDS = 15.0
+# NASA requests one server instance runs at once, shared by every analysis on it.
+MAX_CONCURRENT_REQUESTS = 6
+# Compact NASA boxes kept in memory per instance (float32, about 0.8 MB per 10 x 10 degree box).
+CACHE_BUDGET_BYTES = 192 * 1024 * 1024
 MAX_RESPONSE_BYTES = 8 * 1024 * 1024
 CATALOG_TTL_SECONDS = 6 * 60 * 60
 CATALOG_FALLBACK_TTL_SECONDS = 15 * 60
@@ -100,10 +110,19 @@ def _region_geometry(region: Region) -> dict[str, Any] | None:
     return None
 
 
+def _retry_delay(error: HTTPError, attempt: int) -> float:
+    """Seconds to wait before retrying: NASA's Retry-After when given, else 1, 2, 4 s."""
+    header = error.headers.get("Retry-After") if error.headers else None
+    try:
+        return min(MAX_RETRY_WAIT_SECONDS, max(0.0, float(header))) if header else float(2 ** attempt)
+    except ValueError:
+        return float(2 ** attempt)
+
+
 def _request_json(url: str) -> dict[str, Any]:
     request = Request(url, headers={"User-Agent": "womm-earth/1.0"})
     try:
-        for attempt in range(3):
+        for attempt in range(MAX_ATTEMPTS):
             try:
                 with urlopen(request, timeout=HTTP_TIMEOUT_SECONDS) as response:
                     if response.status < 200 or response.status >= 300:
@@ -111,11 +130,14 @@ def _request_json(url: str) -> dict[str, Any]:
                     body = response.read(MAX_RESPONSE_BYTES + 1)
                 break
             except HTTPError as error:
-                if error.code in RETRYABLE_HTTP_STATUSES and attempt < 2:
-                    time.sleep(0.5 * (attempt + 1))
+                # Logged so a refusal (429) is distinguishable from an outage (5xx) in Vercel logs.
+                print(f"NASA POWER HTTP {error.code} (attempt {attempt + 1}/{MAX_ATTEMPTS}): {url.split('?')[0]}", file=sys.stderr)
+                if error.code in RETRYABLE_HTTP_STATUSES and attempt < MAX_ATTEMPTS - 1:
+                    time.sleep(_retry_delay(error, attempt))
                     continue
                 raise PowerUpstreamError("NASA POWER returned an error.", status_code=error.code) from error
     except (TimeoutError, URLError, OSError) as error:
+        print(f"NASA POWER unreachable ({type(error).__name__}): {url.split('?')[0]}", file=sys.stderr)
         raise PowerUpstreamError("NASA POWER could not be reached.") from error
 
     if len(body) > MAX_RESPONSE_BYTES:
@@ -294,54 +316,99 @@ def _region_tiles(region: Region) -> list[tuple[float, float, float, float]]:
     return tiles
 
 
-def _monthly_region_series(
-    payload: dict[str, Any] | list[dict[str, Any]], variable: Variable, start: int, end: int,
-    geometry: dict[str, Any] | None = None,
-) -> tuple[np.ndarray, str]:
-    count = (end - start + 1) * 12
-    weighted_sum = np.zeros(count, dtype=float)
-    weight_sum = np.zeros(count, dtype=float)
-    seen_coordinates: set[tuple[float, float]] = set()
-    for response in payload if isinstance(payload, list) else [payload]:
-        features = response.get("features", [response] if "properties" in response else None)
-        if not isinstance(features, list):
-            raise PowerUpstreamError("NASA POWER response has no grid features.")
-        fill_value = response.get("header", {}).get("fill_value", -999)
-        for feature in features:
+@dataclass(frozen=True)
+class _Block:
+    """One NASA response, compacted: grid points and their monthly values from `start` (January) on."""
+
+    longitude: np.ndarray
+    latitude: np.ndarray
+    values: np.ndarray  # float32, shape (points, months)
+    start: int
+
+    @property
+    def nbytes(self) -> int:
+        return self.longitude.nbytes + self.latitude.nbytes + self.values.nbytes
+
+
+def _compact(response: dict[str, Any], variable: Variable, start: int, end: int) -> _Block:
+    """Turn one NASA JSON response into a compact block (3 MB of JSON becomes about 0.8 MB)."""
+    months = (end - start + 1) * 12
+    features = response.get("features", [response] if "properties" in response else None)
+    if not isinstance(features, list):
+        raise PowerUpstreamError("NASA POWER response has no grid features.")
+    fill_value = float(response.get("header", {}).get("fill_value", -999))
+    longitudes: list[float] = []
+    latitudes: list[float] = []
+    rows: list[np.ndarray] = []
+    seen: set[tuple[float, float]] = set()
+    for feature in features:
+        try:
+            coordinates = feature["geometry"]["coordinates"]
+            longitude, latitude = float(coordinates[0]), float(coordinates[1])
+            monthly = feature["properties"]["parameter"][variable.id]
+        except (KeyError, IndexError, TypeError, ValueError) as error:
+            raise PowerUpstreamError("NASA POWER regional response has an invalid grid feature.") from error
+        if not isinstance(monthly, dict):
+            raise PowerUpstreamError("NASA POWER regional response has invalid parameter values.")
+        if (longitude, latitude) in seen:
+            continue
+        seen.add((longitude, latitude))
+        row = np.full(months, np.nan, dtype=np.float32)
+        for date_key, raw_value in monthly.items():
+            if not isinstance(date_key, str) or len(date_key) != 6:
+                continue
             try:
-                feature_geometry = feature["geometry"]
-                longitude = float(feature_geometry["coordinates"][0])
-                latitude = float(feature_geometry["coordinates"][1])
-                monthly = feature["properties"]["parameter"][variable.id]
-            except (KeyError, IndexError, TypeError, ValueError) as error:
-                raise PowerUpstreamError("NASA POWER regional response has an invalid grid feature.") from error
-            if not isinstance(monthly, dict):
-                raise PowerUpstreamError("NASA POWER regional response has invalid parameter values.")
-            if (longitude, latitude) in seen_coordinates:
+                year, month, value = int(date_key[:4]), int(date_key[4:]), float(raw_value)
+            except (TypeError, ValueError):
+                continue
+            # POWER also emits YYYY13 as an annual value; the engine builds years itself.
+            if month < 1 or month > 12 or year < start or year > end:
+                continue
+            if not math.isfinite(value) or value == fill_value:
+                continue
+            row[(year - start) * 12 + month - 1] = value
+        longitudes.append(longitude)
+        latitudes.append(latitude)
+        rows.append(row)
+    values = np.vstack(rows) if rows else np.empty((0, months), dtype=np.float32)
+    return _Block(np.asarray(longitudes, dtype=float), np.asarray(latitudes, dtype=float), values, start)
+
+
+def _region_masks(blocks: list[_Block], geometry: dict[str, Any] | None) -> list[np.ndarray]:
+    """Which grid points of each block count for the region: inside it, and not already
+    counted from a neighbouring box (boxes share their boundary cells)."""
+    seen: set[tuple[float, float]] = set()
+    masks = []
+    for block in blocks:
+        mask = np.zeros(len(block.longitude), dtype=bool)
+        for index, (longitude, latitude) in enumerate(zip(block.longitude.tolist(), block.latitude.tolist())):
+            if (longitude, latitude) in seen:
                 continue
             if geometry is not None and not _inside_country(longitude, latitude, geometry):
                 continue
-            seen_coordinates.add((longitude, latitude))
+            seen.add((longitude, latitude))
+            mask[index] = True
+        masks.append(mask)
+    return masks
 
-            weight = math.cos(math.radians(latitude))
-            for date_key, raw_value in monthly.items():
-                if not isinstance(date_key, str) or len(date_key) != 6:
-                    continue
-                try:
-                    year = int(date_key[:4])
-                    month = int(date_key[4:])
-                    value = float(raw_value)
-                except (TypeError, ValueError):
-                    continue
-                # POWER also emits YYYY13 as an annual value; the engine builds years itself.
-                if month < 1 or month > 12 or year < start or year > end:
-                    continue
-                if not math.isfinite(value) or value == float(fill_value):
-                    continue
-                index = (year - start) * 12 + month - 1
-                weighted_sum[index] += value * weight
-                weight_sum[index] += weight
 
+def _weighted_mean(blocks: list[_Block], masks: list[np.ndarray], start: int, end: int) -> tuple[np.ndarray, str]:
+    """Latitude-weighted mean of the selected grid points, for start..end."""
+    count = (end - start + 1) * 12
+    weighted_sum = np.zeros(count, dtype=float)
+    weight_sum = np.zeros(count, dtype=float)
+    for block, mask in zip(blocks, masks):
+        if not mask.any():
+            continue
+        offset = (start - block.start) * 12
+        lo, hi = max(0, offset), min(block.values.shape[1], offset + count)
+        if hi <= lo:
+            continue
+        values = block.values[mask, lo:hi].astype(float)
+        weights = np.cos(np.radians(block.latitude[mask]))[:, None]
+        finite = np.isfinite(values)
+        weighted_sum[lo - offset:hi - offset] += np.where(finite, values * weights, 0.0).sum(axis=0)
+        weight_sum[lo - offset:hi - offset] += (finite * weights).sum(axis=0)
     values = np.full(count, np.nan, dtype=float)
     valid = weight_sum > 0
     if not valid.any():
@@ -350,25 +417,144 @@ def _monthly_region_series(
     return values, f"{start}-01"
 
 
+def _region_mean(blocks: list[_Block], start: int, end: int,
+                 geometry: dict[str, Any] | None = None) -> tuple[np.ndarray, str]:
+    return _weighted_mean(blocks, _region_masks(blocks, geometry), start, end)
+
+
+def _monthly_region_series(
+    payload: dict[str, Any] | list[dict[str, Any]], variable: Variable, start: int, end: int,
+    geometry: dict[str, Any] | None = None,
+) -> tuple[np.ndarray, str]:
+    responses = payload if isinstance(payload, list) else [payload]
+    return _region_mean([_compact(response, variable, start, end) for response in responses], start, end, geometry)
+
+
+class _BlockCache:
+    """Least-recently-used compact NASA boxes, bounded by bytes and shared by all requests on an instance."""
+
+    def __init__(self, budget: int):
+        self.budget = budget
+        self._items: OrderedDict[tuple, _Block] = OrderedDict()
+        self._bytes = 0
+        self._lock = threading.Lock()
+
+    def get(self, key: tuple) -> _Block | None:
+        with self._lock:
+            block = self._items.get(key)
+            if block is not None:
+                self._items.move_to_end(key)
+            return block
+
+    def put(self, key: tuple, block: _Block) -> None:
+        with self._lock:
+            if key in self._items:
+                return
+            self._items[key] = block
+            self._bytes += block.nbytes
+            while self._bytes > self.budget and len(self._items) > 1:
+                _, old = self._items.popitem(last=False)
+                self._bytes -= old.nbytes
+
+    def __len__(self) -> int:
+        return len(self._items)
+
+    def clear(self) -> None:
+        with self._lock:
+            self._items.clear()
+            self._bytes = 0
+
+
+_CACHE = _BlockCache(CACHE_BUDGET_BYTES)
+_SEMAPHORES: "WeakKeyDictionary[asyncio.AbstractEventLoop, asyncio.Semaphore]" = WeakKeyDictionary()
+_INFLIGHT: "WeakKeyDictionary[asyncio.AbstractEventLoop, dict[tuple, asyncio.Future]]" = WeakKeyDictionary()
+
+
+_MASKS: "OrderedDict[tuple, list[np.ndarray]]" = OrderedDict()
+_MASKS_LIMIT = 512
+_masks_lock = threading.Lock()
+
+
+def _cached_masks(key: tuple, blocks: list[_Block], geometry: dict[str, Any] | None) -> list[np.ndarray]:
+    with _masks_lock:
+        if key in _MASKS:
+            _MASKS.move_to_end(key)
+            return _MASKS[key]
+    masks = _region_masks(blocks, geometry)
+    with _masks_lock:
+        _MASKS[key] = masks
+        while len(_MASKS) > _MASKS_LIMIT:
+            _MASKS.popitem(last=False)
+    return masks
+
+
+def clear_cache() -> None:
+    _CACHE.clear()
+    with _masks_lock:
+        _MASKS.clear()
+
+
+async def _block(key: tuple, url: str, variable: Variable, start: int, end: int) -> _Block:
+    """One NASA box: from the cache, from an identical request already in flight, or fetched now."""
+    cached = _CACHE.get(key)
+    if cached is not None:
+        return cached
+    loop = asyncio.get_running_loop()
+    inflight = _INFLIGHT.setdefault(loop, {})
+    if key in inflight:
+        return await asyncio.shield(inflight[key])
+    future: asyncio.Future = loop.create_future()
+    inflight[key] = future
+    try:
+        semaphore = _SEMAPHORES.setdefault(loop, asyncio.Semaphore(MAX_CONCURRENT_REQUESTS))
+        async with semaphore:
+            payload = await asyncio.to_thread(_request_json, url)
+        block = _compact(payload, variable, start, end)
+        del payload  # drop the parsed JSON as soon as it is compacted
+        _CACHE.put(key, block)
+        future.set_result(block)
+        return block
+    except BaseException as error:
+        future.set_exception(error)
+        future.exception()  # mark as retrieved; waiters re-raise it themselves
+        raise
+    finally:
+        inflight.pop(key, None)
+
+
 async def fetch_monthly_region(
     variable: Variable, region: Region, start: int, end: int
 ) -> tuple[np.ndarray, str]:
-    """Fetch POWER point or tiled regional data and return its weighted series."""
+    """Fetch POWER point or tiled regional data and return its weighted series.
+
+    Each NASA box is requested once for the variable's whole record and cached, so a
+    different period or season, or another region sharing the box, costs no request.
+    """
+    full_start, full_end = min(start, variable.start_year), max(end, variable.end_year)
+    community = variable.power_community
     try:
         if uses_point_fallback(region):
-            payload = await asyncio.to_thread(_request_json, _point_url(variable, region, start, end))
-            geometry = None
+            longitude, latitude = region.centroid
+            key = (variable.id, community, "point", round(latitude, 4), round(longitude, 4), full_start, full_end)
+            blocks = [await _block(key, _point_url(variable, region, full_start, full_end), variable, full_start, full_end)]
+            geometry, boxes = None, ("point",)
         else:
             tiles = _region_tiles(region)
             geometry = _region_geometry(region)
-            semaphore = asyncio.Semaphore(3)
+            blocks = await asyncio.gather(*(
+                _block((variable.id, community, "box", *tile, full_start, full_end),
+                       _regional_url(variable, region, full_start, full_end, tile), variable, full_start, full_end)
+                for tile in tiles
+            ))
+            boxes = tuple(tiles)
+        blocks = list(blocks)
 
-            async def fetch(tile: tuple[float, float, float, float]) -> dict[str, Any]:
-                async with semaphore:
-                    return await asyncio.to_thread(_request_json, _regional_url(variable, region, start, end, tile))
+        def mean() -> tuple[np.ndarray, str]:
+            # NASA grids are fixed, so a region's masks are the same for every variable and period.
+            masks = _cached_masks((region.id, boxes, tuple(len(b.longitude) for b in blocks)), blocks, geometry)
+            return _weighted_mean(blocks, masks, start, end)
 
-            payload = await asyncio.gather(*(fetch(tile) for tile in tiles))
-        return _monthly_region_series(payload, variable, start, end, geometry)
+        return await asyncio.to_thread(mean)
     except PowerUpstreamError:
         raise
     except Exception as error:

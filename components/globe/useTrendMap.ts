@@ -56,7 +56,8 @@ export function useTrendMap(q: TrendQuery): { entries: TrendEntries | null; load
   const [snap, setSnap] = useState<{ key: string; entries: TrendEntries | null; error: boolean } | null>(null);
 
   useEffect(() => {
-    if (done.has(key)) return;
+    // Switched off: never ask the server (each call analyses every region on Earth).
+    if (!TRENDMAP_LIVE || done.has(key)) return;
     let alive = true;
     fetchTrendMap(key).then(
       (entries) => alive && setSnap({ key, entries, error: false }),
@@ -67,6 +68,7 @@ export function useTrendMap(q: TrendQuery): { entries: TrendEntries | null; load
     };
   }, [key]);
 
+  if (!TRENDMAP_LIVE) return { entries: null, loading: false, error: false };
   const entries = done.get(key) ?? (snap?.key === key ? snap.entries : null);
   const error = !entries && snap?.key === key && snap.error;
   return { entries, loading: !entries && !error, error };
