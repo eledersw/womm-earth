@@ -140,7 +140,7 @@ function CasePanelContent() {
         ) : (
           <p className="text-sm text-ink-2">{caseCopy.explainEmpty}</p>
         )}
-        <div className="rounded-xl border bg-card p-3.5"><PartnerChat /></div>
+        <div className="rounded-xl border bg-card p-3.5"><PartnerChat hasResults={explained.length > 0} /></div>
       </Pane>
     </>
   );

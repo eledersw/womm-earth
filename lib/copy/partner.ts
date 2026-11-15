@@ -20,6 +20,13 @@ export const partnerCopy = {
   offline: "Explanations are unavailable right now. You can still investigate your case.",
   streamError: "The explanation could not be completed. Please try again.",
   timeout: "The answer took too long. Please try again.",
+  askMeLead: "Don't understand the results? Ask me!",
+  askMeBody: "I can explain every number and word on the verdict in plain language, no statistics background needed.",
+  resultStarters: [
+    "Explain my results in simple words",
+    "What does this verdict actually mean?",
+    "What do the numbers on the card mean?",
+  ],
   starters: [
     "Is this a real trend, or just natural ups and downs?",
     "What could be causing this change?",
