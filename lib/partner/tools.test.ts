@@ -70,3 +70,13 @@ it("sanitizes backend failures and still emits the matching result event", async
   expect(JSON.stringify(result)).not.toContain("private");
   expect(events.map((e) => e.type)).toEqual(["tool_call", "tool_result"]);
 });
+it("allows at most three data lookups per question", async () => {
+  const { run, py } = setup();
+  const input = { variable: "T2M", regions: ["US-WI"], from: 2002, to: 2025, season: "JJA" };
+  for (let i = 0; i < 3; i++) expect(await run("analyze_case", input)).toHaveProperty("results");
+  const analyses = py.POST.mock.calls.filter(([path]) => path === "/api/py/analyze").length;
+  expect(await run("analyze_case", input)).toEqual({ error: expect.stringContaining("Lookup limit") });
+  expect(py.POST.mock.calls.filter(([path]) => path === "/api/py/analyze").length).toBe(analyses);
+  // Catalogue and process-card tools are not data lookups.
+  expect(Array.isArray(await run("list_variables", {}))).toBe(true);
+});

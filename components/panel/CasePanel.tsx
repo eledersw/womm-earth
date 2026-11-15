@@ -117,9 +117,10 @@ function Pane({ slotId, label, onClose, badge, children }: { slotId: string; lab
   const slot = useSyncExternalStore(noSubscribe, () => document.getElementById(slotId), () => null);
   const pane = (
     <section aria-label={label} className="glass pointer-events-auto relative flex h-full max-h-full min-h-0 flex-col">
+      {/* Perched on the pane's top edge: its feet rest on the border. */}
+      {badge ? <div className="pointer-events-none absolute -top-[35px] right-6 z-10">{badge}</div> : null}
       <div className="flex min-h-10 items-center justify-between gap-3 px-3.5 pt-2.5 pb-1.5">
         <h2 className="label-mono text-silver">{label}</h2>
-        {badge}
         {onClose ? (
           <button type="button" onClick={onClose} aria-label={caseCopy.hideResults}
             className="grid size-7 place-items-center rounded-full text-ink-2 transition-colors hover:bg-well-2 hover:text-ink">

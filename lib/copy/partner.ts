@@ -4,7 +4,9 @@ export const partnerCopy = {
   chatLabel: "Your question", send: "Send", checking: "Gaia is checking the data…", openCase: "Open this case",
   chatHistory: "Conversation", you: "You", assistant: "Gaia", chatRetry: "No answer this time. Please try again.",
   tooLong: "That answer hit its length limit. Please ask a shorter question.",
-  chatIntro: "Gaia is the AI helper. Ask about your results, or where to look next. You choose which suggested cases to open.",
+  chatIntro: "Gaia is the AI helper. Ask about your results, or compare places you are curious about (up to four at a time). When Gaia suggests a case, it shows on the globe and you choose whether to open it.",
+  rankingBlocked: "I can't rank the whole world: that would mean analysing hundreds of places for one answer. Name up to four places and I'll compare them, for example \"Is Spain warming faster than Norway?\"",
+  proposalShown: "Shown on the globe.",
   numberWarning: "Some numbers could not be matched to tool results.",
 
   explain: "Explanation", loading: "Gaia is preparing an explanation…", draft: "Draft explanation · being checked",
@@ -21,6 +23,6 @@ export const partnerCopy = {
   starters: [
     "Is this a real trend, or just natural ups and downs?",
     "What could be causing this change?",
-    "Where is the opposite trend happening?",
+    "Is the Arctic warming faster than the Sahel?",
   ],
 } as const;

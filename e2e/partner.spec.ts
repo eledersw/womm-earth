@@ -94,6 +94,7 @@ test("Partner proposes a Case without changing the URL until Open this case", as
   await page.getByRole("textbox", { name: "Your question" }).fill("Is Wisconsin getting smokier in summer?");
   await page.getByRole("button", { name: "Send", exact: true }).click();
   await expect(page.getByRole("button", { name: "Open this case", exact: true })).toBeVisible();
+  await expect(page.getByText("Shown on the globe.", { exact: true })).toBeVisible();
   expect(new URL(page.url()).searchParams.get("r")).toBe("US-WI");
   await expect(page.getByText("You can open the proposed Case.", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Open this case", exact: true }).click();
@@ -130,4 +131,25 @@ test("live partner proposes a case", async ({ page }) => {
   await page.getByRole("textbox", { name: "Ask the Partner" }).fill("Analyze annual T2M in US-CO from 1981 to 2025 with analyze_case. Explain the returned verdict, then use propose_case to offer this Case for me to open.");
   await page.getByRole("button", { name: "Send", exact: true }).click();
   await expect(page.getByRole("button", { name: "Open this case", exact: true })).toBeVisible({ timeout: 65000 });
+});
+
+test("Ask Gaia: starters send at once, answers are formatted, world rankings are declined without a request", async ({ page }) => {
+  const asked: string[] = [];
+  await page.route("**/api/partner", (route) => {
+    const input = route.request().postDataJSON();
+    if (input.mode !== "chat") return route.fulfill({ contentType: "text/event-stream", body: sse("An explanation.") });
+    asked.push(input.messages.at(-1).content);
+    return route.fulfill({ contentType: "text/event-stream", body: sse("**Short answer:** no clear trend yet.\n\n- Wisconsin: No case") });
+  });
+  await page.goto("/?v=T2M&r=US-WI&from=2002&to=2025&s=JJA");
+  await page.getByRole("button", { name: "Investigate", exact: true }).click();
+  const chat = page.getByRole("region", { name: "Ask Gaia", exact: true });
+  await chat.getByRole("button", { name: "Is this a real trend, or just natural ups and downs?" }).click();
+  await expect(chat.locator("strong", { hasText: "Short answer:" })).toBeVisible();
+  await expect(chat.getByText(/\*\*/)).toHaveCount(0);
+  expect(asked).toEqual(["Is this a real trend, or just natural ups and downs?"]);
+  await chat.getByRole("textbox", { name: "Your question" }).fill("What is the hottest country?");
+  await chat.getByRole("button", { name: "Send", exact: true }).click();
+  await expect(chat.getByText(/I can't rank the whole world/)).toBeVisible();
+  expect(asked).toHaveLength(1);
 });

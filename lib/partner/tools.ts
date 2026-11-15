@@ -1,4 +1,7 @@
 import { betaZodTool } from "@anthropic-ai/sdk/helpers/beta/zod";
+import { MAX_LOOKUPS_PER_QUESTION } from "./scope";
+
+const DATA_TOOLS = new Set(["analyze_case", "correlate", "find_mirror", "scan_region"]);
 import type { BetaRunnableTool } from "@anthropic-ai/sdk/lib/tools/BetaRunnableTool";
 import { z } from "zod";
 import type { serverApi } from "@/lib/api/client";
@@ -16,6 +19,7 @@ const months = z.array(z.number().int().min(1).max(12)).min(1).max(12).optional(
 const caseFields = { variable: id, regions: z.array(id).min(1).max(4), ...period, season, months };
 export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEvent) => void, signal?: AbortSignal, level: ReadingLevel = "student"): BetaRunnableTool[] {
   let calls = 0;
+  let lookups = 0;
   const requestSignal = () => signal ? AbortSignal.any([signal, AbortSignal.timeout(20_000)]) : AbortSignal.timeout(20_000);
   const variables = async () => { const { data, error } = await py.GET("/api/py/variables", { signal: requestSignal() }); if (error || !data) throw new Error("catalogue"); return data; };
   const regions = async () => { const { data, error } = await py.GET("/api/py/regions", { signal: requestSignal() }); if (error || !data) throw new Error("catalogue"); return data; };
@@ -32,7 +36,12 @@ export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEve
     return betaZodTool({ name, inputSchema, description, eager_input_streaming: true, run: async (input) => {
       signal?.throwIfAborted(); emit({ type: "tool_call", name });
       let result: unknown;
-      try { if (++calls > 20) throw new Error("tool limit"); result = await run(input); }
+      try {
+        if (++calls > 20) throw new Error("tool limit");
+        // Each data tool hits NASA POWER; one question gets a few, never a world scan.
+        if (DATA_TOOLS.has(name) && ++lookups > MAX_LOOKUPS_PER_QUESTION) result = { error: `Lookup limit reached: at most ${MAX_LOOKUPS_PER_QUESTION} data lookups per question. Answer with the results you already have, and suggest the user names up to four places to compare.` };
+        else result = await run(input);
+      }
       catch { result = { error: "Tool unavailable or invalid parameters. Try another Case." }; }
       signal?.throwIfAborted();
       let json = JSON.stringify(result);
