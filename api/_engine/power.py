@@ -19,6 +19,7 @@ from urllib.request import Request, urlopen
 import numpy as np
 
 from _models import Region, Variable
+from .store import admin1_geometries
 
 
 PowerCommunity = Literal["AG", "RE", "SB"]
@@ -89,6 +90,14 @@ def _inside_country(longitude: float, latitude: float, geometry: dict[str, Any])
     return any(_point_in_ring(longitude, latitude, polygon[0]) and
                not any(_point_in_ring(longitude, latitude, hole) for hole in polygon[1:])
                for polygon in polygons)
+
+
+def _region_geometry(region: Region) -> dict[str, Any] | None:
+    if region.type == "country":
+        return _country_geometries().get(region.id)
+    if region.type == "subregion":
+        return admin1_geometries().get(region.id)
+    return None
 
 
 def _request_json(url: str) -> dict[str, Any]:
@@ -259,8 +268,10 @@ def _axis_tiles(lower: float, upper: float) -> list[tuple[float, float]]:
 
 
 def _region_tiles(region: Region) -> list[tuple[float, float, float, float]]:
-    if region.type == "country" and region.id in _country_geometries():
-        geometry = _country_geometries()[region.id]
+    geometry = _region_geometry(region)
+    if region.type == "subregion" and geometry is None:
+        raise PowerUpstreamError("Subregion geometry is unavailable.", status_code=422)
+    if geometry is not None:
         polygons = geometry["coordinates"] if geometry["type"] == "MultiPolygon" else [geometry["coordinates"]]
         keys: set[tuple[int, int]] = set()
         for polygon in polygons:
@@ -349,7 +360,7 @@ async def fetch_monthly_region(
             geometry = None
         else:
             tiles = _region_tiles(region)
-            geometry = _country_geometries().get(region.id) if region.type == "country" else None
+            geometry = _region_geometry(region)
             semaphore = asyncio.Semaphore(3)
 
             async def fetch(tile: tuple[float, float, float, float]) -> dict[str, Any]:

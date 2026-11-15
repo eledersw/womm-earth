@@ -823,6 +823,7 @@
             "enum": [
               "country",
               "state",
+              "subregion",
               "ocean",
               "named"
             ],

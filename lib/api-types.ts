@@ -397,7 +397,7 @@ export interface components {
              * Type
              * @enum {string}
              */
-            type: "country" | "state" | "ocean" | "named";
+            type: "country" | "state" | "subregion" | "ocean" | "named";
             /** Valid Variables */
             valid_variables: string[];
         };

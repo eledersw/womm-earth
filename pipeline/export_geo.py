@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import io
 import json
 import sys
@@ -18,6 +19,9 @@ NATURAL_EARTH_ZIP = "https://naciscdn.org/naturalearth/110m/cultural/ne_110m_adm
 NATURAL_EARTH_GEOJSON = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"
 COUNTRIES_50M_ZIP = "https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin_0_countries.zip"
 STATES_50M_ZIP = "https://naciscdn.org/naturalearth/50m/cultural/ne_50m_admin_1_states_provinces.zip"
+ADMIN1_10M_ZIP = "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip"
+ADMIN1_TILE_THRESHOLD = 15
+ADMIN1_10M_SHA256 = "efc59726337323058f9446210adc96673179cd344e053666ee3d28cb58ba2b05"
 DEFAULT_OUTPUT = Path(__file__).resolve().parents[1] / "public" / "geo" / "countries.geojson"
 GEO_DIR = DEFAULT_OUTPUT.parent
 SIMPLIFY_TOLERANCE = 0.05
@@ -152,7 +156,71 @@ def load_50m_sources(countries_zip: Path | None = None, states_zip: Path | None 
     return list(_from_shapefile(countries)), list(_from_shapefile(states))
 
 
-def all_region_features(country_rows, state_rows, simplify: bool = False) -> list[dict]:
+def load_admin1_sources(admin1_zip: Path | None = None):
+    """Read Natural Earth 10m first-level administrative boundaries."""
+    archive = admin1_zip.read_bytes() if admin1_zip else _fetch(ADMIN1_10M_ZIP)
+    digest = hashlib.sha256(archive).hexdigest()
+    if digest != ADMIN1_10M_SHA256:
+        raise ValueError(f"Unexpected Natural Earth Admin-1 archive SHA-256: {digest}")
+    return list(_from_shapefile(archive))
+
+
+def _large_country_ids(country_rows: Iterable[tuple[dict, dict]]) -> set[str]:
+    """Country IDs whose live POWER analysis needs at least 15 ten-degree tiles."""
+    from shapely.geometry import shape
+
+    result = set()
+    for properties, raw_geometry in country_rows:
+        region_id = properties.get("ADM0_A3")
+        if not region_id or region_id == "USA":
+            continue  # The US already has its own selectable state layer.
+        geometry = shape(raw_geometry)
+        polygons = list(geometry.geoms) if geometry.geom_type == "MultiPolygon" else [geometry]
+        keys: set[tuple[int, int]] = set()
+        for polygon in polygons:
+            west, south, east, north = polygon.bounds
+            for x in range(max(0, int((west + 180) // 10)), min(35, int((east + 180) // 10)) + 1):
+                for y in range(max(0, int((south + 90) // 10)), min(17, int((north + 90) // 10)) + 1):
+                    keys.add((x, y))
+        if len(keys) >= ADMIN1_TILE_THRESHOLD:
+            result.add(str(region_id))
+    return result
+
+
+def admin1_region_features(country_rows, admin1_rows, simplify: bool = False,
+                           simplify_tolerance: float = 0.02) -> list[dict]:
+    """Export named Admin-1 polygons only for large countries with usable divisions."""
+    from shapely.geometry import mapping, shape
+
+    eligible = _large_country_ids(country_rows)
+    country_names = {str(properties.get("ADM0_A3")): str(properties.get("NAME", ""))
+                     for properties, _ in country_rows}
+    features = []
+    seen: set[str] = set()
+    for properties, raw_geometry in admin1_rows:
+        parent = str(properties.get("adm0_a3") or "")
+        code = str(properties.get("adm1_code") or "")
+        name = str(properties.get("name_en") or properties.get("name") or "").strip()
+        if parent not in eligible or not code or not name or name.casefold() == country_names.get(parent, "").casefold():
+            continue
+        region_id = f"ADM1-{code}"
+        if region_id in seen:
+            continue
+        geometry = shape(raw_geometry)
+        if geometry.is_empty or geometry.geom_type not in {"Polygon", "MultiPolygon"}:
+            continue
+        if not geometry.is_valid:
+            geometry = geometry.buffer(0)
+        if simplify:
+            geometry = geometry.simplify(simplify_tolerance, preserve_topology=True)
+        seen.add(region_id)
+        features.append({"type": "Feature", "properties": {
+            "id": region_id, "name": name, "type": "subregion", "parent": parent,
+        }, "geometry": mapping(geometry)})
+    return features
+
+
+def all_region_features(country_rows, state_rows, simplify: bool = False, admin1_rows=None) -> list[dict]:
     """Share stable region geometry between the library and GeoJSON exporter."""
     from shapely.geometry import box, mapping, shape
     from shapely.ops import unary_union
@@ -167,11 +235,14 @@ def all_region_features(country_rows, state_rows, simplify: bool = False) -> lis
     features = []
     land_parts = []
 
-    def add(region_id: str, name: str, kind: str, geometry) -> None:
+    def add(region_id: str, name: str, kind: str, geometry, parent: str | None = None) -> None:
         if geometry.is_empty:
             raise ValueError(f"Empty geometry for {region_id}")
         rendered = geometry.simplify(SIMPLIFY_TOLERANCE, preserve_topology=True) if simplify else geometry
-        features.append({"type": "Feature", "properties": {"id": region_id, "name": name, "type": kind}, "geometry": mapping(rendered)})
+        properties = {"id": region_id, "name": name, "type": kind}
+        if parent:
+            properties["parent"] = parent
+        features.append({"type": "Feature", "properties": properties, "geometry": mapping(rendered)})
 
     for properties, geo in country_rows:
         region_id = properties["ADM0_A3"]
@@ -187,7 +258,11 @@ def all_region_features(country_rows, state_rows, simplify: bool = False) -> lis
         postal = properties.get("postal")
         if not postal or len(postal) != 2:
             raise ValueError(f"US state missing postal code: {properties.get('name')}")
-        add(f"US-{postal}", properties["name"], "state", shape(geo))
+        add(f"US-{postal}", properties["name"], "state", shape(geo), "USA")
+    if admin1_rows is not None:
+        for feature in admin1_region_features(country_rows, admin1_rows, simplify=simplify):
+            props = feature["properties"]
+            add(props["id"], props["name"], "subregion", shape(feature["geometry"]), props["parent"])
     world = box(-180, -90, 180, 90)
     for item in NAMED + OCEANS:
         region_id = item["id"]
@@ -209,14 +284,19 @@ def all_region_features(country_rows, state_rows, simplify: bool = False) -> lis
 
 
 def export_remaining(countries_zip: Path | None = None, states_zip: Path | None = None,
-                     targets: tuple[str, ...] = ("states", "oceans", "named"), out_dir: Path = GEO_DIR) -> None:
+                     targets: tuple[str, ...] = ("states", "oceans", "named"), out_dir: Path = GEO_DIR,
+                     admin1_zip: Path | None = None) -> None:
     countries, states = load_50m_sources(countries_zip, states_zip)
+    admin1 = load_admin1_sources(admin1_zip) if "subregions" in targets else None
     features = all_region_features(countries, states, simplify=True)
-    names = {"states": "us-states.geojson", "oceans": "oceans.geojson", "named": "named.geojson"}
-    kinds = {"states": "state", "oceans": "ocean", "named": "named"}
+    admin1_features = admin1_region_features(countries, admin1, simplify=True, simplify_tolerance=0.05) if admin1 is not None else []
+    names = {"states": "us-states.geojson", "oceans": "oceans.geojson", "named": "named.geojson", "subregions": "admin1.geojson"}
+    kinds = {"states": "state", "oceans": "ocean", "named": "named", "subregions": "subregion"}
     out_dir.mkdir(parents=True, exist_ok=True)
     for target in targets:
-        selected = [feature for feature in features if feature["properties"]["type"] == kinds[target]]
+        selected = admin1_features if target == "subregions" else [
+            feature for feature in features if feature["properties"]["type"] == kinds[target]
+        ]
         path = out_dir / names[target]
         path.write_text(json.dumps({"type": "FeatureCollection", "features": selected}, separators=(",", ":")) + "\n", encoding="utf-8")
         if path.stat().st_size >= 2_000_000:
@@ -230,18 +310,20 @@ def main() -> None:
     parser.add_argument("--states", action="store_true", help="export US states")
     parser.add_argument("--oceans", action="store_true", help="export ocean basins")
     parser.add_argument("--named", action="store_true", help="export named regions")
+    parser.add_argument("--subregions", action="store_true", help="export Admin-1 divisions of large countries")
     parser.add_argument("--countries-zip", type=Path, help="local Natural Earth 50m admin-0 ZIP")
     parser.add_argument("--states-zip", type=Path, help="local Natural Earth 50m admin-1 ZIP")
+    parser.add_argument("--admin1-zip", type=Path, help="local Natural Earth 10m admin-1 ZIP")
     parser.add_argument("--out-dir", type=Path, default=GEO_DIR, help="directory for new layers")
     parser.add_argument("--out", type=Path, default=DEFAULT_OUTPUT, help="output GeoJSON path")
     args = parser.parse_args()
-    targets = tuple(name for name in ("states", "oceans", "named") if getattr(args, name))
+    targets = tuple(name for name in ("states", "oceans", "named", "subregions") if getattr(args, name))
     if not args.countries and not targets:
         parser.error("select an export target, for example --countries")
     if args.countries:
         export_countries(args.out)
     if targets:
-        export_remaining(args.countries_zip, args.states_zip, targets, args.out_dir)
+        export_remaining(args.countries_zip, args.states_zip, targets, args.out_dir, args.admin1_zip)
 
 
 if __name__ == "__main__":

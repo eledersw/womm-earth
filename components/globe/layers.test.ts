@@ -19,6 +19,7 @@ const f = (id: string, type: RegionFeature["properties"]["type"]): RegionFeature
 const geo: GeoLayers = {
   countries: [f("USA", "country"), f("ESP", "country"), f("FRA", "country")],
   states: [f("US-WI", "state"), f("US-MN", "state")],
+  subregions: [f("ADM1-RUS-1", "subregion")],
   oceans: [f("OCN-NATL", "ocean")],
   named: [f("NR-GLOBE", "named"), f("NR-SAHEL", "named")],
 };
@@ -79,6 +80,7 @@ describe("polar caps (regions wrapping 360° around a pole)", () => {
   const capGeo: GeoLayers = {
     countries: [f("ESP", "country")],
     states: [],
+    subregions: [],
     oceans: [cap("OCN-SO", "ocean", -90, -50), f("OCN-NATL", "ocean")],
     named: [cap("NR-ARCTIC", "named", 66.5, 90)],
   };

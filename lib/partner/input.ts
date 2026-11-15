@@ -14,7 +14,7 @@ export const explainInputSchema = z.object({
     power_community: z.enum(["AG", "RE", "SB"]).default("AG"), power_type: text.nullable().optional(),
   }),
   analysis: z.object({
-    region: z.object({ id: z.string().min(1).max(100), name: text, type: z.enum(["country", "state", "ocean", "named"]), centroid: z.tuple([number, number]), bbox: z.tuple([number, number, number, number]), nearest_cell_fallback: z.boolean(), valid_variables: z.array(z.string().max(100)).max(100), parent: text.nullable() }),
+    region: z.object({ id: z.string().min(1).max(100), name: text, type: z.enum(["country", "state", "subregion", "ocean", "named"]), centroid: z.tuple([number, number]), bbox: z.tuple([number, number, number, number]), nearest_cell_fallback: z.boolean(), valid_variables: z.array(z.string().max(100)).max(100), parent: text.nullable() }),
     monthly: z.array(z.object({ t: z.string().max(30), value: number.nullable(), anomaly: number.nullable() })).max(2400),
     yearly: z.array(z.object({ year: z.number().int(), value: number.nullable() })).max(200),
     fit: z.array(z.object({ year: z.number().int(), ols: number, ols_low: number.nullable(), ols_high: number.nullable(), sen: number })).max(200),

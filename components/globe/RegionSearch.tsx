@@ -23,6 +23,7 @@ import { useRegionToggle } from "./useRegionToggle";
 const GROUPS: { type: Region["type"]; heading: string }[] = [
   { type: "country", heading: globeCopy.groupCountry },
   { type: "state", heading: globeCopy.groupState },
+  { type: "subregion", heading: globeCopy.groupSubregion },
   { type: "ocean", heading: globeCopy.groupOcean },
   { type: "named", heading: globeCopy.groupNamed },
 ];
@@ -38,7 +39,7 @@ export function RegionSearch() {
 
   function choose(r: Region) {
     toggleRegion(r.id, { onlyAdd: true });
-    if (r.id !== "NR-GLOBE") flyTo({ ...regionLatLng(r), altitude: r.type === "state" ? 0.9 : 1.6 });
+    if (r.id !== "NR-GLOBE") flyTo({ ...regionLatLng(r), altitude: r.type === "state" || r.type === "subregion" ? 0.9 : 1.6 });
     setOpen(false);
   }
 

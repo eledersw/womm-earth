@@ -2,17 +2,18 @@
 // without WebGL. polygonsData must stay referentially stable per layer key, or
 // react-globe.gl re-triangulates every polygon on each render.
 
-export type RegionType = "country" | "state" | "ocean" | "named";
+export type RegionType = "country" | "state" | "subregion" | "ocean" | "named";
 
 export interface RegionFeature {
   type: "Feature";
-  properties: { id: string; name: string; type: RegionType };
+  properties: { id: string; name: string; type: RegionType; parent?: string };
   geometry: { type: "Polygon" | "MultiPolygon"; coordinates: unknown };
 }
 
 export interface GeoLayers {
   countries: RegionFeature[];
   states: RegionFeature[];
+  subregions: RegionFeature[];
   oceans: RegionFeature[];
   named: RegionFeature[];
 }
@@ -88,10 +89,12 @@ export function visibleFeatures(
 ): RegionFeature[] {
   const zoomedIn = altitude < ZOOM_STATES_ALTITUDE;
   const showStates = zoomedIn && !selected.includes("USA");
+  const showSubregions = zoomedIn;
   const named = selected.filter((id) => id.startsWith("NR-") && !WHOLE_EARTH.has(id)).sort();
   // Zoomed out, selected US states still draw (over the USA outline) so the case stays visible.
   const pickedStates = showStates ? [] : selected.filter((id) => id.startsWith("US-")).sort();
-  const key = `${showStates ? "states" : "countries"}|${named.join(",")}|${pickedStates.join(",")}`;
+  const pickedSubregions = showSubregions ? [] : selected.filter((id) => id.startsWith("ADM1-")).sort();
+  const key = `${showStates ? "states" : "countries"}|${showSubregions ? "subregions" : "no-subregions"}|${named.join(",")}|${pickedStates.join(",")}|${pickedSubregions.join(",")}`;
 
   let byKey = cache.get(geo);
   if (!byKey) {
@@ -103,10 +106,12 @@ export function visibleFeatures(
 
   const namedSet = new Set(named);
   const stateSet = new Set(pickedStates);
+  const subregionSet = new Set(pickedSubregions);
   const features = [
     ...geo.oceans.filter((o) => polarCapLatitude(o) === null),
     ...(showStates ? geo.countries.filter((c) => c.properties.id !== "USA") : geo.countries),
     ...(showStates ? geo.states : geo.states.filter((s) => stateSet.has(s.properties.id))),
+    ...(showSubregions ? geo.subregions : geo.subregions.filter((s) => subregionSet.has(s.properties.id))),
     ...geo.named.filter((n) => namedSet.has(n.properties.id) && polarCapLatitude(n) === null),
   ];
   byKey.set(key, features);
