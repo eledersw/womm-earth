@@ -19,7 +19,7 @@ const caseFields = { variable: id, regions: z.array(id).min(1).max(4), ...period
 export function makeTools(py: ReturnType<typeof serverApi>, emit: (e: PartnerEvent) => void, signal?: AbortSignal, level: ReadingLevel = "student"): BetaRunnableTool[] {
   let calls = 0;
   let lookups = 0;
-  const requestSignal = () => signal ? AbortSignal.any([signal, AbortSignal.timeout(20_000)]) : AbortSignal.timeout(20_000);
+  const requestSignal = () => signal ? AbortSignal.any([signal, AbortSignal.timeout(45_000)]) : AbortSignal.timeout(45_000); // the Arctic takes ~30 s from NASA POWER
   const variables = async () => { const { data, error } = await py.GET("/api/py/variables", { signal: requestSignal() }); if (error || !data) throw new Error("catalogue"); return data; };
   const regions = async () => { const { data, error } = await py.GET("/api/py/regions", { signal: requestSignal() }); if (error || !data) throw new Error("catalogue"); return data; };
   async function validate(variable: string, ids: string[], from: number, to: number) {

@@ -6,7 +6,7 @@ type Emit = (event: PartnerEvent) => void;
 
 export function sseStream(
   run: (emit: Emit, signal: AbortSignal) => Promise<void>,
-  { signal, timeoutMs = 50_000 }: { signal?: AbortSignal; timeoutMs?: number } = {},
+  { signal, timeoutMs = 115_000 }: { signal?: AbortSignal; timeoutMs?: number } = {},
 ): Response {
   const abort = new AbortController();
   const encoder = new TextEncoder();

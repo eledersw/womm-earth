@@ -6,7 +6,7 @@ import { streamExplain } from "@/lib/partner/explain";
 import { sseStream } from "@/lib/partner/sse";
 import { partnerCopy } from "@/lib/copy/partner";
 import { isWorldRanking } from "@/lib/partner/scope";
-export const maxDuration = 60;
+export const maxDuration = 120; // big regions (the Arctic) take ~30 s per NASA POWER lookup
 const MAX_BYTES = 256 * 1024;
 export async function POST(request: Request) {
   try {
