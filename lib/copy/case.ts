@@ -15,8 +15,8 @@ export const caseCopy = {
   controls: {
     dimensionless: "dimensionless",
     variable: "Variable", source: "Source", period: "Period", season: "Season",
-    searchVariables: "Search NASA POWER parameters",
-    noVariableMatches: "No NASA POWER parameters match this search.",
+    searchVariables: "Search variables",
+    noVariableMatches: "No variables match this search.",
     calculate: "Investigate",
     calculating: "Investigating…",
     startYear: "Start year", endYear: "End year", startMonth: "Start month", endMonth: "End month",
@@ -145,5 +145,29 @@ export const caseCopy = {
     notAvailableHere: "This variable is not available for the selected regions.",
   },
 } as const;
+
+/** Short display labels; NASA codes and reviewed definitions remain unchanged. */
+const variableLabels: Record<string, string> = {
+  T2M: "Air temperature",
+  T2M_MAX: "Warmest air temperature",
+  T2M_MIN: "Coldest air temperature",
+  TS: "Surface temperature",
+  PRECTOTCORR: "Rain and snow",
+  RH2M: "Air humidity",
+  QV2M: "Water vapour in air",
+  WS10M: "Wind speed",
+  PS: "Air pressure",
+  GWETROOT: "Soil moisture at roots",
+  GWETTOP: "Surface soil moisture",
+  SNODP: "Snow depth",
+  EVPTRNS: "Evaporation energy",
+  ALLSKY_SFC_SW_DWN: "Sunlight at ground",
+  CLOUD_AMT: "Cloud cover",
+  AOD_55: "Atmospheric haze",
+};
+
+export function variableLabel(variable: { id: string; name: string }): string {
+  return variableLabels[variable.id] ?? variable.name;
+}
 
 export type CaseStep = keyof typeof caseCopy.steps;

@@ -5,6 +5,7 @@ import type { ReadingLevel } from "@/lib/state/case-codec";
 import { caseKey } from "@/lib/state/case-codec";
 import { useCase } from "@/lib/state/use-case";
 import { partnerCopy } from "@/lib/copy/partner";
+import { variableLabel } from "@/lib/copy/case";
 import { readSse } from "@/lib/partner/sse-client";
 import { inspectEvidence } from "@/lib/partner/evidence";
 import { renderVerdict } from "@/lib/partner/verdict-templates";
@@ -24,7 +25,7 @@ export function ExplainBox(props: Props) {
   if (props.result.verdict.tier === "too_short") return null;
   const evidence = inspectEvidence(props.result, state);
   if (evidence.status !== "combined" && evidence.status !== "mk_only") {
-    const verdict = renderVerdict(props.result, { variableName: props.variable.name, unit: props.variable.unit, regionName: props.regionName, period: input.period, seasonLabel: input.seasonLabel }, props.level);
+    const verdict = renderVerdict(props.result, { variableName: variableLabel(props.variable), unit: props.variable.unit, regionName: props.regionName, period: input.period, seasonLabel: input.seasonLabel }, props.level);
     return <section aria-label={partnerCopy.explain} className="mt-3 border-t pt-3 text-sm"><p role="alert">{verdict.body}</p></section>;
   }
   if (demo) return <section aria-label={partnerCopy.explain} className="mt-3 border-t pt-3 text-sm"><p>{demo}</p></section>;

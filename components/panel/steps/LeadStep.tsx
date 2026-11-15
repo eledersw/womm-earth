@@ -2,7 +2,7 @@
 import { displayUnit } from "@/components/globe/palette";
 import { useId, useState } from "react";
 import type { Variable } from "@/lib/api/types";
-import { caseCopy } from "@/lib/copy/case";
+import { caseCopy, variableLabel } from "@/lib/copy/case";
 import { clampPeriod, type CaseControls } from "../controls";
 import { StepSection, type StepProps } from "./StepSection";
 
@@ -13,7 +13,7 @@ export function LeadStep({ state, setCase, variables, ...status }: Props) {
   const [query, setQuery] = useState("");
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const matching = variables.filter((item) => !normalizedQuery || [
-    item.id, item.name, item.unit, item.definition_student, item.definition_scientist, item.power_type ?? "",
+    item.id, item.name, variableLabel(item), item.unit, item.definition_student, item.definition_scientist, item.power_type ?? "",
   ].some((value) => value.toLocaleLowerCase().includes(normalizedQuery)));
   const variable = variables.find((item) => item.id === state.variable);
   return <StepSection step="lead" {...status}>
@@ -30,7 +30,7 @@ export function LeadStep({ state, setCase, variables, ...status }: Props) {
       {(["satellite", "reanalysis"] as const).map((kind) => <optgroup key={kind} label={caseCopy.controls.kinds[kind]}>
         {matching.filter((item) => item.kind === kind).map((item) => (
           <option key={item.id} value={item.id}>
-            {item.name} [{item.id}] ({item.unit === "1" ? caseCopy.controls.dimensionless : displayUnit(item.unit)}){item.power_type ? ` — ${item.power_type}` : ""}
+            {variableLabel(item)} ({item.unit === "1" ? caseCopy.controls.dimensionless : displayUnit(item.unit)})
           </option>
         ))}
       </optgroup>)}
@@ -38,7 +38,7 @@ export function LeadStep({ state, setCase, variables, ...status }: Props) {
     {matching.length === 0 && <p role="status" className="mt-2 text-sm">{caseCopy.controls.noVariableMatches}</p>}
     {variable && <div className="mt-3 space-y-1 text-sm">
       <p>{state.level === "scientist" ? variable.definition_scientist : variable.definition_student}</p>
-      <p className="text-muted-foreground">{caseCopy.controls.source}: {variable.source} · {caseCopy.controls.kinds[variable.kind]} · {variable.start_year}–{variable.end_year}</p>
+      <p className="text-muted-foreground">{caseCopy.controls.source}: {variable.source} · {caseCopy.controls.kinds[variable.kind]} · {variable.start_year}–{variable.end_year} · {variable.id}</p>
     </div>}
   </StepSection>;
 }
